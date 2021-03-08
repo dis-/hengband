@@ -428,9 +428,6 @@
     <ClCompile Include="..\..\src\player\player-skill.cpp">
       <Filter>player</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\player\player-status.cpp">
-      <Filter>player</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\monster\monster-status.cpp">
       <Filter>monster</Filter>
     </ClCompile>
@@ -2192,6 +2189,15 @@
     <ClCompile Include="..\..\src\locale\utf-8.cpp">
       <Filter>locale</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\player-status\player-status.cpp">
+      <Filter>player-status</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\player\player-status-calc.cpp">
+      <Filter>player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\player-status\player-speed.cpp">
+      <Filter>player-status</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\combat\shoot.h">
@@ -2645,9 +2651,6 @@
       <Filter>player</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\player\player-skill.h">
-      <Filter>player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\player\player-status.h">
       <Filter>player</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\monster\monster-status.h">
@@ -4717,6 +4720,15 @@
     <ClInclude Include="..\..\src\locale\utf-8.h">
       <Filter>locale</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\player-status\player-status.h">
+      <Filter>player-status</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\player\player-status-calc.h">
+      <Filter>player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\player-status\player-speed.h">
+      <Filter>player-status</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\wall.bmp" />
@@ -4917,6 +4929,9 @@
     </Filter>
     <Filter Include="player-info">
       <UniqueIdentifier>{9b6116c6-24e1-4d33-b3b5-3591f58fb9e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="player-status">
+      <UniqueIdentifier>{455e8e36-e0f3-44bc-867a-79477cbdf8b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

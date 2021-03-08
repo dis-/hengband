@@ -801,7 +801,7 @@
     <ClCompile Include="..\..\src\player\player-race.cpp" />
     <ClCompile Include="..\..\src\player\player-sex.cpp" />
     <ClCompile Include="..\..\src\player\player-skill.cpp" />
-    <ClCompile Include="..\..\src\player\player-status.cpp" />
+    <ClCompile Include="..\..\src\player\player-status-calc.cpp" />
     <ClCompile Include="..\..\src\player\mimic-info-table.cpp" />
     <ClCompile Include="..\..\src\player\permanent-resistances.cpp" />
     <ClCompile Include="..\..\src\player\process-name.cpp" />
@@ -835,6 +835,8 @@
     <ClCompile Include="..\..\src\load\quest-loader.cpp" />
     <ClCompile Include="..\..\src\view\display-store.cpp" />
     <ClCompile Include="..\..\src\action\throw-util.cpp" />
+    <ClCompile Include="..\..\src\player-status\player-status.cpp" />
+    <ClCompile Include="..\..\src\player-status\player-speed.cpp" />
     <ClInclude Include="..\..\src\action\action-limited.h" />
     <ClInclude Include="..\..\src\action\activation-execution.h" />
     <ClInclude Include="..\..\src\action\mutation-execution.h" />
@@ -1670,6 +1672,8 @@
     <ClInclude Include="..\..\src\wizard\tval-descriptions-table.h" />
     <ClInclude Include="..\..\src\load\quest-loader.h" />
     <ClInclude Include="..\..\src\view\display-store.h" />
+    <ClInclude Include="..\..\src\player-status\player-status.h" />
+    <ClInclude Include="..\..\src\player-status\player-speed.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\system\angband.h" />
@@ -1719,7 +1723,7 @@
     <ClInclude Include="..\..\src\player\player-race.h" />
     <ClInclude Include="..\..\src\player\player-sex.h" />
     <ClInclude Include="..\..\src\player\player-skill.h" />
-    <ClInclude Include="..\..\src\player\player-status.h" />
+    <ClInclude Include="..\..\src\player\player-status-calc.h" />
     <ClInclude Include="..\..\src\dungeon\quest.h" />
     <ClInclude Include="..\..\src\racial\racial-switcher.h" />
     <ClInclude Include="..\..\src\term\readdib.h" />
