@@ -13,5 +13,10 @@ enum class MonsterDropType {
     DROP_2D2 = 9,
     DROP_3D2 = 10,
     DROP_4D2 = 11,
+    DROP_COPPER = 12,
+    DROP_SILVER = 13,
+    DROP_GOLD = 14,
+    DROP_MITHRIL = 15,
+    DROP_ADAMANTITE = 16,
     MAX,
 };
