@@ -362,7 +362,7 @@
 <td>31</td>
 <td>虚無召来<br>Call the Void</td>
 <td>自分の周囲に向かって、ロケット、純粋な魔力の球、放射性廃棄物の球を放つ。ただし、壁に隣接して使用すると広範囲を破壊する。<br>Fires rockets, mana balls and nuclear waste balls in all directions if you are not adjacent to any walls. Otherwise *destroys* huge area.</td>
-<td>虚無を呼び出す。ダメージ 3×175（周囲が壁だと自分に跳ね返り危険）。</td>
+<td>周囲8マスのいずれにも射線を通さない壁が隣接していなければ（永久壁は壁として扱わない）、全8方向へ3巡してボールを放つ: ロケット（威力175・半径2）×8、純粋な魔力（MANA、威力175・半径3）×8、放射性廃棄物（NUKE、威力175・半径4）×8の計24発。壁に隣接して唱えると暴発し、地上または固定クエスト階では「地面が揺れた」だけで不発。通常の階では大爆発を起こし、1/666でダンジョンそのものが消滅（vanish_dungeon）、それ以外は半径 15+Lv+randint0(11)（＝15+Lv〜25+Lv）を破壊（destroy_area）する。暴発時はいずれの場合も自分が 100+randint1(150)（＝101〜250）の回避不能ダメージ（「自殺的な虚無招来」）を受ける。</td>
 </tr>
 </tbody>
 </table></div>
@@ -370,7 +370,7 @@
 <blockquote>
 <p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
 This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
-生成 / Generated: 2026-07-04 22:15 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 23:58 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
