@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>モンスターの近接攻撃 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力の上昇量</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>モンスターの近接攻撃</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>モンスターの近接攻撃（打撃, blow）は、モンスターがプレイヤーの隣接マスに移動した際、または移動しようとした先にプレイヤーがいた際に発生する。1体のモンスターは1ターンに最大4回まで打撃を行う（<code>MAX_NUM_BLOWS = 4</code>）。各打撃は「攻撃方法（method）」「攻撃効果（effect）」「ダメージダイス（damage_dice）」の3要素を持つ。</p>
+<p>処理の起点は <code>exe_monster_attack_to_player()</code>（<code>monster-attack-processor.cpp</code>）で、そこから <code>MonsterAttackPlayer::make_attack_normal()</code>（<code>monster-attack-player.cpp</code>）が呼ばれ、打撃1回ごとに命中判定→効果適用が繰り返される。</p>
+<h2>攻撃が発生する条件</h2>
+<p>打撃処理に入る前に、以下がチェックされる（<code>check_no_blow()</code> および <code>exe_monster_attack_to_player()</code>）。</p>
+<ul>
+<li>モンスターが <code>NEVER_BLOW</code>（打撃を行わない）フラグを持つ場合は攻撃しない。</li>
+<li>ダンジョンが <code>NO_MELEE</code>（近接攻撃無効）属性を持つ場合、攻撃は行われない（<code>STUPID</code> でない、または混乱していないモンスターは移動自体を取りやめる）。</li>
+<li>モンスターがプレイヤーに敵対的（hostile）でなければ攻撃しない。</li>
+</ul>
+<p>また、プレイヤーが騎乗している場合、打撃が実行されるのは 1/2 の確率のみ（<code>if (!player_ptr-&gt;riding || one_in_(2))</code>）。</p>
+<p>各打撃ループ内では <code>check_monster_continuous_attack()</code> により、モンスターが有効・method が NONE でない・プレイヤーとの距離が1以下（隣接）・プレイヤーが生存かつ離脱していないことを毎回確認する。1つでも満たさなければ以降の打撃を打ち切る。</p>
+<p>なお、ペットのユニークモンスターが <code>EXPLODE</code>（爆発）method を持つ場合、method は <code>HIT</code> に変換され、ダメージダイスの個数が 1/10 になる。</p>
+<h2>攻撃を受ける前の回避処理（プレイヤー側）</h2>
+<p>打撃処理の冒頭で、プレイヤークラス・特技に応じた割り込み回避が行われる（<code>make_attack_normal()</code>）。</p>
+<ul>
+<li>侍の「居合」の型：メッセージを表示し <code>HISSATSU_IAI</code> で反撃。倒せば打撃は発生しない。</li>
+<li>忍者などの「変わり身（kawarimi）」：
+<ul>
+<li>攻撃開始前に <code>randint0(55) &lt; (プレイヤーレベル × 3 / 5 + 20)</code> の確率で発動判定し、成功すればテレポートして攻撃を回避。</li>
+<li>各打撃が命中した後にも <code>kawarimi</code> 判定があり、成功すればその場を離脱して攻撃を打ち切る。</li>
+</ul>
+</li>
+</ul>
+<h2>命中判定</h2>
+<p>命中判定は <code>check_hit_from_monster_to_player()</code>（<code>combat/attack-accuracy.cpp</code>）で行う。<strong>重要な特徴として、モンスター側のAC（防御力）は命中判定に一切関与せず、プレイヤーのACによる回避のみが判定される。</strong> モンスターの命中しやすさは「打撃効果ごとに定められた power 値」と「モンスターのレベル」で決まる。</p>
+<pre><code>命中判定 check_hit_from_monster_to_player(power, level, stun):
+    k = randint0(100)                       // 0〜99
+
+    // モンスターが朦朧(stun)状態なら 1/2 で必ず失敗
+    if (stun != 0 &amp;&amp; one_in_(2)) return 命中せず
+
+    // 常時命中5% / 常時失敗5%
+    if (k &lt; 10) return (k &lt; 5)              // k∈[0,4]で命中, k∈[5,9]で失敗
+
+    i = power + (level * 3)
+
+    ac = プレイヤーの ac + to_a
+    // 酔拳(ATTACK_SUIKEN)状態なら回避力に (プレイヤーレベル × 2) を加算
+    if (酔拳) ac += (プレイヤーレベル * 2)
+
+    if (i &gt; 0 &amp;&amp; randint1(i) &gt; (ac * 3 / 4)) return 命中
+    return 命中せず
+</code></pre>
+<ul>
+<li><code>power</code> は打撃効果ごとの基本命中値（後述の effect 一覧表を参照）。</li>
+<li><code>level</code> はモンスターのレベル。ただし打撃処理全体で使われる <code>rlev</code> は「レベルが1以上ならその値、0以下なら1」に補正される（<code>make_attack_normal()</code>）。</li>
+<li>効果が <code>FLAVOR</code>（フレーバー）の打撃は命中判定を行わず必中扱いとなる。</li>
+</ul>
+<h2>AC技能経験・回避時の処理</h2>
+<p>命中しなかった場合、<code>process_monster_attack_evasion()</code> により、method が HIT/TOUCH/PUNCH/KICK/CLAW/BITE/STING/SLASH/BUTT/CRUSH/ENGULF/CHARGE のいずれかであれば「回避した」旨のメッセージを表示し、盾（防具）を装備していれば盾技能の経験値が加算される（<code>gain_armor_exp()</code>）。それ以外の method では回避メッセージ等は出ない。</p>
+<h2>対邪悪結界による撃退</h2>
+<p>命中後、<code>effect_protecion_from_evil()</code> により以下がすべて満たされると、その打撃は撃退され効果が発動しない。</p>
+<pre><code>撃退条件（すべて満たすこと）:
+    プレイヤーが「対邪悪結界(protection from evil)」状態である
+    かつ モンスターが EVIL（邪悪）属性
+    かつ プレイヤーレベル &gt;= rlev（モンスターレベル）
+    かつ (randint0(100) + プレイヤーレベル) &gt; 50
+</code></pre>
+<h2>ダメージの決定</h2>
+<p>命中して撃退もされなかった場合、<code>process_monster_attack_hit()</code> にてダメージを算出する。</p>
+<pre><code>ダメージ = damage_dice.roll()   // 打撃定義のダイスを振る（例: 3d5 なら 3〜15）
+if (爆発攻撃 explode) ダメージ = 0   // 爆発はダイスによる基本ダメージを持たない
+</code></pre>
+<p>その後 <code>switch_monster_blow_to_player()</code>（<code>monster-attack-switcher.cpp</code>）で効果種別ごとの処理を行い、多くの効果は最終的に <code>take_hit()</code> でHPを減らす。</p>
+<h3>物理系ダメージのAC軽減</h3>
+<p><code>HURT</code>（通常攻撃）・<code>SUPERHURT</code>（痛恨）・<code>SHATTER</code>（粉砕）の3効果は、プレイヤーのACによりダメージが軽減される。</p>
+<pre><code>AC軽減後ダメージ = ダメージ - (ダメージ * min(AC, 150) / 250)
+</code></pre>
+<ul>
+<li>ここでの <code>AC = プレイヤーの ac + to_a</code>。</li>
+<li>ACは150で頭打ち。150以上でも軽減率は 150/250 = <strong>最大60%軽減</strong>。</li>
+<li>ACが負の場合はこの式によりダメージが増加する。</li>
+</ul>
+<h3>SUPERHURT（痛恨の一撃）</h3>
+<p><code>SUPERHURT</code> 効果は以下の条件で「痛恨の一撃」となり、AC軽減を適用した上でダメージを2倍にする。</p>
+<pre><code>痛恨条件:
+    ( randint1(rlev*2 + 300) &gt; (AC + 200)  または  one_in_(13) )
+    かつ 幻影(multishadow)状態でない
+→ ダメージ -= ダメージ * min(AC,150) / 250
+   「痛恨の一撃！」
+   ダメージ = max(ダメージ, ダメージ * 2)   // 実質2倍
+</code></pre>
+<p>条件を満たさない場合は通常の <code>HURT</code> と同じ処理にフォールスルーする。</p>
+<h2>切り傷・朦朧の付与</h2>
+<p><code>describe_monster_attack_method()</code>（<code>monster-attack-describer.cpp</code>）で攻撃方法に応じて <code>do_cut</code>（切り傷）/ <code>do_stun</code>（朦朧）フラグが立つ（下の method 一覧を参照）。両方が立った場合は <code>select_cut_stun()</code> で 1/2 ずつどちらか一方を無効化する。</p>
+<ul>
+<li>切り傷：<code>PlayerCut::get_accumulation(ダメージダイス最大値, 実ダメージ)</code> で蓄積量を算出して付与。</li>
+<li>朦朧：<code>PlayerStun::get_accumulation_rank()</code> で蓄積ランクを求め、以下で補正する（<code>process_player_stun()</code>）。
+<ul>
+<li>ダイス最大値 &lt; 実ダメージ かつ ランク ≦ 6 なら ランク+1</li>
+<li>1/50 の確率でランク+1</li>
+<li>腕力+器用+耐久（AD&amp;D表記の実値換算）の合計が80超なら ランク−1</li>
+</ul>
+</li>
+</ul>
+<h2>爆発とオーラ反撃</h2>
+<ul>
+<li>攻撃方法が <code>EXPLODE</code> の場合、<code>monster_explode()</code> でモンスター自身が消滅（自傷でHP+1相当のダメージを受けて死亡）する。</li>
+<li>命中処理の最後に <code>process_aura_counterattack()</code> が呼ばれ、プレイヤーの炎/冷気/電撃オーラ等による反撃が行われる。</li>
+</ul>
+<h2>攻撃方法（method）一覧</h2>
+<p><code>method</code> はダメージ種別には影響せず、表示メッセージ・効果音・切り傷/朦朧の有無・回避メッセージの対象かどうかを決める。<code>touched</code> はプレイヤーに触れる打撃かどうかで、オーラ反撃等の判定に用いられる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>method</th>
+<th>表示（和）</th>
+<th>切り傷</th>
+<th>朦朧</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HIT</td>
+<td>殴られた</td>
+<td>○</td>
+<td>○</td>
+<td>両方立つ（後で1/2ずつ一方無効化）</td>
+</tr>
+<tr>
+<td>TOUCH</td>
+<td>触られた</td>
+<td>−</td>
+<td>−</td>
+<td>touched</td>
+</tr>
+<tr>
+<td>PUNCH</td>
+<td>パンチされた</td>
+<td>−</td>
+<td>○</td>
+<td>touched</td>
+</tr>
+<tr>
+<td>KICK</td>
+<td>蹴られた</td>
+<td>−</td>
+<td>○</td>
+<td>touched</td>
+</tr>
+<tr>
+<td>CLAW</td>
+<td>ひっかかれた</td>
+<td>○</td>
+<td>−</td>
+<td>touched</td>
+</tr>
+<tr>
+<td>BITE</td>
+<td>噛まれた</td>
+<td>○</td>
+<td>−</td>
+<td>touched</td>
+</tr>
+<tr>
+<td>STING</td>
+<td>刺された</td>
+<td>−</td>
+<td>−</td>
+<td>touched</td>
+</tr>
+<tr>
+<td>SLASH</td>
+<td>斬られた</td>
+<td>○</td>
+<td>−</td>
+<td>touched</td>
+</tr>
+<tr>
+<td>BUTT</td>
+<td>角で突かれた</td>
+<td>−</td>
+<td>○</td>
+<td>touched</td>
+</tr>
+<tr>
+<td>CRUSH</td>
+<td>押し潰された</td>
+<td>−</td>
+<td>○</td>
+<td>touched</td>
+</tr>
+<tr>
+<td>ENGULF</td>
+<td>飲み込まれた</td>
+<td>−</td>
+<td>−</td>
+<td>touched</td>
+</tr>
+<tr>
+<td>CHARGE</td>
+<td>請求書をよこした</td>
+<td>−</td>
+<td>−</td>
+<td>touched（金をせがむ系ジョーク）</td>
+</tr>
+<tr>
+<td>CRAWL</td>
+<td>体の上を這い回った</td>
+<td>−</td>
+<td>−</td>
+<td>touched</td>
+</tr>
+<tr>
+<td>DROOL</td>
+<td>よだれをたらされた</td>
+<td>−</td>
+<td>−</td>
+<td></td>
+</tr>
+<tr>
+<td>SPIT</td>
+<td>唾を吐かれた</td>
+<td>−</td>
+<td>−</td>
+<td></td>
+</tr>
+<tr>
+<td>EXPLODE</td>
+<td>爆発した</td>
+<td>−</td>
+<td>−</td>
+<td>モンスターが自爆</td>
+</tr>
+<tr>
+<td>GAZE</td>
+<td>にらまれた</td>
+<td>−</td>
+<td>−</td>
+<td></td>
+</tr>
+<tr>
+<td>WAIL</td>
+<td>泣き叫ばれた</td>
+<td>−</td>
+<td>−</td>
+<td></td>
+</tr>
+<tr>
+<td>SPORE</td>
+<td>胞子を飛ばされた</td>
+<td>−</td>
+<td>−</td>
+<td></td>
+</tr>
+<tr>
+<td>XXX4</td>
+<td>XXX4を発射した</td>
+<td>−</td>
+<td>−</td>
+<td>未定義</td>
+</tr>
+<tr>
+<td>BEG</td>
+<td>金をせがまれた</td>
+<td>−</td>
+<td>−</td>
+<td></td>
+</tr>
+<tr>
+<td>INSULT</td>
+<td>侮辱された</td>
+<td>−</td>
+<td>−</td>
+<td>メッセージはランダム</td>
+</tr>
+<tr>
+<td>MOAN</td>
+<td>うめかれた</td>
+<td>−</td>
+<td>−</td>
+<td>メッセージはランダム</td>
+</tr>
+<tr>
+<td>SHOW</td>
+<td>歌う</td>
+<td>−</td>
+<td>−</td>
+<td>ジャイアン等で専用曲</td>
+</tr>
+</tbody>
+</table></div>
+<h2>攻撃効果（effect）一覧</h2>
+<p><code>effect</code> がダメージ種別と副次効果を決める。<code>power</code> は命中判定に使う基本命中値（<code>mbe_info</code> テーブル, <code>monster-attack-table.cpp</code>）。「AC軽減」列は物理AC軽減式（min(AC,150)/250）の適用有無。副次効果の耐性による軽減率も本文から確認できる範囲で記載する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>effect</th>
+<th>power</th>
+<th>属性</th>
+<th>主な効果・ダメージ処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HURT</td>
+<td>60</td>
+<td>物理</td>
+<td>AC軽減あり。純粋な物理ダメージ</td>
+</tr>
+<tr>
+<td>POISON</td>
+<td>5</td>
+<td>毒</td>
+<td><code>randint1(rlev)+5</code> の毒状態付与（耐性で無効）。ダメージはnuke減衰式で耐性軽減</td>
+</tr>
+<tr>
+<td>UN_BONUS</td>
+<td>20</td>
+<td>劣化</td>
+<td>装備を劣化（apply_disenchant）。劣化耐性でダメージ <code>(1d4+4)/9</code> に減衰</td>
+</tr>
+<tr>
+<td>UN_POWER</td>
+<td>15</td>
+<td>物理</td>
+<td>杖・魔法棒の充填魔力を吸収。省魔力/呪文簡単/魔法道具支配で各 −7.5%</td>
+</tr>
+<tr>
+<td>EAT_GOLD</td>
+<td>5</td>
+<td>物理</td>
+<td>金銭を盗む（DEXとレベルで防御判定）。盗み後テレポート</td>
+</tr>
+<tr>
+<td>EAT_ITEM</td>
+<td>5</td>
+<td>物理</td>
+<td>所持アイテムを1つ盗む（固定/ランダムアーティファクト除外）。盗み後テレポート</td>
+</tr>
+<tr>
+<td>EAT_FOOD</td>
+<td>5</td>
+<td>物理</td>
+<td>食糧を食べる</td>
+</tr>
+<tr>
+<td>EAT_LITE</td>
+<td>5</td>
+<td>物理</td>
+<td>光源の残り燃料を <code>250+randint1(250)</code> 減らす</td>
+</tr>
+<tr>
+<td>ACID</td>
+<td>0</td>
+<td>酸</td>
+<td><code>acid_dam()</code>。装備破損等</td>
+</tr>
+<tr>
+<td>ELEC</td>
+<td>10</td>
+<td>電撃</td>
+<td><code>elec_dam()</code></td>
+</tr>
+<tr>
+<td>FIRE</td>
+<td>10</td>
+<td>火炎</td>
+<td><code>fire_dam()</code></td>
+</tr>
+<tr>
+<td>COLD</td>
+<td>10</td>
+<td>冷気</td>
+<td><code>cold_dam()</code></td>
+</tr>
+<tr>
+<td>BLIND</td>
+<td>2</td>
+<td>物理</td>
+<td>盲目 <code>10+randint1(rlev)</code>。盲目耐性でダメージ <code>(1d4+3)/8</code> に減衰</td>
+</tr>
+<tr>
+<td>CONFUSE</td>
+<td>10</td>
+<td>混乱</td>
+<td>混乱 <code>3+randint1(rlev)</code>。混乱耐性でダメージ <code>(1d4+3)/8</code> に減衰</td>
+</tr>
+<tr>
+<td>TERRIFY</td>
+<td>10</td>
+<td>物理</td>
+<td>恐怖 <code>3+randint1(rlev)</code>（技能セーヴで抵抗）。恐怖耐性でダメージ <code>(1d4+3)/8</code></td>
+</tr>
+<tr>
+<td>PARALYZE</td>
+<td>2</td>
+<td>物理</td>
+<td>麻痺 <code>3+randint1(rlev)</code>（自由行動/セーヴで抵抗）。自由行動でダメージ <code>(1d4+3)/8</code></td>
+</tr>
+<tr>
+<td>LOSE_STR</td>
+<td>0</td>
+<td>物理</td>
+<td>腕力低下。維持でダメージ <code>(1d4+4)/9</code></td>
+</tr>
+<tr>
+<td>LOSE_INT</td>
+<td>0</td>
+<td>物理</td>
+<td>知能低下。維持で <code>(1d4+4)/9</code></td>
+</tr>
+<tr>
+<td>LOSE_WIS</td>
+<td>0</td>
+<td>物理</td>
+<td>賢さ低下。維持で <code>(1d4+4)/9</code></td>
+</tr>
+<tr>
+<td>LOSE_DEX</td>
+<td>0</td>
+<td>物理</td>
+<td>器用低下。維持で <code>(1d4+4)/9</code></td>
+</tr>
+<tr>
+<td>LOSE_CON</td>
+<td>0</td>
+<td>物理</td>
+<td>耐久低下。維持で <code>(1d4+4)/9</code></td>
+</tr>
+<tr>
+<td>LOSE_CHR</td>
+<td>0</td>
+<td>物理</td>
+<td>魅力低下。維持で <code>(1d4+4)/9</code></td>
+</tr>
+<tr>
+<td>LOSE_ALL</td>
+<td>2</td>
+<td>物理</td>
+<td>全能力低下。維持1つにつきダメージ −3%</td>
+</tr>
+<tr>
+<td>SHATTER</td>
+<td>60</td>
+<td>ロケット</td>
+<td>AC軽減あり。ダメージ&gt;23または爆発で <code>earthquake</code>（半径8）発生</td>
+</tr>
+<tr>
+<td>EXP_10</td>
+<td>5</td>
+<td>物理</td>
+<td>経験値吸収 <code>Dice::roll(10,6)+…</code>。経験値維持/地獄耐性で各 −7.5%、維持確率95%</td>
+</tr>
+<tr>
+<td>EXP_20</td>
+<td>5</td>
+<td>物理</td>
+<td>経験値吸収 <code>Dice::roll(20,6)+…</code>、維持確率90%</td>
+</tr>
+<tr>
+<td>EXP_40</td>
+<td>5</td>
+<td>物理</td>
+<td>経験値吸収 <code>Dice::roll(40,6)+…</code>、維持確率75%</td>
+</tr>
+<tr>
+<td>EXP_80</td>
+<td>5</td>
+<td>物理</td>
+<td>経験値吸収 <code>Dice::roll(80,6)+…</code>、維持確率50%</td>
+</tr>
+<tr>
+<td>DISEASE</td>
+<td>5</td>
+<td>毒</td>
+<td>毒＋10%（毒耐性で低確率）で耐久低下、1/10で永久低下。毒耐性でダメージ <code>(1d4+4)/9</code>（二重耐性で更に）</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>5</td>
+<td>時間</td>
+<td>時間逆転（経験値/能力低下）。時間耐性でダメージ <code>(1d4+4)/9</code></td>
+</tr>
+<tr>
+<td>DR_LIFE</td>
+<td>5</td>
+<td>物理</td>
+<td>生命力吸収 <code>Dice::roll(60,6)+…</code>。経験値維持でダメージ 9/10。モンスター回復</td>
+</tr>
+<tr>
+<td>DR_MANA</td>
+<td>5</td>
+<td>魔力</td>
+<td>MP吸収。省魔力/呪文簡単/魔法道具支配で各 −5%</td>
+</tr>
+<tr>
+<td>SUPERHURT</td>
+<td>60</td>
+<td>物理</td>
+<td>AC軽減あり。条件付きで「痛恨の一撃」＝ダメージ2倍</td>
+</tr>
+<tr>
+<td>INERTIA</td>
+<td>5</td>
+<td>物理</td>
+<td>減速 <code>4+randint0(rlev/10)</code>。加速中/速度130以上でダメージ <code>(1d4+4)/9</code></td>
+</tr>
+<tr>
+<td>STUN</td>
+<td>5</td>
+<td>物理</td>
+<td>朦朧 <code>10+randint1(モンスターレベル/4)</code>（音耐性で無効）</td>
+</tr>
+<tr>
+<td>FLAVOR</td>
+<td>0</td>
+<td>なし</td>
+<td>ダメージ0・必中。メッセージ表示のみ</td>
+</tr>
+<tr>
+<td>HUNGRY</td>
+<td>5</td>
+<td>物理</td>
+<td>空腹進行。急速回復で×2、遅消化で×1/2</td>
+</tr>
+<tr>
+<td>CHAOS</td>
+<td>―</td>
+<td>カオス</td>
+<td>カオスダメージ（カオスダメージ率で補正）。混乱・生命力吸収・テレポート・変異・地震などをランダムに誘発</td>
+</tr>
+</tbody>
+</table></div>
+<p>補足:</p>
+<ul>
+<li>上表の「経験値吸収」の基本量計算は共通して <code>Dice::roll(drain_value, 6) + (プレイヤー経験値 / 100) * MON_DRAIN_LIFE</code> で、<code>MON_DRAIN_LIFE = 2</code>（<code>gamevalue.h</code>）。</li>
+<li><code>DR_LIFE</code> と <code>CHAOS</code> の生命力吸収時、実ダメージが5以下または吸収抵抗成功なら回復しない。回復時は <code>Dice::roll(4, ダメージ/6)</code> 分モンスターのHPが回復する。</li>
+<li>多くの副次効果は「幻影（multishadow）状態」だと発動しない。</li>
+</ul>
+<h2>幻影・無敵による無効化</h2>
+<ul>
+<li>幻影（multishadow）状態のとき、多くの状態異常付与・盗み・吸収などの副次効果が無効化される（各効果内で <code>check_multishadow()</code> チェック）。</li>
+<li>実ダメージの軽減（無敵など）は <code>take_hit()</code> 内で処理される。</li>
+</ul>
+<h2>打撃情報の学習（思い出）</h2>
+<p><code>increase_blow_type_seen()</code> により、正しく攻撃を認識できた場合にモンスター種別の打撃回数記録 <code>r_blows[]</code> が増える。非自明な打撃はダメージ0だと（既に一定以上の知識がある場合を除き）記録が増えない。幻覚攻撃（do_silly_attack）時は記録しない。</p>
+<h3>参考との差異について</h3>
+<p>参考wikiは効果23種・方法16種と記載しているが、これは旧版の情報である。現行ソース（<code>monster-attack-effect.h</code> / <code>monster-attack-table.h</code>）では効果は <code>FLAVOR</code>・<code>HUNGRY</code>・<code>CHAOS</code>・<code>INERTIA</code>・<code>STUN</code> などを含め上表の通り、方法は <code>CRAWL</code>〜<code>SHOW</code> を含め24種に拡張されている。本解説の数値はすべて現行ソースで確認済み。</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/monster-attack/</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 03:12 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

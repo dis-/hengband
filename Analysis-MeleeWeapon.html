@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>近接武器攻撃 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力の上昇量</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>近接武器攻撃</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>プレイヤーが武器を装備して近接攻撃を行った場合の、1回の打撃あたりのダメージ計算を解説する。攻撃回数（<code>num_blow</code>）や命中判定、会心（クリティカル）の詳細な確率は別ページで扱い、ここではダメージ量の算出フローを中心に述べる。</p>
+<p>素手（マーシャルアーツ）による攻撃は別処理となるため、本ページは武器を装備した攻撃を対象とする。</p>
+<h2>ダメージ計算の全体フロー</h2>
+<p>1回の打撃が命中したときのダメージは、おおむね次の順序で計算される。</p>
+<pre><code>1. 基本ダメージ = Dice::roll(num, sides)        （武器ダイスを振る）
+2. スレイ/ブランド倍率を適用                     （calc_attack_damage_with_slay）
+3. 会心（critical_norm）による補正
+4. ヴォーパル（メッタ斬り）倍率
+5. 武器の命中/ダメージ修正 to_d を加算           （o_ptr-&gt;to_d）
+6. プレイヤーのダメージボーナス to_d[hand] を加算  （STR修正・状態等）
+7. 剣術（必殺技）による倍率・特殊補正
+8. 負の補正（0未満は0へ、斬鉄剣・蜘蛛など）
+9. モンスター側の減衰（mon_damage_mod：RESIST_ALL等）
+</code></pre>
+<p>以下、各段階を順に説明する。</p>
+<h2>1. 基本ダメージ（武器ダイス）</h2>
+<p>武器攻撃の基本ダメージは、武器のダメージダイスをそのまま振った値である。</p>
+<pre><code>num   = 武器のダイス個数(o_ptr-&gt;damage_dice.num)
+        + damage_dice_bonus[hand].num
+        + 魔術属性による追加ダイス
+sides = 武器のダイス面数(o_ptr-&gt;damage_dice.sides)
+        + damage_dice_bonus[hand].sides
+基本ダメージ = Dice::roll(num, sides)
+</code></pre>
+<p><code>damage_dice_bonus</code> は通常0だが、騎乗中にランスを装備している場合のみダイス個数に +2 される（面数へのボーナスは常に0）。</p>
+<p>魔術属性（TR_BRAND_MAGIC）による追加ダイス個数は、発動した効果に応じて次の通り。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>魔術属性効果</th>
+<th>追加ダイス個数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>なし（NONE）</td>
+<td>0</td>
+</tr>
+<tr>
+<td>EXTRA</td>
+<td>1</td>
+</tr>
+<tr>
+<td>その他（STUN/SCARE/DISPELL/PROBE）</td>
+<td>2</td>
+</tr>
+</tbody>
+</table></div>
+<h2>2. スレイ・ブランド倍率</h2>
+<p><code>calc_attack_damage_with_slay</code> が基本ダメージにスレイ倍率を掛ける。倍率は内部的に10倍固定小数（<code>mult</code>、初期値10＝等倍）で扱い、最後に <code>tdam * mult / 10</code> を計算する。</p>
+<p>複数のスレイ/ブランドが該当する場合、それらは加算されず<strong>最も高い倍率のみが採用される</strong>（<code>std::max</code>で選択）。</p>
+<h3>種族スレイ（mult_slaying）</h3>
+<p>対象モンスターが該当する種族フラグを持つとき、以下の倍率（/10）となる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>フラグ</th>
+<th>対象種族</th>
+<th>倍率(mult)</th>
+<th>実効倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SLAY_ANIMAL</td>
+<td>動物</td>
+<td>25</td>
+<td>2.5倍</td>
+</tr>
+<tr>
+<td>KILL_ANIMAL</td>
+<td>動物</td>
+<td>40</td>
+<td>4.0倍</td>
+</tr>
+<tr>
+<td>SLAY_EVIL</td>
+<td>邪悪</td>
+<td>20</td>
+<td>2.0倍</td>
+</tr>
+<tr>
+<td>KILL_EVIL</td>
+<td>邪悪</td>
+<td>35</td>
+<td>3.5倍</td>
+</tr>
+<tr>
+<td>SLAY_GOOD</td>
+<td>善良</td>
+<td>20</td>
+<td>2.0倍</td>
+</tr>
+<tr>
+<td>KILL_GOOD</td>
+<td>善良</td>
+<td>35</td>
+<td>3.5倍</td>
+</tr>
+<tr>
+<td>SLAY_HUMAN</td>
+<td>人間</td>
+<td>25</td>
+<td>2.5倍</td>
+</tr>
+<tr>
+<td>KILL_HUMAN</td>
+<td>人間</td>
+<td>40</td>
+<td>4.0倍</td>
+</tr>
+<tr>
+<td>SLAY_UNDEAD</td>
+<td>不死</td>
+<td>30</td>
+<td>3.0倍</td>
+</tr>
+<tr>
+<td>KILL_UNDEAD</td>
+<td>不死</td>
+<td>50</td>
+<td>5.0倍</td>
+</tr>
+<tr>
+<td>SLAY_DEMON</td>
+<td>悪魔</td>
+<td>30</td>
+<td>3.0倍</td>
+</tr>
+<tr>
+<td>KILL_DEMON</td>
+<td>悪魔</td>
+<td>50</td>
+<td>5.0倍</td>
+</tr>
+<tr>
+<td>SLAY_ORC</td>
+<td>オーク</td>
+<td>30</td>
+<td>3.0倍</td>
+</tr>
+<tr>
+<td>KILL_ORC</td>
+<td>オーク</td>
+<td>50</td>
+<td>5.0倍</td>
+</tr>
+<tr>
+<td>SLAY_TROLL</td>
+<td>トロル</td>
+<td>30</td>
+<td>3.0倍</td>
+</tr>
+<tr>
+<td>KILL_TROLL</td>
+<td>トロル</td>
+<td>50</td>
+<td>5.0倍</td>
+</tr>
+<tr>
+<td>SLAY_GIANT</td>
+<td>巨人</td>
+<td>30</td>
+<td>3.0倍</td>
+</tr>
+<tr>
+<td>KILL_GIANT</td>
+<td>巨人</td>
+<td>50</td>
+<td>5.0倍</td>
+</tr>
+<tr>
+<td>SLAY_DRAGON</td>
+<td>ドラゴン</td>
+<td>30</td>
+<td>3.0倍</td>
+</tr>
+<tr>
+<td>KILL_DRAGON</td>
+<td>ドラゴン</td>
+<td>50</td>
+<td>5.0倍</td>
+</tr>
+</tbody>
+</table></div>
+<h3>属性ブランド（mult_brand）</h3>
+<p>火炎・冷気・電撃・酸・毒の各ブランドは、対象の耐性・弱点に応じて倍率が決まる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>対象の状態</th>
+<th>倍率(mult)</th>
+<th>実効倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>免疫を持つ</td>
+<td>（倍率上昇なし、スルー）</td>
+<td>―</td>
+</tr>
+<tr>
+<td>その属性に弱点を持つ</td>
+<td>50</td>
+<td>5.0倍</td>
+</tr>
+<tr>
+<td>上記以外（通常）</td>
+<td>25</td>
+<td>2.5倍</td>
+</tr>
+</tbody>
+</table></div>
+<p>弱点判定があるのは火炎（HURT_FIRE）と冷気（HURT_COLD）のみ。酸・電撃・毒は免疫でなければ一律2.5倍となる。</p>
+<p>なお、プレイヤーの一時的属性攻撃（<code>special_attack</code> の ATTACK_ACID/COLD/ELEC/FIRE/POIS）や、松明の隠しブランド、ルーンの武器（HEX_RUNESWORD＝SLAY_GOOD付与）、破邪の詠唱（悪魔・不死へのスレイ付与）も、ここで同じブランド/スレイとして扱われる。</p>
+<h3>その他の倍率補正</h3>
+<p>同関数内で以下の追加補正が順に適用される。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>補正</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>サムライの必殺技（mult_hissatsu）</td>
+<td>技に応じた倍率へ引き上げ</td>
+</tr>
+<tr>
+<td>フォース武器(TR_FORCE_WEAPON)でMPが <code>ダイス最大値/5</code> を超過</td>
+<td>MPを消費し <code>mult = mult * 3 / 2 + 20</code></td>
+</tr>
+<tr>
+<td>ノーサング装備でファフニールと交戦</td>
+<td><code>mult = 150</code>（固定）</td>
+</tr>
+<tr>
+<td>素手(tval == NONE)</td>
+<td><code>mult = (mult - 10) / 2 + 10</code>（スレイ強化分を半減）</td>
+</tr>
+</tbody>
+</table></div>
+<p>**倍率の上限は 150（＝15.0倍）**であり、これを超える場合は150に丸められる。</p>
+<pre><code>最終倍率適用後ダメージ = 基本ダメージ * mult / 10   （mult は最大150）
+</code></pre>
+<h2>3. 会心（クリティカル）</h2>
+<p>スレイ適用後、毒針および峰打ち（急所突き）を除き <code>critical_norm</code> によって会心補正がかかる。会心が発生するとダメージが増加する。会心の発生確率・倍率の詳細は別ページを参照。</p>
+<p>なお <code>critical_norm</code> には武器重量（<code>o_ptr-&gt;weight</code>）、武器の命中修正（<code>o_ptr-&gt;to_h</code>）、プレイヤーの命中修正（<code>to_h[hand]</code>）が渡される。</p>
+<h2>4. ヴォーパル（メッタ斬り）</h2>
+<p>武器がヴォーパル属性（TR_VORPAL）を持つ、またはルーンの武器を詠唱中で、かつ乱数判定に当選した場合、<code>process_vorpal_attack</code> によりダメージが倍化される。</p>
+<p>倍率の機会値 <code>vorpal_chance</code> は、ヴォーパル・ブレードまたはチェンソーなら2、それ以外は4。発動判定は <code>randint1(vorpal_chance * 3 / 2) == 1</code>。</p>
+<p>発動した場合の倍率は初期値2で、<code>one_in_(vorpal_chance)</code> に当選し続ける限り+1され続ける。</p>
+<pre><code>vorpal_magnification = 2
+while one_in_(vorpal_chance):
+    vorpal_magnification += 1
+ダメージ *= vorpal_magnification
+</code></pre>
+<p>つまり優秀な武器（chance=2）ほど高倍率が出やすく、理論上は上限なく重ねがけされる。</p>
+<h2>5. 武器のダメージ修正 to_d</h2>
+<p>ヴォーパル処理の後、武器自身のダメージ修正 <code>o_ptr-&gt;to_d</code> が<strong>倍率の外側で</strong>加算される。</p>
+<pre><code>ダメージ += o_ptr-&gt;to_d
+</code></pre>
+<h2>6. プレイヤーのダメージボーナス to_d[hand]</h2>
+<p><code>apply_damage_bonus</code> で、手ごとに集計されたプレイヤーのダメージボーナス <code>to_d[hand]</code> が加算される。</p>
+<pre><code>ダメージ += to_d[hand]
+</code></pre>
+<p><code>to_d[hand]</code>（<code>calc_to_damage</code>）の主な内訳は次の通り。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>要素</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>腕力(STR)修正</td>
+<td><code>adj_str_td[STR] - 128</code></td>
+</tr>
+<tr>
+<td>士気の薬(狂戦士化)</td>
+<td><code>+3 + lev/5</code></td>
+</tr>
+<tr>
+<td>朦朧(stun)ペナルティ</td>
+<td>ダメージ減算</td>
+</tr>
+<tr>
+<td>プリースト（非祝福の剣・ポールアーム）</td>
+<td>-2</td>
+</tr>
+<tr>
+<td>バーサーカー</td>
+<td><code>+lev/6</code>（片手/両手持ちで更に <code>+lev/6</code>）</td>
+</tr>
+<tr>
+<td>ソーサラー</td>
+<td>適さない武器で -200 等</td>
+</tr>
+<tr>
+<td>フォーストレーナー(格闘時)</td>
+<td><code>+(気)/5</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>（このほか装備の to_d 合計などは別途 <code>to_d_misc</code> として集計され <code>to_d[hand]</code> に含まれる）</p>
+<h2>7. 剣術（必殺技）による補正</h2>
+<p><code>apply_damage_bonus</code> および <code>apply_damage_negative_effect</code> にて、サムライの発動中剣術（<code>mode</code>）に応じた補正が入る。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>剣術(mode)</th>
+<th>補正</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>捨て身(SUTEMI)・三段(3DAN)</td>
+<td>ダメージ2倍</td>
+</tr>
+<tr>
+<td>赤流刀(SEKIRYUKA) 対象が非生命</td>
+<td>ダメージ0</td>
+</tr>
+<tr>
+<td>赤流刀(SEKIRYUKA) 自分が出血していない</td>
+<td>ダメージ半減</td>
+</tr>
+<tr>
+<td>斬魔(ZANMA) 対象が「非生命かつ邪悪」でない</td>
+<td>ダメージ0</td>
+</tr>
+</tbody>
+</table></div>
+<h2>8. 負の補正</h2>
+<p><code>apply_damage_negative_effect</code> にて次の補正がかかる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>補正</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ダメージが0未満</td>
+<td>0に補正</td>
+</tr>
+<tr>
+<td>斬鉄剣で切れない相手(ゼリー系'j')</td>
+<td>ダメージ0</td>
+</tr>
+<tr>
+<td>エクスカリバー・ジュニアで蜘蛛('S')相手</td>
+<td>ダメージ半減</td>
+</tr>
+</tbody>
+</table></div>
+<h2>9. モンスター側の減衰（mon_damage_mod）</h2>
+<p>最後に <code>mon_damage_mod</code> を通り、モンスター固有の減衰が適用される。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>補正</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RESIST_ALL を持つ（ダメージ&gt;0）</td>
+<td>ダメージを1/100に。0になった場合1/3で1に戻す</td>
+</tr>
+<tr>
+<td>DIMINISH_MAX_DAMAGE を持ち、ダメージ&gt;HP/10</td>
+<td><code>max(HP/10, maxHP*7/500)</code> に抑制</td>
+</tr>
+<tr>
+<td>無敵状態（is_invulnerable）</td>
+<td>サイ・スピア等の貫通でなければ、1/PENETRATE_INVULNERABILITY の確率でのみ通る</td>
+</tr>
+</tbody>
+</table></div>
+<p>デスサイス、およびバーサーカーが1/2で発動する暴走時は、この処理に特別扱いのフラグ（<code>is_psy_spear</code>相当）が渡され、無敵貫通の扱いになる。</p>
+<h2>まとめ（1打撃のダメージ式）</h2>
+<p>会心・ヴォーパル・剣術などの特殊要素を除いた基本形は次のようになる。</p>
+<pre><code>ダメージ = Dice::roll(武器ダイス) * min(mult, 150) / 10
+           + o_ptr-&gt;to_d
+           + to_d[hand]
+</code></pre>
+<p>ここで <code>mult</code> はスレイ/ブランドの最大倍率（等倍=10）であり、STR等によるダメージボーナスは倍率の外側で加算される点に注意。スレイ・ブランドは複数該当しても加算されず最大値のみが効き、全体の倍率上限は15.0倍である。</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-attack/player-attack.cpp</code>, <code>src/combat/slaying.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 03:12 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

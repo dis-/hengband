@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>モンスター死亡処理 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力の上昇量</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>モンスター死亡処理</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>モンスターが死亡したときの内部処理は <code>monster_death()</code>（<code>src/monster-floor/monster-death.cpp</code>）で行われる。この関数は、ドロップ（金・アイテム）、固定アーティファクト、クエスト達成判定、死亡時召喚などの特殊処理、死体・骨の生成といった一連の処理を、決まった順序で実行する。</p>
+<p>引数は以下の通り。</p>
+<ul>
+<li><code>m_idx</code>: 死亡したモンスターのID</li>
+<li><code>drop_item</code>: <code>true</code> のときドロップ処理を行う</li>
+<li>最後の攻撃の属性（単一属性版と複数属性版のオーバーロードがある。単一版は内部で複数版を呼ぶ）</li>
+</ul>
+<h2>死亡構造体の初期化</h2>
+<p>処理開始時に <code>MonsterDeath</code> 構造体が構築され、以降の判定に使うフラグが決定される（<code>src/monster-floor/monster-death-util.cpp</code>）。</p>
+<ul>
+<li><code>do_gold</code>: 金をドロップし得るか。ドロップフラグに <code>ONLY_ITEM</code>・<code>DROP_GOOD</code>・<code>DROP_GREAT</code> のいずれも持たない場合に <code>true</code>。</li>
+<li><code>do_item</code>: アイテムをドロップし得るか。<code>ONLY_GOLD</code> を持たなければ <code>true</code>。ただし <code>DROP_GOOD</code> または <code>DROP_GREAT</code> を持つ場合は無条件で <code>true</code>。</li>
+<li><code>cloned</code>: 分裂・クローン由来（<code>CLONED</code> フラグ）で発生した個体か。</li>
+<li><code>is_chameleon</code>: カメレオン（<code>CHAMELEON</code> フラグ）か。</li>
+<li><code>drop_chosen_item</code>: 特殊ドロップ（固定・特殊死亡ドロップ）を行うか。<code>drop_item</code> が真、かつクローンでない・カメレオンでない・闘技場でない・幻想空間（フェイズアウト）でない・ペットでない、をすべて満たすときに <code>true</code>。</li>
+</ul>
+<h2>処理の流れ</h2>
+<p><code>monster_death()</code> は次の順序で処理を行う。</p>
+<h3>1. タイムストップ解除</h3>
+<p>死亡したのがタイムストップ発動中のモンスター（<code>timewalk_m_idx</code>）であれば、その状態を解除する。</p>
+<h3>2. ユニーク撃破時刻の記録</h3>
+<p>死亡モンスターがユニーク（<code>UNIQUE</code>）で、かつクローンでない場合、プレイ時間を更新し、そのモンスター種族に撃破時刻（<code>defeat_time</code>、経過秒）と撃破時のプレイヤーレベル（<code>defeat_level</code>）を記録する。コメント上、ユニークを倒せるのはプレイヤーのみという前提でここに記録している。</p>
+<h3>3. 光源・闇マスクの再計算</h3>
+<p>死亡モンスターが周囲を照らす／暗くするフラグ（<code>ld_mask</code>）を持つ場合、モンスター光源の再計算フラグを立てる。</p>
+<h3>4. ペット死亡の記録</h3>
+<p>死亡位置を記録する。<code>record_named_pet</code> オプションが有効で、かつ名前付きペットであれば、日記に記録する。</p>
+<h3>5. 爆発による死亡処理（on_dead_explosion）</h3>
+<p>モンスターの攻撃方法に「爆発（<code>EXPLODE</code>）」があれば、その最初の1つについて、対応する属性・ダメージダイスで半径3の範囲攻撃を発生させる（グリッド・アイテム・モンスターへ作用）。</p>
+<h3>6. カメレオンの復元</h3>
+<p>死亡モンスターがカメレオンなら、変身を元に戻し、種族参照を実体の種族に更新する。</p>
+<h3>7. クエスト達成判定（QuestCompletionChecker）</h3>
+<p>クエストモンスター撃破時のクエスト達成処理を行う（<code>src/dungeon/quest-completion-checker.cpp</code>）。判定対象クエストは、現在フロアのクエスト、または撃破条件に合致するクエストを検索して決定される。クエスト種別ごとの扱いは次の通り。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>クエスト種別</th>
+<th>達成条件・処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KILL_NUMBER</td>
+<td>撃破数を加算し、目標数に達したら達成。達成時に撃破数を0に戻す</td>
+</tr>
+<tr>
+<td>KILL_ALL</td>
+<td>敵対モンスターが残り1体（＝この撃破で全滅）かつ敵対だったとき達成。<code>SILENT</code> フラグ付きは内部的に終了扱い</td>
+</tr>
+<tr>
+<td>KILL_LEVEL / RANDOM</td>
+<td>対象種族（<code>r_idx</code>）が一致するとき、必要撃破数に達したら達成。ランダムクエストは報酬フラグを立てる</td>
+</tr>
+<tr>
+<td>TOWER</td>
+<td>敵対モンスター残り1体で当該ステージ完了。3ステージすべて完了で塔クエスト達成</td>
+</tr>
+</tbody>
+</table></div>
+<p>達成に伴い、必要に応じて「魔法の階段」を出現させる。報酬対象（ランダムクエスト）の場合、<code>dun_level/15 + 1</code> 個のアイテムを <code>AM_GOOD | AM_GREAT</code> で生成してドロップする。報酬は品質チェックを通ったもののみ（呪われた装備・固定でない矢弾・穴掘りエゴ装備を除外）。</p>
+<h3>8. 闘技場モンスター撃破処理（on_defeat_arena_monster）</h3>
+<p>闘技場内でペット以外を倒した場合、勝利メッセージを表示し、規定の報酬アイテム（ある場合）を生成・ドロップし、対戦記録を進める。「真の勝利者」の場合はエントリを追加で進める。<code>record_arena</code> 有効なら日記に記録する。</p>
+<h3>9. 騎乗中モンスターの死亡</h3>
+<p>死亡モンスターに騎乗していた場合、落馬処理を行い、成功すればメッセージを表示する。</p>
+<h3>10. 死体・骨の生成（drop_corpse）</h3>
+<p>死体（<code>DROP_CORPSE</code>）または骨（<code>DROP_SKELETON</code>）のドロップフラグを持つ場合に判定する。</p>
+<ul>
+<li>生成確率: ユニークは 1/1（必ず）、それ以外は 1/4。</li>
+<li>以下のいずれかに該当する場合は生成しない: 闘技場内、幻想空間（フェイズアウト）、クローン、その日の日替わりモンスター（<code>today_mon</code>）かつペット。</li>
+</ul>
+<p>死体か骨かの決定は次の通り。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>生成物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DROP_SKELETON</code> を持たない</td>
+<td>死体</td>
+</tr>
+<tr>
+<td><code>DROP_CORPSE</code> を持ち、かつユニーク</td>
+<td>死体</td>
+</tr>
+<tr>
+<td><code>DROP_CORPSE</code> を持つ（上記以外）</td>
+<td>HPが <code>-(maxhp/4)</code> を下回る（大ダメージ死）なら1/5で死体、そうでなければ4/5で死体、外れは骨</td>
+</tr>
+<tr>
+<td>（それ以外、＝骨フラグのみ）</td>
+<td>骨</td>
+</tr>
+</tbody>
+</table></div>
+<p>生成したアイテムには種族IDが <code>pval</code> として格納される。</p>
+<h3>11. 携行アイテムのドロップ（monster_drop_carried_objects）</h3>
+<p>モンスターが盗み・拾いで保持していたアイテムを、すべてその場にドロップする（<code>src/monster-floor/monster-object.cpp</code>）。</p>
+<h3>12. ドロップ品質の決定（decide_drop_quality）</h3>
+<p>ドロップフラグに応じて品質モード（<code>mo_mode</code>）を決める。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>ドロップフラグ</th>
+<th>品質モード</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DROP_GOOD</td>
+<td><code>AM_GOOD</code></td>
+</tr>
+<tr>
+<td>DROP_GREAT</td>
+<td>`AM_GOOD</td>
+</tr>
+</tbody>
+</table></div>
+<h3>13. 特殊死亡処理・死亡時召喚（switch_special_death）</h3>
+<p><code>src/monster-floor/special-death-switcher.cpp</code> で処理される。まず死亡時召喚リスト（<code>get_final_summons()</code>）を確認し、これが空でなければ召喚処理のみを行って戻る。空の場合は種族別の特殊死亡処理へ進む。</p>
+<h4>死亡時召喚（final_summon）</h4>
+<p>召喚データごとに判定・実行される。</p>
+<ul>
+<li>闘技場内・幻想空間では召喚しない。</li>
+<li>召喚確率（<code>probability</code>、%）の判定に失敗すれば召喚しない。</li>
+<li>カメレオンの場合、召喚対象がユニークなら召喚しない。</li>
+<li>召喚数は <code>min_num</code>〜<code>max_num</code> の乱数。</li>
+<li>各召喚は指定半径内に散布位置を最大100回試行して決定（フロア内・生成可能・プレイヤー位置以外）。</li>
+<li>ペット由来ならペットとして、クローン由来ならクローンとして、カメレオンなら専用モードで召喚する。</li>
+<li>いずれかを視認した場合、種族の召喚時セリフ（あれば）を表示し、効果音を鳴らす。</li>
+</ul>
+<h4>種族別の特殊死亡処理</h4>
+<p>召喚リストが空の場合に、見かけ上の種族ID（<code>apparent_monrace</code>）で分岐する。主なもの。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>種族</th>
+<th>処理内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ブラッドレター</td>
+<td>15%でカオスの剣を生成・ドロップ</td>
+</tr>
+<tr>
+<td>ラール</td>
+<td>フロアレベル10以上で本を生成（レベル50以上かつ1/5で良質な魔法書）ドロップ</td>
+</tr>
+<tr>
+<td>アンメイカー</td>
+<td>半径6・威力100のカオス範囲攻撃</td>
+</tr>
+<tr>
+<td>ユニコーン／モルゴス／一つの指輪</td>
+<td>怠け者性格のとき、未生成の生馬装備（ハンマー・弓・鎧）から1つ生成</td>
+</tr>
+<tr>
+<td>混沌のサーペント</td>
+<td>グロンドとカオスの王冠を生成・ドロップ</td>
+</tr>
+<tr>
+<td>死の剣</td>
+<td>ランダムな剣（<code>SV</code> は1〜2）をドロップ</td>
+</tr>
+<tr>
+<td>金／銀の天使</td>
+<td>金の天使、または銀の天使（撃破数が5の倍数のとき）で缶詰チェストを生成</td>
+</tr>
+<tr>
+<td>ロレント</td>
+<td>半径3・ダメージ20d10の火炎範囲攻撃</td>
+</tr>
+<tr>
+<td>ケット・シー</td>
+<td>フロアレベル1以上かつ非カメレオンでブーツをドロップ</td>
+</tr>
+<tr>
+<td>イエンダーの魔法使い(1)</td>
+<td>アミュレットのランダムアーティファクトをドロップ（非カメレオン時）</td>
+</tr>
+<tr>
+<td>イエンダーの魔法使い(2)</td>
+<td>フロアレベル1以上・非カメレオンでアミュレットをドロップ</td>
+</tr>
+<tr>
+<td>マニマニのあくま</td>
+<td>視認時に特殊メッセージを表示</td>
+</tr>
+<tr>
+<td>ロストリンギル</td>
+<td>剣のランダムアーティファクトをドロップ（非カメレオン時）</td>
+</tr>
+<tr>
+<td>ソードフィッシュ</td>
+<td>冷気属性で倒したとき10%で「凍った魚」（固定アーティファクト）をドロップ</td>
+</tr>
+<tr>
+<td>その他（擬態）</td>
+<td>シンボル文字に応じた装備をドロップ（下表）</td>
+</tr>
+</tbody>
+</table></div>
+<p>擬態モンスター（<code>on_dead_mimics</code>）のシンボル別ドロップ。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>シンボル</th>
+<th>ドロップ</th>
+<th>フロアレベル条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(</code></td>
+<td>クローク</td>
+<td>1以上</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>ポールアーム</td>
+<td>5以上</td>
+</tr>
+<tr>
+<td><code>[</code></td>
+<td>鎧</td>
+<td>20以上</td>
+</tr>
+<tr>
+<td><code>\</code></td>
+<td>鈍器</td>
+<td>5以上</td>
+</tr>
+<tr>
+<td><code>|</code></td>
+<td>剣（ストームブリンガーを除く）</td>
+<td>なし</td>
+</tr>
+<tr>
+<td><code>]</code></td>
+<td>ブーツ</td>
+<td>20以上</td>
+</tr>
+</tbody>
+</table></div>
+<p>これらの特殊ドロップの多くは <code>drop_chosen_item</code> が真であることを前提とする。</p>
+<h3>14. 固定アーティファクトのドロップ（drop_artifacts）</h3>
+<p><code>drop_chosen_item</code> が真のときのみ行う。</p>
+<ul>
+<li>種族に紐づく固定アーティファクト候補を、それぞれの確率（%）で判定する（ウィザードモードでは確率判定を無視）。未生成のものが生成できた時点で終了する。</li>
+<li>さらに、そのモンスターがダンジョンの守護者（<code>GUARDIAN</code>）かつ当該ダンジョンの最終守護者（<code>final_guardian</code>）である場合、ダンジョン最終アーティファクト／最終アイテムの生成を試みる。最終アーティファクトが未生成なら生成し、最終アイテムが設定されていればそれを <code>AM_NO_FIXED_ART | AM_GOOD</code> で生成・ドロップする。最終アイテム未設定時は「入手の巻物」をフォールバックに用いる。制覇メッセージを表示する。</li>
+</ul>
+<h3>15. ドロップ個数の決定（decide_drop_numbers）</h3>
+<p>ドロップフラグに応じてアイテム個数を積算する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>ドロップフラグ</th>
+<th>個数への加算</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DROP_60</td>
+<td>60%で +1</td>
+</tr>
+<tr>
+<td>DROP_90</td>
+<td>90%で +1</td>
+</tr>
+<tr>
+<td>DROP_1D2</td>
+<td>+1d2</td>
+</tr>
+<tr>
+<td>DROP_2D2</td>
+<td>+2d2</td>
+</tr>
+<tr>
+<td>DROP_3D2</td>
+<td>+3d2</td>
+</tr>
+<tr>
+<td>DROP_4D2</td>
+<td>+4d2</td>
+</tr>
+</tbody>
+</table></div>
+<p>そのうえで、次の条件で個数は0にされる。</p>
+<ul>
+<li>クローンかつ非ユニーク</li>
+<li>ペット、幻想空間、闘技場内</li>
+<li><code>drop_item</code> が偽で、かつシンボルが <code>$</code>（金）でない</li>
+<li>増殖（<code>MULTIPLY</code>）持ちで、その種族の累計撃破数が1024を超えている</li>
+</ul>
+<h3>16. 金・アイテムのドロップ（drop_items_golds）</h3>
+<p>決定した個数分、以下を繰り返す。ドロップ判定の直前に、生成レベル（<code>object_level</code>）は <code>(dun_level + モンスターのレベル) / 2</code> に設定される。</p>
+<ul>
+<li>各回、金をドロップできる（<code>do_gold</code>）かつ（アイテム不可、または1/2の確率）なら、種族のドロップフラグに応じた金を生成してドロップ。</li>
+<li>そうでなければ、決定した品質モードでアイテムを生成し、生成できればドロップ。</li>
+</ul>
+<p>処理後、生成レベルは基準レベル（<code>base_level</code>）に戻す。視認していた（幻覚でない）またはユニークで、かつ何かドロップしていれば、種族の財宝メモ（ドロップ数の記録）を更新する。</p>
+<h3>17. 最終ボス撃破処理（on_defeat_last_boss）</h3>
+<p>死亡モンスターが <code>QUESTOR</code> を持ち、幻想空間でなく、混沌のサーペントであり、クローンでない場合、ゲーム勝利処理を行う。総合勝利フラグを立て、勝利職業を記録し、タイトル再描画・専用BGM再生・日記記録を行い、守護神の称賛と祝福メッセージを表示する。</p>
+<h2>補足</h2>
+<ul>
+<li>経験値の獲得処理は本処理には含まれず、別途行われる（別ページを参照）。</li>
+<li>ここでの「アイテム生成レベル」の一時変更は、通常ドロップ（金・アイテム）にのみ適用され、固定アーティファクトや特殊死亡ドロップの生成は各処理内で独自の生成レベル・モードを用いる。</li>
+</ul>
+<p>以上の数値・条件はいずれも現行ソース（<code>src/monster-floor/monster-death.cpp</code> ほか）から導出したものである。</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/monster-floor/monster-death.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 03:12 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

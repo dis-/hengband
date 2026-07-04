@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>魔法防御 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力の上昇量</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>魔法防御</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>魔法防御（セービングスロー）とは</h2>
+<p>「魔法防御」は、プレイヤーが受ける状態異常・精神攻撃・呪殺系の魔法効果に対する抵抗判定に用いられる能力値である。内部的には <code>skill_sav</code>（セービングスロー値）という単一の整数で表現され、ステータス画面では「魔法防御」として表示される。</p>
+<p>ここでは (1) <code>skill_sav</code> の算出式、(2) それを用いた抵抗成功判定の式、(3) 逆に「プレイヤーが放った魔法にモンスターが抵抗する」側の判定、の3つを扱う。</p>
+<h2>skill_sav の算出式</h2>
+<p><code>skill_sav</code> は <code>calc_saving_throw()</code>（<code>src/player/player-status.cpp</code>）で毎回再計算される。処理を順に追うと次のとおり。</p>
+<pre><code>pow = 種族のr_sav + 職業のc_sav + 性格のa_sav
+pow += (職業のx_sav * レベル / 10) + (性格のa_sav_2 * レベル / 50)
+       ※コード上は (cp_ptr-&gt;x_sav * lev / 10) + (ap_ptr-&gt;a_sav * lev / 50)
+
+// 変異：魔法防御(MAGIC_RES)を持つ場合
+if 魔法防御の変異あり: pow += 15 + (レベル / 5)
+
+// 装備：呪力耐性(resist_curse)がある場合
+if 呪力耐性あり: pow += 30
+
+// 祝福された武器(bless_blade)を装備している場合
+if bless_blade: pow += 6 + (レベル - 1) / 10
+
+// 賢さ(WIS)による加算
+pow += adj_wis_sav[WISの内部インデックス]
+
+// 呪いの弱点(vuln_curse)による減算
+if 呪力弱点あり:      pow -= 10
+if 強力な呪力弱点あり: pow -= 20
+
+// 狂戦士化(shero)による減算
+if 狂戦士化: pow -= 30
+
+// 反魔法(anti_magic)状態の下限保証
+if 反魔法状態 かつ pow &lt; 90 + レベル: pow = 90 + レベル
+
+// クターの「つぶれ」状態(tsubureru)による上書き
+if tsubureru: pow = 10
+
+// 「魔法防御(magicdef)」「レジストマジック(resist_magic)」
+// 「究極の耐性(ult_res)」いずれかの下限保証
+if (ult_res または resist_magic または magicdef) かつ pow &lt; 95 + レベル:
+    pow = 95 + レベル
+
+// 呪いのdown_saving（セービングスロー低下）
+if down_saving: pow /= 2
+
+return pow
+</code></pre>
+<h3>各寄与要素の意味</h3>
+<ul>
+<li><strong>種族 <code>r_sav</code>／職業 <code>c_sav</code>／性格 <code>a_sav</code></strong>: それぞれの固定基礎値。ミミック（変身）中は種族値の代わりに変身先の値を用いる。</li>
+<li><strong>職業レベルボーナス <code>x_sav * lev / 10</code></strong>: レベルに比例して伸びる主要素。職業ごとの <code>x_sav</code> の大小が、レベルが上がったときの魔法防御の伸びを決める。</li>
+<li><strong>性格レベルボーナス <code>a_sav * lev / 50</code></strong>: 性格の <code>a_sav</code> に基づく、より緩やかなレベル比例加算。</li>
+<li><strong>賢さボーナス <code>adj_wis_sav[]</code></strong>: WIS が高いほど大きくなる。テーブル値（<code>src/player/player-status-table.cpp</code>）は次のとおり。</li>
+</ul>
+<pre><code>WIS 3〜7      : +0
+WIS 8〜14     : +1
+WIS 15〜17    : +2
+WIS 18〜18/49 : +3
+WIS 18/50〜18/69 : +4
+WIS 18/70〜18/89 : +5
+WIS 18/90〜18/99 : +6
+WIS 18/100    : +7
+WIS 18/110    : +8
+WIS 18/120    : +9
+WIS 18/130    : +10
+… 以降 18/220+ の +19 まで、10刻みで+1ずつ増加
+</code></pre>
+<h3>上書き・下限保証の優先順位</h3>
+<p>算出式の末尾では、状態に応じた「上書き」「下限保証」が順に適用される。適用順そのものが結果に影響するため、コード上の順序どおりに列挙する。</p>
+<ol>
+<li><strong>反魔法(anti_magic)</strong>: <code>pow</code> が <code>90 + レベル</code> 未満ならその値まで引き上げる（下限保証）。</li>
+<li><strong>つぶれ(tsubureru、クター専用)</strong>: 無条件に <code>pow = 10</code> に固定（前段の反魔法保証すら上書きされる）。</li>
+<li><strong>魔法防御/レジストマジック/究極の耐性</strong>: <code>pow</code> が <code>95 + レベル</code> 未満ならその値まで引き上げる（下限保証。つぶれによる10も、条件を満たせばここで引き上げられる）。</li>
+<li><strong>down_saving（呪いによるセービングスロー低下）</strong>: 最後に <code>pow</code> を半減する。上記の下限保証で引き上げた値も、ここで半分になる。</li>
+</ol>
+<p><code>skill_sav</code> に明示的な上限（キャップ）は <code>calc_saving_throw()</code> 内には存在しない。値は各寄与要素の合計と下限保証によって決まる。</p>
+<h2>プレイヤーの抵抗成功判定</h2>
+<p>算出された <code>skill_sav</code> は、状態異常・精神攻撃などを受けたときの抵抗判定に使われる。判定式は Hengband 全体でほぼ統一されており、次の形をとる。</p>
+<pre><code>抵抗成功 ⇔ randint0(100 + rlev / 2) &lt; skill_sav
+</code></pre>
+<ul>
+<li><code>randint0(N)</code> は 0 以上 N 未満の一様乱数。</li>
+<li><code>rlev</code> は効果を及ぼしてくるモンスターのレベル（<code>monrace.level</code>）。攻撃元モンスターのレベルが高いほど判定の乱数上限 <code>100 + rlev/2</code> が大きくなり、抵抗が難しくなる。</li>
+<li>左辺が <code>skill_sav</code> を下回れば抵抗成功。したがって<strong>おおよその抵抗成功率は <code>skill_sav / (100 + rlev/2)</code></strong>（<code>skill_sav</code> が上限を超える場合は事実上100%）となる。</li>
+</ul>
+<p>この共通式は、たとえば次の箇所で用いられている。</p>
+<ul>
+<li>モンスターの打撃による状態異常（恐怖・混乱など）: <code>src/monster-attack/monster-attack-status.cpp</code></li>
+<li>モンスター呪文による状態異常（恐怖・盲目・混乱・麻痺・記憶消去など）: <code>src/mspell/mspell-status.cpp</code></li>
+<li>呪い攻撃 <code>effect_player_curse_*</code>（秘孔を突く等）: <code>src/effect/effect-player-curse.cpp</code></li>
+<li>破滅の手(hand of doom): <code>src/effect/effect-player-resist-hurt.cpp</code></li>
+</ul>
+<h3>精神攻撃での下限補正</h3>
+<p>精神攻撃系（<code>effect_player_mind_blast</code> / <code>effect_player_brain_smash</code>、<code>src/effect/effect-player-spirit.cpp</code>）では、判定に用いる値が <code>skill_sav</code> そのものではなく <code>max(5, skill_sav)</code> となっている。すなわち <code>skill_sav</code> がどれほど低くても、これらに対しては最低5相当の抵抗力が保証される。</p>
+<pre><code>抵抗成功 ⇔ randint0(100 + rlev / 2) &lt; max(5, skill_sav)
+</code></pre>
+<p>ブレインスマッシュによる能力値低下も、同じ <code>max(5, skill_sav)</code> を用いた判定を能力値ごとに繰り返す形で処理される。</p>
+<h3>幻影(multishadow)による無効化</h3>
+<p>分身（multishadow、幻影）状態のときは、多くの精神攻撃・呪い判定で <code>!check_multishadow(player_ptr)</code> が条件に加わり、分身中は抵抗判定の成否に関わらず効果自体が回避される（攻撃が幻影に当たる扱い）。</p>
+<h3>PSI（超能力）の反射判定</h3>
+<p><code>src/effect/effect-monster-psi.cpp</code> では、モンスターへの PSI 攻撃がプレイヤーに跳ね返ってくる際の反射判定にも同じ形式が使われる。</p>
+<pre><code>反射成功 ⇔ randint0(100 + monrace.level / 2) &lt; skill_sav
+</code></pre>
+<h2>モンスター側の抵抗判定（プレイヤーの魔法に対して）</h2>
+<p>プレイヤーが放った状態異常・魅了系の魔法にモンスターが抵抗するかどうかは、プレイヤー側の <code>skill_sav</code> とは無関係で、<strong>モンスターのレベル対効果パワーの対抗ロール</strong>で決まる。式の形はプレイヤー側とは異なる。</p>
+<h3>恐怖・混乱・テレポート等の一般式</h3>
+<p><code>src/effect/effect-monster-evil.cpp</code> や <code>effect-monster-charm.cpp</code> に見られる代表的な式は次のとおり。</p>
+<pre><code>抵抗成功 ⇔ monrace.level &gt; randint1(max(1, dam - 10)) + 10
+</code></pre>
+<ul>
+<li><code>dam</code> は効果の強さ（パワー）。</li>
+<li><code>randint1(N)</code> は 1 以上 N 以下の一様乱数。</li>
+<li>モンスターのレベルが、パワー由来の乱数値を上回れば抵抗成功。パワー <code>dam</code> が大きいほど右辺の乱数上限が上がり、抵抗されにくくなる。</li>
+</ul>
+<p>テレポート抵抗のように、単純に <code>monrace.level &gt; randint1(100)</code> を用いる箇所もある。</p>
+<h3>魅了・服従の共通式</h3>
+<p>魅了(<code>common_saving_throw_charm</code>)・服従(<code>common_saving_throw_control</code>)のセービングスローは <code>src/spell/spells-diceroll.cpp</code> に共通化されている。前提となる無効化条件（アリーナ内、<code>RESIST_ALL</code>、<code>NO_CONF</code>、クエストモンスター、<code>NOPET</code> フラグ等）を満たすと無条件で抵抗成功となり、それ以外では次の式を用いる。</p>
+<pre><code>pow += adj_chr_chm[CHRの内部インデックス] - 1        // 魅力(CHR)ボーナス
+if モンスターがユニーク または ナズグル: pow = pow * 2 / 3   // 抵抗されやすくなる
+抵抗成功 ⇔ monrace.level &gt; randint1(max(1, pow - 10)) + 5
+</code></pre>
+<p>ここでのパワー <code>pow</code> は術者(プレイヤー)の魅力(CHR)によって補正され、対象がユニーク／ナズグルの場合はパワーが2/3に減じられ、抵抗されやすくなる。</p>
+<h3>混乱付与時の追加抵抗</h3>
+<p>魅了とは別に、モンスターへ混乱を付与する処理では、ユニーク・クエスト・混乱耐性(<code>NO_CONF</code>)持ちに加えて、</p>
+<pre><code>monrace.level &gt; randint1(max(1, dam - 10)) + 10
+</code></pre>
+<p>を満たす場合にも混乱が無効化される（<code>src/effect/effect-monster-charm.cpp</code>）。</p>
+<h2>まとめ</h2>
+<ul>
+<li>プレイヤーの魔法防御は単一値 <code>skill_sav</code> に集約され、種族・職業・性格の基礎値、職業/性格のレベル比例ボーナス、賢さ(WIS)、装備・変異・一時効果（反魔法・レジストマジック・魔法防御・呪力耐性・狂戦士化・呪い等）で増減する。</li>
+<li>抵抗判定はプレイヤー側では <code>randint0(100 + rlev/2) &lt; skill_sav</code> という一貫した式で行われ、相手モンスターのレベルが高いほど抵抗が難しくなる。精神攻撃では最低5の下限、分身時は判定を経ずに無効化される。</li>
+<li>逆にプレイヤーの魔法に対するモンスターの抵抗は、プレイヤーの <code>skill_sav</code> ではなく「モンスターレベル対効果パワー」の対抗ロール（<code>monrace.level &gt; randint1(...) + 定数</code>）で判定され、魅了・服従では術者の魅力(CHR)とユニーク/ナズグル補正が加わる。</li>
+</ul>
+<p>（本解説の数値・式はいずれも現行ソース <code>src/player/player-status.cpp</code> ほか上掲ファイルの実装から直接確認したものである。）</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-status.cpp</code>, <code>src/spell/spells-diceroll.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 03:12 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

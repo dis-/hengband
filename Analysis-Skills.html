@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>技能 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力の上昇量</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>技能</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>変愚蛮怒における「技能」とは、武器・弓・素手・魔法などの熟練度（proficiency）を表す内部パラメータである。同じ武器種を使い続けたり、同じ呪文を唱え続けたりすることで熟練度が経験値として蓄積し、一定の閾値を超えると抽象的な「ランク」が上昇する。ランクが上がると命中率やダメージなどに補正がかかる。</p>
+<p>熟練度は大きく次の4系統に分けられる。</p>
+<ul>
+<li><strong>武器熟練度</strong>（<code>weapon_exp</code>）: 近接武器および弓の各<code>tval</code>/<code>sval</code>ごとに保持</li>
+<li><strong>技能熟練度</strong>（<code>skill_exp</code>）: マーシャルアーツ・二刀流・乗馬・盾の4種</li>
+<li><strong>呪文熟練度</strong>（<code>spell_exp</code>）: 魔法・歌・呪術の各呪文ごとに保持</li>
+<li>各系統とも、職業・武器種によって到達できる上限ランクが異なる</li>
+</ul>
+<h2>技能ランクと閾値</h2>
+<p>ランクは内部的に5段階（<code>PlayerSkillRank</code>）で表現される。系統ごとに閾値となる経験値が異なる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>ランク（内部名）</th>
+<th>表示名</th>
+<th>武器・技能</th>
+<th>乗馬</th>
+<th>呪文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNSKILLED</td>
+<td>[初心者]</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>BEGINNER</td>
+<td>[入門者]</td>
+<td>4000</td>
+<td>500</td>
+<td>900</td>
+</tr>
+<tr>
+<td>SKILLED</td>
+<td>[熟練者]</td>
+<td>6000</td>
+<td>2000</td>
+<td>1200</td>
+</tr>
+<tr>
+<td>EXPERT</td>
+<td>[エキスパート]</td>
+<td>7000</td>
+<td>5000</td>
+<td>1400</td>
+</tr>
+<tr>
+<td>MASTER</td>
+<td>[達人]</td>
+<td>8000</td>
+<td>8000</td>
+<td>1600</td>
+</tr>
+</tbody>
+</table></div>
+<p>表の数値は、そのランクに到達するために必要な経験値の下限である（例: 武器熟練度が4000以上6000未満なら[入門者]）。</p>
+<h2>武器熟練度</h2>
+<h3>ランク別の上限（職業・武器種による違い）</h3>
+<p>各職業には、武器種（<code>tval</code>）・武器の種類（<code>sval</code>）ごとに「開始ランク」と「上限ランク」が設定されている（<code>lib/edit/ClassSkillDefinitions.txt</code>、<code>W:</code>行）。上限ランクを超えて熟練度が上がることはない。</p>
+<ul>
+<li>例: 戦士（WARRIOR）は多くの武器で上限が[達人]（4）だが、スリング・ショートボウ・ロングボウ・クロスボウ類は上限[エキスパート]（3）に制限される。</li>
+<li>熟練度は職業ごとに大きく異なり、魔法系職業では多くの武器種が低い上限に抑えられる。</li>
+</ul>
+<h3>特殊な武器熟練度上限の上書き</h3>
+<p><code>PlayerSkill::apply_special_weapon_skill_max_values()</code> により、以下の場合に特定武器の上限が[達人]へ引き上げられる（いずれも職業がスペルマスター(SORCERER)でない場合に限る）。</p>
+<ul>
+<li><strong>性格がセクシーギャル</strong>: ムチ（HAFTED / SV_WHIP）の上限が[達人]になる</li>
+<li><strong>種族がマーフォーク</strong>: トライデント（POLEARM / SV_TRIDENT）と三叉槍（SV_TRIFURCATE_SPEAR）の上限が[達人]になる</li>
+</ul>
+<p>なおスペルマスターは全呪文が常に[達人]扱い（後述）で、武器熟練度の特例は適用されない。</p>
+<h3>熟練度上昇の契機と上昇量</h3>
+<p>近接武器での攻撃時（<code>gain_melee_weapon_exp</code>）と弓での射撃時（<code>gain_range_weapon_exp</code>）に、装備中の武器種の熟練度が増加する。近接の場合、実際に装備している武器と同じ<code>sval</code>か、それ以外かで上昇量が異なる。</p>
+<p>上昇量はランク帯ごとに定められた「1回あたりの上昇量」の配列で与えられ、次のランク閾値を超えない範囲で加算される。近接武器の上昇量は以下の通り（<code>GainAmountList</code>は[初心者],[入門者],[熟練者],[エキスパート]帯での1回あたり上昇量）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>帯</th>
+<th>装備武器と同種</th>
+<th>それ以外</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[初心者]帯</td>
+<td>80</td>
+<td>8</td>
+</tr>
+<tr>
+<td>[入門者]帯</td>
+<td>10</td>
+<td>1</td>
+</tr>
+<tr>
+<td>[熟練者]帯</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>[エキスパート]帯</td>
+<td>1/2の確率で1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+<p>弓（射撃）での上昇量は次の通り。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>帯</th>
+<th>使用中の弓と同種</th>
+<th>それ以外</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[初心者]帯</td>
+<td>80</td>
+<td>8</td>
+</tr>
+<tr>
+<td>[入門者]帯</td>
+<td>25</td>
+<td>2</td>
+</tr>
+<tr>
+<td>[熟練者]帯</td>
+<td>10</td>
+<td>0</td>
+</tr>
+<tr>
+<td>[エキスパート]帯</td>
+<td>2</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+<p>上昇には以下の共通条件がある（<code>gain_attack_skill_exp</code>）。</p>
+<ul>
+<li>[熟練者]帯から[エキスパート]帯への上昇にはプレイヤーレベル20以上（<code>lev &gt; 19</code>）が必要</li>
+<li>[エキスパート]帯から[達人]帯への上昇にはプレイヤーレベル35以上（<code>lev &gt; 34</code>）が必要</li>
+<li>また、弓の射撃で熟練度が入るのは対象モンスターのレベル+10がプレイヤーレベルより大きい場合のみ。近接では素手（マーシャルアーツ）と二刀流の熟練度取得に同様のモンスターレベル判定がある（武器熟練度自体には近接時のモンスターレベル制限はない）。</li>
+</ul>
+<h3>ランクが命中・ダメージに与える寄与</h3>
+<p><strong>近接武器の命中</strong>（<code>calc_to_hit_bonus</code>相当、<code>player-status.cpp</code>）:</p>
+<pre><code>命中補正 += (weapon_exp[tval][sval] - [入門者]閾値(4000)) / 200
+</code></pre>
+<p>熟練度が[入門者]閾値(4000)を基準に、200ごとに命中+1される。<a href="8000.html">達人</a>まで上げると (8000-4000)/200 = +20 の命中補正となる。</p>
+<p><strong>弓の命中・威力</strong>（<code>shoot.cpp</code>）:</p>
+<ul>
+<li>通常の弓・スリング: <code>(weapon_exp - [達人]閾値/2(4000)) / 200</code> を命中値に加算（倍率200）</li>
+<li>クロスボウ（ボルト使用）: <code>weapon_exp / 400</code> を加算（倍率400、[達人]閾値の減算なし）</li>
+</ul>
+<p><strong>ダメージ</strong>: ソースを確認した範囲では、武器熟練度・ランクは近接の命中および弓の命中/発射計算に寄与するが、近接の打撃回数（<code>num_blow</code>）や打撃ダメージダイスには直接寄与していない。近接打撃回数は腕力・器用さ・職業・武器重量などから決まる。</p>
+<h2>マーシャルアーツ（素手）技能</h2>
+<p>素手戦闘の熟練度（<code>skill_exp[MARTIAL_ARTS]</code>）。上限は職業ごとに設定される（僧（MONK）・練気術師（ForceTrainer）・狂戦士（BERSERKER）は開始4000・上限8000＝[達人]、多くの職業は上限4000程度）。</p>
+<ul>
+<li>上昇契機: 素手攻撃時、対象モンスターのレベル+10がプレイヤーレベル以下だと上昇しない（<code>monrace.level + 10 &lt;= lev</code> で打ち切り）。</li>
+<li>上昇量: [初心者]帯40、[入門者]帯5、[熟練者]帯1、[エキスパート]帯は1/3の確率で1。ランク上昇のレベル条件（20/35）は武器と共通。</li>
+<li>命中への寄与: <code>命中 += (skill_exp[MARTIAL_ARTS] - [入門者]閾値(4000)) / 200</code>。</li>
+</ul>
+<p>素手の打撃技（<code>ma_blows</code>、17種）の選択はプレイヤーレベルと技の難度で決まり、熟練度ランクそのものではなく主に<strong>レベル</strong>に依存する。打撃回数もレベル・器用さで決まる。</p>
+<h2>二刀流技能</h2>
+<p>二刀流の熟練度（<code>skill_exp[TWO_WEAPON]</code>）。上限は職業依存（戦士・盗賊・侍・狂戦士などは上限8000）。</p>
+<ul>
+<li>上昇契機: 両手に武器を持って攻撃した際、<code>(skill_exp - 1000) / 200 &lt; monrace.level</code> を満たすときに上昇する。</li>
+<li>上昇量: [初心者]帯80、[入門者]帯4、[熟練者]帯1、[エキスパート]帯は1/3の確率で1。</li>
+<li>効果: 副手の命中ペナルティ軽減。ペナルティは概ね <code>(100 - skill_exp/160) - (130 - 武器重量)/8</code> で計算され、熟練度が高いほどペナルティが小さくなる。特定の武器の組み合わせ（クイック＆タイニー等）ではペナルティが半減され-5される。</li>
+</ul>
+<h2>乗馬技能</h2>
+<p>騎乗の熟練度（<code>skill_exp[RIDING]</code>）。閾値が武器系と異なり、[入門者]500・[熟練者]2000・[エキスパート]5000・[達人]8000（<code>riding_skill_rank</code>）。上限は職業依存（獣王(BEASTMASTER)・騎兵(KIHEI)は開始500・上限8000、多くの職業は0～5000）。</p>
+<p>上昇契機は3つ。</p>
+<ul>
+<li><strong>近接攻撃時</strong>（<code>gain_riding_skill_exp_on_melee_attack</code>）: 攻撃対象・騎乗モンスターのレベルに応じて上昇。<code>(now_exp/200 - 5) &lt; 対象モンスターレベル</code> で+1、<code>now_exp/100 &lt; 騎乗モンスターレベル</code> のとき差に応じて加算。</li>
+<li><strong>射撃時</strong>（<code>gain_riding_skill_exp_on_range_attack</code>）: <code>(skill_exp - 1000) / 200 &lt; 騎乗モンスターレベル</code> かつ1/2の確率で+1。</li>
+<li><strong>落馬判定時</strong>（<code>gain_riding_skill_exp_on_fall_off_check</code>）: 上限が1000以下の職業では上昇しない。被ダメージと騎乗モンスターレベルに応じて上昇。</li>
+</ul>
+<p>効果: 騎乗中の命中ペナルティを軽減する。ペナルティは概ね <code>騎乗モンスターレベル - skill_exp/80 + 30</code>（下限30、調教可能職は固定5）で、熟練度が高いほど小さくなる。</p>
+<h2>盾（防御）技能</h2>
+<p>盾など「protector」装備を身につけている際に働く熟練度（<code>skill_exp[SHIELD]</code>）。上限は職業依存（騎兵・観光客(TOURIST)は上限8000、多くは0～6000）。</p>
+<ul>
+<li>上昇契機: モンスターに攻撃された時（<code>gain_armor_exp</code>）。主手か副手にprotectorを装備している場合、モンスターレベルに応じて上昇。<code>(cur/100) &lt; モンスターレベル</code> のとき、差が大きいほど多く加算される。</li>
+<li>効果: protector装備時にACへ加算。<code>AC += skill_exp[SHIELD] * (1 + lev/22) / 2000</code>。熟練度とプレイヤーレベルが高いほどAC上昇量が増える。</li>
+</ul>
+<h2>呪文熟練度</h2>
+<p>魔法・歌（MUSIC）・呪術（HEX）の各呪文について、第1領域は<code>spell_exp[0..31]</code>、第2領域は<code>spell_exp[32..63]</code>に熟練度を保持する。閾値は[入門者]900・[熟練者]1200・[エキスパート]1400・[達人]1600（<code>spell_skill_rank</code>）。</p>
+<ul>
+<li>上昇契機（<code>gain_spell_skill_exp</code>）: 該当領域が自分の第1/第2領域であり、呪文IDが有効(0～31)なときに上昇。第1領域と第2領域で上昇量が異なる。</li>
+<li>歌・呪術など継続詠唱系は毎ターン少量上昇する別処理（<code>gain_continuous_spell_skill_exp</code>）を持つ。</li>
+<li>上昇にはダンジョン階層（<code>dun_level</code>）とプレイヤーレベル・呪文レベルの関係による条件がある。おおむね「深い階で、自分のレベルや呪文レベルに対して階層が十分高い」ときにのみ上位帯へ上昇する。</li>
+</ul>
+<h3>職業による特例</h3>
+<ul>
+<li><strong>スペルマスター(SORCERER)</strong>: <code>exp_of_spell</code> が常に[達人]閾値(1600)を返す＝全呪文が常に達人扱い。</li>
+<li><strong>赤魔道師(RED_MAGE)</strong>: 常に[熟練者]閾値(1200)扱い。</li>
+</ul>
+<h2>技能値の確認方法</h2>
+<p>ゲーム内の「知識」メニューから、武器熟練度（<code>do_cmd_knowledge_weapon_exp</code>）・技能熟練度（<code>do_cmd_knowledge_skill_exp</code>）・呪文熟練度をランク表示（[初心者]～[達人]）で確認できる。上限に達している項目には「!」が表示される。</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-skill.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 03:12 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

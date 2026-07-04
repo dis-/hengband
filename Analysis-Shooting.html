@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>射撃攻撃 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力の上昇量</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>射撃攻撃</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>射撃攻撃は、弓・スリング・クロスボウ（<code>INVEN_BOW</code> スロットに装備した射撃武器）に対応する矢弾（矢・弾・クロスボウの矢）を発射してモンスターにダメージを与える攻撃手段である。実処理は <code>exe_fire()</code>（<code>src/combat/shoot.cpp</code>）で行われる。</p>
+<p>近接攻撃と異なり、射撃は以下の特徴を持つ。</p>
+<ul>
+<li>ダメージは矢弾のダイスに弓の発射倍率を乗じて算出される。</li>
+<li>命中判定は専用の <code>test_hit_fire()</code> で行われ、射程距離が遠いほど命中しにくくなる。</li>
+<li>1発ごとに矢弾を1個消費し、命中時（正確には障害物に当たった時）に一定確率で破損する。</li>
+</ul>
+<p>会心（クリティカル）の詳細は別ページを参照。本ページでは概要のみ扱う。</p>
+<h2>発射数と消費エネルギー</h2>
+<p>1回の射撃コマンドで発射される矢弾の数は <code>player_ptr-&gt;num_fire</code>（変数 <code>thits</code>）で決まる。この値は <code>calc_num_fire()</code>（<code>src/player/player-status.cpp</code>）で計算され、100 を「1.00発」とする内部倍率である。</p>
+<pre><code>num = 100
+num += 発射増加(XTRA_SHOTS)の個数 × 100
+（射撃武器が重すぎる場合はここで確定）
+</code></pre>
+<p>さらに職業・矢弾種別に応じた加算が入る（レベルを lev とする）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>職業</th>
+<th>矢弾種別</th>
+<th>加算</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>レンジャー</td>
+<td>矢</td>
+<td>+lev×4</td>
+</tr>
+<tr>
+<td>騎兵</td>
+<td>矢</td>
+<td>+lev×3</td>
+</tr>
+<tr>
+<td>弓術家</td>
+<td>矢</td>
+<td>+lev×5+50</td>
+</tr>
+<tr>
+<td>弓術家</td>
+<td>弾・クロスボウの矢</td>
+<td>+lev×4</td>
+</tr>
+<tr>
+<td>戦士</td>
+<td>弾・矢・クロスボウの矢</td>
+<td>+lev×2</td>
+</tr>
+<tr>
+<td>盗賊</td>
+<td>弾</td>
+<td>+lev×4</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>num_fire</code> が 100 なら1ターンで1発、200 なら2発発射される。消費エネルギーは、まず弓の基本消費エネルギー（後述）を設定した後、<code>div_player_turn_energy(thits)</code> により発射数（thits＝num_fire）で除算される。つまり発射数が多いほど1発あたりのエネルギー消費が軽くなる。</p>
+<p>なお、<code>num_fire</code> が100未満（例: 重すぎる弓）でも除算に使われる。</p>
+<h2>弓種別の発射倍率と消費エネルギー</h2>
+<p>弓の種類（sval）ごとに、矢弾ダメージにかかる基本発射倍率 <code>tmul</code> と、射撃1回分の基本消費エネルギーが定義されている（<code>src/system/baseitem/baseitem-key.cpp</code> の <code>get_arrow_magnification()</code> / <code>get_bow_energy()</code>）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>弓種別</th>
+<th style="text-align:center">発射倍率 tmul</th>
+<th style="text-align:center">基本消費エネルギー</th>
+<th style="text-align:center">クロスボウ判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>スリング（SLING）</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">8000</td>
+<td style="text-align:center">いいえ</td>
+</tr>
+<tr>
+<td>ショートボウ（SHORT_BOW）</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">いいえ</td>
+</tr>
+<tr>
+<td>ロングボウ（LONG_BOW）</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">いいえ</td>
+</tr>
+<tr>
+<td>ナマケ製の弓（NAMAKE_BOW）</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">7777</td>
+<td style="text-align:center">いいえ</td>
+</tr>
+<tr>
+<td>ライトクロスボウ（LIGHT_XBOW）</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">12000</td>
+<td style="text-align:center">はい</td>
+</tr>
+<tr>
+<td>ヘヴィクロスボウ（HEAVY_XBOW）</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">13333</td>
+<td style="text-align:center">はい</td>
+</tr>
+</tbody>
+</table></div>
+<p>消費エネルギーは 10000 を標準の1ターン相当とする値である。スリングは 8000 で標準より軽く、クロスボウは重い。</p>
+<h2>ダメージ計算</h2>
+<h3>基本ダメージ</h3>
+<p>まず矢弾側の基本ダメージを算出する（<code>exe_fire()</code> 内）。</p>
+<pre><code>tdam_base = 矢弾ダイスのロール(damage_dice.roll())
+          + 矢弾の to_d
+          + 弓の to_d
+</code></pre>
+<p><code>o_ptr</code>（矢弾）の <code>to_d</code> と <code>j_ptr</code>（弓）の <code>to_d</code> の両方が加算される。</p>
+<h3>発射倍率の適用</h3>
+<p>次に発射倍率 <code>tmul</code> を求める。弓種別の基本倍率に、以下の補正を順に適用する。</p>
+<pre><code>tmul = 弓種別の基本倍率(get_arrow_magnification())
+
+「射撃の威力(xtra_might)」があれば tmul++
+
+tmul = tmul × (100 + adj_str_td[STR] - 128)
+</code></pre>
+<p><code>adj_str_td</code> は腕力（STR）によるダメージ倍率補正テーブルで、128 を基準（±0）とする。腕力が高いほど tmul が大きくなる。</p>
+<p>この tmul を基本ダメージに適用する。</p>
+<pre><code>tdam_base = tdam_base × tmul / 100
+</code></pre>
+<p>したがって、たとえばロングボウ（基本倍率3）で腕力補正が128（±0）の場合、tmul = 3×(100+0) = 300 となり、矢弾ダメージが約3倍になる。</p>
+<h3>スレイ・属性倍率</h3>
+<p>命中後、<code>calc_shot_damage_with_slay()</code> により矢弾・弓のスレイ／ブランドフラグに応じた倍率 <code>mult</code>（初期値10＝1.0倍）を適用する。矢弾（弾・矢・クロスボウの矢）のみが対象。</p>
+<pre><code>最終ダメージ = tdam × mult / 10
+</code></pre>
+<p>主なスレイ倍率（対象の種別・耐性に一致した場合、mult をその値まで引き上げる。複数一致時は最大値を採用）は次のとおり。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>フラグ</th>
+<th>対象</th>
+<th style="text-align:center">mult</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>動物殺し / <em>動物殺し</em></td>
+<td>動物</td>
+<td style="text-align:center">17 / 27</td>
+</tr>
+<tr>
+<td>邪悪殺し / <em>邪悪殺し</em></td>
+<td>邪悪</td>
+<td style="text-align:center">15 / 25</td>
+</tr>
+<tr>
+<td>善良殺し / <em>善良殺し</em></td>
+<td>善良</td>
+<td style="text-align:center">15 / 25</td>
+</tr>
+<tr>
+<td>人間殺し / <em>人間殺し</em></td>
+<td>人間</td>
+<td style="text-align:center">17 / 27</td>
+</tr>
+<tr>
+<td>アンデッド殺し / <em>アンデッド殺し</em></td>
+<td>アンデッド</td>
+<td style="text-align:center">20 / 30</td>
+</tr>
+<tr>
+<td>悪魔殺し / <em>悪魔殺し</em></td>
+<td>悪魔</td>
+<td style="text-align:center">20 / 30</td>
+</tr>
+<tr>
+<td>オーク殺し / <em>オーク殺し</em></td>
+<td>オーク</td>
+<td style="text-align:center">20 / 30</td>
+</tr>
+<tr>
+<td>トロル殺し / <em>トロル殺し</em></td>
+<td>トロル</td>
+<td style="text-align:center">20 / 30</td>
+</tr>
+<tr>
+<td>巨人殺し / <em>巨人殺し</em></td>
+<td>巨人</td>
+<td style="text-align:center">20 / 30</td>
+</tr>
+<tr>
+<td>ドラゴン殺し / <em>ドラゴン殺し</em></td>
+<td>ドラゴン</td>
+<td style="text-align:center">20 / 30</td>
+</tr>
+<tr>
+<td>酸ブランド</td>
+<td>酸免疫でない</td>
+<td style="text-align:center">17</td>
+</tr>
+<tr>
+<td>電撃ブランド</td>
+<td>電撃免疫でない</td>
+<td style="text-align:center">17</td>
+</tr>
+<tr>
+<td>火炎ブランド</td>
+<td>火炎免疫でない</td>
+<td style="text-align:center">17（火炎弱点なら25）</td>
+</tr>
+<tr>
+<td>冷気ブランド</td>
+<td>冷気免疫でない</td>
+<td style="text-align:center">17（冷気弱点なら25）</td>
+</tr>
+<tr>
+<td>毒ブランド</td>
+<td>毒免疫でない</td>
+<td style="text-align:center">17</td>
+</tr>
+</tbody>
+</table></div>
+<p>特殊処理として、バルドの弓（BARD）を装備しバルドの矢（BARD_ARROW）でスマウグ（SMAUG）に命中した場合、mult がさらに5倍される。</p>
+<p>理力（FORCE_WEAPON）フラグを持ち、かつ現在MPが <code>msp/30</code> を超える場合、MPを <code>1 + msp/30</code> 消費して <code>mult = mult × 5 / 2</code> となる。</p>
+<h3>会心（クリティカル）</h3>
+<p>スレイ倍率適用後、<code>critical_shot()</code> によりクリティカル判定を行う（詳細は別ページ）。</p>
+<p>クリティカル発生確率は概ね次の値 <code>power</code> に基づき、<code>randint1(10000) &gt; power</code> なら発生しない（すなわち power/10000 の確率で発生）。</p>
+<pre><code>power = skill_thb + (矢弾経験値の補正 + (to_h_b + 矢弾のto_h)) × BTH_PLUS_ADJ
+        + 弓のto_h × 8 × (集中度 + 5)
+</code></pre>
+<p>BTH_PLUS_ADJ は 3。発生時は矢弾重量に応じてダメージが 1.5倍・2倍・3倍のいずれかになる。</p>
+<h3>ダメージ上限・下限</h3>
+<ul>
+<li>スレイ・会心適用後、負のダメージは0に補正される。</li>
+<li>最終的に <code>mon_damage_mod()</code> を経てモンスターに与えられる（無傷化・耐性などが反映される）。</li>
+</ul>
+<h2>命中判定</h2>
+<p>命中の可否は <code>test_hit_fire()</code>（<code>src/combat/shoot.cpp</code>）で判定する。まず命中値 <code>chance</code> を <code>exe_fire()</code> で算出する。</p>
+<p>弓が装備されている場合（tval が NONE でない）:</p>
+<pre><code>median = マスター経験値 / 2
+bonus  = to_h_b + 弓のto_h + 矢弾のto_h
+
+・クロスボウの場合:
+  chance = skill_thb + (武器経験値[sval] / 400 + bonus) × BTH_PLUS_ADJ
+
+・弓・スリングの場合:
+  chance = skill_thb + ((武器経験値[sval] - median) / 200 + bonus) × BTH_PLUS_ADJ
+</code></pre>
+<p><code>skill_thb</code> は種族・職業・性格・レベルから決まる射撃技能（<code>calc_to_hit_shoot()</code>）、<code>to_h_b</code> は腕力・器用さ・装備等による命中補正（<code>calc_to_hit_bow()</code>）である。クロスボウは経験値の除数が 400 と大きく（弓・スリングは 200）、また弓・スリングは中央値 median を引く点が異なる。</p>
+<p>実際の命中判定に渡される命中値は射程ペナルティを引いた <code>chance - cur_dis</code>（cur_dis は現在の飛翔距離）である。距離が遠いほど命中しにくい。</p>
+<p><code>test_hit_fire()</code> の判定手順は次のとおり。</p>
+<pre><code>k = randint1(100) + 集中度(スナイパー)
+
+k ≤ 5  → 必ず外れ（最低命中率5%）
+k &gt; 95 → 必ず命中（最大命中率95%）
+
+性格が「なまけもの」の場合、1/20 で強制的に外れ
+
+chance ≤ 0 → 外れ
+
+ac = モンスターのAC × (8 - 集中度) / 8
+（石川五右衛門が起きている場合、ac ×= 3）
+
+目標が視界外(不可視)なら chance = (chance + 1) / 2
+
+randint0(chance) &lt; ac × 3 / 4 → 外れ
+それ以外 → 命中
+</code></pre>
+<p>すなわち、<code>5% ≤ 命中率 ≤ 95%</code> の範囲で、命中値 chance がモンスターのAC（の3/4）を上回る乱数を引けば命中する。目標が見えていない場合は命中値が半減する。</p>
+<h2>射程</h2>
+<p>射程 <code>tdis</code> は発射倍率 tmul に基づいて決まる。</p>
+<pre><code>tdis = 13 + tmul / 80
+
+・クロスボウの場合:
+  tdis -= (5 - (集中度 + 1) / 2)
+</code></pre>
+<p>つまり倍率の高い弓ほど射程が伸びる。クロスボウは基本射程が短めだが、スナイパーの集中度が高いほど短縮幅が小さくなる。実際の到達距離は、地形（投射可能かどうか）や壁・扉によって途中で遮られる。</p>
+<h2>矢弾の破損</h2>
+<p>命中（正確には <code>hit_body</code>、障害物やモンスターに当たった場合）が発生すると、<code>breakage_chance()</code>（<code>src/object/object-broken.cpp</code>）に基づき矢弾が破損する確率が判定される。矢弾種別ごとの基本破損率は次のとおり。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>矢弾種別</th>
+<th style="text-align:center">基本破損率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>矢（ARROW）</td>
+<td style="text-align:center">20% − 弓術家ボーナス×2</td>
+</tr>
+<tr>
+<td>弾（SHOT）</td>
+<td style="text-align:center">10% − 弓術家ボーナス</td>
+</tr>
+<tr>
+<td>クロスボウの矢（BOLT）</td>
+<td style="text-align:center">10% − 弓術家ボーナス</td>
+</tr>
+</tbody>
+</table></div>
+<p>弓術家（ARCHER）は破損率が軽減される。弓術家ボーナスは次式で求まる。</p>
+<pre><code>弓術家ボーナス = (lev - 1) / 7 + 4
+</code></pre>
+<p>破損しなかった矢弾は着弾地点付近に落下する（<code>drop_ammo_near()</code>）。命中しなかった場合（<code>hit_body</code> が偽）は破損率0として床に落ちる。</p>
+<p>なお、命中したモンスターを倒せず、かつ矢弾が固定アーティファクトでスナイパーの集中度が0の場合、矢弾はモンスターに突き刺さった状態になる（<code>stick_to</code>）。</p>
+<h2>経験値の獲得</h2>
+<p>命中時、対象モンスターのレベル+10 がプレイヤーレベルを上回る場合、射撃武器の武器経験値を獲得する（<code>gain_range_weapon_exp()</code>）。騎乗中はさらに騎乗技能経験値も得る。</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/combat/shoot.cpp</code>, <code>src/system/baseitem/baseitem-key.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 03:12 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

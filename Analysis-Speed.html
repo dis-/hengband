@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>加速内部値 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力の上昇量</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>加速内部値</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>変愚蛮怒における「速度(スピード)」は、画面に表示される加速値(<code>+10</code>、<code>-5</code> など)とは別に、内部では <strong>110 を標準速度(加速0)</strong> とした整数値で管理されている。この内部値を <code>src/system/gamevalue.h</code> では次のように定義している。</p>
+<pre><code class="language-cpp">constexpr auto STANDARD_SPEED = 110; /* プレイヤー/モンスターの標準速度 (加速0) */
+</code></pre>
+<p>つまり画面表示の加速値と内部速度値の関係は次の通り。</p>
+<pre><code>内部速度 = 110 + 表示加速値
+</code></pre>
+<ul>
+<li>加速0 → 内部速度 110</li>
+<li>加速+10 → 内部速度 120</li>
+<li>加速-10 → 内部速度 100</li>
+</ul>
+<h2>行動の仕組み: エネルギー蓄積モデル</h2>
+<p>変愚蛮怒では、キャラクターは毎「ゲームターン」ごとに速度に応じた量の <strong>行動エネルギー</strong> を蓄え、蓄積量が一定の閾値(100 単位)に達すると1回行動できる。速度が速いほど1ゲームターンあたりに蓄えるエネルギーが多くなり、結果として行動回数が増える。</p>
+<p>プレイヤーの処理では、内部速度から得たエネルギーを <code>energy_need</code>(次の行動までに必要な残エネルギー)から差し引いていく(<code>src/core/player-processor.cpp</code>)。</p>
+<pre><code class="language-cpp">player_ptr-&gt;energy_need -= speed_to_energy(player_ptr-&gt;pspeed);
+// ...
+if (player_ptr-&gt;energy_need &gt; 0) {
+    return; // まだ行動できない
+}
+</code></pre>
+<p>モンスターも同じ方式で処理される(<code>src/monster/monster-processor.cpp</code>)。</p>
+<pre><code class="language-cpp">monster.energy_need -= speed_to_energy(speed);
+if (monster.energy_need &gt; 0) {
+    continue; // まだ行動できない
+}
+</code></pre>
+<p><code>energy_need</code> が 0 以下になったとき初めて行動でき、行動すると消費エネルギー(通常行動で 100 単位相当)が再び <code>energy_need</code> に加算される。</p>
+<h2>加速→エネルギー変換 (speed_to_energy)</h2>
+<p>1ゲームターンあたりに蓄えるエネルギー量(ETA: Energy per Turn / Amount)は、内部速度値をインデックスとする変換テーブル <code>extract_energy[]</code> から求められる(<code>src/core/speed-table.cpp</code>)。</p>
+<pre><code class="language-cpp">byte speed_to_energy(byte speed)
+{
+    return speed &gt; 199 ? 49 : extract_energy[speed];
+}
+</code></pre>
+<p>このテーブルは元々、次の関数を離散化したものである(ソース内コメントより)。</p>
+<pre><code>基本関数: (S &gt;= 110) ? (S - 110) : (100 / (120 - S))
+</code></pre>
+<p>ただし高速域ではこの関数そのままではなく、テーブルが調整されている。加速+30 を超えると増加が鈍り、1行動あたり <strong>最大 50 エネルギー</strong>(実際のテーブル上限値は 49)に漸近する。</p>
+<h3>加速+10 で行動回数が約2倍になる理由</h3>
+<p>標準速度(内部110)では 1ゲームターンあたり 10 エネルギー、加速+10(内部120)では 20 エネルギーを蓄える。閾値は同じ 100 単位なので、必要ゲームターン数は</p>
+<ul>
+<li>加速0: 100 ÷ 10 = 10 ゲームターン/行動</li>
+<li>加速+10: 100 ÷ 20 = 5 ゲームターン/行動</li>
+</ul>
+<p>となり、加速+10 ごとに 1行動あたりに要するゲームターンがおよそ半分、すなわち <strong>行動回数が約2倍</strong> になる。ただしこの「+10で2倍」の関係が成り立つのは、テーブルが線形に増える標準〜加速+20付近の範囲であり、高速域では鈍化する。</p>
+<h2>加速値ごとの消費エネルギー(ETA)対応表</h2>
+<p>以下は <code>extract_energy[]</code> の実値から抜き出した、代表的な加速値ごとの「1ゲームターンあたりに蓄えるエネルギー量(ETA)」と、通常行動(100エネルギー消費)1回あたりに要するゲームターン数の目安である。行動回数比は標準速度(加速0)を 1.0 とした相対値。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>表示加速</th>
+<th>内部速度</th>
+<th>ETA(エネルギー/ターン)</th>
+<th>行動あたりターン数(100÷ETA)</th>
+<th>行動回数比(対 加速0)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-50</td>
+<td>60</td>
+<td>1</td>
+<td>100.0</td>
+<td>0.10</td>
+</tr>
+<tr>
+<td>-40</td>
+<td>70</td>
+<td>2</td>
+<td>50.0</td>
+<td>0.20</td>
+</tr>
+<tr>
+<td>-30</td>
+<td>80</td>
+<td>2</td>
+<td>50.0</td>
+<td>0.20</td>
+</tr>
+<tr>
+<td>-20</td>
+<td>90</td>
+<td>3</td>
+<td>33.3</td>
+<td>0.30</td>
+</tr>
+<tr>
+<td>-10</td>
+<td>100</td>
+<td>5</td>
+<td>20.0</td>
+<td>0.50</td>
+</tr>
+<tr>
+<td>-5</td>
+<td>105</td>
+<td>6</td>
+<td>16.7</td>
+<td>0.60</td>
+</tr>
+<tr>
+<td>0</td>
+<td>110</td>
+<td>10</td>
+<td>10.0</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td>+5</td>
+<td>115</td>
+<td>15</td>
+<td>6.7</td>
+<td>1.50</td>
+</tr>
+<tr>
+<td>+10</td>
+<td>120</td>
+<td>20</td>
+<td>5.0</td>
+<td>2.00</td>
+</tr>
+<tr>
+<td>+20</td>
+<td>130</td>
+<td>30</td>
+<td>3.3</td>
+<td>3.00</td>
+</tr>
+<tr>
+<td>+30</td>
+<td>140</td>
+<td>38</td>
+<td>2.6</td>
+<td>3.80</td>
+</tr>
+<tr>
+<td>+40</td>
+<td>150</td>
+<td>42</td>
+<td>2.4</td>
+<td>4.20</td>
+</tr>
+<tr>
+<td>+50</td>
+<td>160</td>
+<td>45</td>
+<td>2.2</td>
+<td>4.50</td>
+</tr>
+<tr>
+<td>+60</td>
+<td>170</td>
+<td>47</td>
+<td>2.1</td>
+<td>4.70</td>
+</tr>
+<tr>
+<td>+70</td>
+<td>180</td>
+<td>49</td>
+<td>2.0</td>
+<td>4.90</td>
+</tr>
+<tr>
+<td>+80</td>
+<td>190</td>
+<td>49</td>
+<td>2.0</td>
+<td>4.90</td>
+</tr>
+<tr>
+<td>+90(以上)</td>
+<td>199以上</td>
+<td>49</td>
+<td>2.0</td>
+<td>4.90</td>
+</tr>
+</tbody>
+</table></div>
+<p>内部速度 200(表示加速+90)以上はすべて 49 に丸められる(<code>speed &gt; 199 ? 49</code>)。テーブル定義上も内部速度 180〜199 の範囲がすべて 49 である。</p>
+<h2>テーブル全体 (extract_energy)</h2>
+<p><code>extract_energy[]</code> は内部速度 0〜199 に対応する 200 要素の配列で、10 要素ごとに区切って以下のように定義されている(<code>src/core/speed-table.cpp</code>、コメントの区切りは 10 加速値ごとの目安)。</p>
+<pre><code>/* Slow */     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,   (内部速度  0- 9)
+/* Slow */     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,   (内部速度 10-19)
+/* Slow */     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,   (内部速度 20-29)
+/* Slow */     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,   (内部速度 30-39)
+/* Slow */     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,   (内部速度 40-49)
+/* Slow */     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,   (内部速度 50-59)
+/* S-50 */     1,  1,  1,  1,  1,  1,  1,  1,  1,  1,   (内部速度 60-69)
+/* S-40 */     2,  2,  2,  2,  2,  2,  2,  2,  2,  2,   (内部速度 70-79)
+/* S-30 */     2,  2,  2,  2,  2,  2,  2,  3,  3,  3,   (内部速度 80-89)
+/* S-20 */     3,  3,  3,  3,  3,  4,  4,  4,  4,  4,   (内部速度 90-99)
+/* S-10 */     5,  5,  5,  5,  6,  6,  7,  7,  8,  9,   (内部速度100-109)
+/* Norm */    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,  (内部速度110-119)
+/* F+10 */    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,  (内部速度120-129)
+/* F+20 */    30, 31, 32, 33, 34, 35, 36, 36, 37, 37,  (内部速度130-139)
+/* F+30 */    38, 38, 39, 39, 40, 40, 40, 41, 41, 41,  (内部速度140-149)
+/* F+40 */    42, 42, 42, 43, 43, 43, 44, 44, 44, 44,  (内部速度150-159)
+/* F+50 */    45, 45, 45, 45, 45, 46, 46, 46, 46, 46,  (内部速度160-169)
+/* F+60 */    47, 47, 47, 47, 47, 48, 48, 48, 48, 48,  (内部速度170-179)
+/* F+70 */    49, 49, 49, 49, 49, 49, 49, 49, 49, 49,  (内部速度180-189)
+/* Fast */    49, 49, 49, 49, 49, 49, 49, 49, 49, 49,  (内部速度190-199)
+</code></pre>
+<p>この表から分かるように、加速値が「-1」でも内部速度は 1 刻みで変化し、ETA も対応して細かく変わる。表示上は同じ「+10」でも、実際の1刻みの加速差がエネルギーに反映される。</p>
+<h2>消費エネルギー側の乱数</h2>
+<p>上記は「蓄積」側の速度依存量である。行動時に <code>energy_need</code> へ加算される消費エネルギー(通常行動)は固定 100 ではなく、正規乱数で揺らぐ(<code>src/core/speed-table.h</code>)。</p>
+<pre><code class="language-cpp">/*! 消費する行動エネルギー値を正規乱数で返す(中央100/分散25) */
+#define ENERGY_NEED() (randnor(100, 25))
+</code></pre>
+<p>実際のプレイヤー行動処理では、行動の種類ごとの基礎消費 <code>energy_use</code> にこの乱数を掛け合わせて <code>energy_need</code> に反映する(<code>src/core/player-processor.cpp</code>)。</p>
+<pre><code class="language-cpp">player_ptr-&gt;energy_need += (int16_t)((int32_t)player_ptr-&gt;energy_use * ENERGY_NEED() / 100L);
+</code></pre>
+<p>したがって「通常1回の行動 ≒ 100 エネルギー消費」を基準としつつ、実際の消費は平均100・標準偏差25の正規分布でばらつく。この乱数化により、同じ速度差でも行動順が完全に固定化されず揺らぎが生じる。</p>
+<h2>速度が影響するその他の処理</h2>
+<p><code>speed_to_energy</code> は行動頻度以外にも、速度に比例する各種処理の重み付けに流用されている。</p>
+<ul>
+<li>満腹度(消化)の減少量 — 速いほど多く消化する(<code>src/player/digestion-processor.cpp</code>)。</li>
+<li>モンスターの覚醒判定量 — プレイヤーの速度に比例(<code>src/monster/monster-status.cpp</code>)。</li>
+<li>モンスター撃破時の経験値計算 — モンスター/プレイヤー速度を分母・分子に使用(<code>src/monster/monster-damage.cpp</code>)。</li>
+</ul>
+<h2>まとめ</h2>
+<ul>
+<li>内部速度 = 110 + 表示加速値(<code>STANDARD_SPEED = 110</code>)。</li>
+<li>1ゲームターンあたり <code>extract_energy[内部速度]</code> エネルギーを蓄積し、100 単位ごとに1行動する。</li>
+<li>標準〜加速+20付近では ETA が内部速度1あたり約1ずつ線形に増え、加速+10で行動回数が約2倍になる。</li>
+<li>加速+30 以降は増加が鈍化し、内部速度180(表示+70)以上で ETA は上限の 49 に張り付く。それ以上の加速は、重い装備などによる実効速度低下の相殺以外にはほぼ意味がない。</li>
+</ul>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/core/speed-table.cpp</code>, <code>src/system/gamevalue.h</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 03:12 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

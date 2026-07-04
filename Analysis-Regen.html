@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>自然回復 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力の上昇量</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>自然回復</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>プレイヤーのHP・MPは、何もしなくても時間経過とともに少しずつ自然回復する。この処理は <code>process_player_hp_mp()</code>（<code>src/hpmp/hp-mp-processor.cpp</code>）で行われ、<code>WorldTurnProcessor::process_world()</code> から<strong>10ゲームターン毎に1回</strong>呼び出される。刻み幅は <code>TURNS_PER_TICK = 10</code>（<code>src/system/gamevalue.h</code>）で定義されており、以下ではこの1回分の処理を「1回の回復処理」と呼ぶ。</p>
+<p>HPとMPはいずれも <code>mhp</code>（最大HP）／<code>msp</code>（最大MP）に対する<strong>割合</strong>で回復し、内部的には 1/65536（= 1/2^16）単位の固定小数点で端数（<code>chp_frac</code>／<code>csp_frac</code>）まで管理されている。そのため実際に整数値が増えるまでには複数回の処理を要することがある。</p>
+<h2>回復量の基本パラメータ</h2>
+<p>回復率は <code>regen_amount</code>（HPの回復比率）として算出される。基準となる定数は <code>src/hpmp/hp-mp-regenerator.h</code> で以下のように定義されている。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>定数</th>
+<th>値</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PY_REGEN_NORMAL</code></td>
+<td>197</td>
+<td>満腹時の基準回復率（×2^16 単位）</td>
+</tr>
+<tr>
+<td><code>PY_REGEN_WEAK</code></td>
+<td>98</td>
+<td>空腹（衰弱）時の回復率</td>
+</tr>
+<tr>
+<td><code>PY_REGEN_FAINT</code></td>
+<td>33</td>
+<td>衰弱（気絶寸前）時の回復率</td>
+</tr>
+<tr>
+<td><code>PY_REGEN_HPBASE</code></td>
+<td>1442</td>
+<td>HP回復の最小加算量（×2^16 単位）</td>
+</tr>
+<tr>
+<td><code>PY_REGEN_MNBASE</code></td>
+<td>524</td>
+<td>MP回復の最小加算量（×2^16 単位）</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>regen_amount</code> の初期値は <code>PY_REGEN_NORMAL</code>（= 197）で、以降の各補正で増減する。</p>
+<h2>満腹度による補正</h2>
+<p>まず満腹度（<code>food</code>）によって基準回復率が決まる。閾値は <code>src/player/digestion-processor.h</code> の定義による。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>満腹度 <code>food</code> の範囲</th>
+<th><code>regen_amount</code></th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PY_FOOD_WEAK</code>（1000）以上</td>
+<td><code>PY_REGEN_NORMAL</code>（197）</td>
+<td>通常</td>
+</tr>
+<tr>
+<td>500 以上 1000 未満</td>
+<td><code>PY_REGEN_WEAK</code>（98）</td>
+<td>空腹（衰弱）</td>
+</tr>
+<tr>
+<td>100 以上 500 未満</td>
+<td><code>PY_REGEN_FAINT</code>（33）</td>
+<td>気絶寸前</td>
+</tr>
+<tr>
+<td>100 未満（<code>PY_FOOD_STARVE</code>未満）</td>
+<td>0</td>
+<td>飢餓（自然回復なし）</td>
+</tr>
+</tbody>
+</table></div>
+<p>すなわち満腹度が下がるほど回復率が落ち、飢餓状態（<code>food &lt; 100</code>）では回復率が 0 になる。</p>
+<h2>その他の状態補正（乗算・除算）</h2>
+<p>満腹度で決めた <code>regen_amount</code> に対して、以下の補正が順に適用される。パターン（The Pattern）上にいる場合は下記のうち「再生能力」以下の補正は適用されず、代わりに後述の回復不能フラグが立つ。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>補正</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「再生」能力あり（<code>regenerate</code>）</td>
+<td><code>regen_amount × 2</code></td>
+</tr>
+<tr>
+<td>修行僧の構え／侍の型を取っている（NONE 以外）</td>
+<td><code>regen_amount ÷ 2</code></td>
+</tr>
+<tr>
+<td>呪い「回復力低下」（<code>SLOW_REGEN</code>）</td>
+<td><code>regen_amount ÷ 5</code></td>
+</tr>
+<tr>
+<td>探索モード（<code>ACTION_SEARCH</code>）または休息（<code>ACTION_REST</code>）中</td>
+<td><code>regen_amount × 2</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>上記のうち「再生」「構え・型」「回復力低下」はパターン上にいない場合のみ適用される。探索・休息の×2はその後に別途適用される。</p>
+<p>さらに最後に突然変異による補正が乗算される。</p>
+<pre><code>regen_amount = regen_amount × mutant_regenerate_mod / 100
+</code></pre>
+<p><code>mutant_regenerate_mod</code>（%）は <code>calc_mutant_regenerate_mod()</code>（<code>src/mutation/mutation-calculator.cpp</code>）で算出され、突然変異が無ければ 100（等倍）。変異数に応じて回復速度が低下する。</p>
+<ul>
+<li>通常は 1変異につき 10% 減少（<code>mod = 10</code>）。</li>
+<li>ビーストマンは変異10個までペナルティ無し、それ以降は 1変異につき 5% 減少（<code>count -= 10; mod = 5</code>）。</li>
+<li>性格「幸運」は変異カウントを 1 減らす。</li>
+<li>下限は 10%（<code>regen &lt; 10</code> なら 10 に補正）。</li>
+</ul>
+<p>計算式は <code>regen = 100 - count × mod</code>（<code>count</code> は補正後の実効変異数、0以下なら 100）。</p>
+<h2>自然回復しない条件</h2>
+<p>以下のいずれかに該当する場合、その回のHP自然回復は行われない（<code>regen_amount</code> が 0 になる、または回復関数自体が呼ばれない）。</p>
+<ul>
+<li><strong>毒</strong>状態（<code>poison</code>）……<code>regen_amount = 0</code>。加えて毎回1ダメージを受ける。</li>
+<li>**出血（切り傷）**状態（<code>cut</code>）……<code>regen_amount = 0</code>。加えて切り傷の深さに応じたダメージを受ける。</li>
+<li><strong>回復不能フラグ</strong>（<code>cave_no_regen</code>）が立っている場合……<code>regen_amount = 0</code> かつ HP回復処理自体が呼ばれない。このフラグは以下の状況で立つ。
+<ul>
+<li>溶岩・冷気/電撃/酸/毒の水たまり等、地形ダメージを受けたとき</li>
+<li>深い水で溺れているとき</li>
+<li>壁の中にいてダメージを受けるとき（幽体化・パターン歩行等でない場合）</li>
+<li>パターン（The Pattern）上にいるとき（<code>pattern_effect()</code> が真）</li>
+<li>アンデッド種族が光でダメージを受けているとき</li>
+</ul>
+</li>
+</ul>
+<p>HP回復は最終的に「現在HPが最大HP未満」かつ「<code>cave_no_regen</code> でない」場合にのみ <code>regenhp()</code> が呼ばれる。</p>
+<p>また <code>regenhp()</code> 内部でも次の場合は即座に return し、HP回復は行われない。</p>
+<ul>
+<li>**侍の型「光気陣」（<code>KOUKIJIN</code>）**を取っているとき</li>
+<li>**早駆け（<code>ACTION_HAYAGAKE</code>）**中のとき</li>
+</ul>
+<h2>HP回復量の計算式</h2>
+<p><code>regenhp(player_ptr, percent)</code>（<code>percent</code> は上記で確定した <code>regen_amount</code>）では、最大HP <code>mhp</code> に回復率を掛けたものを 1/2^16 単位で加算する。1回の処理で <code>chp</code>（現在HP、整数）と <code>chp_frac</code>（端数）に加算される総量は次の通り。</p>
+<pre><code>加算量（1/65536 単位） = mhp × percent + PY_REGEN_HPBASE
+                       = mhp × regen_amount + 1442
+</code></pre>
+<p>この値を 2^16（= 65536）で割った商が現在HPに整数として加算され、余りが端数 <code>chp_frac</code> として次回に持ち越される。実質的な1回あたりのHP回復量（HP単位）は次式で表せる。</p>
+<pre><code>1回あたりのHP回復量（HP） = (mhp × regen_amount + 1442) / 65536
+</code></pre>
+<p><code>PY_REGEN_HPBASE</code>（1442）は最大HPが小さいキャラでも最低限の回復が進むための下駄。回復後、現在HPが最大HPを超えた場合は最大HPに丸められる。</p>
+<p>なお、HPが実際に増えたとき（<code>old_chp != chp</code>）は広域マップ移動の回復カウンタ <code>wild_regen</code> が 20 にリセットされる。</p>
+<h2>MP回復量の計算式</h2>
+<p>MP回復は <code>regenmana(player_ptr, upkeep_factor, regen_amount)</code>（<code>src/hpmp/hp-mp-regenerator.cpp</code>）で行われる。<code>upkeep_factor</code> はペット維持に要するMPコスト量で、<code>calculate_upkeep()</code> で算出される。さらに以下の場合には <code>upkeep_factor</code> に 100 が加算される。</p>
+<ul>
+<li>練習モード（<code>ACTION_LEARN</code>）中</li>
+<li>早駆け（<code>ACTION_HAYAGAKE</code>）中</li>
+<li>侍の型「光気陣」（<code>KOUKIJIN</code>）中</li>
+</ul>
+<p>まず実効的な回復レート <code>regen_rate</code> が次式で決まる。</p>
+<pre><code>regen_rate = regen_amount × 100 − upkeep_factor × PY_REGEN_NORMAL
+</code></pre>
+<p>すなわちペット維持コストが高いほどMP回復レートは下がり、負になればMPが減少する。処理は現在MP <code>csp</code> の状態で分岐する。</p>
+<ul>
+<li><strong>余剰MP（<code>csp &gt; msp</code>）がある場合</strong>：余剰分は通常の<strong>32倍</strong>の速さで減衰する。1回の減衰量（1/65536 単位）は<pre><code>減衰量 = msp × 32 × PY_REGEN_NORMAL + PY_REGEN_MNBASE
+</code></pre>
+で、<code>msp</code> を下回ったら <code>msp</code> に丸める。</li>
+<li><strong>余剰MPが無く <code>regen_rate &gt; 0</code> の場合</strong>：MPが回復する。1回の加算量（1/65536 単位）は<pre><code>加算量 = msp × regen_rate / 100 + PY_REGEN_MNBASE
+</code></pre>
+で、<code>msp</code> に達したら <code>msp</code> で頭打ちにする。</li>
+<li><strong><code>regen_rate &lt; 0</code> の場合</strong>（余剰MPの有無に関わらず）：MPが減少する。1回の減少量（1/65536 単位）は<pre><code>減少量 = msp × (−regen_rate) / 100 + PY_REGEN_MNBASE
+</code></pre>
+で、0 を下回ったら 0 に丸める。</li>
+</ul>
+<p>HP同様、実際に得られる整数MPは加算量を 2^16（= 65536）で割った商で、余りは端数 <code>csp_frac</code> に持ち越される。<code>PY_REGEN_MNBASE</code>（524）は最低回復量の下駄。</p>
+<p>MPには毒・切り傷・地形ダメージによる <code>regen_amount = 0</code> の補正は掛からず（それらの判定はMP処理より後）、MPの増減は主に満腹度・構え/型・突然変異・ペット維持コストによって決まる点に注意。</p>
+<h2>補足：モンスター・魔道具の回復</h2>
+<ul>
+<li><strong>フロア上のモンスター</strong>は <code>regenerate_monsters()</code> により100ゲームターン毎に、<code>maxhp/100</code>（0なら1/2の確率で1）ずつ回復する。「再生」フラグ持ちは2倍。</li>
+<li><strong>ボール（捕獲）中のモンスター</strong>は <code>regenerate_captured_monsters()</code> により30ゲームターン毎に同様の割合で回復する。</li>
+<li>**魔道具喰い（マジックイーター）**は <code>regenmagic()</code> により、取り込んだ杖・魔法棒・ロッドのチャージが回復する。回復量は <code>regen_amount</code> と知能補正（<code>adj_mag_mana</code>）に比例する。</li>
+</ul>
+<h2>回復速度に影響する主な要素まとめ</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>要素</th>
+<th>HP回復への影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>満腹度が低い</td>
+<td>回復率が段階的に低下、飢餓で 0</td>
+</tr>
+<tr>
+<td>「再生」能力</td>
+<td>×2</td>
+</tr>
+<tr>
+<td>探索・休息中</td>
+<td>×2</td>
+</tr>
+<tr>
+<td>構え・型（僧/侍）</td>
+<td>÷2</td>
+</tr>
+<tr>
+<td>呪い「回復力低下」</td>
+<td>÷5</td>
+</tr>
+<tr>
+<td>突然変異（数に応じ）</td>
+<td>最大 90% 減（下限10%）</td>
+</tr>
+<tr>
+<td>毒・出血</td>
+<td>回復しない（0）</td>
+</tr>
+<tr>
+<td>地形ダメージ・壁の中・パターン上</td>
+<td>回復しない（0）</td>
+</tr>
+<tr>
+<td>侍「光気陣」・早駆け</td>
+<td>HP回復処理を行わない</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/hpmp/hp-mp-processor.cpp</code>, <code>src/hpmp/hp-mp-regenerator.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 03:12 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
