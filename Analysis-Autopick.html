@@ -118,6 +118,77 @@
 <h2>自動拾いとは</h2>
 <p>自動拾い（Auto-picker/Destroyer）は、床に落ちているアイテムに対して「拾う」「破壊する」「放置する」「拾う前に確認する」といった処理を、あらかじめ登録した設定に従って自動的に行う機能である。設定は 1 行につき 1 つの「エントリ」を記述するテキスト形式で管理され、各行は「行動を表す接頭辞」＋「対象を表すキーワード列」＋「アイテム名（省略可）」＋「自動刻印（省略可）」から構成される。</p>
 <p>本稿は <code>src/autopick/</code> 配下のソースから、設定書式・マッチング条件・判定の優先順位・床アイテムに対する処理の流れを再導出したものである。</p>
+<h2>ゲーム内で自動拾いを有効にする操作</h2>
+<p>自動拾いは<strong>設定ファイル（<code>.prf</code>）に1つ以上のエントリがあれば、その内容に従って常時働く</strong>。個別の ON/OFF スイッチは無く、「ルールを書く＝有効になる」。ゲーム内での操作は次の通り。</p>
+<h3>設定ファイル</h3>
+<ul>
+<li>設定は<strong>ユーザーフォルダ</strong>（<code>ANGBAND_DIR_USER</code>）の <code>.prf</code> ファイルに保存される。ファイル名は日本語版で <code>picktype.prf</code>、英語版で <code>pickpref.prf</code>。キャラクターごとに分けたい場合は <code>picktype-&lt;キャラクター名&gt;.prf</code>（<code>PT_WITH_PNAME</code>）が使われる。</li>
+<li>このファイルはゲーム開始時やレベル移動時に自動的に読み込まれる（<code>autopick_load_pref</code>）。読み込みに成功すると「<code>○○</code>を読み込みました。」と表示される。初回はテンプレートが自動生成される。</li>
+</ul>
+<h3>主なコマンド（マップ画面）</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>キー</th>
+<th>機能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>_</code></strong></td>
+<td><strong>自動拾いエディタを開く</strong>（<code>do_cmd_edit_autopick</code>）。ここでルールを編集する</td>
+</tr>
+<tr>
+<td><strong><code>$</code></strong></td>
+<td>設定ファイルを<strong>再読み込み</strong>する（<code>do_cmd_reload_autopick</code>）。外部エディタで書き換えた後などに使う</td>
+</tr>
+<tr>
+<td><code>=</code>（オプション）</td>
+<td>オプションメニューからも自動拾いエディタに入れる</td>
+</tr>
+</tbody>
+</table></div>
+<h3>エディタ内の主な操作</h3>
+<p>エディタはテキストを直接編集する方式で、本稿で説明する書式の行を1行ずつ書く。Emacs風のコントロールキーで操作する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>キー</th>
+<th>機能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>Ctrl+I</code></strong></td>
+<td><strong>選択したアイテムの名前を挿入</strong>（持ち物・床のアイテムからルール行を生成。最も手軽な追加方法）</td>
+</tr>
+<tr>
+<td><strong><code>Ctrl+W</code></strong></td>
+<td><strong>保存して終了</strong>（＝設定を適用）</td>
+</tr>
+<tr>
+<td><code>Ctrl+Q</code></td>
+<td>保存せず中止</td>
+</tr>
+<tr>
+<td><code>Ctrl+Z</code></td>
+<td>変更を元に戻す</td>
+</tr>
+<tr>
+<td><code>Ctrl+X</code> / <code>Ctrl+C</code> / <code>Ctrl+V</code></td>
+<td>行のカット / コピー / ペースト</td>
+</tr>
+<tr>
+<td><code>Ctrl+G</code></td>
+<td>条件分岐ブロックの挿入</td>
+</tr>
+<tr>
+<td>矢印キー / <code>Ctrl+B,N,P,F</code> 等</td>
+<td>カーソル移動</td>
+</tr>
+</tbody>
+</table></div>
+<p>典型的な使い方は、「拾いたい／捨てたいアイテムを持った状態で <code>_</code> を押す → <code>Ctrl+I</code> でそのアイテムのルール行を挿入 → 先頭に <code>!</code>（破壊）や <code>~</code>（放置）などの行動接頭辞（後述）を付ける → <code>Ctrl+W</code> で保存」。以後、そのルールが床アイテムに自動適用される。</p>
 <h2>1 行エントリの構造</h2>
 <p>1 行の設定は、先頭から順に次の要素で構成される。</p>
 <pre><code>[行動接頭辞][ ( ][形容キーワード...][名詞キーワード][ : ][アイテム名][ # 自動刻印]
@@ -485,7 +556,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/autopick/</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 15:28 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:49 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
