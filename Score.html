@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>スコアの算出方法 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Nightmare.html">🌙 悪夢モード</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Nightmare.html">🌙 悪夢モードの詳細 / Nightmare mode</a></li>
+</ul>
+</aside><main class="content"><h1>スコアの算出方法</h1>
+<p>変愚蛮怒のハイスコアは <strong>「基礎点 × 難易度倍率」＋「闘技場ボーナス」</strong> を柱に、最後に特殊補正を掛けて算出されます。実装は <code>src/player/player-status.cpp</code> の <code>calc_score()</code> にまとまっています。</p>
+<h2>難易度倍率（mult）</h2>
+<p>基準値 100 に対し、有効なゲームオプションに応じて加減算されます。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>倍率変化</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>preserve_mode</code> が無効</td>
+<td>+10</td>
+<td>アーティファクト再生成なし</td>
+</tr>
+<tr>
+<td><code>autoroller</code> が無効</td>
+<td>+10</td>
+<td>オートローラー未使用</td>
+</tr>
+<tr>
+<td><code>smart_learn</code> が無効</td>
+<td>−20</td>
+<td>モンスターが賢く立ち回らない</td>
+</tr>
+<tr>
+<td><code>smart_cheat</code> が有効</td>
+<td>+30</td>
+<td>モンスターが手の内を読む</td>
+</tr>
+<tr>
+<td><code>ironman_shops</code> が有効</td>
+<td>+50</td>
+<td>鉄人モード（店なし）</td>
+</tr>
+<tr>
+<td><code>ironman_smallest_floor</code> が有効</td>
+<td>+10</td>
+<td>最小フロア</td>
+</tr>
+<tr>
+<td><code>ironman_force_arena_floor</code> が有効</td>
+<td>+20</td>
+<td>闘技場フロア強制</td>
+</tr>
+<tr>
+<td><code>powerup_home</code> が無効</td>
+<td>+50</td>
+<td>我が家強化なし</td>
+</tr>
+<tr>
+<td><code>ironman_rooms</code> が有効</td>
+<td>+100</td>
+<td>常に特殊な部屋を生成</td>
+</tr>
+<tr>
+<td><code>ironman_nightmare</code> が有効</td>
+<td>+100</td>
+<td><a href="Nightmare.html">悪夢モード</a></td>
+</tr>
+</tbody>
+</table></div>
+<p>計算後、<code>mult</code> が 5 未満なら 5 に切り上げられます。</p>
+<h2>基礎点と倍率の適用</h2>
+<pre><code>基礎点 ＝ max_max_exp ＋ 100 × 到達した最深ダンジョンレベル
+スコア ＝ 基礎点 × mult ÷ 100
+</code></pre>
+<ul>
+<li><strong><code>max_max_exp</code></strong> … 生涯で得た最大経験値。上限は <code>PY_MAX_EXP = 99,999,999</code>。</li>
+<li><strong>最深ダンジョンレベル</strong> … 全ダンジョンを通じての最深到達階。上限は実質 127（<code>MAX_DEPTH = 128</code>）。</li>
+</ul>
+<p>実際のコードは 16 ビットずつに分割して計算していますが、これは 32 ビット整数のオーバーフロー回避のためのテクニックで、数学的には上式と等価です。倍率適用前の基礎点の最大値は <code>99,999,999 ＋ 100 × 127 ＝ 100,012,699</code> です。</p>
+<h2>闘技場ボーナス</h2>
+<p>闘技場に一度でも挑戦していれば、勝利数に応じて加点されます。</p>
+<pre><code>スコア ＋= 勝利数² × （勝利数 &gt; 29 なら 1000、それ以外は 100）
+</code></pre>
+<p>連勝するほど二次関数的に伸び、30 勝以降は係数が 100 → 1000 に跳ね上がります。</p>
+<h2>最終補正</h2>
+<p>適用順に次の補正が掛かります。</p>
+<ul>
+<li><strong><code>ironman_downward</code>（一方通行）</strong> … スコアを <strong>2 倍</strong>。</li>
+<li><strong>ベルセルカー × 幽霊（スペクター）種族</strong> … スコアを <strong>1/5</strong>。強力すぎる組み合わせへのペナルティ。</li>
+<li><strong>性格「マンチキン」</strong> … スコアを <strong>1</strong> に固定（勝利者なら 2）。ネタ性格でのスコア稼ぎを封じる措置。</li>
+</ul>
+<h2>保存と表示</h2>
+<p><code>calc_score()</code> の戻り値（<code>uint32_t</code>）は <code>%9u</code> 書式の 9 桁文字列としてハイスコアファイル <code>lib/apex/scores.raw</code> に記録され、スコアサーバへの登録にも同じ値が使われます。<code>max_max_exp</code> が約 1 億で頭打ちのため、通常プレイでこの桁数を超えることはありません。</p>
+<h2>まとめ</h2>
+<p>経験値と潜った深さを稼ぎ、ハードなオプションを有効にし、闘技場で連勝するほど高得点になります。難易度を下げる設定や、一部の強力なキャラクター構成・ネタ性格には抑制が掛かる設計です。</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-status.cpp</code> の <code>calc_score()</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 00:56 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>悪夢モードの詳細 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Nightmare.html">🌙 悪夢モード</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Nightmare.html">🌙 悪夢モードの詳細 / Nightmare mode</a></li>
+</ul>
+</aside><main class="content"><h1>悪夢モードの詳細</h1>
+<p><strong>悪夢モード</strong>（<code>ironman_nightmare</code>）はキャラクター作成時に設定する「鉄人用」オプションのひとつです。ゲーム内の説明文は「(鉄人用)悪夢モード(これは全く不条理です！)」で、名前どおり理不尽な難易度になります。</p>
+<h2>モンスターの強化</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>効果</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HP が 2 倍</td>
+<td>生成時・進化時・再計算時のいずれでも最大 HP が 2 倍（上限 <code>MONSTER_MAXHP</code>）。</td>
+</tr>
+<tr>
+<td>速度 +5</td>
+<td>常時加速状態。</td>
+</tr>
+<tr>
+<td>初期エネルギーが 2 倍速</td>
+<td>出現直後から早く行動を開始する。</td>
+</tr>
+<tr>
+<td>覚醒判定が 2 倍敏感</td>
+<td>睡眠中でもプレイヤーに気づきやすい。</td>
+</tr>
+<tr>
+<td>初期状態で眠らない</td>
+<td>出現時に睡眠状態を持たない。</td>
+</tr>
+<tr>
+<td>即座に魔法を撃つ</td>
+<td>出現直後の魔法抑制が付かない。</td>
+</tr>
+<tr>
+<td>格上モンスターが頻出</td>
+<td>階層より強いモンスターが出やすくなる。</td>
+</tr>
+<tr>
+<td>クエスト対象扱いが拡大</td>
+<td>クエスト指定外のモンスターも逃げにくくなる。</td>
+</tr>
+<tr>
+<td>自然回復が 2 倍</td>
+<td>モンスターの体力回復が速い。</td>
+</tr>
+<tr>
+<td>呪文ダメージが 2 倍</td>
+<td>HP 最大ロール基準の呪文ダメージが倍化する。</td>
+</tr>
+</tbody>
+</table></div>
+<h2>プレイヤーへの不利・悪夢演出</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>効果</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>眠ると正気度崩壊</td>
+<td>宿屋での宿泊・睡眠効果・睡眠トラップで「悪夢」を見て正気度が削られる。</td>
+</tr>
+<tr>
+<td>真夜中の凶兆</td>
+<td>23 時台に不気味な鐘が鳴り、凶悪な呪い <code>TY_CURSE</code> が発動する。</td>
+</tr>
+<tr>
+<td>維持を貫通する能力減少</td>
+<td>能力値ドレインが維持（sustain）を無視して減少させることがある。</td>
+</tr>
+<tr>
+<td>帰還時の階層跳躍</td>
+<td>帰還（リコール）時、稀（1/666）に到達階が大きく跳ね上がる。</td>
+</tr>
+<tr>
+<td>図鑑表示の変化</td>
+<td>モンスター図鑑（思い出）が悪夢モード補正の表示になる。</td>
+</tr>
+</tbody>
+</table></div>
+<h3>帰還時の階層跳躍</h3>
+<p>アングバンドでの帰還時、1/666 の確率で到達階が次のように変化します。</p>
+<ul>
+<li>50 階未満 … 深さが <strong>2 倍</strong> に。</li>
+<li>50〜98 階 … （現在階 ＋ 99）÷ 2 へ。</li>
+<li>100 階超 … そのダンジョンの <strong>最深 − 1 階</strong> へ。</li>
+</ul>
+<h2>スコアへの影響</h2>
+<p>悪夢モードはスコア倍率に <strong>+100</strong> の加点を与えます。これは <code>ironman_rooms</code>（+100）と並ぶ最大級のボーナスで、この理不尽な難易度がスコアで報われる設計になっています。詳しくは <a href="Score.html">スコアの算出方法</a> を参照してください。</p>
+<h2>まとめ</h2>
+<p>敵は倍の HP・常時加速・即魔法・格上頻出、眠れば発狂、夜中に呪い、帰還で奈落へ、という正気では勧められない最高難度モードです。</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>ironman_nightmare</code> 関連処理（各所））。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 00:56 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
