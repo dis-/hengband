@@ -231,7 +231,7 @@
 </tbody>
 </table></div>
 <h2>習熟度の上限</h2>
-<p>各技能で到達できる熟練度の最高ランク（<code>lib/edit/ClassSkillDefinitions.txt</code>）。武器全般は全武器種のうち最も高く到達できるランク。</p>
+<p>各技能で到達できる熟練度の最高ランク（<code>lib/edit/ClassSkillDefinitions.txt</code>）。武器種ごとの内訳は次節「武器熟練度」を参照。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -240,10 +240,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>武器全般 / Weapons</td>
-<td>[達人]</td>
-</tr>
 <tr>
 <td>素手（マーシャルアーツ） / Martial arts</td>
 <td>[熟練者]</td>
@@ -262,6 +258,581 @@
 </tr>
 </tbody>
 </table></div>
+<h2>武器熟練度</h2>
+<p>武器種ごとの初期ランクと到達できる上限ランク（<code>lib/edit/ClassSkillDefinitions.txt</code> の <code>W:</code> 定義）。ランクは [初心者] &lt; [入門者] &lt; [熟練者] &lt; [エキスパート] &lt; [達人]。</p>
+<details>
+<summary>全 93 種の武器熟練度を表示</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>分類 / Category</th>
+<th>武器 / Weapon</th>
+<th>初期 / Initial</th>
+<th>上限 / Cap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>弓・射撃 / Bows</td>
+<td>スリング</td>
+<td>[初心者]</td>
+<td>[エキスパート]</td>
+</tr>
+<tr>
+<td>弓・射撃 / Bows</td>
+<td>ショート・ボウ</td>
+<td>[入門者]</td>
+<td>[達人]</td>
+</tr>
+<tr>
+<td>弓・射撃 / Bows</td>
+<td>ロング・ボウ</td>
+<td>[入門者]</td>
+<td>[達人]</td>
+</tr>
+<tr>
+<td>弓・射撃 / Bows</td>
+<td>ライト・クロスボウ</td>
+<td>[初心者]</td>
+<td>[エキスパート]</td>
+</tr>
+<tr>
+<td>弓・射撃 / Bows</td>
+<td>ヘヴィ・クロスボウ</td>
+<td>[初心者]</td>
+<td>[エキスパート]</td>
+</tr>
+<tr>
+<td>弓・射撃 / Bows</td>
+<td>進化する銃</td>
+<td>[初心者]</td>
+<td>[達人]</td>
+</tr>
+<tr>
+<td>弓・射撃 / Bows</td>
+<td>ハープ</td>
+<td>[初心者]</td>
+<td>[達人]</td>
+</tr>
+<tr>
+<td>弓・射撃 / Bows</td>
+<td>弓</td>
+<td>[入門者]</td>
+<td>[達人]</td>
+</tr>
+<tr>
+<td>掘削具 / Diggers</td>
+<td>シャベル</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>掘削具 / Diggers</td>
+<td>ノームのシャベル</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>掘削具 / Diggers</td>
+<td>ドワーフのシャベル</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>掘削具 / Diggers</td>
+<td>つるはし</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>掘削具 / Diggers</td>
+<td>オークのつるはし</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>掘削具 / Diggers</td>
+<td>ドワーフのつるはし</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>掘削具 / Diggers</td>
+<td>戦闘用つるはし</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>棍棒</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>ムチ</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>クォータースタッフ</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>ヌンチャク</td>
+<td>[初心者]</td>
+<td>[入門者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>メイス</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>鎖つき鉄球</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>錫杖</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>ウォー・ハンマー</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>三節棍</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>モーニング・スター</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>フレイル</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>六尺棒</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>鉛詰めメイス</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>鉄棒</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>ヘヴィ・フレイル</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>グレート・ハンマー</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>粉砕のメイス</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>魔術師の杖</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>冥界の大鉄杖</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>鈍器 / Hafted</td>
+<td>棒</td>
+<td>[初心者]</td>
+<td>[達人]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>ハチェット</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>スピア</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>鎌</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>オウル・パイク</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>トライデント</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>フォシャール</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>ブロード・スピア</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>パイク</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>薙刀</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>ビークド・アックス</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>ブロード・アックス</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>ルツェルン・ハンマー</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>グレイブ</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>ラジャタン</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>ハルベルト</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>ギザルム</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>大鎌</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>ランス</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>バトル・アックス</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>グレート・アックス</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>三叉槍</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>ロッホアーバー・アックス</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>ヘヴィ・ランス</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>切り裂きの大鎌</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>釣り竿</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>長柄 / Polearms</td>
+<td>死の大鎌</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>折れたダガー</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>折れた剣</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>ダガー</td>
+<td>[入門者]</td>
+<td>[達人]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>マン・ゴーシュ</td>
+<td>[初心者]</td>
+<td>[エキスパート]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>短刀</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>レイピア</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>スモール・ソード</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>バゼラード</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>ショート・ソード</td>
+<td>[入門者]</td>
+<td>[達人]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>サーベル</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>カットラス</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>脇差し</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>コペシュ</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>タルワール</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>ブロード・ソード</td>
+<td>[入門者]</td>
+<td>[達人]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>ロング・ソード</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>シミター</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>忍者刀</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>カタナ</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>バスタード・ソード</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>青龍刀</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>クレイモア</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>エスパドン</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>グレート・ソード</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>フランベルジュ</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>野太刀</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>首切りソード</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>ツヴァイハンダー</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>カオス・ブレード</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>ダイヤモンド・エッジ</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>毒針</td>
+<td>[初心者]</td>
+<td>[達人]</td>
+</tr>
+<tr>
+<td>剣 / Swords</td>
+<td>隼の剣</td>
+<td>[初心者]</td>
+<td>[熟練者]</td>
+</tr>
+</tbody>
+</table></div>
+</details>
 <h2>魔法・特殊能力</h2>
 <ul>
 <li>魔法種別 / Magic type: 仙術/Sorcery</li>
@@ -330,7 +901,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 15:28 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 18:31 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

@@ -246,7 +246,7 @@
 </tbody>
 </table></div>
 <h2>習熟度の上限</h2>
-<p>各技能で到達できる熟練度の最高ランク（<code>lib/edit/ClassSkillDefinitions.txt</code>）。武器全般は全武器種のうち最も高く到達できるランク。</p>
+<p>各技能で到達できる熟練度の最高ランク（<code>lib/edit/ClassSkillDefinitions.txt</code>）。武器種ごとの内訳は次節「武器熟練度」を参照。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -255,10 +255,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>武器全般 / Weapons</td>
-<td>[初心者]</td>
-</tr>
 <tr>
 <td>素手（マーシャルアーツ） / Martial arts</td>
 <td>[初心者]</td>
@@ -277,6 +273,21 @@
 </tr>
 </tbody>
 </table></div>
+<h2>武器熟練度</h2>
+<p>武器種ごとの初期ランクと到達できる上限ランク（<code>lib/edit/ClassSkillDefinitions.txt</code> の <code>W:</code> 定義）。ランクは [初心者] &lt; [入門者] &lt; [熟練者] &lt; [エキスパート] &lt; [達人]。</p>
+<details>
+<summary>全 0 種の武器熟練度を表示</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>分類 / Category</th>
+<th>武器 / Weapon</th>
+<th>初期 / Initial</th>
+<th>上限 / Cap</th>
+</tr>
+</thead>
+</table></div>
+</details>
 <h2>魔法・特殊能力</h2>
 <ul>
 <li>魔法種別 / Magic type: 魔法なし/None</li>
@@ -344,7 +355,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 15:28 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 18:31 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
