@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>盾のアーティファクト（tval 34） / Shield Artifacts (tval 34) · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+</aside><main class="content"><h1>盾のアーティファクト（tval 34） / Shield Artifacts (tval 34)</h1>
+<p>ベースが「盾 / Shield」(tval 34) の固定アーティファクト（8 種）。</p>
+<p>Fixed artifacts whose base item is 盾 / Shield (tval 34) — 8 entries.</p>
+<p><a href="Artifacts.html">← アーティファクト種別一覧 / All artifact types</a> · <a href="index.html">🏠 ホーム / Home</a></p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>ID / ID</th>
+<th>名前 / Name</th>
+<th>種別 / Type</th>
+<th>サブ種別 / Subtype</th>
+<th>階層 / Depth</th>
+<th>希少度 / Rarity</th>
+<th>重量 / Weight</th>
+<th>売値 / Cost</th>
+<th>pval / pval</th>
+<th>ダイス / Dice</th>
+<th>AC / AC</th>
+<th>発動 / Activation</th>
+<th>能力フラグ / Flags</th>
+<th>フレーバー / Flavor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30</td>
+<td>トーリン王の<br>of Thorin</td>
+<td>盾/Shield</td>
+<td>3</td>
+<td>40</td>
+<td>12</td>
+<td>65</td>
+<td>120000</td>
+<td>4</td>
+<td></td>
+<td>5 [+21]</td>
+<td></td>
+<td>腕力+, 耐久+, 麻痺知らず, 酸免疫, 耐轟音, 耐カオス, 追加上位耐性</td>
+<td>山の下の王トーリン・オーケンシールドの強さと頑丈さを受け継いだこの小さな金属の盾は、地のエレメントに対する完全な防御を可能にする。<br>Invoking the strength and endurance of Thorin, King under the Mountain, this little metal shield is proof against the Element of Earth.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>金髪のケレゴルムの<br>of Celegorm</td>
+<td>盾/Shield</td>
+<td>4</td>
+<td>30</td>
+<td>3</td>
+<td>60</td>
+<td>30000</td>
+<td></td>
+<td></td>
+<td>6 [+20]</td>
+<td></td>
+<td>耐酸, 耐電, 耐火, 耐冷, 耐光, 耐暗黒, 追加上位耐性</td>
+<td>いまでは見られなくなった数々の伝説の生き物の装飾が施されたこの盾は、かつてヒムラドの王ケレゴルムを守っていた。地水火風のエレメントのせめぎ合いを内包し、それらの神秘的なバランスを保っている。<br>This shield, emblazoned with a multitude of creatures not seen for ages, once protected Celegorm, lord of Himlad; around it, a mystic balance lies containing the conflicts of the elements.</td>
+</tr>
+<tr>
+<td>32</td>
+<td>アナリオンの<br>of Anarion</td>
+<td>盾/Shield</td>
+<td>5</td>
+<td>40</td>
+<td>9</td>
+<td>120</td>
+<td>160000</td>
+<td></td>
+<td>1d3</td>
+<td>8 [+18]</td>
+<td></td>
+<td>耐酸, 耐電, 耐火, 耐冷, 腕力維持, 知能維持, 賢さ維持, 器用維持, 耐久維持, 魅力維持, 追加上位耐性</td>
+<td>かつてサウロンと勇敢に戦ったエレンディルの息子アナリオンの金属の盾だ。<br>The great metal-bound shield of Anarion, son of Elendil, who Sauron found himself powerless to wither or diminish.</td>
+</tr>
+<tr>
+<td>138</td>
+<td>上級王ギル=ガラドの<br>of Gil-Galad</td>
+<td>盾/Shield</td>
+<td>10</td>
+<td>70</td>
+<td>2</td>
+<td>100</td>
+<td>65000</td>
+<td>4</td>
+<td></td>
+<td>10 [+20]</td>
+<td>眩しい光/Blinding light</td>
+<td>LITE_2, 魅力+, 反射, 耐電, 耐酸, 耐火, 耐冷, 耐光, 賢さ維持, 魅力維持</td>
+<td>ノルドールの最後の上級王、ギル=ガラドの伝説の盾だ。彼はバラド=ドゥアの門まで敵を討ち破って進み、ゴルゴロスの地にさえ光をもたらした。「天が広野の無数の星は、その銀の盾に、映りたり。」<br>The legendary shield of Gil-Galad, who fought his way to the gates of the Dark Tower, and with whom came light even to Gorgoroth.</td>
+</tr>
+<tr>
+<td>151</td>
+<td>八咫<br>'Yata-no-Kagami'</td>
+<td>盾/Shield</td>
+<td>50</td>
+<td>65</td>
+<td>65</td>
+<td>50</td>
+<td>150000</td>
+<td>3</td>
+<td></td>
+<td>0 [+18]</td>
+<td>邪悪退散 (x5)/Dispel evil (x5)</td>
+<td>瞬間生成, 透明視認, 反射, 永遠の光源, 赤外線視力, 知能+, 賢さ+, テレパシー, 経験値維持</td>
+<td></td>
+</tr>
+<tr>
+<td>186</td>
+<td>航海者エアレンディルの<br>of Earendil</td>
+<td>盾/Shield</td>
+<td>7</td>
+<td>50</td>
+<td>3</td>
+<td>160</td>
+<td>90000</td>
+<td></td>
+<td></td>
+<td>10 [+20]</td>
+<td>CURING</td>
+<td>耐盲目, 耐暗黒, 耐地獄, 耐電, 耐火, RES_WATER, ESP_GOOD, 光源半径+3, RES_CURSE</td>
+<td>かつて偉大なる船乗りエアレンディルが身に付けていた輝く盾だ。「輝く盾にはあらゆる危害や傷害をさけるルーン文字を刻み込んだ。」(J.R.R.トールキン、瀬田貞二・田中明子訳 新版指輪物語)<br>A shining shield, once borne by the great mariner Earendil, &quot;scored with runes to keep all wounds and harm from him&quot;.</td>
+</tr>
+<tr>
+<td>197</td>
+<td>ペルセウスの<br>of Perseus</td>
+<td>盾/Shield</td>
+<td>3</td>
+<td>30</td>
+<td>10</td>
+<td>65</td>
+<td>45000</td>
+<td>2</td>
+<td></td>
+<td>5 [+15]</td>
+<td></td>
+<td>腕力+, 腕力維持, 耐酸, 耐冷, 耐毒, 耐恐怖, 反射, 麻痺知らず, LITE_2, 追加上位耐性</td>
+<td>蛇の髪を持つメドゥーサの石化の睨みも、この反射の盾の前には効果がなかった。<br>Perseus evaded the snake-haired Medusa's petrifying gaze with this reflective shield in hand.</td>
+</tr>
+<tr>
+<td>265</td>
+<td>賢者マーリンの魔法の<br>of the Wizard, Merlin</td>
+<td>盾/Shield</td>
+<td>50</td>
+<td>65</td>
+<td>90</td>
+<td>50</td>
+<td>50000</td>
+<td>3</td>
+<td></td>
+<td>0 [+15]</td>
+<td></td>
+<td>知能+, 賢さ+, 瞬間生成, RES_CURSE, 耐盲目, テレパシー, DEC_MANA, 反射, 祝福</td>
+<td>賢者マーリンの魔法の鏡だ。鏡を通じて賢者の助けを得ることができるだろう。<br>It is the magic mirror of the sage, Merlin.  You will be able to get the help of the wise man through the mirror.</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<h3>凡例 / Legend</h3>
+<details>
+<summary>ベースアイテム種別 (type_value / tval) / Base Item Type (type_value / tval) (20)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>19</code></td>
+<td>弓</td>
+<td>Bow</td>
+</tr>
+<tr>
+<td><code>20</code></td>
+<td>シャベル/つるはし</td>
+<td>Digger</td>
+</tr>
+<tr>
+<td><code>21</code></td>
+<td>鈍器</td>
+<td>Hafted Weapon</td>
+</tr>
+<tr>
+<td><code>22</code></td>
+<td>長柄/斧</td>
+<td>Polearm</td>
+</tr>
+<tr>
+<td><code>23</code></td>
+<td>刀剣</td>
+<td>Sword</td>
+</tr>
+<tr>
+<td><code>30</code></td>
+<td>靴</td>
+<td>Boots</td>
+</tr>
+<tr>
+<td><code>31</code></td>
+<td>籠手</td>
+<td>Gloves</td>
+</tr>
+<tr>
+<td><code>32</code></td>
+<td>兜</td>
+<td>Helm</td>
+</tr>
+<tr>
+<td><code>33</code></td>
+<td>冠</td>
+<td>Crown</td>
+</tr>
+<tr>
+<td><code>34</code></td>
+<td>盾</td>
+<td>Shield</td>
+</tr>
+<tr>
+<td><code>35</code></td>
+<td>クローク</td>
+<td>Cloak</td>
+</tr>
+<tr>
+<td><code>36</code></td>
+<td>軽鎧</td>
+<td>Soft Armor</td>
+</tr>
+<tr>
+<td><code>37</code></td>
+<td>重鎧</td>
+<td>Hard Armor</td>
+</tr>
+<tr>
+<td><code>38</code></td>
+<td>ドラゴン・スケイルメイル</td>
+<td>Dragon Scale Mail</td>
+</tr>
+<tr>
+<td><code>39</code></td>
+<td>光源</td>
+<td>Lite</td>
+</tr>
+<tr>
+<td><code>40</code></td>
+<td>アミュレット</td>
+<td>Amulet</td>
+</tr>
+<tr>
+<td><code>45</code></td>
+<td>指輪</td>
+<td>Ring</td>
+</tr>
+<tr>
+<td><code>50</code></td>
+<td>エクスプレスカード</td>
+<td>Express Card</td>
+</tr>
+<tr>
+<td><code>17</code></td>
+<td>矢</td>
+<td>Arrow</td>
+</tr>
+<tr>
+<td><code>18</code></td>
+<td>クロスボウの矢</td>
+<td>Bolt</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<details>
+<summary>能力フラグ (flags) / Ability Flags (flags) (92)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>STR</code></td>
+<td>腕力+</td>
+<td>+STR</td>
+</tr>
+<tr>
+<td><code>INT</code></td>
+<td>知能+</td>
+<td>+INT</td>
+</tr>
+<tr>
+<td><code>WIS</code></td>
+<td>賢さ+</td>
+<td>+WIS</td>
+</tr>
+<tr>
+<td><code>DEX</code></td>
+<td>器用+</td>
+<td>+DEX</td>
+</tr>
+<tr>
+<td><code>CON</code></td>
+<td>耐久+</td>
+<td>+CON</td>
+</tr>
+<tr>
+<td><code>CHR</code></td>
+<td>魅力+</td>
+<td>+CHR</td>
+</tr>
+<tr>
+<td><code>SPEED</code></td>
+<td>加速</td>
+<td>+Speed</td>
+</tr>
+<tr>
+<td><code>BLOWS</code></td>
+<td>追加打撃</td>
+<td>+Attacks</td>
+</tr>
+<tr>
+<td><code>STEALTH</code></td>
+<td>隠密</td>
+<td>+Stealth</td>
+</tr>
+<tr>
+<td><code>SEARCH</code></td>
+<td>探索</td>
+<td>+Searching</td>
+</tr>
+<tr>
+<td><code>INFRA</code></td>
+<td>赤外線視力</td>
+<td>+Infravision</td>
+</tr>
+<tr>
+<td><code>TUNNEL</code></td>
+<td>採掘</td>
+<td>+Digging</td>
+</tr>
+<tr>
+<td><code>MAGIC_MASTERY</code></td>
+<td>魔道具支配</td>
+<td>+Magic Device</td>
+</tr>
+<tr>
+<td><code>SEE_INVIS</code></td>
+<td>透明視認</td>
+<td>See Invisible</td>
+</tr>
+<tr>
+<td><code>FREE_ACT</code></td>
+<td>麻痺知らず</td>
+<td>Free Action</td>
+</tr>
+<tr>
+<td><code>HOLD_EXP</code></td>
+<td>経験値維持</td>
+<td>Hold Life</td>
+</tr>
+<tr>
+<td><code>SLOW_DIGEST</code></td>
+<td>遅消化</td>
+<td>Slow Digestion</td>
+</tr>
+<tr>
+<td><code>REGEN</code></td>
+<td>急回復</td>
+<td>Regeneration</td>
+</tr>
+<tr>
+<td><code>LEVITATION</code></td>
+<td>浮遊</td>
+<td>Levitation</td>
+</tr>
+<tr>
+<td><code>LITE</code></td>
+<td>永遠の光源</td>
+<td>Permanent Light</td>
+</tr>
+<tr>
+<td><code>TELEPATHY</code></td>
+<td>テレパシー</td>
+<td>Telepathy</td>
+</tr>
+<tr>
+<td><code>WARNING</code></td>
+<td>警告</td>
+<td>Warning</td>
+</tr>
+<tr>
+<td><code>BLESSED</code></td>
+<td>祝福</td>
+<td>Blessed</td>
+</tr>
+<tr>
+<td><code>RIDING</code></td>
+<td>乗馬適性</td>
+<td>Riding</td>
+</tr>
+<tr>
+<td><code>REFLECT</code></td>
+<td>反射</td>
+<td>Reflection</td>
+</tr>
+<tr>
+<td><code>AGGRAVATE</code></td>
+<td>反感</td>
+<td>Aggravate</td>
+</tr>
+<tr>
+<td><code>RES_ACID</code></td>
+<td>耐酸</td>
+<td>Res Acid</td>
+</tr>
+<tr>
+<td><code>RES_ELEC</code></td>
+<td>耐電</td>
+<td>Res Elec</td>
+</tr>
+<tr>
+<td><code>RES_FIRE</code></td>
+<td>耐火</td>
+<td>Res Fire</td>
+</tr>
+<tr>
+<td><code>RES_COLD</code></td>
+<td>耐冷</td>
+<td>Res Cold</td>
+</tr>
+<tr>
+<td><code>RES_POIS</code></td>
+<td>耐毒</td>
+<td>Res Poison</td>
+</tr>
+<tr>
+<td><code>RES_FEAR</code></td>
+<td>耐恐怖</td>
+<td>Res Fear</td>
+</tr>
+<tr>
+<td><code>RES_LITE</code></td>
+<td>耐光</td>
+<td>Res Light</td>
+</tr>
+<tr>
+<td><code>RES_DARK</code></td>
+<td>耐暗黒</td>
+<td>Res Dark</td>
+</tr>
+<tr>
+<td><code>RES_BLIND</code></td>
+<td>耐盲目</td>
+<td>Res Blindness</td>
+</tr>
+<tr>
+<td><code>RES_CONF</code></td>
+<td>耐混乱</td>
+<td>Res Confusion</td>
+</tr>
+<tr>
+<td><code>RES_SOUND</code></td>
+<td>耐轟音</td>
+<td>Res Sound</td>
+</tr>
+<tr>
+<td><code>RES_SHARDS</code></td>
+<td>耐破片</td>
+<td>Res Shards</td>
+</tr>
+<tr>
+<td><code>RES_NETHER</code></td>
+<td>耐地獄</td>
+<td>Res Nether</td>
+</tr>
+<tr>
+<td><code>RES_NEXUS</code></td>
+<td>耐因果混乱</td>
+<td>Res Nexus</td>
+</tr>
+<tr>
+<td><code>RES_CHAOS</code></td>
+<td>耐カオス</td>
+<td>Res Chaos</td>
+</tr>
+<tr>
+<td><code>RES_DISEN</code></td>
+<td>耐劣化</td>
+<td>Res Disenchant</td>
+</tr>
+<tr>
+<td><code>SUST_STR</code></td>
+<td>腕力維持</td>
+<td>Sustain STR</td>
+</tr>
+<tr>
+<td><code>SUST_INT</code></td>
+<td>知能維持</td>
+<td>Sustain INT</td>
+</tr>
+<tr>
+<td><code>SUST_WIS</code></td>
+<td>賢さ維持</td>
+<td>Sustain WIS</td>
+</tr>
+<tr>
+<td><code>SUST_DEX</code></td>
+<td>器用維持</td>
+<td>Sustain DEX</td>
+</tr>
+<tr>
+<td><code>SUST_CON</code></td>
+<td>耐久維持</td>
+<td>Sustain CON</td>
+</tr>
+<tr>
+<td><code>SUST_CHR</code></td>
+<td>魅力維持</td>
+<td>Sustain CHR</td>
+</tr>
+<tr>
+<td><code>SLAY_EVIL</code></td>
+<td>邪悪倍打</td>
+<td>Slay Evil</td>
+</tr>
+<tr>
+<td><code>SLAY_ANIMAL</code></td>
+<td>動物倍打</td>
+<td>Slay Animal</td>
+</tr>
+<tr>
+<td><code>SLAY_UNDEAD</code></td>
+<td>不死倍打</td>
+<td>Slay Undead</td>
+</tr>
+<tr>
+<td><code>SLAY_DEMON</code></td>
+<td>悪魔倍打</td>
+<td>Slay Demon</td>
+</tr>
+<tr>
+<td><code>SLAY_ORC</code></td>
+<td>オーク倍打</td>
+<td>Slay Orc</td>
+</tr>
+<tr>
+<td><code>SLAY_TROLL</code></td>
+<td>トロル倍打</td>
+<td>Slay Troll</td>
+</tr>
+<tr>
+<td><code>SLAY_GIANT</code></td>
+<td>巨人倍打</td>
+<td>Slay Giant</td>
+</tr>
+<tr>
+<td><code>SLAY_DRAGON</code></td>
+<td>竜倍打</td>
+<td>Slay Dragon</td>
+</tr>
+<tr>
+<td><code>SLAY_HUMAN</code></td>
+<td>人間倍打</td>
+<td>Slay Human</td>
+</tr>
+<tr>
+<td><code>KILL_DRAGON</code></td>
+<td>竜殺し</td>
+<td>Kill Dragon</td>
+</tr>
+<tr>
+<td><code>BRAND_FIRE</code></td>
+<td>火炎属性</td>
+<td>Flame Brand</td>
+</tr>
+<tr>
+<td><code>BRAND_COLD</code></td>
+<td>冷気属性</td>
+<td>Frost Brand</td>
+</tr>
+<tr>
+<td><code>BRAND_ELEC</code></td>
+<td>電撃属性</td>
+<td>Shock Brand</td>
+</tr>
+<tr>
+<td><code>BRAND_ACID</code></td>
+<td>溶解属性</td>
+<td>Acid Brand</td>
+</tr>
+<tr>
+<td><code>BRAND_POIS</code></td>
+<td>毒殺属性</td>
+<td>Poison Brand</td>
+</tr>
+<tr>
+<td><code>VORPAL</code></td>
+<td>切れ味</td>
+<td>Vorpal</td>
+</tr>
+<tr>
+<td><code>IMPACT</code></td>
+<td>地震発動</td>
+<td>Impact/Earthquake</td>
+</tr>
+<tr>
+<td><code>CHAOTIC</code></td>
+<td>混沌属性</td>
+<td>Chaotic</td>
+</tr>
+<tr>
+<td><code>VAMPIRIC</code></td>
+<td>吸血</td>
+<td>Vampiric</td>
+</tr>
+<tr>
+<td><code>SH_FIRE</code></td>
+<td>火炎オーラ</td>
+<td>Aura Fire</td>
+</tr>
+<tr>
+<td><code>SH_ELEC</code></td>
+<td>電撃オーラ</td>
+<td>Aura Elec</td>
+</tr>
+<tr>
+<td><code>SH_COLD</code></td>
+<td>冷気オーラ</td>
+<td>Aura Cold</td>
+</tr>
+<tr>
+<td><code>ESP_EVIL</code></td>
+<td>邪悪感知</td>
+<td>ESP Evil</td>
+</tr>
+<tr>
+<td><code>ESP_ORC</code></td>
+<td>オーク感知</td>
+<td>ESP Orc</td>
+</tr>
+<tr>
+<td><code>ESP_TROLL</code></td>
+<td>トロル感知</td>
+<td>ESP Troll</td>
+</tr>
+<tr>
+<td><code>ESP_GIANT</code></td>
+<td>巨人感知</td>
+<td>ESP Giant</td>
+</tr>
+<tr>
+<td><code>ESP_DRAGON</code></td>
+<td>竜感知</td>
+<td>ESP Dragon</td>
+</tr>
+<tr>
+<td><code>IM_FIRE</code></td>
+<td>火炎免疫</td>
+<td>Imm Fire</td>
+</tr>
+<tr>
+<td><code>IM_COLD</code></td>
+<td>冷気免疫</td>
+<td>Imm Cold</td>
+</tr>
+<tr>
+<td><code>IM_ACID</code></td>
+<td>酸免疫</td>
+<td>Imm Acid</td>
+</tr>
+<tr>
+<td><code>IM_ELEC</code></td>
+<td>電撃免疫</td>
+<td>Imm Elec</td>
+</tr>
+<tr>
+<td><code>SHOW_MODS</code></td>
+<td>命中/ダメージ表示</td>
+<td>Show To-hit/Dam</td>
+</tr>
+<tr>
+<td><code>HIDE_TYPE</code></td>
+<td>種別非表示</td>
+<td>Hide Bonus Type</td>
+</tr>
+<tr>
+<td><code>INSTA_ART</code></td>
+<td>瞬間生成</td>
+<td>Instant Artifact</td>
+</tr>
+<tr>
+<td><code>XTRA_H_RES</code></td>
+<td>追加上位耐性</td>
+<td>Extra High Resist</td>
+</tr>
+<tr>
+<td><code>CURSED</code></td>
+<td>呪い</td>
+<td>Cursed</td>
+</tr>
+<tr>
+<td><code>HEAVY_CURSE</code></td>
+<td>強い呪い</td>
+<td>Heavy Curse</td>
+</tr>
+<tr>
+<td><code>PERMA_CURSE</code></td>
+<td>永遠の呪い</td>
+<td>Permanent Curse</td>
+</tr>
+<tr>
+<td><code>TY_CURSE</code></td>
+<td>太古の怨念</td>
+<td>Ancient Curse</td>
+</tr>
+<tr>
+<td><code>DRAIN_EXP</code></td>
+<td>経験値吸収</td>
+<td>Drain Exp</td>
+</tr>
+<tr>
+<td><code>NO_MAGIC</code></td>
+<td>反魔法</td>
+<td>Anti-Magic</td>
+</tr>
+<tr>
+<td><code>NO_TELE</code></td>
+<td>反テレポート</td>
+<td>Anti-Teleport</td>
+</tr>
+<tr>
+<td><code>THROW</code></td>
+<td>投擲適性</td>
+<td>Throwing</td>
+</tr>
+<tr>
+<td><code>LITE_3</code></td>
+<td>光源半径+3</td>
+<td>Light Radius +3</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<details>
+<summary>発動能力 (activate) / Activation Power (activate) (33)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HERO</code></td>
+<td>士気高揚</td>
+<td>Heroism</td>
+</tr>
+<tr>
+<td><code>BERSERK</code></td>
+<td>狂戦士化 (25+d25ターン)</td>
+<td>Berserk (25+d25 turns)</td>
+</tr>
+<tr>
+<td><code>BA_FIRE_2</code></td>
+<td>巨大ファイア・ボール (120)</td>
+<td>Large fire ball (120)</td>
+</tr>
+<tr>
+<td><code>BA_COLD_2</code></td>
+<td>アイス・ボール (100)</td>
+<td>Ball of cold (100)</td>
+</tr>
+<tr>
+<td><code>BA_ELEC_2</code></td>
+<td>サンダー・ボール (100)</td>
+<td>Ball of lightning (100)</td>
+</tr>
+<tr>
+<td><code>BA_ELEC_3</code></td>
+<td>巨大サンダー・ボール (500)</td>
+<td>Ball of lightning (500)</td>
+</tr>
+<tr>
+<td><code>BA_DARK</code></td>
+<td>暗黒の嵐 (250)</td>
+<td>Darkness storm (250)</td>
+</tr>
+<tr>
+<td><code>BO_MANA</code></td>
+<td>魔法の矢 (150)</td>
+<td>Magic arrow (150)</td>
+</tr>
+<tr>
+<td><code>DRAIN_2</code></td>
+<td>吸収の矢 (3*100)</td>
+<td>Drain bolt (3*100)</td>
+</tr>
+<tr>
+<td><code>DISP_EVIL</code></td>
+<td>邪悪退散 (x5)</td>
+<td>Dispel evil (x5)</td>
+</tr>
+<tr>
+<td><code>TERROR</code></td>
+<td>恐慌</td>
+<td>Terror</td>
+</tr>
+<tr>
+<td><code>GENOCIDE</code></td>
+<td>抹殺</td>
+<td>Genocide</td>
+</tr>
+<tr>
+<td><code>MASS_GENO</code></td>
+<td>周辺抹殺</td>
+<td>Mass genocide</td>
+</tr>
+<tr>
+<td><code>PROT_EVIL</code></td>
+<td>対邪悪結界 (3*Lv+d25)</td>
+<td>Protection from evil (dur 3*level+d25)</td>
+</tr>
+<tr>
+<td><code>RESIST_ALL</code></td>
+<td>全耐性 (20+d20)</td>
+<td>Resist elements (dur 20+d20)</td>
+</tr>
+<tr>
+<td><code>SPEED</code></td>
+<td>加速 (20+d20)</td>
+<td>Speed (dur 20+d20)</td>
+</tr>
+<tr>
+<td><code>XTRA_SPEED</code></td>
+<td>加速 (長時間)</td>
+<td>Speed (long duration)</td>
+</tr>
+<tr>
+<td><code>CURE_1000</code></td>
+<td>体力回復 (1000)</td>
+<td>Heal 1000 HP</td>
+</tr>
+<tr>
+<td><code>LIGHT</code></td>
+<td>イルミネーション</td>
+<td>Light area (dam 2d15)</td>
+</tr>
+<tr>
+<td><code>MAP_LIGHT</code></td>
+<td>魔法の地図と光</td>
+<td>Map &amp; light area</td>
+</tr>
+<tr>
+<td><code>BLINDING_LIGHT</code></td>
+<td>眩しい光</td>
+<td>Blinding light</td>
+</tr>
+<tr>
+<td><code>BIZARRE</code></td>
+<td>信じ難いこと</td>
+<td>Bizarre things</td>
+</tr>
+<tr>
+<td><code>ID_PLAIN</code></td>
+<td>鑑定</td>
+<td>Identify</td>
+</tr>
+<tr>
+<td><code>STONE_MUD</code></td>
+<td>岩石溶解</td>
+<td>Stone to mud</td>
+</tr>
+<tr>
+<td><code>DIM_DOOR</code></td>
+<td>次元の扉</td>
+<td>Dimension door</td>
+</tr>
+<tr>
+<td><code>TELEPORT</code></td>
+<td>テレポート</td>
+<td>Teleport</td>
+</tr>
+<tr>
+<td><code>PHASE_DOOR</code></td>
+<td>ショート・テレポート</td>
+<td>Blink</td>
+</tr>
+<tr>
+<td><code>RECALL</code></td>
+<td>帰還の詔</td>
+<td>Word of recall</td>
+</tr>
+<tr>
+<td><code>ESCAPE</code></td>
+<td>逃走</td>
+<td>Getaway</td>
+</tr>
+<tr>
+<td><code>JUDGE</code></td>
+<td>体力と引き替えに千里眼と帰還</td>
+<td>Clairvoyance &amp; recall (draining)</td>
+</tr>
+<tr>
+<td><code>DETECT_UNIQUE</code></td>
+<td>階のユニーク表示</td>
+<td>List uniques on level</td>
+</tr>
+<tr>
+<td><code>BRAND_FIRE_BOLTS</code></td>
+<td>刃先のファイア・ボルト</td>
+<td>Fire branding of bolts</td>
+</tr>
+<tr>
+<td><code>RESIST_COLD</code></td>
+<td>耐冷</td>
+<td>Resist cold</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<hr>
+<blockquote>
+<p>🤖 このページは <code>lib/edit/ArtifactDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
+This page is auto-generated from <code>lib/edit/ArtifactDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
+生成 / Generated: 2026-07-04 00:47 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
