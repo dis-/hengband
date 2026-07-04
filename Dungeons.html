@@ -42,386 +42,383 @@
 </aside><main class="content"><h1>ダンジョン一覧 / Dungeon List</h1>
 <p>変愚蛮怒のダンジョン定義。プレイヤーが荒野（ワールドマップ）の各地点から潜れる21のダンジョンを規定します。各ダンジョンは深さの範囲（最浅・最深階、1階=50フィート）、入場に必要なプレイヤーレベル、出現モンスターの種別制限、生成される巣（nest）・落し穴部屋（pit）の種類、床・壁の地形、そして地形生成を制御するフラグを持ちます。「鉄獄（Angband）」が本編の主ダンジョンで、最深127階（6350フィート）まで続きます。<code>final_floor</code> を持つダンジョンは最深階に守護者（ボスモンスター）や固定アーティファクト・アイテムが配置されます。<code>wild_y</code>/<code>wild_x</code> は荒野マップ上の入口座標です。</p>
 <p>Dungeon definitions for Hengband. These govern the 21 dungeons the player can descend into from locations on the wilderness (overworld) map. Each dungeon specifies its depth range (min/max floor, where one floor = 50 feet), the minimum player level required to enter, restrictions on which monster kinds spawn, the kinds of monster nests and pits that can generate, floor and wall terrain, and flags controlling level generation. &quot;Angband&quot; (鉄獄) is the main dungeon of the game, running to a maximum of floor 127 (6350 feet). Dungeons with a <code>final_floor</code> place a guardian boss and/or fixed artifact/item on their deepest level. <code>wild_y</code>/<code>wild_x</code> are the entrance coordinates on the wilderness map.</p>
-<div class="tablewrap"><table class="sortable">
-<thead>
-<tr>
-<th>ID / ID</th>
-<th>名前 / Name</th>
-<th>深さ (最浅〜最深) / Depth (min–max)</th>
-<th>必要Lv / Min PL</th>
-<th>荒野座標 (y,x) / Wild (y,x)</th>
-<th>説明 / Description</th>
-<th>種別条件 / Filter mode</th>
-<th>モンスター種別 / Monster kinds</th>
-<th>出現記号 / Symbols</th>
-<th>巣穴 (pit) / Pits</th>
-<th>巣 (nest) / Nests</th>
-<th>生成フラグ / Gen flags</th>
-<th>最深階配置 / Final floor</th>
-<th>良/優品率 / Good/Great %</th>
-<th>通常モンスター率 / Normal rate %</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>荒野<br>Wilderness</td>
-<td>—</td>
-<td>0</td>
-<td>0, 0</td>
-<td>荒野<br>wilderness</td>
-<td>制限なし/No restriction</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>—</td>
-<td>75%/20%</td>
-<td>100</td>
-</tr>
-<tr>
-<td>1</td>
-<td>鉄獄<br>Angband</td>
-<td>1–127</td>
-<td>30</td>
-<td>40, 57</td>
-<td>鉄獄への入り口<br>the entrance to the Dungeon of Angband</td>
-<td>制限なし/No restriction</td>
-<td></td>
-<td></td>
-<td>オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン, ダークエルフ</td>
-<td>クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 狂気, 犬小屋, 動物園, 教会, アンデッド</td>
-<td>洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, カーテン, ガラスの部屋, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, アーケード(店舗街), 酸の湖, 酸の川, 毒の湖, 毒の川</td>
-<td>—</td>
-<td>75%/20%</td>
-<td>100</td>
-</tr>
-<tr>
-<td>2</td>
-<td>イークの洞穴<br>Yeek cave</td>
-<td>1–13</td>
-<td>1</td>
-<td>48, 5</td>
-<td>イークの住みかへと続く小さな洞穴<br>the entrance to the cave leading to the Yeek's den</td>
-<td>いずれかを満たす/Match any flag</td>
-<td></td>
-<td>y</td>
-<td></td>
-<td></td>
-<td>ヴォルトなし, 初心者向け, 洞窟</td>
-<td>guardian#237, object#426</td>
-<td>75%/20%</td>
-<td>25</td>
-</tr>
-<tr>
-<td>3</td>
-<td>オークの洞窟<br>Orc cave</td>
-<td>10–23</td>
-<td>5</td>
-<td>45, 30</td>
-<td>オークの洞窟へ続く薄暗いトンネル<br>a dark tunnel leading to an Orc Cave</td>
-<td>いずれかを満たす/Match any flag</td>
-<td>オーク, トロル</td>
-<td>o, O, T</td>
-<td>オーク, シンボル(善), シンボル(悪)</td>
-<td>クローン, シンボル(善), シンボル(悪), 狂気, 犬小屋</td>
-<td>洞窟, 水の川, 洞穴(巨大空洞), 樹木の湖, 破壊された領域, 最大</td>
-<td>guardian#373, object#148</td>
-<td>75%/20%</td>
-<td>15</td>
-</tr>
-<tr>
-<td>4</td>
-<td>迷宮<br>Labyrinth</td>
-<td>10–18</td>
-<td>1</td>
-<td>57, 31</td>
-<td>恐るべき奇妙な迷宮<br>the frightening entrance to the Labyrinth</td>
-<td>制限なし/No restriction</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>迷路, 最小, 地図を忘れる</td>
-<td>guardian#1034, object#354</td>
-<td>75%/20%</td>
-<td>100</td>
-</tr>
-<tr>
-<td>5</td>
-<td>竜の住みか<br>Dragon's lair</td>
-<td>60–72</td>
-<td>25</td>
-<td>28, 74</td>
-<td>竜の住みかへ続く大きく、薄暗い恐るべきトンネル<br>a big tunnel leading to a Dragon's Lair</td>
-<td>いずれかを満たす/Match any flag</td>
-<td>ドラゴン</td>
-<td>d, D</td>
-<td>トロル, 巨人, シンボル(悪), ドラゴン</td>
-<td>クローン, 犬小屋, 動物園</td>
-<td>最大, 溶岩の川, 洞穴(巨大空洞), 破壊された領域, 洞窟, 溶岩の湖, 樹木の湖, 瓦礫の湖, 酸の湖, 酸の川, 毒の湖, 毒の川</td>
-<td>—</td>
-<td>75%/20%</td>
-<td>15</td>
-</tr>
-<tr>
-<td>6</td>
-<td>墓地<br>Graveyard</td>
-<td>40–70</td>
-<td>18</td>
-<td>19, 85</td>
-<td>墓地の地下への穴<br>a hole to the Graveyard underground</td>
-<td>いずれかを満たす/Match any flag</td>
-<td>アンデッド, 非生物</td>
-<td></td>
-<td>狂気, シンボル(悪), デーモン</td>
-<td>クローン, ゼリー, シンボル(悪), ミミック, 狂気, 犬小屋, アンデッド</td>
-<td>水の川, 破壊された領域, 闘技場(障害物なし広間), 水の湖, 瓦礫の湖, 毒の湖, 毒の川</td>
-<td>guardian#804, artifact#89</td>
-<td>75%/20%</td>
-<td>6</td>
-</tr>
-<tr>
-<td>7</td>
-<td>森<br>Forest</td>
-<td>15–32</td>
-<td>5</td>
-<td>53, 63</td>
-<td>森へ続く草の道<br>a path leading to a Forest</td>
-<td>いずれかを満たす/Match any flag</td>
-<td>動物, 森林に出現</td>
-<td>S, J, Z, #</td>
-<td>オーク</td>
-<td>ゼリー, ミミック, 犬小屋</td>
-<td>扉なし, 水の川</td>
-<td>guardian#481, object#592</td>
-<td>75%/20%</td>
-<td>23</td>
-</tr>
-<tr>
-<td>8</td>
-<td>火山<br>Volcano</td>
-<td>50–60</td>
-<td>18</td>
-<td>53, 13</td>
-<td>火山の中心への穴<br>a hole to the center of the Volcano</td>
-<td>いずれかを満たす/Match any flag</td>
-<td>火炎耐性(免疫), 飛行可能, 火山に出現</td>
-<td></td>
-<td>オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), ドラゴン, デーモン</td>
-<td>クローン, シンボル(善), シンボル(悪), ミミック, 狂気, 犬小屋, 動物園, アンデッド</td>
-<td>洞窟, 洞穴(巨大空洞), 溶岩の湖, 溶岩の川, 破壊された領域</td>
-<td>guardian#972, object#629</td>
-<td>80%/30%</td>
-<td>0</td>
-</tr>
-<tr>
-<td>9</td>
-<td>地獄<br>Hell</td>
-<td>666–696</td>
-<td>50</td>
-<td>62, 94</td>
-<td>地獄への階段<br>the stairway to Hell</td>
-<td>全条件を満たす/Match all flags</td>
-<td>火炎耐性(免疫), 邪悪</td>
-<td></td>
-<td>狂気, ドラゴン, デーモン</td>
-<td>動物園, アンデッド</td>
-<td>洞穴(巨大空洞), 溶岩の湖, 溶岩の川, クリア対象(勝利), 最大</td>
-<td>—</td>
-<td>90%/77%</td>
-<td>0</td>
-</tr>
-<tr>
-<td>10</td>
-<td>天界<br>Heaven</td>
-<td>555–585</td>
-<td>50</td>
-<td>2, 94</td>
-<td>天界へと通じる道<br>the way to Heaven</td>
-<td>全条件を満たす/Match all flags</td>
-<td>善良</td>
-<td></td>
-<td>教会</td>
-<td>シンボル(善), 教会</td>
-<td>水の川, クリア対象(勝利), 最大, ガラスの部屋</td>
-<td>—</td>
-<td>85%/35%</td>
-<td>0</td>
-</tr>
-<tr>
-<td>11</td>
-<td>水没した遺跡<br>Numenor</td>
-<td>55–75</td>
-<td>30</td>
-<td>27, 30</td>
-<td>失われた地ヌメノールへの水没した道<br>a submerged way to the lost land of Numenor</td>
-<td>いずれかを満たす/Match any flag</td>
-<td>泳ぐことができる, 飛行可能, 水棲生物, 海洋に出現</td>
-<td></td>
-<td></td>
-<td></td>
-<td>水の湖, 水の川, 破壊された領域</td>
-<td>guardian#854, artifact#107</td>
-<td>80%/30%</td>
-<td>0</td>
-</tr>
-<tr>
-<td>12</td>
-<td>城<br>Castle</td>
-<td>20–65</td>
-<td>30</td>
-<td>34, 88</td>
-<td>城<br>the entrance to the Castle</td>
-<td>いずれかを満たす/Match any flag</td>
-<td>デーモン</td>
-<td>p, h, H, g</td>
-<td>オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, デーモン, ダークエルフ</td>
-<td>クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 狂気, 教会, アンデッド</td>
-<td>闘技場(障害物なし広間), 洞窟なし, カーテン, ガラスの部屋</td>
-<td>guardian#882</td>
-<td>75%/20%</td>
-<td>25</td>
-</tr>
-<tr>
-<td>13</td>
-<td>ルルイエ<br>R'lyeh</td>
-<td>80–96</td>
-<td>45</td>
-<td>3, 40</td>
-<td>ルルイエ<br>a way to R'lyeh</td>
-<td>いずれかを満たす/Match any flag</td>
-<td>デーモン, 狂気(正気を失わせる)</td>
-<td></td>
-<td>狂気, シンボル(悪), ドラゴン, デーモン</td>
-<td>クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 狂気, アンデッド</td>
-<td>闘技場(障害物なし広間), 大きい, 水の川, 水の湖, 酸の湖, 酸の川, 毒の湖, 毒の川</td>
-<td>guardian#857, artifact#129</td>
-<td>75%/20%</td>
-<td>25</td>
-</tr>
-<tr>
-<td>14</td>
-<td>山<br>Mountain</td>
-<td>25–50</td>
-<td>20</td>
-<td>46, 76</td>
-<td>山<br>a way leading to the mountain</td>
-<td>いずれかを満たす/Match any flag</td>
-<td>トロル, 巨人, 飛行可能, 動物, 山地に出現</td>
-<td>O, Y, H</td>
-<td>オーク, トロル, 巨人, シンボル(善), シンボル(悪), ドラゴン</td>
-<td>クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 犬小屋, 動物園</td>
-<td>水の川, 洞窟, 洞穴(巨大空洞), 扉なし, 最大</td>
-<td>guardian#468, object#239</td>
-<td>75%/20%</td>
-<td>25</td>
-</tr>
-<tr>
-<td>15</td>
-<td>金鉱<br>Mine</td>
-<td>75–80</td>
-<td>50</td>
-<td>23, 49</td>
-<td>金鉱<br>the entrance to the Mine</td>
-<td>いずれかを満たす/Match any flag</td>
-<td></td>
-<td>$</td>
-<td></td>
-<td>ミミック</td>
-<td>水の川, 洞窟, 洞穴(巨大空洞), 最小, 溶岩の川, 破壊された領域, 酸の湖, 酸の川</td>
-<td>—</td>
-<td>80%/25%</td>
-<td>1</td>
-</tr>
-<tr>
-<td>16</td>
-<td>反魔法の洞窟<br>Anti-magic cave</td>
-<td>40–50</td>
-<td>30</td>
-<td>6, 84</td>
-<td>反魔法の洞窟<br>the entrance to the cave filled with anti-magic cloud</td>
-<td>制限なし/No restriction</td>
-<td></td>
-<td></td>
-<td>オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン</td>
-<td>クローン, シンボル(善), シンボル(悪), 狂気, 犬小屋, 動物園, 教会</td>
-<td>洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, 魔法禁止(反魔法)</td>
-<td>—</td>
-<td>75%/20%</td>
-<td>0</td>
-</tr>
-<tr>
-<td>17</td>
-<td>反攻撃の洞窟<br>Anti-melee cave</td>
-<td>40–50</td>
-<td>30</td>
-<td>45, 47</td>
-<td>反攻撃の洞窟<br>the entrance to the cave filled with restricting magical field</td>
-<td>制限なし/No restriction</td>
-<td></td>
-<td></td>
-<td>オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン</td>
-<td>クローン, シンボル(善), シンボル(悪), 狂気, 犬小屋, 動物園, 教会</td>
-<td>洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, ガラスの部屋, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, 近接攻撃禁止</td>
-<td>—</td>
-<td>75%/20%</td>
-<td>0</td>
-</tr>
-<tr>
-<td>18</td>
-<td>カメレオン洞<br>Chameleon cave</td>
-<td>30–45</td>
-<td>30</td>
-<td>52, 94</td>
-<td>カメレオンだけが棲息する洞窟<br>the entrance to the chameleon's den</td>
-<td>いずれかを満たす/Match any flag</td>
-<td>カメレオン</td>
-<td></td>
-<td></td>
-<td></td>
-<td>洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, カメレオン出現</td>
-<td>guardian#1041, object#617</td>
-<td>75%/20%</td>
-<td>0</td>
-</tr>
-<tr>
-<td>19</td>
-<td>暗闇の洞窟<br>Dark cave</td>
-<td>55–72</td>
-<td>30</td>
-<td>12, 57</td>
-<td>暗闇の洞窟<br>the dark entrance to the cave filled with magical darkness</td>
-<td>制限なし/No restriction</td>
-<td></td>
-<td></td>
-<td>オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン, ダークエルフ</td>
-<td>クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 狂気, 犬小屋, 動物園, 教会, アンデッド</td>
-<td>洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, 小さい, ガラスの部屋, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, 酸の湖, 酸の川, 毒の湖, 毒の川, 暗黒(照明なし)</td>
-<td>guardian#803</td>
-<td>80%/30%</td>
-<td>100</td>
-</tr>
-<tr>
-<td>20</td>
-<td>ガラスの城<br>Glass castle</td>
-<td>40–60</td>
-<td>30</td>
-<td>40, 37</td>
-<td>ガラスの城<br>the entrance to the glass castle</td>
-<td>いずれかを満たす/Match any flag</td>
-<td>透明, 光源を持つ(弱), 自身が発光(弱), 光源を持つ(強), 自身が発光(強), 暗黒を持つ(弱), 自身が暗黒(弱), 暗黒を持つ(強), 自身が暗黒(強)</td>
-<td></td>
-<td>狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン</td>
-<td>クローン, シンボル(善), シンボル(悪), ミミック, 狂気, 教会, アンデッド</td>
-<td>闘技場(障害物なし広間), 洞窟なし, カーテン, ガラスの扉, ガラスの部屋</td>
-<td>—</td>
-<td>75%/20%</td>
-<td>0</td>
-</tr>
-</tbody>
-</table></div>
+<p><a href="#dg-0">荒野</a> ・ <a href="#dg-1">鉄獄</a> ・ <a href="#dg-2">イークの洞穴</a> ・ <a href="#dg-3">オークの洞窟</a> ・ <a href="#dg-4">迷宮</a> ・ <a href="#dg-5">竜の住みか</a> ・ <a href="#dg-6">墓地</a> ・ <a href="#dg-7">森</a> ・ <a href="#dg-8">火山</a> ・ <a href="#dg-9">地獄</a> ・ <a href="#dg-10">天界</a> ・ <a href="#dg-11">水没した遺跡</a> ・ <a href="#dg-12">城</a> ・ <a href="#dg-13">ルルイエ</a> ・ <a href="#dg-14">山</a> ・ <a href="#dg-15">金鉱</a> ・ <a href="#dg-16">反魔法の洞窟</a> ・ <a href="#dg-17">反攻撃の洞窟</a> ・ <a href="#dg-18">カメレオン洞</a> ・ <a href="#dg-19">暗闇の洞窟</a> ・ <a href="#dg-20">ガラスの城</a></p>
+<p><a name="dg-0"></a></p>
+<h2>荒野 / Wilderness</h2>
+<blockquote>
+<p>荒野<br>wilderness</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 0</li>
+<li><strong>必要Lv / Min PL</strong>: 0</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 0, 0</li>
+<li><strong>種別条件 / Filter mode</strong>: 制限なし/No restriction</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 100</li>
+</ul>
+<p><a name="dg-1"></a></p>
+<h2>鉄獄 / Angband</h2>
+<blockquote>
+<p>鉄獄への入り口<br>the entrance to the Dungeon of Angband</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 1</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 1–127</li>
+<li><strong>必要Lv / Min PL</strong>: 30</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 40, 57</li>
+<li><strong>種別条件 / Filter mode</strong>: 制限なし/No restriction</li>
+<li><strong>巣穴 (pit) / Pits</strong>: オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン, ダークエルフ</li>
+<li><strong>巣 (nest) / Nests</strong>: クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 狂気, 犬小屋, 動物園, 教会, アンデッド</li>
+<li><strong>生成フラグ / Gen flags</strong>: 洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, カーテン, ガラスの部屋, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, アーケード(店舗街), 酸の湖, 酸の川, 毒の湖, 毒の川</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 100</li>
+</ul>
+<p><a name="dg-2"></a></p>
+<h2>イークの洞穴 / Yeek cave</h2>
+<blockquote>
+<p>イークの住みかへと続く小さな洞穴<br>the entrance to the cave leading to the Yeek's den</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 2</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 1–13</li>
+<li><strong>必要Lv / Min PL</strong>: 1</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 48, 5</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>出現記号 / Symbols</strong>: y</li>
+<li><strong>生成フラグ / Gen flags</strong>: ヴォルトなし, 初心者向け, 洞窟</li>
+<li><strong>最深階配置 / Final floor</strong>: guardian#237, object#426</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 25</li>
+</ul>
+<p><a name="dg-3"></a></p>
+<h2>オークの洞窟 / Orc cave</h2>
+<blockquote>
+<p>オークの洞窟へ続く薄暗いトンネル<br>a dark tunnel leading to an Orc Cave</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 3</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 10–23</li>
+<li><strong>必要Lv / Min PL</strong>: 5</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 45, 30</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: オーク, トロル</li>
+<li><strong>出現記号 / Symbols</strong>: o, O, T</li>
+<li><strong>巣穴 (pit) / Pits</strong>: オーク, シンボル(善), シンボル(悪)</li>
+<li><strong>巣 (nest) / Nests</strong>: クローン, シンボル(善), シンボル(悪), 狂気, 犬小屋</li>
+<li><strong>生成フラグ / Gen flags</strong>: 洞窟, 水の川, 洞穴(巨大空洞), 樹木の湖, 破壊された領域, 最大</li>
+<li><strong>最深階配置 / Final floor</strong>: guardian#373, object#148</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 15</li>
+</ul>
+<p><a name="dg-4"></a></p>
+<h2>迷宮 / Labyrinth</h2>
+<blockquote>
+<p>恐るべき奇妙な迷宮<br>the frightening entrance to the Labyrinth</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 4</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 10–18</li>
+<li><strong>必要Lv / Min PL</strong>: 1</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 57, 31</li>
+<li><strong>種別条件 / Filter mode</strong>: 制限なし/No restriction</li>
+<li><strong>生成フラグ / Gen flags</strong>: 迷路, 最小, 地図を忘れる</li>
+<li><strong>最深階配置 / Final floor</strong>: guardian#1034, object#354</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 100</li>
+</ul>
+<p><a name="dg-5"></a></p>
+<h2>竜の住みか / Dragon's lair</h2>
+<blockquote>
+<p>竜の住みかへ続く大きく、薄暗い恐るべきトンネル<br>a big tunnel leading to a Dragon's Lair</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 5</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 60–72</li>
+<li><strong>必要Lv / Min PL</strong>: 25</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 28, 74</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: ドラゴン</li>
+<li><strong>出現記号 / Symbols</strong>: d, D</li>
+<li><strong>巣穴 (pit) / Pits</strong>: トロル, 巨人, シンボル(悪), ドラゴン</li>
+<li><strong>巣 (nest) / Nests</strong>: クローン, 犬小屋, 動物園</li>
+<li><strong>生成フラグ / Gen flags</strong>: 最大, 溶岩の川, 洞穴(巨大空洞), 破壊された領域, 洞窟, 溶岩の湖, 樹木の湖, 瓦礫の湖, 酸の湖, 酸の川, 毒の湖, 毒の川</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 15</li>
+</ul>
+<p><a name="dg-6"></a></p>
+<h2>墓地 / Graveyard</h2>
+<blockquote>
+<p>墓地の地下への穴<br>a hole to the Graveyard underground</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 6</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 40–70</li>
+<li><strong>必要Lv / Min PL</strong>: 18</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 19, 85</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: アンデッド, 非生物</li>
+<li><strong>巣穴 (pit) / Pits</strong>: 狂気, シンボル(悪), デーモン</li>
+<li><strong>巣 (nest) / Nests</strong>: クローン, ゼリー, シンボル(悪), ミミック, 狂気, 犬小屋, アンデッド</li>
+<li><strong>生成フラグ / Gen flags</strong>: 水の川, 破壊された領域, 闘技場(障害物なし広間), 水の湖, 瓦礫の湖, 毒の湖, 毒の川</li>
+<li><strong>最深階配置 / Final floor</strong>: guardian#804, artifact#89</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 6</li>
+</ul>
+<p><a name="dg-7"></a></p>
+<h2>森 / Forest</h2>
+<blockquote>
+<p>森へ続く草の道<br>a path leading to a Forest</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 7</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 15–32</li>
+<li><strong>必要Lv / Min PL</strong>: 5</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 53, 63</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: 動物, 森林に出現</li>
+<li><strong>出現記号 / Symbols</strong>: S, J, Z, #</li>
+<li><strong>巣穴 (pit) / Pits</strong>: オーク</li>
+<li><strong>巣 (nest) / Nests</strong>: ゼリー, ミミック, 犬小屋</li>
+<li><strong>生成フラグ / Gen flags</strong>: 扉なし, 水の川</li>
+<li><strong>最深階配置 / Final floor</strong>: guardian#481, object#592</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 23</li>
+</ul>
+<p><a name="dg-8"></a></p>
+<h2>火山 / Volcano</h2>
+<blockquote>
+<p>火山の中心への穴<br>a hole to the center of the Volcano</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 8</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 50–60</li>
+<li><strong>必要Lv / Min PL</strong>: 18</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 53, 13</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: 火炎耐性(免疫), 飛行可能, 火山に出現</li>
+<li><strong>巣穴 (pit) / Pits</strong>: オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), ドラゴン, デーモン</li>
+<li><strong>巣 (nest) / Nests</strong>: クローン, シンボル(善), シンボル(悪), ミミック, 狂気, 犬小屋, 動物園, アンデッド</li>
+<li><strong>生成フラグ / Gen flags</strong>: 洞窟, 洞穴(巨大空洞), 溶岩の湖, 溶岩の川, 破壊された領域</li>
+<li><strong>最深階配置 / Final floor</strong>: guardian#972, object#629</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 80%/30%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 0</li>
+</ul>
+<p><a name="dg-9"></a></p>
+<h2>地獄 / Hell</h2>
+<blockquote>
+<p>地獄への階段<br>the stairway to Hell</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 9</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 666–696</li>
+<li><strong>必要Lv / Min PL</strong>: 50</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 62, 94</li>
+<li><strong>種別条件 / Filter mode</strong>: 全条件を満たす/Match all flags</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: 火炎耐性(免疫), 邪悪</li>
+<li><strong>巣穴 (pit) / Pits</strong>: 狂気, ドラゴン, デーモン</li>
+<li><strong>巣 (nest) / Nests</strong>: 動物園, アンデッド</li>
+<li><strong>生成フラグ / Gen flags</strong>: 洞穴(巨大空洞), 溶岩の湖, 溶岩の川, クリア対象(勝利), 最大</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 90%/77%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 0</li>
+</ul>
+<p><a name="dg-10"></a></p>
+<h2>天界 / Heaven</h2>
+<blockquote>
+<p>天界へと通じる道<br>the way to Heaven</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 10</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 555–585</li>
+<li><strong>必要Lv / Min PL</strong>: 50</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 2, 94</li>
+<li><strong>種別条件 / Filter mode</strong>: 全条件を満たす/Match all flags</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: 善良</li>
+<li><strong>巣穴 (pit) / Pits</strong>: 教会</li>
+<li><strong>巣 (nest) / Nests</strong>: シンボル(善), 教会</li>
+<li><strong>生成フラグ / Gen flags</strong>: 水の川, クリア対象(勝利), 最大, ガラスの部屋</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 85%/35%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 0</li>
+</ul>
+<p><a name="dg-11"></a></p>
+<h2>水没した遺跡 / Numenor</h2>
+<blockquote>
+<p>失われた地ヌメノールへの水没した道<br>a submerged way to the lost land of Numenor</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 11</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 55–75</li>
+<li><strong>必要Lv / Min PL</strong>: 30</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 27, 30</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: 泳ぐことができる, 飛行可能, 水棲生物, 海洋に出現</li>
+<li><strong>生成フラグ / Gen flags</strong>: 水の湖, 水の川, 破壊された領域</li>
+<li><strong>最深階配置 / Final floor</strong>: guardian#854, artifact#107</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 80%/30%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 0</li>
+</ul>
+<p><a name="dg-12"></a></p>
+<h2>城 / Castle</h2>
+<blockquote>
+<p>城<br>the entrance to the Castle</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 12</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 20–65</li>
+<li><strong>必要Lv / Min PL</strong>: 30</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 34, 88</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: デーモン</li>
+<li><strong>出現記号 / Symbols</strong>: p, h, H, g</li>
+<li><strong>巣穴 (pit) / Pits</strong>: オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, デーモン, ダークエルフ</li>
+<li><strong>巣 (nest) / Nests</strong>: クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 狂気, 教会, アンデッド</li>
+<li><strong>生成フラグ / Gen flags</strong>: 闘技場(障害物なし広間), 洞窟なし, カーテン, ガラスの部屋</li>
+<li><strong>最深階配置 / Final floor</strong>: guardian#882</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 25</li>
+</ul>
+<p><a name="dg-13"></a></p>
+<h2>ルルイエ / R'lyeh</h2>
+<blockquote>
+<p>ルルイエ<br>a way to R'lyeh</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 13</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 80–96</li>
+<li><strong>必要Lv / Min PL</strong>: 45</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 3, 40</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: デーモン, 狂気(正気を失わせる)</li>
+<li><strong>巣穴 (pit) / Pits</strong>: 狂気, シンボル(悪), ドラゴン, デーモン</li>
+<li><strong>巣 (nest) / Nests</strong>: クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 狂気, アンデッド</li>
+<li><strong>生成フラグ / Gen flags</strong>: 闘技場(障害物なし広間), 大きい, 水の川, 水の湖, 酸の湖, 酸の川, 毒の湖, 毒の川</li>
+<li><strong>最深階配置 / Final floor</strong>: guardian#857, artifact#129</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 25</li>
+</ul>
+<p><a name="dg-14"></a></p>
+<h2>山 / Mountain</h2>
+<blockquote>
+<p>山<br>a way leading to the mountain</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 14</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 25–50</li>
+<li><strong>必要Lv / Min PL</strong>: 20</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 46, 76</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: トロル, 巨人, 飛行可能, 動物, 山地に出現</li>
+<li><strong>出現記号 / Symbols</strong>: O, Y, H</li>
+<li><strong>巣穴 (pit) / Pits</strong>: オーク, トロル, 巨人, シンボル(善), シンボル(悪), ドラゴン</li>
+<li><strong>巣 (nest) / Nests</strong>: クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 犬小屋, 動物園</li>
+<li><strong>生成フラグ / Gen flags</strong>: 水の川, 洞窟, 洞穴(巨大空洞), 扉なし, 最大</li>
+<li><strong>最深階配置 / Final floor</strong>: guardian#468, object#239</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 25</li>
+</ul>
+<p><a name="dg-15"></a></p>
+<h2>金鉱 / Mine</h2>
+<blockquote>
+<p>金鉱<br>the entrance to the Mine</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 15</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 75–80</li>
+<li><strong>必要Lv / Min PL</strong>: 50</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 23, 49</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>出現記号 / Symbols</strong>: $</li>
+<li><strong>巣 (nest) / Nests</strong>: ミミック</li>
+<li><strong>生成フラグ / Gen flags</strong>: 水の川, 洞窟, 洞穴(巨大空洞), 最小, 溶岩の川, 破壊された領域, 酸の湖, 酸の川</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 80%/25%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 1</li>
+</ul>
+<p><a name="dg-16"></a></p>
+<h2>反魔法の洞窟 / Anti-magic cave</h2>
+<blockquote>
+<p>反魔法の洞窟<br>the entrance to the cave filled with anti-magic cloud</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 16</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 40–50</li>
+<li><strong>必要Lv / Min PL</strong>: 30</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 6, 84</li>
+<li><strong>種別条件 / Filter mode</strong>: 制限なし/No restriction</li>
+<li><strong>巣穴 (pit) / Pits</strong>: オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン</li>
+<li><strong>巣 (nest) / Nests</strong>: クローン, シンボル(善), シンボル(悪), 狂気, 犬小屋, 動物園, 教会</li>
+<li><strong>生成フラグ / Gen flags</strong>: 洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, 魔法禁止(反魔法)</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 0</li>
+</ul>
+<p><a name="dg-17"></a></p>
+<h2>反攻撃の洞窟 / Anti-melee cave</h2>
+<blockquote>
+<p>反攻撃の洞窟<br>the entrance to the cave filled with restricting magical field</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 17</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 40–50</li>
+<li><strong>必要Lv / Min PL</strong>: 30</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 45, 47</li>
+<li><strong>種別条件 / Filter mode</strong>: 制限なし/No restriction</li>
+<li><strong>巣穴 (pit) / Pits</strong>: オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン</li>
+<li><strong>巣 (nest) / Nests</strong>: クローン, シンボル(善), シンボル(悪), 狂気, 犬小屋, 動物園, 教会</li>
+<li><strong>生成フラグ / Gen flags</strong>: 洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, ガラスの部屋, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, 近接攻撃禁止</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 0</li>
+</ul>
+<p><a name="dg-18"></a></p>
+<h2>カメレオン洞 / Chameleon cave</h2>
+<blockquote>
+<p>カメレオンだけが棲息する洞窟<br>the entrance to the chameleon's den</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 18</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 30–45</li>
+<li><strong>必要Lv / Min PL</strong>: 30</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 52, 94</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: カメレオン</li>
+<li><strong>生成フラグ / Gen flags</strong>: 洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, カメレオン出現</li>
+<li><strong>最深階配置 / Final floor</strong>: guardian#1041, object#617</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 0</li>
+</ul>
+<p><a name="dg-19"></a></p>
+<h2>暗闇の洞窟 / Dark cave</h2>
+<blockquote>
+<p>暗闇の洞窟<br>the dark entrance to the cave filled with magical darkness</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 19</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 55–72</li>
+<li><strong>必要Lv / Min PL</strong>: 30</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 12, 57</li>
+<li><strong>種別条件 / Filter mode</strong>: 制限なし/No restriction</li>
+<li><strong>巣穴 (pit) / Pits</strong>: オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン, ダークエルフ</li>
+<li><strong>巣 (nest) / Nests</strong>: クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 狂気, 犬小屋, 動物園, 教会, アンデッド</li>
+<li><strong>生成フラグ / Gen flags</strong>: 洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, 小さい, ガラスの部屋, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, 酸の湖, 酸の川, 毒の湖, 毒の川, 暗黒(照明なし)</li>
+<li><strong>最深階配置 / Final floor</strong>: guardian#803</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 80%/30%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 100</li>
+</ul>
+<p><a name="dg-20"></a></p>
+<h2>ガラスの城 / Glass castle</h2>
+<blockquote>
+<p>ガラスの城<br>the entrance to the glass castle</p>
+</blockquote>
+<ul>
+<li><strong>ID</strong>: 20</li>
+<li><strong>深さ (最浅〜最深) / Depth (min–max)</strong>: 40–60</li>
+<li><strong>必要Lv / Min PL</strong>: 30</li>
+<li><strong>荒野座標 (y,x) / Wild (y,x)</strong>: 40, 37</li>
+<li><strong>種別条件 / Filter mode</strong>: いずれかを満たす/Match any flag</li>
+<li><strong>モンスター種別 / Monster kinds</strong>: 透明, 光源を持つ(弱), 自身が発光(弱), 光源を持つ(強), 自身が発光(強), 暗黒を持つ(弱), 自身が暗黒(弱), 暗黒を持つ(強), 自身が暗黒(強)</li>
+<li><strong>巣穴 (pit) / Pits</strong>: 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン</li>
+<li><strong>巣 (nest) / Nests</strong>: クローン, シンボル(善), シンボル(悪), ミミック, 狂気, 教会, アンデッド</li>
+<li><strong>生成フラグ / Gen flags</strong>: 闘技場(障害物なし広間), 洞窟なし, カーテン, ガラスの扉, ガラスの部屋</li>
+<li><strong>良/優品率 / Good/Great %</strong>: 75%/20%</li>
+<li><strong>通常モンスター率 / Normal rate %</strong>: 0</li>
+</ul>
 <hr>
 <h3>凡例 / Legend</h3>
 <details>
@@ -933,7 +930,7 @@
 <blockquote>
 <p>🤖 このページは <code>lib/edit/DungeonDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
 This page is auto-generated from <code>lib/edit/DungeonDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
-生成 / Generated: 2026-07-04 01:23 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 01:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
