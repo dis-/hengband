@@ -123,6 +123,7 @@
 <h2>概要</h2>
 <p>突然変異のランダム発動型は、src/mutation/mutation-processor.cpp の process_world_aux_mutation() で、10ゲームターンが進行するごとに判定される。プレイヤーに突然変異がない場合、phase out 中、または荒野移動中は処理されない。</p>
 <p>一部の発動は反魔法状態で抑制される。耐性や状態でも効果が抑制され、例として恐怖耐性、因果混乱耐性、混乱耐性、カオス耐性、能力維持、遅消化、反テレポート、VTELEPORT 変異などが条件に使われている。</p>
+<p>なお <code>PlayerMutationType</code> の列挙上は 32〜63 がランダム発動枠に割り当てられているが、そのうちサソリの尻尾・ツノ・クチバシ・象の鼻・邪悪な触手（近接時の自然攻撃）とカオスパトロン（褒美判定）は process_world_aux_mutation() 内に時間経過による発動判定を持たない。これらは常時有効な受動能力であるため <a href="Mutations-Constant.html">常時型突然変異</a> に分類している。したがって時間経過で自動発動する変異は以下の 26 種である。</p>
 <h2>一覧</h2>
 <div class="tablewrap"><table class="sortable">
 <thead>
@@ -164,21 +165,6 @@
 <td>行動を妨害し、自分中心に毒属性のボールを威力レベル、半径3で発生させる。</td>
 </tr>
 <tr>
-<td>SCOR_TAIL/サソリの尻尾</td>
-<td>process_world_aux_mutation() 内に時間経過発動判定なし</td>
-<td>近接攻撃時の自然攻撃。3d7、重量5、毒属性で攻撃する。</td>
-</tr>
-<tr>
-<td>HORNS/ツノ</td>
-<td>process_world_aux_mutation() 内に時間経過発動判定なし</td>
-<td>近接攻撃時の自然攻撃。2d6、重量15、通常攻撃属性で攻撃する。</td>
-</tr>
-<tr>
-<td>BEAK/クチバシ</td>
-<td>process_world_aux_mutation() 内に時間経過発動判定なし</td>
-<td>近接攻撃時の自然攻撃。2d4、重量5、通常攻撃属性で攻撃する。</td>
-</tr>
-<tr>
 <td>ATT_DEMON/デーモンを引き付ける</td>
 <td>randint1(6666)==666</td>
 <td>反魔法でなければデーモンを召喚する。1/6 でペット、それ以外はユニーク許可かつ非ペット。召喚成功時に行動を妨害する。</td>
@@ -204,19 +190,9 @@
 <td>現在グリッドが CAVE_GLOW かつ CAVE_MNDK でなければ HP10 回復。装備光源が通常光源で燃料ありなら燃料/20 回復し燃料半減。tim_emission があればその値だけ回復して0にする。半径10を暗くし、影響モンスターに50ダメージ。</td>
 </tr>
 <tr>
-<td>TRUNK/象の鼻</td>
-<td>process_world_aux_mutation() 内に時間経過発動判定なし</td>
-<td>近接攻撃時の自然攻撃。1d4、重量35、通常攻撃属性で攻撃する。</td>
-</tr>
-<tr>
 <td>ATT_ANIMAL/動物を引き寄せる</td>
 <td>one_in_(7000)</td>
 <td>反魔法でなければ動物を召喚する。1/3 でペット、それ以外はユニーク許可かつ非ペット。召喚成功時に行動を妨害する。</td>
-</tr>
-<tr>
-<td>TENTACLES/邪悪な触手</td>
-<td>process_world_aux_mutation() 内に時間経過発動判定なし</td>
-<td>近接攻撃時の自然攻撃。2d5、重量5、通常攻撃属性で攻撃する。</td>
 </tr>
 <tr>
 <td>RAW_CHAOS/純カオス</td>
@@ -259,11 +235,6 @@
 <td>遅消化がなければ行動を妨害し、食料値を PY_FOOD_WEAK にする。歌唱中なら停止し、詠唱中の呪術があれば全停止する。</td>
 </tr>
 <tr>
-<td>CHAOS_GIFT/カオスパトロン</td>
-<td>process_world_aux_mutation() 内に時間経過発動判定なし</td>
-<td>プレイヤー情報では「カオスの守護悪魔から褒美をうけとる」。src/player/patron.cpp ではカオス戦士またはこの変異を持つ場合、Patron::admire() で守護神の声のメッセージが出る。</td>
-</tr>
-<tr>
 <td>WALK_SHAD/ランダムな現実変容</td>
 <td>one_in_(12000)</td>
 <td>反魔法でなくアリーナ内でなければ reserve_alter_reality(player_ptr, randint0(21)+15) を実行する。すでに現実変容予約中なら解除、そうでなければそのターン数で現実変容を予約する。</td>
@@ -298,7 +269,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/mutation/mutation-flag-types.h</code>, <code>src/racial/mutation-racial-selector.cpp</code>, <code>src/mutation/mutation-processor.cpp</code>, <code>src/io/mutations-dump.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 20:48 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 23:07 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

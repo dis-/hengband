@@ -123,6 +123,7 @@
 <h2>概要</h2>
 <p>常時型の突然変異は、取得している間だけ常にプレイヤーの能力値、技能値、AC、耐性・弱点フラグ、オーラなどへ反映される突然変異である。以下は <code>src/io/mutations-dump.cpp</code> の「あなたは〜」表示文と、<code>src/player</code> 以下の能力値・ステータス・特性フラグ計算で確認できた実補正だけを整理した。</p>
 <p>取得時には相反する突然変異を打ち消す処理が多い。確認できた相反関係は、超人的な力↔虚弱、生体コンピュータ↔精神薄弱、鉄の肌↔鱗肌/腐敗した肉体/イボ肌、腐敗した肉体↔急回復、しなやかな肉体↔関節の痛みである。また恐れ知らずは常時型一覧外の臆病と相反する。幸運・不運は取得時の相互打ち消しは確認できなかったが、アイテム生成補正では白いオーラが優先され、不運補正は白いオーラがない場合だけ適用される。</p>
+<p>さらに、<code>PlayerMutationType</code> の列挙ではランダム発動枠（32〜63）に置かれているが process_world_aux_mutation() に時間経過発動を持たない受動能力（自然攻撃5種とカオスパトロン）も、取得中つねに有効な常時型としてここに含める（<a href="Mutations-Random.html">ランダム発動型</a> からの再分類）。</p>
 <h2>一覧</h2>
 <div class="tablewrap"><table class="sortable">
 <thead>
@@ -262,10 +263,46 @@
 </tr>
 </tbody>
 </table></div>
+<h2>常時有効な受動能力（列挙上はランダム発動枠 32〜63）</h2>
+<p>以下は <code>PlayerMutationType</code> の列挙ではランダム発動枠に置かれているが、process_world_aux_mutation() に時間経過による発動判定を持たず、取得中つねに有効な受動能力である。自然攻撃5種は近接攻撃時に追加の一撃として発動し、ダイス・重量・属性は <code>src/cmd-action/cmd-attack.cpp</code> の natural_attack() で定義される。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>変異</th>
+<th>効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SCOR_TAIL/サソリの尻尾</td>
+<td>近接攻撃時に追加される自然攻撃。3d7、重量5、毒属性。</td>
+</tr>
+<tr>
+<td>HORNS/ツノ</td>
+<td>近接攻撃時に追加される自然攻撃。2d6、重量15、通常攻撃属性。</td>
+</tr>
+<tr>
+<td>BEAK/クチバシ</td>
+<td>近接攻撃時に追加される自然攻撃。2d4、重量5、通常攻撃属性。</td>
+</tr>
+<tr>
+<td>TRUNK/象の鼻</td>
+<td>近接攻撃時に追加される自然攻撃。1d4、重量35、通常攻撃属性。</td>
+</tr>
+<tr>
+<td>TENTACLES/邪悪な触手</td>
+<td>近接攻撃時に追加される自然攻撃。2d5、重量5、通常攻撃属性。</td>
+</tr>
+<tr>
+<td>CHAOS_GIFT/カオスパトロン</td>
+<td>カオスの守護悪魔から褒美を受け取れるようになる受動特性。カオス戦士またはこの変異を持つ場合に <code>src/player/patron.cpp</code> の Patron::admire() で守護神の声が発生する。時間経過による自動発動判定は持たない。</td>
+</tr>
+</tbody>
+</table></div>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/mutation/mutation-flag-types.h</code>, <code>src/racial/mutation-racial-selector.cpp</code>, <code>src/mutation/mutation-processor.cpp</code>, <code>src/io/mutations-dump.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 13:20 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 23:07 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
