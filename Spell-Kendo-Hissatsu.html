@@ -81,7 +81,7 @@
 </li>
 </ul>
 </aside><main class="content"><h1>武芸領域の呪文 / Kendo (Hissatsu) Realm Spells</h1>
-<p>武芸領域（Kendo (Hissatsu)）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>武芸領域（Kendo (Hissatsu)）の呪文書と呪文一覧。「詳細効果」はゲームのソースコードから導出したレベル依存の効果値です（Lv=プレイヤーレベル）。</p>
 <p>Spellbooks and spells of the Kendo (Hissatsu) realm.</p>
 <p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
 <h2>[武芸諸譜] / [Bugei Shofu]</h2>
@@ -99,49 +99,49 @@
 <td>0</td>
 <td>飛飯綱<br>Tobi-Izuna</td>
 <td>2マス離れたところにいるモンスターを攻撃する。<br>Attacks a monster two squares away.</td>
-<td></td>
+<td>2マス離れた敵に居合斬りを放つ（2倍打）。</td>
 </tr>
 <tr>
 <td>1</td>
 <td>五月雨斬り<br>3-Way Attack</td>
 <td>3方向に対して攻撃する。<br>Attacks in 3 directions at one time.</td>
-<td></td>
+<td>正面と左右斜めの3方向を攻撃する。</td>
 </tr>
 <tr>
 <td>2</td>
 <td>ブーメラン<br>Boomerang</td>
 <td>武器を手元に戻ってくるように投げる。戻ってこないこともある。<br>Throws current weapon. It'll return to your hand unless the action failed.</td>
-<td></td>
+<td>武器を投げつけ、手元に戻す。</td>
 </tr>
 <tr>
 <td>3</td>
 <td>焔霊<br>Burning Strike</td>
 <td>火炎耐性のないモンスターに大ダメージを与える。<br>Attacks a monster with more damage unless it has resistance to fire.</td>
-<td></td>
+<td>火炎属性の一撃。火に弱い敵に大ダメージ。</td>
 </tr>
 <tr>
 <td>4</td>
 <td>殺気感知<br>Detect Ferocity</td>
 <td>近くの思考することができるモンスターを感知する。<br>Detects all monsters except the mindless in your vicinity.</td>
-<td></td>
+<td>半径30以内の思考を持つモンスターを感知する。</td>
 </tr>
 <tr>
 <td>5</td>
 <td>みね打ち<br>Strike to Stun</td>
 <td>相手にダメージを与えないが、朦朧とさせる。<br>Attempts to stun a monster next to you.</td>
-<td></td>
+<td>峰打ちで敵を朦朧させる（ダメージは抑えめ）。</td>
 </tr>
 <tr>
 <td>6</td>
 <td>カウンター<br>Counter</td>
 <td>相手に攻撃されたときに反撃する。反撃するたびにMPを消費。<br>Prepares to counterattack. When attacked by a monster, strikes back using SP each time.</td>
-<td></td>
+<td>構えて、次に受けた近接攻撃に反撃する（乗馬中は不可）。</td>
 </tr>
 <tr>
 <td>7</td>
 <td>払い抜け<br>Harainuke</td>
 <td>攻撃した後、反対側に抜ける。<br>In one action, attacks a monster with your weapons normally and then moves to the space beyond the monster if that space is not blocked.</td>
-<td></td>
+<td>敵を攻撃し、その反対側へ通り抜ける。</td>
 </tr>
 </tbody>
 </table></div>
@@ -160,49 +160,49 @@
 <td>8</td>
 <td>サーペンツタン<br>Serpent's Tongue</td>
 <td>毒耐性のないモンスターに大ダメージを与える。<br>Attacks a monster with more damage unless it has resistance to poison.</td>
-<td></td>
+<td>毒属性の一撃。毒に弱い敵に大ダメージ。</td>
 </tr>
 <tr>
 <td>9</td>
 <td>斬魔剣弐の太刀<br>Zammaken</td>
 <td>生命のない邪悪なモンスターに大ダメージを与えるが、他のモンスターには全く効果がない。<br>Attacks an evil unliving monster with great damage. Has no effect on other monsters.</td>
-<td></td>
+<td>非生物・悪魔に特効の一撃（生命あるものには無効）。</td>
 </tr>
 <tr>
 <td>10</td>
 <td>裂風剣<br>Wind Blast</td>
 <td>攻撃した相手を後方へ吹き飛ばす。<br>Attacks an adjacent monster and blows it away.</td>
-<td></td>
+<td>攻撃した敵を後方へ吹き飛ばす一撃。</td>
 </tr>
 <tr>
 <td>11</td>
 <td>刀匠の目利き<br>Judge</td>
 <td>武器・防具を1つ識別する。レベル45以上で武器・防具の能力を完全に知ることができる。<br>Identifies a weapon or armor. <em>Identifies</em> the item at level 45.</td>
-<td></td>
+<td>アイテムを鑑定する（Lv45超なら＊鑑定＊）。</td>
 </tr>
 <tr>
 <td>12</td>
 <td>破岩斬<br>Rock Smash</td>
 <td>岩を壊し、岩石系のモンスターに大ダメージを与える。<br>Breaks rock or greatly damages a monster made of rocks.</td>
-<td></td>
+<td>岩石を破壊する一撃。岩のモンスターに特効。</td>
 </tr>
 <tr>
 <td>13</td>
 <td>乱れ雪月花<br>Midare-Setsugekka</td>
 <td>攻撃回数が増え、冷気耐性のないモンスターに大ダメージを与える。<br>Attacks a monster with an increased number of attacks and more damage unless it has resistance to cold.</td>
-<td></td>
+<td>冷気属性の連続攻撃（多段）。</td>
 </tr>
 <tr>
 <td>14</td>
 <td>急所突き<br>Spot Aiming</td>
 <td>モンスターを一撃で倒す攻撃を繰り出す。失敗すると1点しかダメージを与えられない。<br>Attempts to kill a monster instantly. If that fails, causes only 1HP of damage.</td>
-<td></td>
+<td>急所を突き、一定確率で即死させる。</td>
 </tr>
 <tr>
 <td>15</td>
 <td>魔神斬り<br>Majingiri</td>
 <td>会心の一撃で攻撃する。攻撃がかわされやすい。<br>Attempts to attack with a critical hit, but this attack is easy to evade for a monster.</td>
-<td></td>
+<td>会心率が非常に高い痛烈な一撃。</td>
 </tr>
 </tbody>
 </table></div>
@@ -221,49 +221,49 @@
 <td>16</td>
 <td>捨て身<br>Desperate Attack</td>
 <td>強力な攻撃を繰り出す。次のターンまでの間、食らうダメージが増える。<br>Attacks with all of your power, but all damage you take will be doubled for one turn.</td>
-<td></td>
+<td>全力の一撃。以後しばらく防御が下がる。</td>
 </tr>
 <tr>
 <td>17</td>
 <td>雷撃鷲爪斬<br>Lightning Eagle</td>
 <td>電撃耐性のないモンスターに非常に大きいダメージを与える。<br>Attacks a monster with more damage unless it has resistance to electricity.</td>
-<td></td>
+<td>電撃属性の一撃。電撃に弱い敵に大ダメージ。</td>
 </tr>
 <tr>
 <td>18</td>
 <td>入身<br>Rush Attack</td>
 <td>素早く相手に近寄り攻撃する。<br>Steps close to a monster and attacks at the same time.</td>
-<td></td>
+<td>離れた敵に一気に踏み込んで攻撃する。</td>
 </tr>
 <tr>
 <td>19</td>
 <td>赤流渦<br>Bloody Maelstrom</td>
 <td>自分自身も傷を作りつつ、その傷が深いほど大きい威力で全方向の敵を攻撃できる。生きていないモンスターには効果がない。<br>Attacks all adjacent monsters with power corresponding to your cuts. Then increases your cuts. Has no effect on unliving monsters.</td>
-<td></td>
+<td>自身を激しく出血させ、隣接する生命ある敵すべてを攻撃する（出血が多いほど強力）。</td>
 </tr>
 <tr>
 <td>20</td>
 <td>激震撃<br>Earthquake Blow</td>
 <td>地震を起こす。<br>Shakes dungeon structure, and results in random swapping of floors and walls.</td>
-<td></td>
+<td>地震属性の一撃。空振りでも周囲に地震（半径10）。</td>
 </tr>
 <tr>
 <td>21</td>
 <td>地走り<br>Crack</td>
 <td>衝撃波のビームを放つ。<br>Fires a shock wave as a beam.</td>
-<td></td>
+<td>武器の期待ダメージ×手数からフォースのビームを放つ（二刀は2本目を7割加算）。</td>
 </tr>
 <tr>
 <td>22</td>
 <td>気迫の雄叫び<br>War Cry</td>
 <td>視界内の全モンスターに対して轟音の攻撃を行う。さらに、近くにいるモンスターを怒らせる。<br>Damages all monsters in sight with sound. Aggravates nearby monsters.</td>
-<td></td>
+<td>雄叫びで視界内の敵に 1d(Lv×3) 轟音ダメージ。周囲のモンスターを怒らせる。</td>
 </tr>
 <tr>
 <td>23</td>
 <td>無双三段<br>Musou-Sandan</td>
 <td>強力な3段攻撃を繰り出す。<br>Attacks with three powerful strikes.</td>
-<td></td>
+<td>三段突き。各段で敵を後退させながら3回追撃する。</td>
 </tr>
 </tbody>
 </table></div>
@@ -282,49 +282,49 @@
 <td>24</td>
 <td>吸血鬼の牙<br>Vampire's Fang</td>
 <td>攻撃した相手の体力を吸いとり、自分の体力を回復させる。生命を持たないモンスターには通じない。<br>Attacks with vampiric strikes which absorb HP from a monster and heal you. Has no effect on unliving monsters.</td>
-<td></td>
+<td>攻撃で敵のHPを吸収する一撃。</td>
 </tr>
 <tr>
 <td>25</td>
 <td>幻惑<br>Moon Dazzling</td>
 <td>視界内の起きている全モンスターに朦朧、混乱、眠りを与えようとする。<br>Attempts to stun, confuse and put to sleep all waking monsters.</td>
-<td></td>
+<td>武器を揺らし、視界内の敵に幻月の一撃。威力 Lv×4（眠り・混乱の敵に特効）。</td>
 </tr>
 <tr>
 <td>26</td>
 <td>百人斬り<br>Hundred Slaughter</td>
 <td>連続して入身でモンスターを攻撃する。攻撃するたびにMPを消費。MPがなくなるか、モンスターを倒せなかったら百人斬りは終了する。<br>Performs a series of rush attacks. The series continues as long as the attacked monster dies and you have sufficient SP.</td>
-<td></td>
+<td>入身を連続で行い、敵を倒すごとにMPを消費して次の敵へ移る。</td>
 </tr>
 <tr>
 <td>27</td>
 <td>天翔龍閃<br>Dragonic Flash</td>
 <td>視界内の場所を指定して、その場所と自分の間にいる全モンスターを攻撃し、その場所に移動する。<br>Runs toward given location while attacking all monsters on the path.</td>
-<td></td>
+<td>指定地点へ抜刀テレポートし、経路上の敵を一閃で斬る（射程 視界/2）。</td>
 </tr>
 <tr>
 <td>28</td>
 <td>二重の剣撃<br>Twin Slash</td>
 <td>1ターンで2度攻撃を行う。<br>Attack twice in one turn.</td>
-<td></td>
+<td>同じ敵を続けて2回攻撃する。</td>
 </tr>
 <tr>
 <td>29</td>
 <td>虎伏絶刀勢<br>Kofuku-Zettousei</td>
 <td>強力な攻撃を行い、近くの場所にも効果が及ぶ。<br>Performs a powerful attack which even affects nearby monsters.</td>
-<td></td>
+<td>武器を振り下ろし、期待ダメージ×手数×3/2のメテオを飛ばす。</td>
 </tr>
 <tr>
 <td>30</td>
 <td>慶雲鬼忍剣<br>Keiun-Kininken</td>
 <td>自分もダメージをくらうが、相手に非常に大きなダメージを与える。アンデッドには特に効果がある。<br>Attacks a monster with extremely powerful damage, but you also take some damage. Hurts an undead monster greatly.</td>
-<td></td>
+<td>アンデッドに絶大な一撃。反動で自分も 100+1d100 ダメージを受ける。</td>
 </tr>
 <tr>
 <td>31</td>
 <td>切腹<br>Harakiri</td>
 <td>「武士道とは、死ぬことと見つけたり。」<br>'Bushido, the way of warriors, is found in death'</td>
-<td></td>
+<td>切腹する（自殺・確認あり）。</td>
 </tr>
 </tbody>
 </table></div>
@@ -332,7 +332,7 @@
 <blockquote>
 <p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
 This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
-生成 / Generated: 2026-07-04 03:32 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 03:41 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

@@ -81,7 +81,7 @@
 </li>
 </ul>
 </aside><main class="content"><h1>歌領域の呪文 / Music Realm Spells</h1>
-<p>歌領域（Music）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>歌領域（Music）の呪文書と呪文一覧。「詳細効果」はゲームのソースコードから導出したレベル依存の効果値です（Lv=プレイヤーレベル）。</p>
 <p>Spellbooks and spells of the Music realm.</p>
 <p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
 <h2>[見習い教本] / [Apprentice Handbook]</h2>
@@ -99,49 +99,49 @@
 <td>0</td>
 <td>遅鈍の歌<br>Song of Holding</td>
 <td>視界内の全てのモンスターを減速させる。抵抗されると無効。<br>Attempts to slow all monsters in sight.</td>
-<td></td>
+<td>【歌】歌い続ける間、視界内の敵を毎ターン減速させる。威力 Lv。</td>
 </tr>
 <tr>
 <td>1</td>
 <td>祝福の歌<br>Song of Blessing</td>
 <td>命中率とACのボーナスを得る。<br>Gives a bonus to hit and AC for a few turns.</td>
-<td></td>
+<td>【歌】歌い続ける間、祝福（命中率・ACにボーナス）を得る。</td>
 </tr>
 <tr>
 <td>2</td>
 <td>崩壊の音色<br>Wrecking Note</td>
 <td>轟音のボルトを放つ。<br>Fires a bolt of sound.</td>
-<td></td>
+<td>【単発】轟音のボルト。ダメージ (4+(Lv-1)/5)d4。</td>
 </tr>
 <tr>
 <td>3</td>
 <td>朦朧の旋律<br>Stun Pattern</td>
 <td>視界内の全てのモンスターを朦朧させる。抵抗されると無効。<br>Attempts to stun all monsters in sight.</td>
-<td></td>
+<td>【歌】歌い続ける間、視界内の敵を毎ターン朦朧させる。威力 (Lv/10)d2。</td>
 </tr>
 <tr>
 <td>4</td>
 <td>生命の流れ<br>Flow of Life</td>
 <td>体力を少し回復させる。<br>Heals HP a little.</td>
-<td></td>
+<td>【歌】歌い続ける間、毎ターン体力を 2d6 回復する。</td>
 </tr>
 <tr>
 <td>5</td>
 <td>太陽の歌<br>Song of the Sun</td>
 <td>光源が照らしている範囲か部屋全体を永久に明るくする。<br>Lights up nearby area and the inside of a room permanently.</td>
-<td></td>
+<td>【単発】周囲を照らす。照明半径 Lv/10+1。範囲内の敵に 2d(Lv/2) ダメージ。</td>
 </tr>
 <tr>
 <td>6</td>
 <td>恐怖の歌<br>Song of Fear</td>
 <td>視界内の全てのモンスターを恐怖させる。抵抗されると無効。<br>Attempts to scare all monsters in sight.</td>
-<td></td>
+<td>【歌】歌い続ける間、視界内の敵を毎ターン恐怖させる。威力 Lv。</td>
 </tr>
 <tr>
 <td>7</td>
 <td>戦いの歌<br>Heroic Ballad</td>
 <td>ヒーロー気分になる。<br>Removes fear. Gives a bonus to hit for a while. Heals you for 10 HP.</td>
-<td></td>
+<td>【歌】即座に体力10回復・恐怖を治し、歌う間 士気高揚する。</td>
 </tr>
 </tbody>
 </table></div>
@@ -160,49 +160,49 @@
 <td>8</td>
 <td>霊的知覚<br>Clairaudience</td>
 <td>近くの罠/扉/階段を感知する。レベル15で全てのモンスター、20で財宝とアイテムを感知できるようになる。レベル25で周辺の地形を感知し、40でその階全体を永久に照らし、ダンジョン内のすべてのアイテムを感知する。この効果は歌い続けることで順に起こる。<br>Detects traps, doors and stairs in your vicinity. And detects all monsters at level 15, treasures and items at level 20. Maps nearby area at level 25. Lights and know the whole level at level 40. These effects accumulate as the song continues.</td>
-<td></td>
+<td>【歌】歌い続けるほど感知範囲が拡大。半径30の罠・扉・階段感知から始まり、継続で敵・アイテム・地形・千里眼まで広がる。</td>
 </tr>
 <tr>
 <td>9</td>
 <td>魂の歌<br>Soul Shriek</td>
 <td>視界内の全てのモンスターに対して精神攻撃を行う。<br>Damages all monsters in sight with PSI damages.</td>
-<td></td>
+<td>【歌】歌い続ける間、視界内の敵に毎ターン精神攻撃。ダメージ 1d(Lv×3/2)。</td>
 </tr>
 <tr>
 <td>10</td>
 <td>知識の歌<br>Song of Lore</td>
 <td>自分のいるマスと隣りのマスに落ちているアイテムを鑑定する。<br>Identifies all items which are in the adjacent squares.</td>
-<td></td>
+<td>【歌】歌う間、足元と周囲（半径1）のアイテムを鑑定し続ける。</td>
 </tr>
 <tr>
 <td>11</td>
 <td>隠遁の歌<br>Hiding Tune</td>
 <td>隠密行動能力を上昇させる。<br>Gives improved stealth.</td>
-<td></td>
+<td>【歌】歌い続ける間、隠密力が上昇する。</td>
 </tr>
 <tr>
 <td>12</td>
 <td>幻影の旋律<br>Illusion Pattern</td>
 <td>視界内の全てのモンスターを混乱させる。抵抗されると無効。<br>Attempts to confuse all monsters in sight.</td>
-<td></td>
+<td>【歌】歌い続ける間、視界内の敵を毎ターン混乱させる。威力 Lv×2。</td>
 </tr>
 <tr>
 <td>13</td>
 <td>破滅の叫び<br>Doomcall</td>
 <td>視界内の全てのモンスターに対して轟音攻撃を行う。<br>Damages all monsters in sight with booming sound.</td>
-<td></td>
+<td>【歌】歌い続ける間、視界内の敵に毎ターン轟音ダメージ (10+Lv/5)d7。</td>
 </tr>
 <tr>
 <td>14</td>
 <td>フィリエルの歌<br>Firiel's Song</td>
 <td>周囲の死体や骨を生き返す。<br>Resurrects nearby corpses and skeletons. And makes them your pets.</td>
-<td></td>
+<td>【単発】周囲の死体・骨を蘇らせて使い魔にする。</td>
 </tr>
 <tr>
 <td>15</td>
 <td>旅の仲間<br>Fellowship Chant</td>
 <td>視界内の全てのモンスターを魅了する。抵抗されると無効。<br>Attempts to charm all monsters in sight.</td>
-<td></td>
+<td>【歌】歌い続ける間、視界内の敵を毎ターン魅了する。威力 (10+Lv/15)d6。</td>
 </tr>
 </tbody>
 </table></div>
@@ -221,49 +221,49 @@
 <td>16</td>
 <td>フルゥの行進曲<br>Hru's March</td>
 <td>壁を掘り進む。自分の足元のアイテムは蒸発する。<br>Makes you be able to burrow into walls. Objects under your feet evaporate.</td>
-<td></td>
+<td>【歌】歌い続ける間、自分の周囲の壁を毎ターン分解する。</td>
 </tr>
 <tr>
 <td>17</td>
 <td>フィンロドの護り<br>Finrod's Resistance</td>
 <td>酸、電撃、炎、冷気、毒に対する耐性を得る。装備による耐性に累積する。<br>Gives resistance to fire, cold, electricity, acid and poison. These resistances can be added to those from equipment for more powerful resistances.</td>
-<td></td>
+<td>【歌】歌い続ける間、酸・電撃・火炎・冷気・毒の全耐性を得る。</td>
 </tr>
 <tr>
 <td>18</td>
 <td>ホビットのメロディ<br>Hobbit Melodies</td>
 <td>加速する。<br>Hastes you.</td>
-<td></td>
+<td>【歌】歌い続ける間、加速する。</td>
 </tr>
 <tr>
 <td>19</td>
 <td>歪んだ世界<br>World Contortion</td>
 <td>近くのモンスターをテレポートさせる。抵抗されると無効。<br>Teleports all nearby monsters away unless resisted.</td>
-<td></td>
+<td>【単発】自分中心のモンスターをテレポートで飛ばす。半径 Lv/15+1、威力 Lv×3+1。</td>
 </tr>
 <tr>
 <td>20</td>
 <td>退散の歌<br>Dispelling Chant</td>
 <td>視界内の全てのモンスターにダメージを与える。邪悪なモンスターに特に大きなダメージを与える。<br>Damages all monsters in sight. Hurts evil monsters greatly.</td>
-<td></td>
+<td>【歌】歌い続ける間、視界内の敵に 1d(Lv×3)、邪悪にはさらに 1d(Lv×3) ダメージ。</td>
 </tr>
 <tr>
 <td>21</td>
 <td>サルマンの甘言<br>The Voice of Saruman</td>
 <td>視界内の全てのモンスターを減速させ、眠らせようとする。抵抗されると無効。<br>Attempts to slow and put to sleep all monsters in sight.</td>
-<td></td>
+<td>【歌】歌い続ける間、視界内の敵を毎ターン減速・催眠する。威力 Lv。</td>
 </tr>
 <tr>
 <td>22</td>
 <td>嵐の音色<br>Song of the Tempest</td>
 <td>轟音のビームを放つ。<br>Fires a beam of sound.</td>
-<td></td>
+<td>【単発】轟音のビーム。ダメージ (15+(Lv-1)/2)d10。</td>
 </tr>
 <tr>
 <td>23</td>
 <td>もう一つの世界<br>Ambarkanta</td>
 <td>現在の階を再構成する。<br>Recreates current dungeon level.</td>
-<td></td>
+<td>【単発】現在の階を再生成する。発動まで 15+1d20 ターン。</td>
 </tr>
 </tbody>
 </table></div>
@@ -282,49 +282,49 @@
 <td>24</td>
 <td>破壊の旋律<br>Wrecking Pattern</td>
 <td>周囲のダンジョンを揺らし、壁と床をランダムに入れ変える。<br>Shakes dungeon structure, and results in random swapping of floors and walls.</td>
-<td></td>
+<td>【歌】歌い続ける間、毎ターン周囲に地震を起こす（半径10）。</td>
 </tr>
 <tr>
 <td>25</td>
 <td>停滞の歌<br>Stationary Shriek</td>
 <td>視界内の全てのモンスターを麻痺させようとする。抵抗されると無効。<br>Attempts to freeze all monsters in sight.</td>
-<td></td>
+<td>【歌】歌い続ける間、視界内の敵を毎ターン拘束（麻痺）する。威力 Lv×4。</td>
 </tr>
 <tr>
 <td>26</td>
 <td>エルベレスの聖歌<br>Elbereth's Chant</td>
 <td>自分のいる床の上に、モンスターが通り抜けたり召喚されたりすることができなくなるルーンを描く。<br>Sets a rune on the floor beneath you. If you are on a rune, monsters cannot attack you but can try to break the rune.</td>
-<td></td>
+<td>【単発】足元に守りのルーンを設置する。</td>
 </tr>
 <tr>
 <td>27</td>
 <td>英雄の詩<br>The Hero's Poem</td>
 <td>加速し、ヒーロー気分になり、視界内の全てのモンスターにダメージを与える。<br>Hastes you. Gives heroism. Damages all monsters in sight.</td>
-<td></td>
+<td>【歌】即座に体力10回復・恐怖を治し、歌う間 士気高揚＋加速し、視界内の敵に毎ターン 1d(Lv×3) ダメージ。</td>
 </tr>
 <tr>
 <td>28</td>
 <td>ヤヴァンナの助け<br>Relief of Yavanna</td>
 <td>強力な回復の歌で、負傷と朦朧状態も全快する。<br>Powerful healing song. Also completely heals cuts and being stunned.</td>
-<td></td>
+<td>【歌】歌い続ける間、毎ターン体力を 15d10 回復し、朦朧・切り傷を治す。</td>
 </tr>
 <tr>
 <td>29</td>
 <td>再生の歌<br>Goddess's rebirth</td>
 <td>すべてのステータスと経験値を回復する。<br>Restores all stats and experience.</td>
-<td></td>
+<td>【単発】低下した全能力値と経験値（レベル）を回復する。</td>
 </tr>
 <tr>
 <td>30</td>
 <td>サウロンの魔術<br>Wizardry of Sauron</td>
 <td>非常に強力でごく小さい轟音の球を放つ。<br>Fires an extremely powerful tiny ball of sound.</td>
-<td></td>
+<td>【単発】轟音のボール（半径0＝単体）。ダメージ (50+Lv)d10。</td>
 </tr>
 <tr>
 <td>31</td>
 <td>フィンゴルフィンの挑戦<br>Fingolfin's Challenge</td>
 <td>ダメージを受けなくなるバリアを張る。<br>Generates a barrier which completely protects you from almost all damage.</td>
-<td></td>
+<td>【歌】歌い続ける間、無敵になる。</td>
 </tr>
 </tbody>
 </table></div>
@@ -332,7 +332,7 @@
 <blockquote>
 <p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
 This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
-生成 / Generated: 2026-07-04 03:32 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 03:41 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
