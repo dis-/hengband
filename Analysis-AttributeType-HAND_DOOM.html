@@ -146,47 +146,50 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>抵抗失敗時に装備呪いとHPダメージを与えます。ただし処理後にHPが1未満なら1へ戻すため、この処理単独では即死しないよう調整されます。</li>
-<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
-<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
-<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
-<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
-</ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>概要</h2>
+<p>破滅の手 (HAND_DOOM) は、対象の現在HPの割合に応じた大ダメージを与える属性である。モンスターに対してはユニークに無効で、成功判定に通ると現在HPの40〜60%のダメージを与える。プレイヤーに対しては判定に失敗すると装備が呪われHPが減少する (最低1で下げ止まる)。</p>
+<h2>モンスターへの効果</h2>
+<p>処理は <code>effect_monster_hand_doom</code> (effect-monster-switcher.cpp) で行われる。</p>
+<p>ユニークモンスター (UNIQUE) には効果がなく、「には効果がなかった。」と表示されダメージ 0。</p>
+<p>それ以外の場合、術者に応じた成功判定を行う。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>術者</th>
+<th>成功条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>モンスター</td>
+<td>caster_lev + randint1(dam) &gt; level + 10 + randint1(20)</td>
+</tr>
+<tr>
+<td>プレイヤー</td>
+<td>(caster_lev / 2) + randint1(dam) &gt; level + randint1(200)</td>
+</tr>
+</tbody>
+</table></div>
+<p>成功した場合、現在HPの割合ダメージを与える。</p>
+<pre><code>dam = ((40 + randint1(20)) * hp) / 100
+hp &lt; dam なら dam = hp - 1
+</code></pre>
+<p>（すなわち現在HPの約40〜60%。ただし相手を即死させず最低1HPを残す）</p>
+<p>失敗した場合、「は破滅の手に耐え切った！」と表示されダメージ 0。</p>
+<h2>プレイヤーへの効果</h2>
+<p>処理は <code>effect_player_hand_doom</code> (effect-player-resist-hurt.cpp) で行われる。</p>
+<p>抵抗判定に成功した場合 (randint0(100 + rlev/2) &lt; skill_sav かつ 多重影でない)、「しかし効力を跳ね返した！」と表示される。</p>
+<p>失敗した場合、多重影でなければ「あなたは命が薄まっていくように感じた！」と表示され、<code>curse_equipment(player_ptr, 40, 20)</code> で装備が呪われる。その後 <code>take_hit</code> でダメージを受ける。</p>
+<pre><code>ダメージ処理後、chp &lt; 1 なら chp = 1 (最低1HPで下げ止まる)
+</code></pre>
+<h2>アイテムへの効果</h2>
+<p>アイテムへの効果はない。</p>
+<h2>地形への効果</h2>
+<p>地形への効果はない (effect-feature.cpp で無視される属性に含まれる)。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

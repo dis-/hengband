@@ -146,43 +146,46 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>死体・骨を消費して対応するモンスターを復活させます。失敗した分は灰になり、アイテム自体は処理後に削除されます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>概要</h2>
+<p>死者復活（ANIM_DEAD）は、床に落ちている死体・骨といったモンスターの残骸（<code>MONSTER_REMAINS</code>）を、その種族のモンスターとして蘇生させる属性である。生きているモンスターやプレイヤー、地形には効果が無く、専らアイテム（残骸）に作用する。</p>
+<h2>モンスターへの効果</h2>
+<p><code>switch_effects_monster</code>（<code>effect-monster-switcher.cpp</code>）に ANIM_DEAD のケースは無く、default に落ちて <code>skipped = true</code>・ダメージ0となる。生きているモンスターへの効果は無い。</p>
+<h2>プレイヤーへの効果</h2>
+<p><code>effect-player-switcher.cpp</code> に ANIM_DEAD のケースは無く、default に落ちてダメージ0となる。プレイヤーへの効果は無い。</p>
+<h2>アイテムへの効果</h2>
+<p><code>effect-item.cpp</code> の <code>ANIM_DEAD</code> ケースで処理される。対象アイテムのタイプが残骸（<code>ItemKindType::MONSTER_REMAINS</code>）でなければ何もしない。</p>
+<p>蘇生させるモンスターの陣営（<code>mode</code>）は、術者がプレイヤー、または術者がペットの場合に強制的に味方（<code>PM_FORCE_PET</code>）となる。</p>
+<p>残骸の個数（<code>item.number</code>）分、以下の判定を繰り返す。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>残骸の種類（sval）</th>
+<th>灰になる確率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>死体（<code>SV_CORPSE</code>）</td>
+<td><code>randint1(100) &gt; 80</code>（およそ20%）</td>
+</tr>
+<tr>
+<td>骨（<code>SV_SKELETON</code>）</td>
+<td><code>randint1(100) &gt; 60</code>（およそ40%）</td>
+</tr>
+</tbody>
+</table></div>
+<p>灰になる判定に該当しなかった場合、<code>summon_named_creature</code> によりその残骸の種族（<code>monrace.idx</code>）を召喚する。</p>
+<p>メッセージ（<code>note_kill</code>）:</p>
+<pre><code>生き返った時: 生き返った。
+灰になった時: 灰になった。
+</code></pre>
+<p>処理後、残骸アイテムは削除される（<code>do_kill = true</code>）。固定・ランダムアーティファクトや無視設定のアイテムは影響を受けず、その場合は「%sは影響を受けない！」と表示される。</p>
+<h2>地形への効果</h2>
+<p><code>effect-feature.cpp</code> に ANIM_DEAD のケースは無い。地形への効果は無い。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

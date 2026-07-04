@@ -146,43 +146,82 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>星の癒し（<code>AttributeType::STAR_HEAL</code>、<code>GF_STAR_HEAL</code>）は、対象モンスターを回復させる属性である。処理は <code>effect_monster_star_heal()</code>（<code>src/effect/effect-monster-oldies.cpp</code>）にある。</p>
+<p>睡眠を解除し、最大HPが減少している場合はそれを回復させ、さらにダメージ値（<code>dam</code>）が指定されていれば通常回復（<code>effect_monster_old_heal</code>）を適用してHP・混乱・朦朧・恐怖を癒やす。プレイヤーにとっては、味方モンスターの立て直しなどに用いる支援属性である。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_star_heal()</code> の処理内容:</p>
+<ol>
+<li>見えていれば <code>obvious</code> を立てる。</li>
+<li>睡眠状態を解除する（<code>set_monster_csleep(..., 0)</code>）。</li>
+<li>最大HP（<code>maxhp</code>）が本来の最大値（<code>max_maxhp</code>）を下回っている場合、<code>maxhp</code> を <code>max_maxhp</code> まで戻す。見えていれば次のメッセージ:</li>
+</ol>
+<blockquote>
+<p>%s^の強さが戻った。</p>
+</blockquote>
+<ol start="4">
+<li>その後の分岐は <code>dam</code> の有無による:</li>
+</ol>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th><code>dam</code></th>
+<th>処理</th>
+<th>戻り値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>ヘルスバー更新のみ（騎乗中なら騎乗表示も更新）。追加回復なし</td>
+<td><code>PROCESS_FALSE</code></td>
+</tr>
+<tr>
+<td>1以上</td>
+<td><code>effect_monster_old_heal()</code> を呼び追加回復</td>
+<td><code>PROCESS_TRUE</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>dam</code> が指定された場合に呼ばれる <code>effect_monster_old_heal()</code> では、睡眠解除に加えて以下を行う。</p>
 <ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
+<li>朦朧（stun）を解除:</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
+<blockquote>
+<p>%s^は朦朧状態から立ち直った。</p>
+</blockquote>
 <ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
+<li>混乱を解除:</li>
 </ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
+<blockquote>
+<p>%s^は混乱から立ち直った。</p>
+</blockquote>
 <ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
+<li>恐怖を解除:</li>
 </ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
+<blockquote>
+<p>%s^は勇気を取り戻した。</p>
+</blockquote>
 <ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
+<li>HPが <code>MONSTER_MAXHP</code> 未満なら <code>hp += dam</code>、<code>maxhp</code> を超えないようクランプ。回復後のメッセージ:</li>
 </ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
+<blockquote>
+<p>は体力を回復したようだ。</p>
+</blockquote>
 <ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
+<li>対象がハンセン病患者（LEPER）の場合は治癒フラグを立てる。</li>
 </ul>
+<p>なお回復に伴い、プレイヤー起因（<code>is_player()</code>）のときは徳（Virtue）が変動する（生命力、また対象の種別に応じて思いやり・自然・個人主義など）。</p>
+<h2>プレイヤーへの効果</h2>
+<p><code>switch_effects_player()</code>（<code>src/effect/effect-player-switcher.cpp</code>）に STAR_HEAL の分岐は無く、<code>default</code> に落ちて <code>dam = 0</code> となり、プレイヤーには何の効果も無い。</p>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item()</code>（<code>src/effect/effect-item.cpp</code>）に STAR_HEAL の分岐は無く、<code>default</code>（<code>break</code> のみ）に落ちるため、アイテムには一切影響しない。</p>
+<h2>地形への効果</h2>
+<p><code>affect_feature()</code>（<code>src/effect/effect-feature.cpp</code>）に STAR_HEAL の分岐は無く、<code>default</code>（<code>break</code> のみ）に落ちるため、地形には一切影響しない。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

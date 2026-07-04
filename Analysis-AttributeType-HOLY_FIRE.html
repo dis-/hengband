@@ -146,47 +146,94 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>聖光 (HOLY_FIRE) 属性は、神聖な光の炎による攻撃。善良なモンスターには効かず、邪悪なモンスターに大ダメージを与える。プレイヤー側ではプレイヤーの善悪傾向 (alignment) によってダメージが変動する。</p>
+<p>ボール系の距離減衰は共通の式で処理される。</p>
+<pre><code>dam = (dam + r) / (r + 1)
+</code></pre>
+<h2>モンスターへの効果</h2>
+<p>処理は <code>effect_monster_holy_fire()</code> (effect-monster-resist-hurt.cpp)。</p>
 <ul>
-<li><code>calc_holy_fire_damage_rate()</code> で善悪に応じた倍率を掛けます。善なら無効、悪なら大きく受け、それ以外はランダム軽減です。</li>
-<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
-<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
-<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
-<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
+<li>善良 (GOOD) なモンスターには完全に無効。</li>
+<li>邪悪 (EVIL) なモンスターには倍のダメージ。</li>
+<li>どちらでもないモンスターにはダメージが減衰する。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
+<p>種別によるダメージ倍率:</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>ダメージ倍率</th>
+<th>メッセージ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>善良 (GOOD)</td>
+<td>0（無効）</td>
+<td>「には完全な耐性がある！」</td>
+</tr>
+<tr>
+<td>邪悪 (EVIL)</td>
+<td>×2</td>
+<td>「はひどい痛手をうけた。」</td>
+</tr>
+<tr>
+<td>上記以外</td>
+<td>×3 ÷ (randint1(6)+6)（実効 3/7〜3/12）</td>
+<td>「には耐性がある。」</td>
+</tr>
+</tbody>
+</table></div>
+<pre><code>// 邪悪
+dam = dam * 2;
+// 中立
+dam = dam * 3 / (randint1(6) + 6);
+</code></pre>
+<h2>プレイヤーへの効果</h2>
+<p>処理は <code>effect_player_holy_fire()</code> (effect-player-resist-hurt.cpp)。ダメージ倍率は <code>calc_holy_fire_damage_rate()</code> による。</p>
+<pre><code>dam = dam * calc_holy_fire_damage_rate(player_ptr, CALC_RAND) / 100;
+</code></pre>
+<p>ダメージ倍率 <code>calc_holy_fire_damage_rate()</code>（プレイヤーの善悪傾向 alignment による）:</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>alignment &gt; 10（善）</td>
+<td>×1/2</td>
+</tr>
+<tr>
+<td>alignment &lt; -10（悪）</td>
+<td>×2</td>
+</tr>
+<tr>
+<td>上記以外（中立）</td>
+<td>×1（等倍）</td>
+</tr>
+</tbody>
+</table></div>
 <ul>
-<li>弱点種族・弱点属性に当たるとダメージを倍化します。見えている本来の姿なら、弱点/種族情報を学習済みとして記録します。</li>
+<li>追加の状態異常は発生しない。</li>
+<li>盲目時は「何かで攻撃された！」と表示される。</li>
 </ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
+<h2>アイテムへの効果</h2>
+<p>処理は <code>affect_item()</code> (effect-item.cpp) の HOLY_FIRE / HELL_FIRE 共通 case。</p>
 <ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
+<li>床にある呪われたアイテム (<code>is_cursed()</code>) のみ破壊される。</li>
+<li>破壊メッセージ:「（アイテム名）は壊れてしまった！」</li>
+<li>呪われていないアイテムは影響を受けない。</li>
 </ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>地形への効果</h2>
+<p>処理は <code>affect_feature()</code> (effect-feature.cpp) で、HOLY_FIRE は「ほとんどの効果を無視する」グループ（break のみ）に含まれる。地形への変化はない（樹木破壊メッセージの対象属性でもない）。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

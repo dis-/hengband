@@ -146,47 +146,68 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>遅鈍（INERTIAL）属性は、慣性（減速）のエネルギーによる打撃を与える属性である。命中したモンスターやプレイヤーを減速（slow）させる副次効果を持つ。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_inertial</code> により処理される。強力なモンスターは耐性を示し、通常のモンスターは減速する。</p>
 <ul>
-<li>HPダメージは耐性軽減なしです。多重影で回避していなければ減速が追加されます。</li>
-<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
-<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
-<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
-<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
+<li>遅鈍への耐性（RESIST_INERTIA）を持つモンスターは「には耐性がある。」とともにダメージが軽減される。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
+<pre><code>耐性ありのダメージ = ダメージ × 3 ÷ (randint1(6) + 6)
+</code></pre>
 <ul>
-<li>HPを減らすだけでなく、朦朧・混乱・睡眠・減速などの状態量を <code>EffectMonster</code> に積み、後続処理で反映させます。</li>
+<li>耐性を持たない場合でも、ユニークモンスター、または以下の条件を満たす高レベルモンスターは効果を受けない（減速しない）。</li>
 </ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
+<pre><code>効果無効の条件 = ユニークである
+              または モンスターレベル &gt; randint1( max(1, ダメージ - 10) ) + 10
+</code></pre>
 <ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
+<li>上記に該当しない通常モンスターは減速する。メッセージは「の動きが遅くなった。」。</li>
 </ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
+<pre><code>減速値 = 現在の残り減速量 + 50
+</code></pre>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>状態</th>
+<th>ダメージ倍率</th>
+<th>副次効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>遅鈍耐性あり（RESIST_INERTIA）</td>
+<td>×3 ÷ (7〜12)</td>
+<td>なし</td>
+</tr>
+<tr>
+<td>ユニーク／高レベル</td>
+<td>×1</td>
+<td>なし（無効）</td>
+</tr>
+<tr>
+<td>上記以外</td>
+<td>×1</td>
+<td>減速</td>
+</tr>
+</tbody>
+</table></div>
+<h2>プレイヤーへの効果</h2>
+<p><code>effect_player_inertial</code> により処理される。盲目時のメッセージは「何か遅いもので攻撃された！」。</p>
 <ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
+<li>ダメージは軽減されない（専用のダメージ倍率計算は存在しない）。</li>
+<li>多重影でない場合、必ず減速状態になる。</li>
 </ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<pre><code>減速 = mod_deceleration(randint0(4) + 4)
+</code></pre>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item</code> に遅鈍属性の処理は存在せず、アイテムへの効果はない。</p>
+<h2>地形への効果</h2>
+<p><code>affect_feature</code> に遅鈍属性の処理は存在せず、地形への効果はない（木の破壊対象にも含まれない）。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

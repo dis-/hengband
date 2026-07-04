@@ -146,43 +146,44 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>回復モンスター（OLD_HEAL）は、対象のモンスターのHPを回復させ、朦朧・混乱・恐怖・睡眠といった状態異常を解除する属性である。プレイヤーが対象の場合は自身のHPを回復する。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_old_heal</code>（<code>effect-monster-oldies.cpp</code>）で処理される。抵抗判定は無く、常に以下が行われる。</p>
+<ol>
+<li>睡眠を解除する（<code>set_monster_csleep(..., 0)</code>）。</li>
+<li>状態異常を回復する（<code>effect_monster_old_heal_recovery</code>）。
 <ul>
-<li>プレイヤーを <code>hp_player(dam)</code> で回復し、<code>ep_ptr-&gt;dam=0</code> にします。HPダメージは発生しません。</li>
+<li>朦朧状態のとき: 「%s^は朦朧状態から立ち直った。」</li>
+<li>混乱状態のとき: 「%s^は混乱から立ち直った。」</li>
+<li>恐怖状態のとき: 「%s^は勇気を取り戻した。」</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+</li>
+<li>HPを回復する。</li>
+</ol>
+<p>HP回復量:</p>
+<pre><code>hp &lt; MONSTER_MAXHP のとき hp += dam
+その後 hp が maxhp を超えたら maxhp に丸める
+</code></pre>
+<p>プレイヤーが術者の場合、対象種別に応じて徳（Virtue）が変動する（<code>effect_monster_old_heal_check_player</code>）。ユニークなら個人主義、友好的なら誠実、善良（GOOD）なら思いやり+2、悪でも善でもなければ思いやり+1、動物（ANIMAL）なら自然、いずれも生命力+1。</p>
+<p>対象がライ病患者（<code>MonraceId::LEPER</code>）の場合は治癒扱いとなり（<code>heal_leper = true</code>）、プレイヤーが術者なら思いやり+5。</p>
+<p>回復時のメッセージ:</p>
+<pre><code>は体力を回復したようだ。
+</code></pre>
+<p>ダメージは常に0。OLD_HEAL は完全耐性（RESIST_ALL）を貫通する特例属性に含まれ、また騎乗中のモンスターに対しても効果が及ぶ。</p>
+<h2>プレイヤーへの効果</h2>
+<p><code>effect_player_old_heal</code>（<code>effect-player-oldies.cpp</code>）で処理される。盲目状態のときのメッセージ:</p>
+<pre><code>何らかの攻撃によって気分がよくなった。
+</code></pre>
+<p><code>hp_player(player_ptr, dam)</code> により <code>dam</code> 分のHPを回復し、ダメージは0になる。</p>
+<h2>アイテムへの効果</h2>
+<p><code>effect-item.cpp</code> に OLD_HEAL のケースは無い。アイテムへの効果は無い。</p>
+<h2>地形への効果</h2>
+<p><code>effect-feature.cpp</code> に OLD_HEAL のケースは無い。地形への効果は無い。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

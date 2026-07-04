@@ -146,47 +146,130 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>脳攻撃（BRAIN_SMASH）は精神攻撃（MIND_BLAST）を強化した属性。免疫・耐性判定は精神攻撃と同一だが、通った場合は混乱に加えて朦朧・減速を与える。プレイヤーに対しては反射失敗時に盲目・混乱・麻痺・減速・INT/WIS減少・幻覚など多彩な状態異常を与える。地形・アイテムには効果を及ぼさない。</p>
+<h2>モンスターへの効果</h2>
+<p>睨みつけメッセージ（プレイヤーが術者の場合）：</p>
+<blockquote>
+<p>「%sをじっと睨んだ。」</p>
+</blockquote>
+<h3>免疫・耐性判定（精神攻撃と共通）</h3>
+<p>以下のいずれかを満たすと「には効果がなかった。」でダメージ0。</p>
 <ul>
-<li>魔法防御で抵抗できれば無効です。失敗するとMP100減少、HPダメージ、盲目・混乱・麻痺・減速・INT/WIS低下・幻覚が入ります。</li>
-<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
-<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
-<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
-<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
+<li>UNIQUE を持つ</li>
+<li>NO_CONF（混乱耐性）を持つ</li>
+<li>レベル &gt; d(max(1, 術者レベル − 10)) + 10</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>HPを減らすだけでなく、朦朧・混乱・睡眠・減速などの状態量を <code>EffectMonster</code> に積み、後続処理で反映させます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<p>上記に該当しない場合：</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EMPTY_MIND を持つ</td>
+<td>完全耐性。ダメージ0。「には完全な耐性がある！」</td>
+</tr>
+<tr>
+<td>WEIRD_MIND を持つ</td>
+<td>耐性。ダメージ 1/3。「には耐性がある！」</td>
+</tr>
+<tr>
+<td>いずれでもない</td>
+<td>精神攻撃が通る。「は精神攻撃を食らった。」</td>
+</tr>
+</tbody>
+</table></div>
+<h3>追加効果（効果が通った場合）</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>術者</th>
+<th>混乱</th>
+<th>朦朧</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>モンスターが術者</td>
+<td>randint0(4) + 4</td>
+<td>randint0(4) + 4</td>
+</tr>
+<tr>
+<td>プレイヤーが術者</td>
+<td>randint0(8) + 8</td>
+<td>randint0(8) + 8</td>
+</tr>
+</tbody>
+</table></div>
+<p>さらに減速（現在の減速量 + 10）を付与。</p>
+<h3>死亡時メッセージ</h3>
+<blockquote>
+<p>「の精神は崩壊し、肉体は抜け殻となった。」</p>
+</blockquote>
+<h2>プレイヤーへの効果</h2>
+<p>反射判定：</p>
+<pre><code>randint0(100 + rlev / 2) &lt; max(5, skill_sav)  かつ  影分身でない
+</code></pre>
+<p>成立時：</p>
+<blockquote>
+<p>「しかし効力を跳ね返した！」</p>
+</blockquote>
+<p>失敗した場合、影分身でなければ：</p>
+<blockquote>
+<p>「霊的エネルギーで精神が攻撃された。」</p>
+</blockquote>
+<p>MP減少：csp −= 100（0未満は0に補正）。その後ダメージ（<code>take_hit</code>）を受ける。影分身中はダメージのみ。</p>
+<p>影分身でない場合の追加状態異常：</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>効果</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>盲目</td>
+<td>盲目耐性がなければ 8 + randint0(8)</td>
+</tr>
+<tr>
+<td>混乱</td>
+<td>混乱耐性がなければ randint0(4) + 4</td>
+</tr>
+<tr>
+<td>麻痺</td>
+<td>自由行動がなければ randint0(4) + 4</td>
+</tr>
+<tr>
+<td>減速</td>
+<td>randint0(4) + 4</td>
+</tr>
+<tr>
+<td>INT減少</td>
+<td>randint0(100 + rlev/2) &gt; max(5, skill_sav) の間、繰り返し低下</td>
+</tr>
+<tr>
+<td>WIS減少</td>
+<td>randint0(100 + rlev/2) &gt; max(5, skill_sav) の間、繰り返し低下</td>
+</tr>
+<tr>
+<td>幻覚</td>
+<td>カオス耐性がなければ randint0(250) + 150</td>
+</tr>
+</tbody>
+</table></div>
+<h2>アイテムへの効果</h2>
+<p>なし（<code>affect_item</code> に BRAIN_SMASH の分岐は存在しない）。</p>
+<h2>地形への効果</h2>
+<p>なし（<code>affect_feature</code> では「Ignore most effects」に分類される）。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

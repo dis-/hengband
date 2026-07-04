@@ -146,43 +146,39 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>弱光 (LITE_WEAK) 属性は、光を弱点とするモンスターにのみ効く弱い光。閃光 (LITE) と同じく、<code>project()</code> 内で breath またはビーム (<code>PROJECT_BEAM</code>) の場合に <code>PROJECT_LOS</code> フラグが付与され、視線の通る限り光が届く。</p>
+<p>ボール系の距離減衰は共通の式で処理される。</p>
+<pre><code>dam = (dam + r) / (r + 1)
+</code></pre>
+<h2>モンスターへの効果</h2>
+<p>処理は <code>effect_monster_lite_weak()</code> (effect-monster-lite-dark.cpp)。</p>
 <ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
+<li>ダメージが 0 の場合は <code>skipped</code> として何もしない。</li>
+<li>光弱点 (HURT_LITE) を持たないモンスターにはダメージが 0 になる（無効）。</li>
+<li>光弱点 (HURT_LITE) を持つモンスターにはそのままダメージが通り、専用メッセージが表示される。倍率補正はない（LITE と異なりダメージ倍増はしない）。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
+<p>光弱点のモンスターに対するメッセージ:</p>
 <ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
+<li>命中時: 「は光に身をすくめた！」</li>
+<li>死亡時: 「は光を受けてしぼんでしまった！」</li>
 </ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
+<h2>プレイヤーへの効果</h2>
+<p><code>switch_effects_player()</code> (effect-player-switcher.cpp) に LITE_WEAK の case は存在せず、default に落ちてダメージが 0 になる。プレイヤーには影響しない。</p>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item()</code> (effect-item.cpp) に LITE_WEAK 属性の case は存在せず、床のアイテムを破壊しない。</p>
+<h2>地形への効果</h2>
+<p>処理は <code>affect_feature()</code> (effect-feature.cpp) の LITE_WEAK / LITE 共通 case で、閃光 (LITE) と同一。</p>
 <ul>
-<li>地形処理はHPダメージではなく、対象マスの地形ID・記憶・明暗・安全情報を変える処理です。視界内/記憶済みなら <code>obvious</code> が立ち、観測された効果になります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
+<li>ダンジョンが暗黒属性 (DARKNESS) を持つ場合は何もしない。</li>
+<li>それ以外では対象マスに <code>CAVE_GLOW</code> を付与して照らし、周辺の照明を更新する。</li>
+<li>マスにモンスターがいれば状態を更新する。</li>
+<li>プレイヤーがそのマスにいる場合、超隠密 (superstealth) 状態を解除する。</li>
 </ul>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

@@ -146,43 +146,46 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>概要</h2>
+<p>モンスター拘束（STASIS）は、対象のモンスターを一定時間動けない状態（麻痺・拘束）にする属性である。ダメージは常に0。強力なモンスターは抵抗する。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_stasis</code>（<code>effect-monster-oldies.cpp</code>、<code>to_evil = false</code>）で処理される。以下のいずれかに該当すると抵抗し、効果が無い。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>抵抗条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユニークモンスター（<code>MonsterKindType::UNIQUE</code>）</td>
+</tr>
+<tr>
+<td>モンスターのレベルが下記の判定値を上回る</td>
+</tr>
+</tbody>
+</table></div>
+<p>判定に用いるダメージ値と式:</p>
+<pre><code>stasis_damage = (dam - 10) &lt; 1 ? 1 : (dam - 10)
+monrace-&gt;level &gt; randint1(stasis_damage) + 10  のとき抵抗
+</code></pre>
+<p>抵抗した場合のメッセージ:</p>
+<pre><code>には効果がなかった。
+</code></pre>
+<p>抵抗しなければ拘束状態にする（<code>do_sleep = 500</code>）。</p>
+<pre><code>は動けなくなった！
+</code></pre>
+<p>ダメージは常に0。</p>
+<h2>プレイヤーへの効果</h2>
+<p><code>effect-player-switcher.cpp</code> に STASIS のケースは無く、default に落ちてダメージ0となる。プレイヤーへの効果は無い。</p>
+<h2>アイテムへの効果</h2>
+<p><code>effect-item.cpp</code> に STASIS のケースは無い。アイテムへの効果は無い。</p>
+<h2>地形への効果</h2>
+<p><code>effect-feature.cpp</code> に STASIS のケースは無い。地形への効果は無い。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

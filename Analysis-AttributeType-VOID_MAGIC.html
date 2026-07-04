@@ -146,47 +146,57 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>虚無（VOID_MAGIC）属性は、存在そのものを消し去る力による攻撃属性である。量子生物や壁抜けモンスターに強力なダメージを与え、テレポート・フォース・重力の各耐性を持つモンスターが耐性を示す。プレイヤーには減速とインベントリ破壊の追加効果を持つ。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_void</code> による処理。以下の順で判定される。</p>
 <ul>
-<li>虚空耐性でHPダメージを軽減します。浮遊も反テレポートもない場合は減速し、冷気系所持品破壊も起こり得ます。</li>
-<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
-<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
-<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
-<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
+<li>量子生物（<code>QUANTUM</code>）の場合、「の存在確率が減少した。」（死亡時「は観測されなくなった。」）と表示され、ダメージ 2 倍。</li>
+<li>壁抜け（<code>PASS_WALL</code>）の場合、「の存在が薄れていく。」（死亡時「は消えてしまった。」）と表示され、ダメージ 1.5 倍。</li>
+<li>テレポート耐性・フォース耐性・重力耐性のいずれかを持つ場合、「には耐性がある！」と表示されダメージが減少する。</li>
+<li>いずれにも該当しない場合、死亡時メッセージ「は消滅してしまった。」が設定される。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>通常地形には大きな変化がなくても、木に対しては属性に応じた破壊メッセージを出し、折れた木または草地へ変化させます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>対象マスの床上アイテムを無条件または条件付きで破壊対象にします。固定/ランダムアーティファクトは破壊されません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>ダメージ倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>量子生物（<code>QUANTUM</code>）</td>
+<td>×2</td>
+</tr>
+<tr>
+<td>壁抜け（<code>PASS_WALL</code>）</td>
+<td>×3 ÷ 2（1.5倍）</td>
+</tr>
+<tr>
+<td>テレポート/フォース/重力 耐性</td>
+<td>×3 ÷ (1d6 + 6)</td>
+</tr>
+<tr>
+<td>上記以外</td>
+<td>等倍</td>
+</tr>
+</tbody>
+</table></div>
+<h2>プレイヤーへの効果</h2>
+<p><code>effect_player_void</code> による処理。目が見えない場合「何かに身体が引っ張りこまれる！」、そうでなければ「周辺の空間が歪んだ。」と表示される。</p>
+<p>分身状態でなく、浮遊も反テレポートも無い場合、減速を <code>randint0(4) + 4</code> 追加する。</p>
+<p>ダメージは補正される。</p>
+<pre><code>dam = dam * calc_void_damage_rate() / 100
+</code></pre>
+<p>浮遊していない、または 1/13 の確率で、冷気によるインベントリ破壊（威力 2）が発生する。</p>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item</code> の <code>VOID_MAGIC</code> 処理により、アイテムは「消滅してしまった！」と表示され破壊される（固定・ランダムアーティファクトを除く）。</p>
+<h2>地形への効果</h2>
+<p><code>affect_feature</code> において、木（<code>TREE</code>）に対しては「木は消滅した。」と表示され、1/3 の確率で藪、それ以外で草地に変化する。それ以外の地形に対する固有の効果は無い。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

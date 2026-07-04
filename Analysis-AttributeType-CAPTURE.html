@@ -146,43 +146,97 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>概要</h2>
+<p>捕縛（CAPTURE）は、モンスターボールで対象のモンスターを捕らえる属性である。捕縛には対象を十分に弱らせておく必要があり、ユニークなど一部のモンスターは捕縛できない。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_capture</code>（<code>effect-monster-charm.cpp</code>）で処理される。まず、以下のいずれかに該当すると捕縛できず「効果がなかった」と表示される。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>捕縛不可条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KILL_ALL クエスト中で、対象がペットでないクエストモンスター</td>
+</tr>
+<tr>
+<td>ユニークモンスター（<code>MonsterKindType::UNIQUE</code>）</td>
+</tr>
+<tr>
+<td>クエスト出現モンスター（<code>MonsterMiscType::QUESTOR</code>）</td>
+</tr>
+<tr>
+<td>ナズグル（<code>MonsterPopulationType::NAZGUL</code>）</td>
+</tr>
+<tr>
+<td>唯一無二（<code>MonsterPopulationType::ONLY_ONE</code>）</td>
+</tr>
+<tr>
+<td>ぶんぶんストライカー（<code>MonsterPopulationType::BUNBUN_STRIKER</code>）</td>
+</tr>
+<tr>
+<td>召喚元（親）を持つモンスター（<code>has_parent()</code>）</td>
+</tr>
+</tbody>
+</table></div>
+<p>捕縛不可時のメッセージ:</p>
+<pre><code>%sには効果がなかった。
+</code></pre>
+<p>捕縛可能な場合、捕縛可能HPしきい値を計算する（<code>calcutate_capturable_hp</code>）。係数は対象の状態・職業により変化する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>対象・職業</th>
+<th>係数（対象HPに対して）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ペット</td>
+<td>×4</td>
+</tr>
+<tr>
+<td>ビーストマスターかつ生命体</td>
+<td>×3/10</td>
+</tr>
+<tr>
+<td>上記以外</td>
+<td>×3/20</td>
+</tr>
+</tbody>
+</table></div>
+<p>しきい値の判定:</p>
+<pre><code>r_max_hp    = monrace の最大HPロール値
+threshold_hp = calcutate_capturable_hp(r_max_hp)
+capturable_hp = max(2, calcutate_capturable_hp(max_maxhp))
+
+threshold_hp &lt; 2 または 現在HP &gt;= capturable_hp のとき捕縛失敗（弱らせ不足）
+</code></pre>
+<p>弱らせ不足の場合のメッセージ:</p>
+<pre><code>もっと弱らせないと。
+</code></pre>
+<p>上記を満たしたうえで、捕縛成否を乱数で判定する。</p>
+<pre><code>現在HP &lt;= randint1(capturable_hp) なら捕縛成功
+</code></pre>
+<p>捕縛成功時（<code>effect_monster_captured</code>）、カメレオンなら変身を解除し、モンスターボールへ種族・速度・HP・愛称を記録して対象をフロアから消去する。騎乗していた場合は落馬処理を行う。</p>
+<pre><code>捕縛成功: %sを捕えた！
+落馬時:   地面に落とされた。
+</code></pre>
+<p>判定に失敗した場合のメッセージ:</p>
+<pre><code>うまく捕まえられなかった。
+</code></pre>
+<p>CAPTURE は完全耐性（RESIST_ALL）を貫通する特例属性に含まれる。</p>
+<h2>プレイヤーへの効果</h2>
+<p><code>effect-player-switcher.cpp</code> に CAPTURE のケースは無く、default に落ちてダメージ0となる。プレイヤーへの効果は無い。</p>
+<h2>アイテムへの効果</h2>
+<p><code>effect-item.cpp</code> に CAPTURE のケースは無い。アイテムへの効果は無い。</p>
+<h2>地形への効果</h2>
+<p><code>effect-feature.cpp</code> では CAPTURE は「ほとんどの効果を無視する」グループに含まれ、地形への効果は無い。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

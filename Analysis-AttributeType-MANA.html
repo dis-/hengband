@@ -146,47 +146,43 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>純粋魔力 (MANA) 属性は、魔法のエネルギーそのものによる攻撃で、モンスター側にこれを軽減する耐性が存在しない。魔力の嵐 (SEEKER) やスーパー・レイ (SUPER_RAY) と多くの処理を共有する。</p>
+<p>ボール系の距離減衰は共通の式で処理される。</p>
+<pre><code>dam = (dam + r) / (r + 1)
+</code></pre>
+<h2>モンスターへの効果</h2>
+<p><code>switch_effects_monster()</code> (effect-monster-switcher.cpp) で <code>effect_monster_nothing()</code> に委譲される（PSY_SPEAR / MISSILE / MANA などと共通）。</p>
 <ul>
-<li>耐性軽減や状態異常を持たず、<code>ep_ptr-&gt;dam</code> がそのまま <code>take_hit(DAMAGE_ATTACK)</code> に入ります。</li>
-<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
-<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
-<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
-<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
+<li>見えていれば <code>obvious</code> を真にするのみ。</li>
+<li>耐性・弱点によるダメージ補正は一切なく、常に等倍でダメージが通る。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
+<h2>プレイヤーへの効果</h2>
+<p>処理は <code>effect_player_mana()</code> (effect-player-resist-hurt.cpp)。SEEKER / SUPER_RAY と共通。</p>
+<pre><code>get_damage = take_hit(player_ptr, DAMAGE_ATTACK, dam, killer);
+</code></pre>
 <ul>
-<li>モンスター側では追加の耐性・状態異常処理を持たず、投射処理で計算された基本ダメージをそのまま後続のHP減少へ渡します。</li>
+<li>ダメージ倍率補正や耐性判定はなく、そのままの威力でダメージを受ける。</li>
+<li>盲目時は「魔法のオーラで攻撃された！」と表示される。</li>
+<li>追加の状態異常は発生しない。</li>
 </ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
+<h2>アイテムへの効果</h2>
+<p>処理は <code>affect_item()</code> (effect-item.cpp) の MANA / SEEKER / SUPER_RAY 共通 case。</p>
 <ul>
-<li>通常地形には大きな変化がなくても、木に対しては属性に応じた破壊メッセージを出し、折れた木または草地へ変化させます。</li>
+<li>床にあるアイテムは無条件で破壊される（<code>do_kill</code>）。</li>
+<li>破壊メッセージ:「（アイテム名）は壊れてしまった！」</li>
+<li>固定・ランダムアーティファクトは破壊されず「影響を受けない！」と表示される。</li>
 </ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
+<h2>地形への効果</h2>
+<p>処理は <code>affect_feature()</code> (effect-feature.cpp)。</p>
 <ul>
-<li>対象マスの床上アイテムを無条件または条件付きで破壊対象にします。固定/ランダムアーティファクトは破壊されません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
+<li>樹木マスに命中した場合、「木は粉砕された。」と表示され、1/3 の確率で藪 (BRAKE)、それ以外は草 (GRASS) に変化する（METEOR / CHAOS / SHARDS 等と共通の破壊メッセージ）。</li>
+<li>樹木以外の地形に対する変化処理は MANA には存在しない（type 分岐で break）。</li>
 </ul>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

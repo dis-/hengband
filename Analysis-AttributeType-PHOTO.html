@@ -146,43 +146,53 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>概要</h2>
+<p>撮影（<code>AttributeType::PHOTO</code>、<code>GF_PHOTO</code>）は、対象モンスターを「写真に撮る」属性である。撮影の副次効果として閃光（光）ダメージを与え、撮影後には写真アイテムを生成してプレイヤーの足元に落とす。処理は <code>effect_monster_photo()</code>（<code>src/effect/effect-monster-switcher.cpp</code>）と、後処理の <code>postprocess_by_taking_photo()</code>（<code>src/effect/effect-monster.cpp</code>）にある。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_photo()</code> の処理内容:</p>
+<p>プレイヤー起因（<code>is_player()</code>）の場合、まず次のメッセージ:</p>
+<blockquote>
+<p>%sを写真に撮った。</p>
+</blockquote>
+<p>続いてモンスターの光耐性（<code>MonsterResistanceType::HURT_LITE</code>＝光に弱い）で分岐する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HURT_LITE</code> を持つ（光に弱い）</td>
+<td>ダメージはそのまま。見えていれば <code>obvious</code>、種族知識に <code>HURT_LITE</code> を記録。下記のメッセージを設定</td>
+</tr>
+<tr>
+<td><code>HURT_LITE</code> を持たない</td>
+<td><code>dam = 0</code>（ダメージ無効化）</td>
+</tr>
+</tbody>
+</table></div>
+<p>光に弱いモンスターに設定されるメッセージ:</p>
+<blockquote>
+<p>は光に身をすくめた！</p>
+</blockquote>
+<p>（死亡時）</p>
+<blockquote>
+<p>は光を受けてしぼんでしまった！</p>
+</blockquote>
+<p>最後に <code>em_ptr-&gt;photo</code> に対象モンスターの種族ID（<code>r_idx</code>）を格納し、後続処理へ渡す。すなわち PHOTO は「光に弱い相手にのみ閃光ダメージが通り、それ以外にはダメージ0」という光属性系の挙動を持つ。</p>
+<p><strong>撮影の後処理</strong>（<code>postprocess_by_taking_photo()</code>）: <code>photo</code> が0でなければ、種族IDを <code>pval</code> に持つ写真アイテム（<code>ItemKindType::STATUE</code>／<code>SV_PHOTO</code>）を生成し、完全鑑定済みの状態にしてプレイヤーの足元へ落とす（<code>drop_near</code>）。</p>
+<h2>プレイヤーへの効果</h2>
+<p><code>switch_effects_player()</code>（<code>src/effect/effect-player-switcher.cpp</code>）に PHOTO の分岐は無く、<code>default</code> に落ちて <code>dam = 0</code> となり、プレイヤーには何の効果も無い。</p>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item()</code>（<code>src/effect/effect-item.cpp</code>）に PHOTO の分岐は無く、<code>default</code>（<code>break</code> のみ）に落ちるため、既存アイテムには影響しない。なお撮影で生成される写真アイテムは前述のモンスター効果の後処理側で新規に落とされるものであり、<code>affect_item()</code> の処理とは別である。</p>
+<h2>地形への効果</h2>
+<p><code>affect_feature()</code>（<code>src/effect/effect-feature.cpp</code>）に PHOTO の分岐は無く、<code>default</code>（<code>break</code> のみ）に落ちるため、地形には一切影響しない。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

@@ -146,47 +146,61 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>地獄（NETHER）属性は、死と冥界の力による攻撃属性である。追加効果としてプレイヤーの経験値を吸収する。アンデッドは完全な耐性を持ち、幽霊（スペクター）系はダメージを受けず回復する。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_nether</code> による処理。まず耐性判定 <code>effect_monster_nether_resist</code> を行う。</p>
 <ul>
-<li>幽霊種族ならダメージを受けず、回避していなければHPを回復します。それ以外は地獄耐性で軽減し、耐性なしなら経験値吸収も起きます。</li>
-<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
-<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
-<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
-<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
+<li>地獄耐性（<code>RESIST_NETHER</code>）を持ち、かつアンデッド（<code>UNDEAD</code>）の場合、「には完全な耐性がある！」と表示されダメージ 0。</li>
+<li>地獄耐性を持つがアンデッドでない場合、「には耐性がある。」と表示されダメージ減少。</li>
+<li>地獄耐性が無く、邪悪（<code>EVIL</code>）でもない場合はそのまま。</li>
+<li>地獄耐性が無いが邪悪な場合、「はいくらか耐性を示した。」と表示されダメージが半減する。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>種族耐性に引っかかるとダメージを大きく減らします。見えている本来の姿なら、その耐性を学習済みフラグにも記録します。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>ダメージ倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>地獄耐性あり・アンデッド</td>
+<td>×0（完全耐性）</td>
+</tr>
+<tr>
+<td>地獄耐性あり・非アンデッド</td>
+<td>×3 ÷ (1d6 + 6)</td>
+</tr>
+<tr>
+<td>地獄耐性なし・邪悪</td>
+<td>÷2</td>
+</tr>
+<tr>
+<td>地獄耐性なし・非邪悪</td>
+<td>等倍</td>
+</tr>
+</tbody>
+</table></div>
+<h2>プレイヤーへの効果</h2>
+<p><code>effect_player_nether</code> による処理。目が見えない場合「地獄の力で攻撃された！」と表示される。</p>
+<p>スペクター（<code>SPECTRE</code>）種族の場合、ダメージを受けず、分身状態でなければ以下で回復する。</p>
+<pre><code>hp_player(dam / 4)
+</code></pre>
+<p>それ以外の種族では、ダメージが補正される。</p>
+<pre><code>dam = dam * calc_nether_damage_rate() / 100
+</code></pre>
+<p>地獄耐性が無く、分身状態でもない場合、経験値吸収が発生する。</p>
+<pre><code>drain_exp(200 + exp/100, 200 + exp/1000, 75)
+</code></pre>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item</code> に地獄属性（<code>NETHER</code>）の分岐は無く、アイテムへの固有効果は無い。</p>
+<h2>地形への効果</h2>
+<p><code>affect_feature</code> に地獄属性（<code>NETHER</code>）の分岐は無く、木を含め地形への固有効果は無い。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

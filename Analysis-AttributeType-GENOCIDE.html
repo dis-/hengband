@@ -146,43 +146,98 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>抹殺（GENOCIDE）は、対象モンスターを**ダメージを与えずに盤面から消し去る（除去する）**効果です。単体を対象とし、抹殺魔法の杖（SV_WAND_GENOCIDE）などから発動されます。</p>
+<p>除去に成功したモンスターは戦闘やドロップを介さず即座に floor から取り除かれます。抹殺がプレイヤーの魔法によるものの場合、術者自身も精神的疲労として HP を消費します。プレイヤー・アイテム・地形には効果がありません。</p>
+<h2>モンスターへの効果</h2>
+<p>処理は <code>effect_monster_genocide()</code>（<code>effect-monster-switcher.cpp</code>）から <code>genocide_aux()</code>（<code>spells-genocide.cpp</code>）へ委譲されます。</p>
+<p><code>genocide_aux()</code> に渡される引数は次の通りです。</p>
+<pre><code>power     = 効果の威力(dam)
+player_cast = 発動者がプレイヤーか
+dam_side  = (モンスターのレベル + 1) / 2   ... 術者への負担ダメージ算出用
+spell_name = &quot;モンスター消滅&quot;
+</code></pre>
+<h3>抹殺の可否（除去処理）</h3>
+<p>以下の順に判定され、いずれかに該当すると「抵抗（resist）」となり除去されません。すべて外れた場合のみ <code>delete_monster_idx()</code> で除去されます。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>判定順</th>
+<th>条件</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>ペットであり、かつプレイヤーの発動でない</td>
+<td>効果なし（そのまま終了）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ユニーク、または QUESTOR（クエスト対象）</td>
+<td>抵抗（除去されない）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>即死無効（NO_INSTANTLY_DEATH）を持つ</td>
+<td>抵抗（除去されない）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>騎乗中のモンスター</td>
+<td>抵抗（除去されない）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>特別なフロア（<code>floor.is_special()</code>）にいる</td>
+<td>抵抗（除去されない）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>プレイヤー発動、かつ <code>モンスターのレベル &gt; randint0(power)</code></td>
+<td>抵抗（除去されない）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>プレイヤー発動、かつ抹殺無効フラグ NOGENO を持つ</td>
+<td>抵抗（除去されない）</td>
+</tr>
+<tr>
+<td>いずれも該当せず</td>
+<td>—</td>
+<td>除去される</td>
+</tr>
+</tbody>
+</table></div>
+<p>抵抗されたとき、プレイヤー発動の場合は以下が起こります。</p>
 <ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
+<li>見えていれば <code>%s^には効果がなかった。</code> を表示。</li>
+<li>眠っていれば目を覚まし、見えていれば <code>%s^が目を覚ました。</code> を表示。</li>
+<li>友好的（非ペット）なら敵対化し、見えていれば <code>%sは怒った！</code> を表示。</li>
+<li><code>one_in_(13)</code> の確率で以後の抹殺を無効化する NOGENO フラグが付与される。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
+<p>除去に成功すると <code>effect_monster_genocide()</code> 側で次を実行します。</p>
 <ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
+<li>見えていれば <code>%sは消滅した！</code>（<code>%s^ disappeared!</code>）を表示。</li>
+<li>徳（Virtue::VITALITY）を -1。</li>
 </ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h3>術者への負担（HPコスト）</h3>
+<p>プレイヤーの魔法による発動の場合、抵抗の成否にかかわらず術者が精神的疲労ダメージを受けます。</p>
+<pre><code>術者への負担ダメージ = randint1(dam_side)
+                     = randint1((モンスターのレベル + 1) / 2)
+</code></pre>
+<p>ダメージ種別は <code>DAMAGE_GENO</code>、理由文言は <code>%s^の呪文を唱えた疲労</code>（<code>the strain of casting %s^</code>）です。</p>
+<h2>プレイヤーへの効果</h2>
+<p>プレイヤーへの効果はありません（<code>effect-player-switcher.cpp</code> に該当 case なし）。なお術者への HP 負担は上記のモンスター抹殺処理の一部として発生します。</p>
+<h2>アイテムへの効果</h2>
+<p>アイテムへの効果はありません（<code>effect-item.cpp</code> に該当処理なし）。</p>
+<h2>地形への効果</h2>
+<p>地形への効果はありません（<code>effect-feature.cpp</code> に該当処理なし）。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

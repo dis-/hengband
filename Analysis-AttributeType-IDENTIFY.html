@@ -146,43 +146,26 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>床上アイテムを識別し、自動拾い設定にも反映します。破壊ではなく情報更新の属性です。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>概要</h2>
+<p>鑑定（<code>AttributeType::IDENTIFY</code>、<code>GF_IDENTIFY</code>）は、効果が及んだマス上のアイテムを鑑定する属性である。ダメージや状態異常は持たず、対象アイテムの情報を確定させることだけを目的とする。</p>
+<h2>モンスターへの効果</h2>
+<p><code>switch_effects_monster()</code>（<code>src/effect/effect-monster-switcher.cpp</code>）に IDENTIFY の専用分岐は無く、<code>default</code> に落ちる。<code>default</code> では <code>skipped = true</code>、<code>dam = 0</code> とされ、モンスターには何の効果も及ばない。</p>
+<h2>プレイヤーへの効果</h2>
+<p><code>switch_effects_player()</code>（<code>src/effect/effect-player-switcher.cpp</code>）に IDENTIFY の分岐は無く、<code>default</code> に落ちて <code>dam = 0</code> となり、プレイヤーには何の効果も無い。</p>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item()</code>（<code>src/effect/effect-item.cpp</code>）で IDENTIFY は対象アイテムを鑑定する。</p>
+<pre><code class="language-cpp">case AttributeType::IDENTIFY:
+    identify_item(player_ptr, &amp;item);
+    autopick_alter_item(player_ptr, (-this_o_idx), false);
+    break;
+</code></pre>
+<p><code>identify_item()</code> でアイテムを鑑定し、続く <code>autopick_alter_item()</code> で自動拾い設定に基づく処理を行う（第3引数 <code>false</code> のため破壊・放置はしない）。アイテムの破壊（<code>do_kill</code>）は発生しない。</p>
+<h2>地形への効果</h2>
+<p><code>affect_feature()</code>（<code>src/effect/effect-feature.cpp</code>）では、IDENTIFY は効果を無視する属性群（<code>break</code> のみ）に含まれ、地形には一切影響しない。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

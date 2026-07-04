@@ -146,47 +146,72 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>混乱耐性でHPダメージを軽減します。耐性がなく多重影で回避していなければ混乱継続時間が増えます。</li>
-<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
-<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
-<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
-<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
-</ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>種族耐性に引っかかるとダメージを大きく減らします。見えている本来の姿なら、その耐性を学習済みフラグにも記録します。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>概要</h2>
+<p>混乱 (CONFUSION) は、対象に混乱状態を付与する魔法属性である。モンスターに対しては混乱耐性 (NO_CONF) の有無でダメージと効果が変化し、プレイヤーに対しては混乱耐性がなければ混乱状態を付与しつつダメージを与える。</p>
+<h2>モンスターへの効果</h2>
+<p>処理は <code>effect_monster_confusion</code> (effect-monster-resist-hurt.cpp) で行われる。</p>
+<p>混乱耐性 (NO_CONF) を持たないモンスターには、以下の混乱付与値 (do_conf) を設定する。</p>
+<pre><code>do_conf = (10 + randint1(15) + r) / (r + 1)
+</code></pre>
+<p>（r は距離減衰係数）</p>
+<p>混乱耐性 (NO_CONF) を持つモンスターにはダメージが軽減される。</p>
+<pre><code>dam = dam * 3 / (randint1(6) + 6)
+</code></pre>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>混乱耐性なし</td>
+<td>do_conf 分の混乱を蓄積</td>
+</tr>
+<tr>
+<td>混乱耐性あり</td>
+<td>「には耐性がある。」、ダメージ 3/(randint1(6)+6) 倍</td>
+</tr>
+</tbody>
+</table></div>
+<p>蓄積された混乱値は <code>effect_damage_piles_confusion</code> (effect-monster.cpp) で適用される。混乱耐性を持つ場合は適用されない。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>状態</th>
+<th>メッセージ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>新規に混乱</td>
+<td>「は混乱したようだ。」</td>
+</tr>
+<tr>
+<td>すでに混乱中に追加</td>
+<td>「はさらに混乱したようだ。」（残り混乱値 + do_conf/2 を加算）</td>
+</tr>
+</tbody>
+</table></div>
+<h2>プレイヤーへの効果</h2>
+<p>処理は <code>effect_player_confusion</code> (effect-player-resist-hurt.cpp) で行われる。</p>
+<p>盲目状態の場合、「何か混乱するもので攻撃された！」と表示される。</p>
+<p>ダメージは混乱ダメージ率で補正される。</p>
+<pre><code>dam = dam * calc_conf_damage_rate(player_ptr, CALC_RAND) / 100
+</code></pre>
+<p>混乱耐性がなく、多重影 (multishadow) でもない場合、混乱状態を付与する。</p>
+<pre><code>混乱付与ターン = randint1(20) + 10
+</code></pre>
+<p>補正後ダメージで <code>take_hit</code> によるダメージを受ける。</p>
+<h2>アイテムへの効果</h2>
+<p>アイテムへの効果はない。</p>
+<h2>地形への効果</h2>
+<p>地形への効果はない。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

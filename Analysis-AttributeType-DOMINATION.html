@@ -146,43 +146,120 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>精神支配（DOMINATION）は敵対的なモンスターの精神を支配し、隷属（ペット化）させる属性。ユニーク・クエスト対象・混乱耐性・高レベルのモンスターには支配が効かず、代わりに朦朧・混乱・恐怖のいずれかを与える。UNDEAD/DEMON の強力なモンスターは攻撃を跳ね返し、プレイヤー側に状態異常を及ぼすことがある。地形・アイテムには効果を及ぼさない。</p>
+<h2>モンスターへの効果</h2>
+<p>敵対的でないモンスターには何もしない（そのまま継続）。</p>
+<h3>支配不能判定</h3>
+<p>以下のいずれかを満たすと支配は成立しない。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNIQUE を持つ</td>
+</tr>
+<tr>
+<td>QUESTOR（クエスト対象）を持つ</td>
+</tr>
+<tr>
+<td>NO_CONF（混乱耐性）を持つ</td>
+</tr>
+<tr>
+<td>レベル &gt; d(max(1, ダメージ − 10)) + 10</td>
+</tr>
+</tbody>
+</table></div>
+<p>この場合、混乱付与量（do_conf）は0にされ、跳ね返し処理（下記）へ進む。</p>
+<h3>跳ね返し（支配不能だった場合）</h3>
+<p>以下をすべて満たすと跳ね返しが発生する。満たさなければ「には効果がなかった。」。</p>
 <ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
+<li>UNDEAD または DEMON（堕落した精神）である</li>
+<li>レベル &gt; プレイヤーレベル / 2</li>
+<li>1/2 の確率</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<blockquote>
+<p>「%sの堕落した精神は攻撃を跳ね返した！」</p>
+</blockquote>
+<p>（跳ね返し後のプレイヤーへの影響は「プレイヤーへの効果」参照）</p>
+<h3>支配判定（支配可能だった場合）</h3>
+<p>魅了用セービングスロー <code>common_saving_throw_charm</code>（下記）に失敗すると隷属（ペット化）。</p>
+<blockquote>
+<p>「があなたに隷属した。」</p>
+</blockquote>
+<p>セービングスローに成功（抵抗）した場合、以下の追加効果：</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>抽選(1/4)</th>
+<th>効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>朦朧 ダメージ / 2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>混乱 ダメージ / 2</td>
+</tr>
+<tr>
+<td>3〜4</td>
+<td>恐怖 ダメージ</td>
+</tr>
+</tbody>
+</table></div>
+<h4>魅了セービングスロー（common_saving_throw_charm）</h4>
+<p>以下のいずれかで無条件に抵抗（支配失敗）：闘技場内、RESIST_ALL、NO_CONF、QUESTOR、NOPET。
+そうでなければ：</p>
+<pre><code>pow = ダメージ + (魅力補正 adj_chr_chm − 1)
+UNIQUE または NAZGUL なら pow = pow * 2 / 3
+抵抗成立: モンスターレベル &gt; randint1(max(1, pow − 10)) + 5
+</code></pre>
+<h2>プレイヤーへの効果</h2>
+<p>DOMINATION 属性がプレイヤーへ向かう独立処理は存在しない（<code>switch_effects_player</code> に分岐が無く default でダメージ0）。プレイヤーが影響を受けるのは、モンスターが攻撃を跳ね返した場合のみ。</p>
+<p>跳ね返し後のプレイヤー側の反射判定：</p>
+<pre><code>randint0(100 + モンスターレベル / 2) &lt; skill_sav
+</code></pre>
+<p>成立時：</p>
+<blockquote>
+<p>「しかし効力を跳ね返した！」</p>
+</blockquote>
+<p>失敗時の追加効果：</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>抽選(1/4)</th>
+<th>効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>朦朧 ダメージ / 2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>混乱 ダメージ / 2</td>
+</tr>
+<tr>
+<td>3〜4</td>
+<td>恐怖 ダメージ（NO_FEAR モンスターの跳ね返し時は「には効果がなかった。」で無効）</td>
+</tr>
+</tbody>
+</table></div>
+<h2>アイテムへの効果</h2>
+<p>なし（<code>affect_item</code> に DOMINATION の分岐は存在しない）。</p>
+<h2>地形への効果</h2>
+<p>なし（<code>affect_feature</code> では「Ignore most effects」に分類される）。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

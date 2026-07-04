@@ -146,43 +146,49 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>概要</h2>
+<p>すべてのモンスターを対象とする恐慌（恐怖）効果。ダメージは与えず、対象を恐怖状態にする。ユニークモンスター・NO_FEAR 持ちのモンスターには無効。プレイヤー・アイテム・地形には効果がない。</p>
+<h2>モンスターへの効果</h2>
+<p>種別による対象制限はなく、全モンスターが対象となる。恐怖付与量を次の式で決定する。</p>
+<pre><code>do_fear = 3d(dam / 2) + 1
+</code></pre>
+<p>ただし次のいずれかに該当する場合、恐怖は無効化される。</p>
+<pre><code>・ユニークモンスターである
+・NO_FEAR を持つ
+・モンスターのレベル &gt; randint1( max(dam - 10, 1) ) + 10
+</code></pre>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>結果</th>
+<th>メッセージ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユニーク or NO_FEAR or レベル判定を上回る</td>
+<td>恐怖無効化 (do_fear = 0)</td>
+<td>「には効果がなかった。」</td>
+</tr>
+<tr>
+<td>上記以外</td>
+<td>恐怖状態を付与</td>
+<td>（通常の恐怖処理メッセージ）</td>
+</tr>
+</tbody>
+</table></div>
+<p>このダメージ属性そのものによるダメージは常に 0 に設定される（<code>dam = 0</code>）。</p>
+<h2>プレイヤーへの効果</h2>
+<p>プレイヤーへの効果は定義されていない（switcher の default 節でダメージが 0 に設定され、何も起こらない）。</p>
+<h2>アイテムへの効果</h2>
+<p>アイテムへの効果は定義されていない。</p>
+<h2>地形への効果</h2>
+<p>地形への効果は定義されていない。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

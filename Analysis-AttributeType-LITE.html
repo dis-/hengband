@@ -146,47 +146,109 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>閃光 (LITE) 属性は光による攻撃。プレイヤーが放つビーム/ボルト/ボール系では、<code>project()</code> 内で breath またはビーム (<code>PROJECT_BEAM</code>) の場合に <code>PROJECT_LOS</code> フラグが付与され、光が視線 (Line of Sight) の通る限り届く挙動になる。</p>
+<p>ボール系の距離減衰は共通で、爆心からの距離 <code>r</code> に対して以下の式で基本威力が減衰する。</p>
+<pre><code>dam = (dam + r) / (r + 1)
+</code></pre>
+<h2>モンスターへの効果</h2>
+<p>処理は <code>effect_monster_lite()</code> (effect-monster-lite-dark.cpp)。</p>
 <ul>
-<li>閃光耐性でHPダメージを軽減します。閃光耐性/盲目耐性がない場合は盲目になり、幽体化中なら解除されます。</li>
-<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
-<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
-<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
-<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
+<li>光耐性 (RESIST_LITE) を持つモンスターは「には耐性がある！」と表示され、ダメージが減衰する。</li>
+<li>光耐性を持たず、光弱点 (HURT_LITE) を持つモンスターはダメージが倍増し、専用メッセージが表示される。</li>
+<li>どちらも持たないモンスターには倍率補正なし。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
+<p>耐性・弱点によるダメージ倍率:</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>ダメージ倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>光耐性 (RESIST_LITE)</td>
+<td>×2 ÷ (randint1(6)+6)（実効 2/7〜2/12）</td>
+</tr>
+<tr>
+<td>光弱点 (HURT_LITE)</td>
+<td>×2</td>
+</tr>
+<tr>
+<td>上記なし</td>
+<td>×1（等倍）</td>
+</tr>
+</tbody>
+</table></div>
+<pre><code>// 光耐性
+dam = dam * 2 / (randint1(6) + 6);
+// 光弱点
+dam = dam * 2;
+</code></pre>
+<p>光弱点のモンスターに対するメッセージ:</p>
 <ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
+<li>命中時: 「は光に身をすくめた！」</li>
+<li>死亡時: 「は光を受けてしぼんでしまった！」</li>
 </ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
+<h2>プレイヤーへの効果</h2>
+<p>処理は <code>effect_player_lite()</code> (effect-player-resist-hurt.cpp)。ダメージ倍率は <code>calc_lite_damage_rate()</code> による。</p>
+<pre><code>dam = dam * calc_lite_damage_rate(player_ptr) / 100;
+</code></pre>
+<p>ダメージ倍率 <code>calc_lite_damage_rate()</code>:</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>光免疫 (immune_lite)</td>
+<td>0%（無効）</td>
+</tr>
+<tr>
+<td>光弱点 (VUL_LITE) かつ アンデッド系種族</td>
+<td>×2</td>
+</tr>
+<tr>
+<td>光弱点 (VUL_LITE) かつ 上記以外</td>
+<td>×4/3</td>
+</tr>
+<tr>
+<td>光耐性 (resist_lite)</td>
+<td>×400 ÷ randrate(4,7)（実効 400/28〜400/49 相当 ≒ 8〜14%）</td>
+</tr>
+<tr>
+<td>幽体化 (wraith_form) 中</td>
+<td>×2</td>
+</tr>
+</tbody>
+</table></div>
+<p>（上記の各補正は該当すれば累積で適用される）</p>
+<p>追加効果:</p>
 <ul>
-<li>地形処理はHPダメージではなく、対象マスの地形ID・記憶・明暗・安全情報を変える処理です。視界内/記憶済みなら <code>obvious</code> が立ち、観測された効果になります。</li>
+<li>盲目でなく、光耐性・盲目耐性のいずれも持たず、多重影でない場合、<code>randint1(5)+2</code> ターンの盲目になる。</li>
+<li>アンデッド系種族で光弱点 (VUL_LITE) を持つ場合、「光で肉体が焦がされた！」と表示される（多重影中を除く）。</li>
+<li>幽体化 (wraith_form) 中の場合、多重影中でなければ幽体化が解除され「閃光のため非物質的な影の存在でいられなくなった。」と表示される。</li>
+<li>盲目時は攻撃を受けると「何かで攻撃された！」と表示される。</li>
 </ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item()</code> (effect-item.cpp) に LITE 属性の case は存在せず、床のアイテムを破壊しない。</p>
+<h2>地形への効果</h2>
+<p>処理は <code>affect_feature()</code> (effect-feature.cpp) の LITE_WEAK / LITE 共通 case。</p>
 <ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
+<li>ダンジョンが暗黒属性 (DARKNESS) を持つ場合は何もしない。</li>
+<li>それ以外では対象マスに <code>CAVE_GLOW</code> を付与して照らし、周辺の照明を更新する。</li>
+<li>マスにモンスターがいれば状態を更新する。</li>
+<li>プレイヤーがそのマスにいる場合、超隠密 (superstealth) 状態を解除する。</li>
 </ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<p>樹木マスに命中した場合、（LITE は樹木破壊メッセージの対象属性ではないため）特別な変化はない。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

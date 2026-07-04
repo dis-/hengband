@@ -146,43 +146,26 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>概要</h2>
+<p>白兵（<code>AttributeType::ATTACK</code>、<code>GF_ATTACK</code>）は、効果システム（project/affect）の枠組みを使ってプレイヤーの近接攻撃を発動させるための特殊属性である。ダメージ属性としての実体は持たず、剣術（必殺技）などが対象マスへ通常の白兵攻撃を差し込む用途で用いられる。</p>
+<p><code>switch_effects_monster()</code>（<code>src/effect/effect-monster-switcher.cpp</code>）での処理:</p>
+<pre><code class="language-cpp">case AttributeType::ATTACK:
+    return do_cmd_attack(player_ptr, em_ptr-&gt;y, em_ptr-&gt;x,
+        i2enum&lt;combat_options&gt;(em_ptr-&gt;dam)) ? PROCESS_TRUE : PROCESS_FALSE;
+</code></pre>
+<p>ここで <code>dam</code> フィールドはダメージ量ではなく、<code>combat_options</code>（剣術種別、<code>src/combat/combat-options-type.h</code> の <code>HISSATSU_*</code>）として再解釈され、対象座標に対して <code>do_cmd_attack()</code> による白兵攻撃を実行する。</p>
+<h2>モンスターへの効果</h2>
+<p>上記の通り、属性固有のダメージ計算は行わず、<code>do_cmd_attack()</code> を呼んで対象マスへ通常の近接攻撃を行う。実際のダメージ・命中・状態異常はすべて通常の白兵戦闘（および指定された剣術 <code>combat_options</code>）のロジックに委ねられる。攻撃が成立すれば <code>PROCESS_TRUE</code>、しなければ <code>PROCESS_FALSE</code> を返す。</p>
+<h2>プレイヤーへの効果</h2>
+<p><code>switch_effects_player()</code>（<code>src/effect/effect-player-switcher.cpp</code>）に ATTACK の分岐は無く、<code>default</code> に落ちて <code>dam = 0</code> となり、プレイヤーには何の効果も無い。</p>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item()</code>（<code>src/effect/effect-item.cpp</code>）に ATTACK の分岐は無く、<code>default</code>（<code>break</code> のみ）に落ちるため、アイテムには一切影響しない。</p>
+<h2>地形への効果</h2>
+<p><code>affect_feature()</code>（<code>src/effect/effect-feature.cpp</code>）では、ATTACK は効果を無視する属性群（<code>break</code> のみ）に含まれ、地形には一切影響しない。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

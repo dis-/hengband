@@ -146,47 +146,68 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>深淵（ABYSS）属性は、深淵の暗黒に引きずり込む攻撃属性である。暗黒を放つモンスターや暗黒耐性を持つモンスターが耐性を示し、飛べないモンスターは深淵に囚われる。プレイヤーには減速・幻覚・混乱・恐怖の追加効果を持ち、地形を暗くする。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_abyss</code> による処理。以下の順で判定される。</p>
 <ul>
-<li>深淵耐性でHPダメージを軽減します。浮遊なしの減速、カオス耐性なしの幻覚、混乱耐性なしの混乱、恐怖耐性なしの恐怖を伴います。</li>
-<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
-<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
-<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
-<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
+<li>自己や周囲に暗黒を持つ（<code>SELF_DARK_1/2</code>、<code>HAS_DARK_1/2</code>）場合、「には耐性がある！」と表示されダメージ減少（÷(1d6 + 6)）。</li>
+<li>暗黒耐性（<code>RESIST_DARK</code>）を持つ場合、「には耐性がある！」と表示されダメージ減少（÷(1d4 + 5)）。</li>
+<li>飛行不可（<code>CAN_FLY</code> を持たない）場合、テレポート耐性を持つならダメージ 1.25 倍。「は深淵に囚われていく。」（死亡時「は深淵に堕ちてしまった。」）と表示され、1/3 の確率で減速する。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>ダメージ倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>暗黒を放つ（各種 DARK フラグ）</td>
+<td>×3 ÷ (1d6 + 6)</td>
+</tr>
+<tr>
+<td>暗黒耐性（<code>RESIST_DARK</code>）</td>
+<td>×3 ÷ (1d4 + 5)</td>
+</tr>
+<tr>
+<td>飛行不可 + テレポート耐性</td>
+<td>×5 ÷ 4（1.25倍）</td>
+</tr>
+<tr>
+<td>飛行不可（テレポート耐性なし）</td>
+<td>等倍</td>
+</tr>
+</tbody>
+</table></div>
+<p>さらに、<code>ELDRITCH_HORROR</code> または <code>EMPTY_MIND</code> を持たないモンスターには、1/3 の確率で追加効果が発生する（そのうち 1/2 で混乱、1/2 で恐怖）。</p>
+<pre><code>do_conf または do_fear = (10 + 1d15 + r) / (r + 1)
+</code></pre>
+<h2>プレイヤーへの効果</h2>
+<p><code>effect_player_abyss</code> による処理。目が見えない場合「身体が沈み込む気がする！」、そうでなければ「深淵があなたを誘い込んでいる！」と表示される。ダメージは補正される。</p>
+<pre><code>dam = dam * calc_abyss_damage_rate() / 100
+</code></pre>
+<p>分身状態の場合はここで終了する。分身状態でなければ:</p>
 <ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
+<li>浮遊していない場合、減速を <code>randint0(4) + 4</code> 追加。</li>
+<li>目が見えない場合はここで終了する。</li>
+<li>目が見える場合、「深淵から何かがあなたを覗き込んでいる！」と表示され、以下が発生する。
 <ul>
-<li>地形処理はHPダメージではなく、対象マスの地形ID・記憶・明暗・安全情報を変える処理です。視界内/記憶済みなら <code>obvious</code> が立ち、観測された効果になります。</li>
+<li>カオス耐性が無ければ幻覚を <code>1d10</code> 追加。</li>
+<li>混乱耐性が無ければ混乱を <code>1d10</code> 追加。</li>
+<li>恐怖耐性が無ければ恐怖を <code>1d10</code> 追加。</li>
 </ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
+</li>
 </ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item</code> に深淵属性（<code>ABYSS</code>）の分岐は無く、アイテムへの固有効果は無い。</p>
+<h2>地形への効果</h2>
+<p><code>affect_feature</code> において、深淵属性（<code>ABYSS</code>）は暗黒（<code>DARK</code>）と同じ分岐で処理される。位相外でなく鏡でもない地形について、地下または夜間であれば周囲に光る地形が無い場合に限り、そのマスの光（<code>CAVE_GLOW</code>）を消す。地形が記憶対象でない、または闇の元素耐性を持つ場合はマスの記憶（<code>CAVE_MARK</code>）も消去する。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

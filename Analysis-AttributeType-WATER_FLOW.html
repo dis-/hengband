@@ -146,43 +146,49 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>流水（WATER_FLOW）属性は、地形を水地形へと変化させる専用の属性である。モンスター・プレイヤー・アイテムに対する効果は持たず、床を浅い水／深い水に変える地形操作のみを行う。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_switcher</code> に流水属性の case は存在しない。したがってモンスターへのダメージ・状態異常などの効果はない。</p>
+<h2>プレイヤーへの効果</h2>
+<p><code>effect_player_switcher</code> に流水属性の case は存在しない。したがってプレイヤーへのダメージ・状態異常などの効果はない。</p>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item</code> に流水属性の処理は存在せず、アイテムへの効果はない。</p>
+<h2>地形への効果</h2>
+<p><code>affect_feature</code> により処理される。地形を水地形へと変化させる。</p>
 <ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
+<li>永久地形（PERMANENT）には効果がない。</li>
+<li>ダメージ（<code>dam</code>）の値によって変化先が決まる。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>地形処理はHPダメージではなく、対象マスの地形ID・記憶・明暗・安全情報を変える処理です。視界内/記憶済みなら <code>obvious</code> が立ち、観測された効果になります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<pre><code>dam == 1 の場合: 対象が床（FLOOR）であれば「浅い水」に変える（床でなければ何もしない）
+dam &gt;= 2 の場合: 「深い水」に変える
+</code></pre>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>dam の値</th>
+<th>変化先</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>浅い水（SHALLOW_WATER）</td>
+<td>床地形（FLOOR）であること</td>
+</tr>
+<tr>
+<td>2 以上</td>
+<td>深い水（DEEP_WATER）</td>
+<td>―</td>
+</tr>
+</tbody>
+</table></div>
+<p>なお、この <code>dam</code> は <code>affect_feature</code> 冒頭で <code>dam = (dam + r) / (r + 1)</code> として爆発中心からの距離 r で減衰した後の値である。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

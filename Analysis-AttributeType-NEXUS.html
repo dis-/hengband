@@ -146,47 +146,67 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>因果混乱耐性でHPダメージを軽減します。耐性がなければ能力値入れ替えやテレポートなどの因果混乱効果を受けます。</li>
-<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
-<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
-<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
-<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
-</ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>種族耐性に引っかかるとダメージを大きく減らします。見えている本来の姿なら、その耐性を学習済みフラグにも記録します。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>概要</h2>
+<p>因果混乱（NEXUS）属性は、空間と因果を歪める攻撃属性である。プレイヤーに対しては、テレポート・レベルテレポート・能力値入れ替えといった多彩な空間・因果的追加効果を持つ。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_nexus</code> による処理。因果混乱耐性（<code>RESIST_NEXUS</code>）を持たない場合はダメージのみ。持つ場合は「には耐性がある。」と表示されダメージが減少する。モンスター側にはテレポート等の追加効果は無い。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>ダメージ倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>因果混乱耐性あり</td>
+<td>×3 ÷ (1d6 + 6)</td>
+</tr>
+<tr>
+<td>因果混乱耐性なし</td>
+<td>等倍</td>
+</tr>
+</tbody>
+</table></div>
+<h2>プレイヤーへの効果</h2>
+<p><code>effect_player_nexus</code> による処理。目が見えない場合「何か奇妙なもので攻撃された！」と表示される。ダメージは補正される。</p>
+<pre><code>dam = dam * calc_nexus_damage_rate() / 100
+</code></pre>
+<p>因果混乱耐性が無く、分身状態でもない場合、<code>apply_nexus</code> によって <code>1d7</code> の抽選で以下の効果が発生する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>抽選値</th>
+<th>効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1〜3</td>
+<td>距離 200 のテレポート</td>
+</tr>
+<tr>
+<td>4〜5</td>
+<td>攻撃元モンスターの位置へテレポート</td>
+</tr>
+<tr>
+<td>6</td>
+<td>レベル・テレポート（<code>skill_sav</code> で確率的に「しかし効力を跳ね返した！」と抵抗）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>「体がねじれ始めた...」と表示され能力値シャッフル（<code>skill_sav</code> で抵抗可）</td>
+</tr>
+</tbody>
+</table></div>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item</code> に因果混乱属性（<code>NEXUS</code>）の分岐は無く、アイテムへの固有効果は無い。</p>
+<h2>地形への効果</h2>
+<p><code>affect_feature</code> に因果混乱属性（<code>NEXUS</code>）の分岐は無く、木を含め地形への固有効果は無い。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

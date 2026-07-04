@@ -146,43 +146,27 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>弱暗 (DARK_WEAK) 属性は、ダメージを与えることを目的としない弱い闇の属性。主にマスを暗くするために使われる。</p>
+<h2>モンスターへの効果</h2>
+<p><code>switch_effects_monster()</code> (effect-monster-switcher.cpp) に DARK_WEAK の case は存在せず、default に落ちる。この場合 <code>skipped</code> が真になりダメージが 0 になる。モンスターにダメージや状態異常は与えない。</p>
+<h2>プレイヤーへの効果</h2>
+<p><code>switch_effects_player()</code> (effect-player-switcher.cpp) に DARK_WEAK の case は存在せず、default に落ちてダメージが 0 になる。プレイヤーには影響しない。</p>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item()</code> (effect-item.cpp) に DARK_WEAK 属性の case は存在せず、床のアイテムを破壊しない。</p>
+<h2>地形への効果</h2>
+<p>処理は <code>affect_feature()</code> (effect-feature.cpp) の DARK_WEAK / DARK / ABYSS 共通 case（マスを暗くする処理）。暗黒 (DARK) と同一の処理。</p>
 <ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>地形処理はHPダメージではなく、対象マスの地形ID・記憶・明暗・安全情報を変える処理です。視界内/記憶済みなら <code>obvious</code> が立ち、観測された効果になります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
+<li>幻影階 (phase out) 中、または対象マスが鏡の場合は何もしない。</li>
+<li>地下、または夜間の場合、隣接する 8 マスのいずれかが発光地形 (GLOW) を持っていれば暗くしない。</li>
+<li>上記条件を満たせば対象マスの <code>CAVE_GLOW</code> を消去して暗くする。</li>
+<li>地形が REMEMBER 特性を持たない、または闇の元素耐性 (ElementRealmType::DARKNESS) を持つ場合、マスの記憶 (CAVE_MARK) を消去する。</li>
+<li>周辺の照明を更新し、マスにモンスターがいれば状態を更新する。</li>
 </ul>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

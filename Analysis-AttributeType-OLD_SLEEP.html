@@ -146,43 +146,58 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>スリープ・モンスター (OLD_SLEEP) 属性は、対象を眠らせる (麻痺させる) 効果。モンスターには睡眠、プレイヤーには麻痺として作用する。ダメージは与えない（処理後に <code>dam = 0</code>）。アイテム・地形への効果はない。</p>
+<h2>モンスターへの効果</h2>
+<p>処理は <code>effect_monster_old_sleep()</code> (effect-monster-oldies.cpp)。</p>
+<p>次のいずれかが真なら抵抗となり「には効果がなかった。」と表示される。</p>
+<pre><code>monrace.kind_flags.has(UNIQUE)
+|| monrace.resistance_flags.has(NO_SLEEP)
+|| (monrace.level &gt; randint1(std::max(1, dam - 10)) + 10)
+</code></pre>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユニーク (UNIQUE)</td>
+<td>抵抗</td>
+</tr>
+<tr>
+<td>眠らない (NO_SLEEP)</td>
+<td>抵抗</td>
+</tr>
+<tr>
+<td>レベル判定 <code>monrace.level &gt; randint1(max(1, dam-10)) + 10</code></td>
+<td>抵抗</td>
+</tr>
+</tbody>
+</table></div>
+<p>抵抗されなかった場合:</p>
 <ul>
-<li>行動の自由がなければ麻痺時間を増やします。悪夢モードでは精神攻撃も追加されます。HPダメージは発生しません。</li>
+<li>「は眠り込んでしまった！」と表示される。</li>
+<li>睡眠 (<code>do_sleep</code>) を 500 に設定する。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
+<h2>プレイヤーへの効果</h2>
+<p>処理は <code>effect_player_old_sleep()</code> (effect-player-oldies.cpp)。</p>
 <ul>
-<li>HPを減らすだけでなく、朦朧・混乱・睡眠・減速などの状態量を <code>EffectMonster</code> に積み、後続処理で反映させます。</li>
+<li>麻痺知らず (free_act) を持つ場合は何も起こらず終了する。</li>
+<li>盲目状態の場合「眠ってしまった！」と表示される。</li>
+<li>鉄人・悪夢モード (ironman_nightmare) の場合「恐ろしい光景が頭に浮かんできた。」と表示され、<code>sanity_blast()</code>（正気度攻撃）が発生する。</li>
+<li><code>dam</code> ターンの麻痺 (<code>mod_paralysis</code>) を受ける。</li>
 </ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item()</code> (effect-item.cpp) に OLD_SLEEP の case は存在せず、床のアイテムに影響しない。</p>
+<h2>地形への効果</h2>
+<p><code>affect_feature()</code> (effect-feature.cpp) に OLD_SLEEP の case は存在せず、地形を変化させない。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

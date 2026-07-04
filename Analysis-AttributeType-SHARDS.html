@@ -146,47 +146,87 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>破片（SHARDS）属性は、鋭い破片による物理的な打撃を与える属性である。命中したプレイヤーには切り傷を負わせ、冷気に弱いアイテム（薬・ロッド等）を砕く。ガラス系の地形や鏡を破壊する効果も持つ。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_shards</code> により処理される。</p>
 <ul>
-<li>破片耐性でHPダメージを軽減します。耐性がないと切り傷がダメージ量に応じて増え、冷気系所持品破壊も起こり得ます。</li>
-<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
-<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
-<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
-<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
+<li>破片への耐性（RESIST_SHARDS）を持たないモンスターには、通常どおりダメージが通る（副次効果なし）。</li>
+<li>破片耐性を持つモンスターは「には耐性がある。」というメッセージとともにダメージが軽減される。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
+<pre><code>耐性ありのダメージ = ダメージ × 3 ÷ (randint1(6) + 6)
+</code></pre>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>状態</th>
+<th>ダメージ倍率</th>
+<th>メッセージ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>耐性なし</td>
+<td>×1（軽減なし）</td>
+<td>―</td>
+</tr>
+<tr>
+<td>破片耐性あり（RESIST_SHARDS）</td>
+<td>×3 ÷ (7〜12)</td>
+<td>には耐性がある。</td>
+</tr>
+</tbody>
+</table></div>
+<h2>プレイヤーへの効果</h2>
+<p><code>effect_player_shards</code> により処理される。盲目時のメッセージは「何か鋭いもので攻撃された！」。</p>
 <ul>
-<li>種族耐性に引っかかるとダメージを大きく減らします。見えている本来の姿なら、その耐性を学習済みフラグにも記録します。</li>
+<li>ダメージは破片耐性の有無で倍率補正される。</li>
 </ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
+<pre><code>ダメージ = ダメージ × calc_shards_damage_rate() ÷ 100
+</code></pre>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>状態</th>
+<th>ダメージ倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>破片耐性なし</td>
+<td>×100%（等倍）</td>
+</tr>
+<tr>
+<td>破片耐性あり</td>
+<td>×600 ÷ (randrate(4,7)) ＝ 約 50%〜85%</td>
+</tr>
+</tbody>
+</table></div>
 <ul>
-<li>地形処理はHPダメージではなく、対象マスの地形ID・記憶・明暗・安全情報を変える処理です。視界内/記憶済みなら <code>obvious</code> が立ち、観測された効果になります。</li>
+<li>破片耐性がなく、かつ多重影（幻影分身）でない場合、ダメージ量に等しい値の切り傷（cut）を受ける。</li>
 </ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
+<pre><code>切り傷 = mod_cut(ダメージ)
+</code></pre>
 <ul>
-<li>冷気・破片で割れる床上アイテムを破壊対象にします。固定/ランダムアーティファクトは破壊されず、属性によっては <code>TR_IGNORE_COLD</code> でも保護されます。</li>
+<li>破片耐性がない、または 1/13 の確率で、冷気に弱いアイテムが被害を受ける（<code>inventory_damage(BreakerCold(), 2)</code>）。</li>
 </ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item</code> で ICE / SHARDS / FORCE / SOUND と共通処理される。</p>
 <ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
+<li>冷気を嫌うアイテム（<code>BreakerCold().hates()</code>、主に薬など）は砕け散る。メッセージは「砕け散ってしまった！」。</li>
+<li>固定・ランダムアーティファクトは影響を受けない（「影響を受けない！」）。</li>
+</ul>
+<h2>地形への効果</h2>
+<p><code>affect_feature</code> で ROCKET と共通処理される。</p>
+<ul>
+<li>対象地点に鏡がある場合、「鏡が割れた！」と表示して鏡を破壊し、さらに破片属性の爆発（半径2、威力 <code>プレイヤーレベル ÷ 2 + 5</code>）を誘発する。</li>
+<li>木（TREE）に当たると「木は粉砕された。」と表示され、1/3 の確率で藪、それ以外は草地に変わる。</li>
+<li>ガラス系地形（GLASS）で永久地形（PERMANENT）でなく、ダメージが 50 以上の場合、地形を破壊する。破壊時、視認していれば「（地形名）が割れた！」と表示される。</li>
 </ul>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

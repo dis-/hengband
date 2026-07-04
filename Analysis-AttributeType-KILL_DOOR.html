@@ -146,43 +146,74 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>ドア破壊属性（AttributeType::KILL_DOOR）は、罠と扉を破壊して床（通路）に変える地形改変属性。「トラップ・ドア破壊」系の効果が発生源。モンスターへの直接ダメージは持たない。</p>
+<p>ボール系ではゼロ地点からの距離 <code>r</code> に応じて基礎減衰を受ける。</p>
+<pre><code>dam = (dam + r) / (r + 1)
+</code></pre>
+<h2>地形への効果</h2>
+<p><code>affect_feature()</code> の <code>case AttributeType::KILL_DOOR</code> で処理される。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>結果</th>
+<th>メッセージ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>罠がある（<code>has_trap_at()</code>）または DOOR 特性を持つ地形</td>
+<td><code>cave_alter_feat(..., TUNNEL)</code> で床（通路）へ変化</td>
+<td>既知時「まばゆい閃光が走った！」</td>
+</tr>
+<tr>
+<td>上記以外</td>
+<td>何もしない</td>
+<td>（なし）</td>
+</tr>
+</tbody>
+</table></div>
 <ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
+<li>処理後、盲目でなく視線が通る（<code>has_los()</code>）場合、<code>CAVE_UNSAFE</code> フラグを消して再描画し obvious を立てる。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>地形処理はHPダメージではなく、対象マスの地形ID・記憶・明暗・安全情報を変える処理です。視界内/記憶済みなら <code>obvious</code> が立ち、観測された効果になります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<p>KILL_TRAP と異なり、扉は解錠ではなく TUNNEL で破壊され床になる。木やその他の地形には効果を持たない。</p>
+<h2>モンスターへの効果</h2>
+<p><code>effect_monster_switcher</code> の <code>default</code> 分岐に落ち、<code>skipped = true</code>／<code>dam = 0</code> となる。モンスターへの効果は無い。</p>
+<h2>プレイヤーへの効果</h2>
+<p><code>effect_player_switcher</code> に KILL_DOOR の分岐は無く、プレイヤーへの効果は無い。</p>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item()</code> の <code>case AttributeType::KILL_DOOR</code>（KILL_TRAP と共通）で処理される。対象は箱（CHEST）のみ。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>結果</th>
+<th>メッセージ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>箱（CHEST）でない</td>
+<td>何もしない</td>
+<td>（なし）</td>
+</tr>
+<tr>
+<td>箱の <code>pval &lt;= 0</code>（罠・施錠が無い）</td>
+<td>何もしない</td>
+<td>（なし）</td>
+</tr>
+<tr>
+<td>箱に罠・施錠がある（<code>pval &gt; 0</code>）</td>
+<td><code>pval</code> を負値化して罠・施錠を解除、鑑定済みにする</td>
+<td>既知かつ発見済みなら「カチッと音がした！」</td>
+</tr>
+</tbody>
+</table></div>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

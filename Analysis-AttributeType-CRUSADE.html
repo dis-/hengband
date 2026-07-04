@@ -146,43 +146,105 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
+<h2>概要</h2>
+<p>聖戦（<code>AttributeType::CRUSADE</code>、<code>GF_CRUSADE</code>）は、善なるモンスターを味方（ペット）に引き入れ、それ以外のモンスターを恐慌させる属性である。処理は <code>effect_monster_crusade()</code> および補助関数 <code>effect_monster_crusade_domination()</code>（<code>src/effect/effect-monster-charm.cpp</code>）にある。</p>
+<p>善のモンスターに対しては支配（味方化）＋加速を試み、善以外や支配に失敗したモンスターには恐怖を与える。</p>
+<h2>モンスターへの効果</h2>
+<p>まず <code>effect_monster_crusade_domination()</code> で支配判定を行う。</p>
+<p><strong>適用外の条件（支配失敗＝false）</strong>:</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>挙動</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象が善（<code>MonsterKindType::GOOD</code>）でない</td>
+<td>支配処理を行わず false</td>
+</tr>
+<tr>
+<td>闘技場内（<code>inside_arena</code>）</td>
+<td>支配処理を行わず false</td>
+</tr>
+</tbody>
+</table></div>
+<p>善のモンスターの場合、以下の補正を行う。</p>
+<pre><code>NO_CONF を持つなら dam -= 50
+dam &lt; 1 なら dam = 1
+</code></pre>
+<p>その後の分岐:</p>
 <ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
+<li>対象が既にペットの場合、加速のみ行う。</li>
 </ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
+<blockquote>
+<p>の動きが速くなった。</p>
+</blockquote>
+<p><code>set_monster_fast(..., 残り加速 + 100)</code> で加速する。</p>
 <ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
+<li>そうでない場合、以下のいずれかに該当すると支配失敗:</li>
 </ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>失敗条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クエスト対象（<code>QUESTOR</code>）</td>
+</tr>
+<tr>
+<td>ユニーク（<code>UNIQUE</code>）</td>
+</tr>
+<tr>
+<td>ペット化不可フラグ（<code>NOPET</code>）</td>
+</tr>
+<tr>
+<td>プレイヤーが <code>has_aggravate</code>（周囲刺激）状態</td>
+</tr>
+<tr>
+<td><code>(モンスターのレベル + 10) &gt; randint1(dam)</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>失敗時は 1/4 の確率で <code>NOPET</code> フラグが立ち、以後ペットにできなくなる。</p>
+<p>支配成功時:</p>
+<blockquote>
+<p>を支配した。</p>
+</blockquote>
+<p>ペット化（<code>set_pet</code>）し、<code>set_monster_fast(..., 残り加速 + 100)</code> で加速する。プレイヤーに見えていれば善（GOOD）の種族知識が記録される。</p>
+<p>支配に成功しなかった場合、<code>effect_monster_crusade()</code> 側で恐怖処理に移る。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NO_FEAR</code> を持たない</td>
+<td><code>do_fear = randint1(90) + 10</code>（恐怖付与）</td>
+</tr>
+<tr>
+<td><code>NO_FEAR</code> を持ち、視認済み</td>
+<td>恐怖耐性を種族知識に記録</td>
+</tr>
+</tbody>
+</table></div>
+<p>いずれの経路でも最終的に <code>dam = 0</code>（直接ダメージは無し）となる。</p>
+<h2>プレイヤーへの効果</h2>
+<p><code>switch_effects_player()</code>（<code>src/effect/effect-player-switcher.cpp</code>）に CRUSADE の分岐は無く、<code>default</code> に落ちて <code>dam = 0</code> となり、プレイヤーには何の効果も無い。</p>
+<h2>アイテムへの効果</h2>
+<p><code>affect_item()</code>（<code>src/effect/effect-item.cpp</code>）に CRUSADE の分岐は無く、<code>default</code>（<code>break</code> のみ）に落ちるため、アイテムには一切影響しない。</p>
+<h2>地形への効果</h2>
+<p><code>affect_feature()</code>（<code>src/effect/effect-feature.cpp</code>）に CRUSADE の分岐は無く、<code>default</code>（<code>break</code> のみ）に落ちるため、地形には一切影響しない。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

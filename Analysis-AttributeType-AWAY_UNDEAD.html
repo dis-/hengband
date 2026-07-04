@@ -146,43 +146,62 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>プレイヤー処理に固有分岐がない属性です。<code>switch_effects_player()</code> の <code>default</code> で <code>ep_ptr-&gt;dam=0</code> になり、この属性単体ではプレイヤーHPダメージや状態異常は発生しません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
-<h2>モンスター処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
-</ul>
-<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
-<h2>地形処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
-</ul>
-<p>参照: <code>src/effect/effect-feature.cpp</code></p>
-<h2>アイテム処理詳細</h2>
-<h3>解釈</h3>
-<ul>
-<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
-</ul>
-<p>参照: <code>src/effect/effect-item.cpp</code></p>
-<!-- attribute-detail:end -->
-<h2>処理の読み方</h2>
-<ul>
-<li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
-<li>モンスターが効果を受ける場合は <code>switch_effects_monster()</code> の分岐が使われます。</li>
-<li>地形・アイテム欄が <code>○</code> の属性は、ダメージ以外に床/壁/ドア/罠/アイテム破壊などの副作用を持つ可能性があります。</li>
-<li>弾色は <code>spell_color()</code> の新グラフィック分岐から抽出しています。通常表示では <code>gf_colors</code> のランダム色が使われる場合があります。</li>
-</ul>
+<h2>概要</h2>
+<p>アンデッド・アウェイ（AWAY_UNDEAD）は、対象のうち<strong>アンデッド属性のモンスターのみ</strong>をテレポートで飛ばす効果です。ダメージは与えません。</p>
+<p>アンデッド以外のモンスターには一切効果がなく（スキップ扱い）、プレイヤー・アイテム・地形には効果がありません。</p>
+<h2>モンスターへの効果</h2>
+<p>処理は <code>effect_monster_away_undead()</code>（<code>effect-monster-evil.cpp</code>）で行われます。</p>
+<p>対象がアンデッド属性（<code>MonsterKindType::UNDEAD</code>）を持たない場合、スキップされ効果はありません。</p>
+<p>アンデッド属性を持つ場合、共通のテレポート耐性判定 <code>effect_monster_away_resist()</code> を行い、耐性で弾かれなければテレポートさせます。飛ばす距離は効果の威力（<code>dam</code>）がそのまま使われます。</p>
+<pre><code>テレポート距離 = 効果の威力(dam)
+</code></pre>
+<h3>テレポート耐性判定</h3>
+<p>以下のいずれかで「耐性あり」となり、テレポートしません。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>結果</th>
+<th>メッセージ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>テレポート耐性（RESIST_TELEPORT）を持たない</td>
+<td>耐性なし（飛ぶ）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>RESIST_TELEPORT を持ち、かつユニーク または 全耐性（RESIST_ALL）</td>
+<td>耐性あり（飛ばない）</td>
+<td><code>には効果がなかった。</code></td>
+</tr>
+<tr>
+<td>RESIST_TELEPORT を持ち、<code>モンスターのレベル &gt; randint1(100)</code></td>
+<td>耐性あり（飛ばない）</td>
+<td><code>には耐性がある！</code></td>
+</tr>
+<tr>
+<td>RESIST_TELEPORT を持つが上記いずれにも該当せず</td>
+<td>耐性なし（飛ぶ）</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>テレポートが成立すると、ダメージ処理の後段でテレポートが実行され、次のメッセージが表示されます。</p>
+<blockquote>
+<p><code>が消え去った！</code></p>
+</blockquote>
+<h2>プレイヤーへの効果</h2>
+<p>プレイヤーへの効果はありません（<code>effect-player-switcher.cpp</code> に該当 case なし）。</p>
+<h2>アイテムへの効果</h2>
+<p>アイテムへの効果はありません（<code>effect-item.cpp</code> に該当処理なし）。</p>
+<h2>地形への効果</h2>
+<p>地形への効果はありません（<code>effect-feature.cpp</code> に該当処理なし）。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 09:13 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
