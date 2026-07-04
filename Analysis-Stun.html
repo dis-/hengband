@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ja"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>朦朧処理 / Stun ・ 変愚蛮怒 データ仕様</title>
+<title>朦朧処理 · 変愚蛮怒 データ仕様</title>
 <link rel="stylesheet" href="style.css"></head>
 <body>
 <header class="site-header">
@@ -28,6 +28,9 @@
 </ul>
 <h3>📘 解説 / Guides</h3>
 <ul>
+<li><a href="Classes.html">🧑‍🚀 職業 / Classes</a></li>
+<li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
+<li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
 <li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
 <li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
 <li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
@@ -97,69 +100,274 @@
 <li><a href="Analysis-Glass.html">ガラス地形</a></li>
 <li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
 <li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
+<li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-</aside><main class="content"><h1>朦朧処理 / Stun</h1>
+</aside><main class="content"><h1>朦朧処理</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
 <p>朦朧はプレイヤーとモンスターで別々の状態値・蓄積処理を使います。プレイヤー側は重症度ランクを持つ bad status、モンスター側は <code>MonsterTimedEffect::STUN</code> の残り値として処理されます。</p>
 <h2>プレイヤーの朦朧 / Player stun</h2>
 <h3>状態値とランク</h3>
 <p>プレイヤーの朦朧値は <code>PlayerStun</code> が保持し、<code>BadStatusSetter::set_stun()</code> で 0-10000 に丸められます。種族または職業が朦朧耐性を持つ場合、設定値は 0 になります。</p>
 <div class="tablewrap"><table class="sortable">
-<thead><tr><th>値</th><th>ランク</th><th>表示</th><th>意味</th></tr></thead>
+<thead>
+<tr>
+<th>値</th>
+<th>ランク</th>
+<th>表示</th>
+<th>意味</th>
+</tr>
+</thead>
 <tbody>
-<tr><td>0</td><td><code>NONE</code></td><td>なし</td><td>朦朧ではない</td></tr>
-<tr><td>1-50</td><td><code>SLIGHT</code></td><td>やや朦朧</td><td>軽い朦朧</td></tr>
-<tr><td>51-100</td><td><code>NORMAL</code></td><td>朦朧</td><td>通常の朦朧</td></tr>
-<tr><td>101-150</td><td><code>HARD</code></td><td>ひどく朦朧</td><td>重い朦朧</td></tr>
-<tr><td>151-200</td><td><code>UNCONSCIOUS</code></td><td>意識不明</td><td>意識が遠のく</td></tr>
-<tr><td>201+</td><td><code>KNOCKED</code></td><td>昏睡</td><td>行動不能扱い</td></tr>
+<tr>
+<td>0</td>
+<td><code>NONE</code></td>
+<td>なし</td>
+<td>朦朧ではない</td>
+</tr>
+<tr>
+<td>1-50</td>
+<td><code>SLIGHT</code></td>
+<td>やや朦朧</td>
+<td>軽い朦朧</td>
+</tr>
+<tr>
+<td>51-100</td>
+<td><code>NORMAL</code></td>
+<td>朦朧</td>
+<td>通常の朦朧</td>
+</tr>
+<tr>
+<td>101-150</td>
+<td><code>HARD</code></td>
+<td>ひどく朦朧</td>
+<td>重い朦朧</td>
+</tr>
+<tr>
+<td>151-200</td>
+<td><code>UNCONSCIOUS</code></td>
+<td>意識不明瞭</td>
+<td>意識が遠のく</td>
+</tr>
+<tr>
+<td>201+</td>
+<td><code>KNOCKED</code></td>
+<td>昏倒</td>
+<td>行動不能扱い</td>
+</tr>
 </tbody>
 </table></div>
 <h3>ランク上昇時の副作用</h3>
 <p>朦朧値のランクが上がる時だけ、朦朧メッセージ、知能/賢さ低下判定、構え解除、集中解除、呪術詠唱停止が実行されます。ランク低下時は、完全に 0 へ戻った場合に回復メッセージが出ます。</p>
 <h3>主な蓄積源</h3>
 <div class="tablewrap"><table class="sortable">
-<thead><tr><th>原因</th><th>追加量</th><th>条件</th></tr></thead>
+<thead>
+<tr>
+<th>原因</th>
+<th>追加量</th>
+<th>条件</th>
+</tr>
+</thead>
 <tbody>
-<tr><td>モンスター打撃の朦朧効果</td><td>ダメージからランクを求め、<code>1d10</code> から <code>1d10+70</code> まで</td><td>実ダメージが 20 以下、または最大ダメージの 95% 未満なら追加なし</td></tr>
-<tr><td>轟音属性</td><td><code>1d(ダメージ/3+5)</code>、ダメージ 90 超は <code>1d35</code></td><td>轟音耐性なし、かつ分身回避なし</td></tr>
-<tr><td>プラズマ属性</td><td><code>1d(ダメージ*3/4+5)</code>、ダメージ 40 超は <code>1d35</code></td><td>轟音耐性なし、かつ分身回避なし</td></tr>
-<tr><td>水属性</td><td><code>1d40</code></td><td>轟音耐性なし、水耐性なし、かつ分身回避なし</td></tr>
-<tr><td>フォース/ロケット</td><td><code>1d20</code></td><td>轟音耐性なし、かつ分身回避なし</td></tr>
-<tr><td>重力属性</td><td>轟音と同じ式</td><td>轟音耐性なし、浮遊なし、かつ分身回避なし</td></tr>
-<tr><td>氷属性</td><td><code>1d15</code></td><td>轟音耐性なし、かつ分身回避なし</td></tr>
+<tr>
+<td>モンスター打撃の朦朧効果</td>
+<td>ダメージからランクを求め、<code>1d10</code> から <code>1d10+70</code> まで</td>
+<td>実ダメージが 20 以下、または通常最大ダメージの 95% 未満なら追加なし</td>
+</tr>
+<tr>
+<td>轟音属性</td>
+<td><code>1d(ダメージ/3+5)</code>、ダメージ 90 超は <code>1d35</code></td>
+<td>轟音耐性なし、かつ分身回避なし</td>
+</tr>
+<tr>
+<td>プラズマ属性</td>
+<td><code>1d(ダメージ*3/4+5)</code>、ダメージ 40 超は <code>1d35</code></td>
+<td>轟音耐性なし、かつ分身回避なし</td>
+</tr>
+<tr>
+<td>水属性</td>
+<td><code>1d40</code></td>
+<td>轟音耐性なし、水耐性なし、かつ分身回避なし</td>
+</tr>
+<tr>
+<td>フォース/ロケット</td>
+<td><code>1d20</code></td>
+<td>轟音耐性なし、かつ分身回避なし</td>
+</tr>
+<tr>
+<td>重力属性</td>
+<td>轟音と同じ式</td>
+<td>轟音耐性なし、浮遊なし、かつ分身回避なし</td>
+</tr>
+<tr>
+<td>氷属性</td>
+<td><code>1d15</code></td>
+<td>轟音耐性なし、かつ分身回避なし</td>
+</tr>
 </tbody>
 </table></div>
 <h3>プレイヤーへの影響</h3>
 <div class="tablewrap"><table class="sortable">
-<thead><tr><th>ランク</th><th>魔法/魔道具系失敗率加算</th><th>アイテム失敗率加算</th><th>攻撃/命中系ペナルティ</th></tr></thead>
+<thead>
+<tr>
+<th>ランク</th>
+<th>魔法/魔道具系失敗率加算</th>
+<th>アイテム失敗率加算</th>
+<th>攻撃/命中系ペナルティ</th>
+</tr>
+</thead>
 <tbody>
-<tr><td>なし</td><td>0</td><td>0</td><td>0</td></tr>
-<tr><td>やや朦朧</td><td>+10</td><td>0</td><td>5</td></tr>
-<tr><td>朦朧</td><td>+20</td><td>0</td><td>10</td></tr>
-<tr><td>ひどく朦朧</td><td>+30</td><td>+5</td><td>20</td></tr>
-<tr><td>意識不明</td><td>+50</td><td>+10</td><td>40</td></tr>
-<tr><td>昏睡</td><td>+100</td><td>+100</td><td>100</td></tr>
+<tr>
+<td>なし</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>やや朦朧</td>
+<td>+10</td>
+<td>0</td>
+<td>5</td>
+</tr>
+<tr>
+<td>朦朧</td>
+<td>+20</td>
+<td>0</td>
+<td>10</td>
+</tr>
+<tr>
+<td>ひどく朦朧</td>
+<td>+30</td>
+<td>+5</td>
+<td>20</td>
+</tr>
+<tr>
+<td>意識不明瞭</td>
+<td>+50</td>
+<td>+10</td>
+<td>40</td>
+</tr>
+<tr>
+<td>昏倒</td>
+<td>+100</td>
+<td>+100</td>
+<td>100</td>
+</tr>
 </tbody>
 </table></div>
-<p>魔法、青魔法、超能力、エレメンタル魔法などは <code>get_magic_chance_penalty()</code> を失敗率に加算します。アイテム使用は <code>get_item_chance_penalty()</code> を参照します。昏睡ランクでは麻痺と同様に行動不能処理に入ります。</p>
+<p>魔法、青魔法、超能力、エレメンタル魔法などは <code>get_magic_chance_penalty()</code> を失敗率に加算します。アイテム使用は <code>get_item_chance_penalty()</code> を参照します。昏倒ランクでは麻痺と同様に行動不能処理に入ります。</p>
+<h3>回復</h3>
+<p>プレイヤーの朦朧値は、毎ターンの時限効果更新で自然減少します。<code>src/core/magic-effects-timeout-reducer.cpp</code> の処理は毒と同じ式で、朦朧中なら <code>adj_con_fix[耐久の能力値インデックス] + 1</code> を現在値から引きます。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>耐久</th>
+<th><code>adj_con_fix</code></th>
+<th>1ターンの減少量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3-13</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>14-17</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>18/00-18/49</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>18/50-18/99</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>18/100-18/119</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>18/120-18/129</td>
+<td>5</td>
+<td>6</td>
+</tr>
+<tr>
+<td>18/130-18/149</td>
+<td>6</td>
+<td>7</td>
+</tr>
+<tr>
+<td>18/150-18/169</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>18/170-18/199</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr>
+<td>18/200+</td>
+<td>9</td>
+<td>10</td>
+</tr>
+</tbody>
+</table></div>
+<p>減少は <code>BadStatusSetter::mod_stun(-adjust)</code> 経由で行われるため、0 未満にはならず、ランクが下がると再計算・再描画が発生します。値が 0 になった時は「やっと朦朧状態から回復した。」のメッセージが表示されます。</p>
 <h2>モンスターの朦朧 / Monster stun</h2>
 <h3>状態値と設定</h3>
 <p>モンスターの朦朧は <code>mtimed[MonsterTimedEffect::STUN]</code> に保存され、<code>set_monster_stunned()</code> で 0-200 に丸められます。値が 0 から正になると処理リストへ登録され、0 に戻ると処理リストから外れます。</p>
 <h3>蓄積と耐性</h3>
 <p>魔法効果側では一度 <code>EffectMonster::do_stun</code> に追加量を積み、ダメージ処理後にまとめて適用します。<code>NO_STUN</code> を持つモンスターはここで朦朧追加を無効化します。既に朦朧中なら <code>現在値 + 追加量/2</code>、そうでなければ <code>追加量</code> が新しい値になります。</p>
 <div class="tablewrap"><table class="sortable">
-<thead><tr><th>原因</th><th>追加量</th><th>主な無効/軽減条件</th></tr></thead>
+<thead>
+<tr>
+<th>原因</th>
+<th>追加量</th>
+<th>主な無効/軽減条件</th>
+</tr>
+</thead>
 <tbody>
-<tr><td>STUN 属性</td><td><code>(術者Lv/20+3)dダメージ + 1</code></td><td><code>NO_STUN</code> で最終無効</td></tr>
-<tr><td>轟音属性</td><td><code>(10 + 1d15 + r) / (r + 1)</code></td><td>轟音耐性でダメージ軽減、朦朧追加なし</td></tr>
-<tr><td>フォース属性</td><td><code>(1d15 + r) / (r + 1)</code></td><td>フォース耐性でダメージ軽減、朦朧追加なし</td></tr>
-<tr><td>重力属性</td><td><code>(術者Lv/20+3)dダメージ + 1</code></td><td>ユニーク、レベル判定成功、重力耐性で朦朧追加なし</td></tr>
-<tr><td>氷属性</td><td><code>(1d15 + 1) / (r + 1)</code></td><td>轟音耐性があると朦朧追加なし</td></tr>
-<tr><td>精神攻撃/魅了系など</td><td>個別効果ごとの固定式</td><td><code>NO_STUN</code> で最終無効</td></tr>
+<tr>
+<td>STUN 属性</td>
+<td><code>(術者Lv/20+3)dダメージ + 1</code></td>
+<td><code>NO_STUN</code> で最終無効</td>
+</tr>
+<tr>
+<td>轟音属性</td>
+<td><code>(10 + 1d15 + r) / (r + 1)</code></td>
+<td>轟音耐性でダメージ軽減、朦朧追加なし</td>
+</tr>
+<tr>
+<td>フォース属性</td>
+<td><code>(1d15 + r) / (r + 1)</code></td>
+<td>フォース耐性でダメージ軽減、朦朧追加なし</td>
+</tr>
+<tr>
+<td>重力属性</td>
+<td><code>(術者Lv/20+3)dダメージ + 1</code></td>
+<td>ユニーク、レベル判定成功、重力耐性で朦朧追加なし</td>
+</tr>
+<tr>
+<td>氷属性</td>
+<td><code>(1d15 + 1) / (r + 1)</code></td>
+<td>轟音耐性があると朦朧追加なし</td>
+</tr>
+<tr>
+<td>精神攻撃/魅了系など</td>
+<td>個別効果ごとの固定式</td>
+<td><code>NO_STUN</code> で最終無効</td>
+</tr>
 </tbody>
 </table></div>
 <h3>モンスターへの影響</h3>
@@ -170,21 +378,53 @@
 <li>モンスターリストやヘルス表示では状態ラベル「朦朧」として表示されます。</li>
 </ul>
 <h3>回復</h3>
-<p>モンスターの一時効果処理で、朦朧は通常 <code>残り値 - 1</code> ずつ減ります。ただし <code>randint0(10000) <= レベル^2</code> に成功すると即座に 0 へ戻ります。可視モンスターが回復した場合は回復メッセージが表示されます。</p>
+<p>モンスターの一時効果処理で、朦朧は通常 <code>残り値 - 1</code> ずつ減ります。ただし <code>randint0(10000) &lt;= レベル^2</code> に成功すると即座に 0 へ戻ります。可視モンスターが回復した場合は回復メッセージが表示されます。</p>
 <h2>処理の違い</h2>
 <div class="tablewrap"><table class="sortable">
-<thead><tr><th>観点</th><th>プレイヤー</th><th>モンスター</th></tr></thead>
+<thead>
+<tr>
+<th>観点</th>
+<th>プレイヤー</th>
+<th>モンスター</th>
+</tr>
+</thead>
 <tbody>
-<tr><td>保存場所</td><td><code>PlayerStun</code></td><td><code>mtimed[STUN]</code></td></tr>
-<tr><td>値の上限</td><td>10000</td><td>200</td></tr>
-<tr><td>重症度</td><td>値から 5 段階ランクへ変換</td><td>残り値のみ。ランク分けはしない</td></tr>
-<tr><td>耐性</td><td>種族/職業の朦朧無効で 0</td><td><code>NO_STUN</code> で追加を無効化</td></tr>
-<tr><td>主な効果</td><td>魔法・アイテム失敗率、攻撃補正、行動不能、知能/賢さ低下判定</td><td>打撃 1/2 失敗、非生得魔法 1/2 失敗、騎乗制御 1/2 失敗</td></tr>
+<tr>
+<td>保存場所</td>
+<td><code>PlayerStun</code></td>
+<td><code>mtimed[STUN]</code></td>
+</tr>
+<tr>
+<td>値の上限</td>
+<td>10000</td>
+<td>200</td>
+</tr>
+<tr>
+<td>重症度</td>
+<td>値から 5段階ランクへ変換</td>
+<td>残り値のみ。ランク分けはしない</td>
+</tr>
+<tr>
+<td>蓄積</td>
+<td><code>BadStatusSetter::mod_stun()</code> で現在値へ加算</td>
+<td><code>EffectMonster::do_stun</code> をダメージ後に適用</td>
+</tr>
+<tr>
+<td>耐性</td>
+<td>種族/職業の朦朧免疫なら常に 0</td>
+<td><code>NO_STUN</code> で追加無効</td>
+</tr>
+<tr>
+<td>自然回復</td>
+<td>耐久補正に応じて毎ターン 1-10 減少</td>
+<td>毎処理で -1、またはレベル依存で即時回復</td>
+</tr>
 </tbody>
 </table></div>
 <hr>
 <blockquote>
-<p>参照: <code>src/timed-effect/player-stun.cpp, src/status/bad-status-setter.cpp</code> / <code>src/effect/effect-player-resist-hurt.cpp</code> / <code>src/monster/monster-status-setter.cpp, src/monster/monster-status.cpp, src/effect/effect-monster.cpp</code> / <code>src/effect/effect-monster-resist-hurt.cpp</code> / <code>src/combat/attack-accuracy.cpp, src/mspell/mspell-attack.cpp, src/melee/melee-spell.cpp</code></p>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/timed-effect/player-stun.cpp</code>, <code>src/status/bad-status-setter.cpp</code>, <code>src/core/magic-effects-timeout-reducer.cpp</code>, <code>src/monster/monster-status.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 07:52 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
