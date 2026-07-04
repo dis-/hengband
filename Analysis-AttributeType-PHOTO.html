@@ -150,6 +150,30 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<p>この AttributeType はプレイヤー対象の分岐を持たず、既定分岐でダメージ 0 として扱われます。</p>
+<h2>モンスター処理詳細</h2>
+<p><code>switch_effects_monster()</code> の <code>AttributeType::PHOTO</code> 分岐は <code>effect_monster_photo()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>return effect_monster_photo(player_ptr, em_ptr);</code></li>
+</ul>
+<h3><code>effect_monster_photo()</code></h3>
+<p>実装: <code>src/effect/effect-monster-switcher.cpp</code></p>
+<ul>
+<li><code>if (em_ptr-&gt;monrace-&gt;resistance_flags.has(MonsterResistanceType::HURT_LITE)) {</code></li>
+<li><code>em_ptr-&gt;obvious = true;</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;r_resistance_flags.set(MonsterResistanceType::HURT_LITE);</code></li>
+<li><code>em_ptr-&gt;note = _(&quot;は光に身をすくめた！&quot;, &quot; cringes from the light!&quot;);</code></li>
+<li><code>em_ptr-&gt;note_dies = _(&quot;は光を受けてしぼんでしまった！&quot;, &quot; shrivels away in the light!&quot;);</code></li>
+<li><code>em_ptr-&gt;dam = 0;</code></li>
+</ul>
+<h2>地形処理詳細</h2>
+<p>この AttributeType は <code>affect_feature()</code> 内で 地形 への明示処理を持ちません。</p>
+<h2>アイテム処理詳細</h2>
+<p>この AttributeType は <code>affect_item()</code> 内で アイテム への明示処理を持ちません。</p>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

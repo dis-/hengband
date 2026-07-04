@@ -150,6 +150,34 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<p>この AttributeType はプレイヤー対象の分岐を持たず、既定分岐でダメージ 0 として扱われます。</p>
+<h2>モンスター処理詳細</h2>
+<p>この AttributeType はモンスター対象の明示分岐を持たず、既定分岐で skipped として扱われます。</p>
+<h2>地形処理詳細</h2>
+<p><code>affect_feature()</code> の <code>AttributeType::KILL_DOOR</code> 分岐です。実装: <code>src/effect/effect-feature.cpp</code></p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>obvious = true;</code></li>
+<li><code>obvious = true;</code></li>
+</ul>
+<h2>アイテム処理詳細</h2>
+<p><code>affect_item()</code> の <code>AttributeType::KILL_DOOR</code> 分岐です。実装: <code>src/effect/effect-item.cpp</code></p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>if (item.bi_key.tval() != ItemKindType::CHEST) {</code></li>
+<li><code>break;</code></li>
+<li><code>if (item.pval &lt;= 0) {</code></li>
+<li><code>break;</code></li>
+<li><code>item.pval = (0 - item.pval);</code></li>
+<li><code>item.mark_as_known();</code></li>
+<li><code>if (known &amp;&amp; item.marked.has(OmType::FOUND)) {</code></li>
+<li><code>msg_print(_(&quot;カチッと音がした！&quot;, &quot;Click!&quot;));</code></li>
+<li><code>is_item_affected = true;</code></li>
+<li><code>break;</code></li>
+</ul>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

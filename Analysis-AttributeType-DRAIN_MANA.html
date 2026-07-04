@@ -150,6 +150,48 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<p><code>switch_effects_player()</code> の <code>AttributeType::DRAIN_MANA</code> 分岐は <code>effect_player_drain_mana()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>effect_player_drain_mana(player_ptr, ep_ptr);</code></li>
+<li><code>return;</code></li>
+</ul>
+<h3><code>effect_player_drain_mana()</code></h3>
+<p>実装: <code>src/effect/effect-player-spirit.cpp</code></p>
+<ul>
+<li><code>if (check_multishadow(player_ptr)) {</code></li>
+<li><code>ep_ptr-&gt;dam = 0;</code></li>
+<li><code>ep_ptr-&gt;dam = 0;</code></li>
+<li><code>ep_ptr-&gt;dam = player_ptr-&gt;csp;</code></li>
+<li><code>ep_ptr-&gt;dam = 0;</code></li>
+<li><code>ep_ptr-&gt;dam = 0;</code></li>
+</ul>
+<h2>モンスター処理詳細</h2>
+<p><code>switch_effects_monster()</code> の <code>AttributeType::DRAIN_MANA</code> 分岐は <code>effect_monster_drain_mana()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>return effect_monster_drain_mana(player_ptr, em_ptr);</code></li>
+</ul>
+<h3><code>effect_monster_drain_mana()</code></h3>
+<p>実装: <code>src/effect/effect-monster-spirit.cpp</code></p>
+<ul>
+<li><code>em_ptr-&gt;obvious = true;</code></li>
+<li><code>em_ptr-&gt;dam = 0;</code></li>
+<li><code>em_ptr-&gt;dam = 0;</code></li>
+<li><code>em_ptr-&gt;dam = 0;</code></li>
+<li><code>em_ptr-&gt;dam = 0;</code></li>
+</ul>
+<h2>地形処理詳細</h2>
+<p><code>affect_feature()</code> の <code>AttributeType::DRAIN_MANA</code> 分岐です。実装: <code>src/effect/effect-feature.cpp</code></p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>break;</code></li>
+</ul>
+<h2>アイテム処理詳細</h2>
+<p>この AttributeType は <code>affect_item()</code> 内で アイテム への明示処理を持ちません。</p>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

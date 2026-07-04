@@ -150,6 +150,44 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<p><code>switch_effects_player()</code> の <code>AttributeType::CAUSE_1</code> 分岐は <code>effect_player_curse_1()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>effect_player_curse_1(player_ptr, ep_ptr);</code></li>
+<li><code>return;</code></li>
+</ul>
+<h3><code>effect_player_curse_1()</code></h3>
+<p>実装: <code>src/effect/effect-player-curse.cpp</code></p>
+<ul>
+<li><code>if ((randint0(100 + ep_ptr-&gt;rlev / 2) &lt; player_ptr-&gt;skill_sav) &amp;&amp; !check_multishadow(player_ptr)) {</code></li>
+<li><code>if (!check_multishadow(player_ptr)) {</code></li>
+<li><code>curse_equipment(player_ptr, 15, 0);</code></li>
+<li><code>ep_ptr-&gt;get_damage = take_hit(player_ptr, DAMAGE_ATTACK, ep_ptr-&gt;dam, ep_ptr-&gt;killer);</code></li>
+</ul>
+<h2>モンスター処理詳細</h2>
+<p><code>switch_effects_monster()</code> の <code>AttributeType::CAUSE_1</code> 分岐は <code>effect_monster_curse_1()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>return effect_monster_curse_1(em_ptr);</code></li>
+</ul>
+<h3><code>effect_monster_curse_1()</code></h3>
+<p>実装: <code>src/effect/effect-monster-curse.cpp</code></p>
+<ul>
+<li><code>em_ptr-&gt;obvious = true;</code></li>
+<li><code>em_ptr-&gt;note = _(&quot;には効果がなかった。&quot;, &quot; is unaffected.&quot;);</code></li>
+<li><code>em_ptr-&gt;dam = 0;</code></li>
+</ul>
+<h2>地形処理詳細</h2>
+<p><code>affect_feature()</code> の <code>AttributeType::CAUSE_1</code> 分岐です。実装: <code>src/effect/effect-feature.cpp</code></p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>break;</code></li>
+</ul>
+<h2>アイテム処理詳細</h2>
+<p>この AttributeType は <code>affect_item()</code> 内で アイテム への明示処理を持ちません。</p>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

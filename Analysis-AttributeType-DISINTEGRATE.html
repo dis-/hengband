@@ -150,6 +150,56 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<p><code>switch_effects_player()</code> の <code>AttributeType::DISINTEGRATE</code> 分岐は <code>effect_player_disintegration()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>effect_player_disintegration(player_ptr, ep_ptr);</code></li>
+<li><code>return;</code></li>
+</ul>
+<h3><code>effect_player_disintegration()</code></h3>
+<p>実装: <code>src/effect/effect-player-resist-hurt.cpp</code></p>
+<ul>
+<li><code>ep_ptr-&gt;get_damage = take_hit(player_ptr, DAMAGE_ATTACK, ep_ptr-&gt;dam, ep_ptr-&gt;killer);</code></li>
+</ul>
+<h2>モンスター処理詳細</h2>
+<p><code>switch_effects_monster()</code> の <code>AttributeType::DISINTEGRATE</code> 分岐は <code>effect_monster_disintegration()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>return effect_monster_disintegration(player_ptr, em_ptr);</code></li>
+</ul>
+<h3><code>effect_monster_disintegration()</code></h3>
+<p>実装: <code>src/effect/effect-monster-resist-hurt.cpp</code></p>
+<ul>
+<li><code>em_ptr-&gt;obvious = true;</code></li>
+<li><code>if (em_ptr-&gt;monrace-&gt;resistance_flags.has_not(MonsterResistanceType::HURT_ROCK)) {</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;r_resistance_flags.set(MonsterResistanceType::HURT_ROCK);</code></li>
+<li><code>em_ptr-&gt;note = _(&quot;の皮膚がただれた！&quot;, &quot; loses some skin!&quot;);</code></li>
+<li><code>em_ptr-&gt;note_dies = _(&quot;は蒸発した！&quot;, &quot; evaporates!&quot;);</code></li>
+<li><code>em_ptr-&gt;dam *= 2;</code></li>
+</ul>
+<h2>地形処理詳細</h2>
+<p><code>affect_feature()</code> の <code>AttributeType::DISINTEGRATE</code> 分岐です。実装: <code>src/effect/effect-feature.cpp</code></p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>if (grid.is_mirror() || grid.is_rune_protection() || grid.is_rune_explosion()) {</code></li>
+<li><code>SpellsMirrorMaster(player_ptr).remove_mirror(y, x);</code></li>
+<li><code>if (terrain.flags.has_not(TerrainCharacteristics::CAN_DISINTEGRATE) || terrain.flags.has(TerrainCharacteristics::PERMANENT)) {</code></li>
+<li><code>break;</code></li>
+<li><code>cave_alter_feat(player_ptr, y, x, TerrainCharacteristics::CAN_DISINTEGRATE);</code></li>
+<li><code>RedrawingFlagsUpdater::get_instance().set_flag(StatusRecalculatingFlag::FLOW);</code></li>
+<li><code>break;</code></li>
+</ul>
+<h2>アイテム処理詳細</h2>
+<p><code>affect_item()</code> の <code>AttributeType::DISINTEGRATE</code> 分岐です。実装: <code>src/effect/effect-item.cpp</code></p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>do_kill = true;</code></li>
+<li><code>note_kill = _(&quot;蒸発してしまった！&quot;, (plural ? &quot; evaporate!&quot; : &quot; evaporates!&quot;));</code></li>
+<li><code>break;</code></li>
+</ul>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

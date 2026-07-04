@@ -150,6 +150,36 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<p>この AttributeType はプレイヤー対象の分岐を持たず、既定分岐でダメージ 0 として扱われます。</p>
+<h2>モンスター処理詳細</h2>
+<p><code>switch_effects_monster()</code> の <code>AttributeType::OLD_CONF</code> 分岐は <code>effect_monster_old_conf()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>return effect_monster_old_conf(player_ptr, em_ptr);</code></li>
+</ul>
+<h3><code>effect_monster_old_conf()</code></h3>
+<p>実装: <code>src/effect/effect-monster-oldies.cpp</code></p>
+<ul>
+<li><code>em_ptr-&gt;obvious = true;</code></li>
+<li><code>em_ptr-&gt;do_conf = Dice::roll(3, (em_ptr-&gt;dam / 2)) + 1;</code></li>
+<li><code>bool has_resistance = em_ptr-&gt;monrace-&gt;kind_flags.has(MonsterKindType::UNIQUE);</code></li>
+<li><code>has_resistance |= em_ptr-&gt;monrace-&gt;resistance_flags.has(MonsterResistanceType::NO_CONF);</code></li>
+<li><code>has_resistance |= (em_ptr-&gt;monrace-&gt;level &gt; randint1(std::max(1, em_ptr-&gt;dam - 10)) + 10);</code></li>
+<li><code>if (has_resistance) {</code></li>
+<li><code>if (em_ptr-&gt;monrace-&gt;resistance_flags.has(MonsterResistanceType::NO_CONF)) {</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;resistance_flags.set(MonsterResistanceType::NO_CONF);</code></li>
+<li><code>em_ptr-&gt;do_conf = 0;</code></li>
+<li><code>em_ptr-&gt;note = _(&quot;には効果がなかった。&quot;, &quot; is unaffected.&quot;);</code></li>
+<li><code>em_ptr-&gt;obvious = false;</code></li>
+<li><code>em_ptr-&gt;dam = 0;</code></li>
+</ul>
+<h2>地形処理詳細</h2>
+<p>この AttributeType は <code>affect_feature()</code> 内で 地形 への明示処理を持ちません。</p>
+<h2>アイテム処理詳細</h2>
+<p>この AttributeType は <code>affect_item()</code> 内で アイテム への明示処理を持ちません。</p>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

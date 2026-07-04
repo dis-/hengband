@@ -150,6 +150,64 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<p><code>switch_effects_player()</code> の <code>AttributeType::MIND_BLAST</code> 分岐は <code>effect_player_mind_blast()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>effect_player_mind_blast(player_ptr, ep_ptr);</code></li>
+<li><code>return;</code></li>
+</ul>
+<h3><code>effect_player_mind_blast()</code></h3>
+<p>実装: <code>src/effect/effect-player-spirit.cpp</code></p>
+<ul>
+<li><code>if ((randint0(100 + ep_ptr-&gt;rlev / 2) &lt; std::max&lt;short&gt;(5, player_ptr-&gt;skill_sav)) &amp;&amp; !check_multishadow(player_ptr)) {</code></li>
+<li><code>if (check_multishadow(player_ptr)) {</code></li>
+<li><code>ep_ptr-&gt;get_damage = take_hit(player_ptr, DAMAGE_ATTACK, ep_ptr-&gt;dam, ep_ptr-&gt;killer);</code></li>
+<li><code>if (!has_resist_conf(player_ptr)) {</code></li>
+<li><code>(void)bss.mod_confusion(randint0(4) + 4);</code></li>
+<li><code>if (!has_resist_chaos(player_ptr) &amp;&amp; one_in_(3)) {</code></li>
+<li><code>(void)bss.mod_hallucination(randint0(250) + 150);</code></li>
+<li><code>ep_ptr-&gt;get_damage = take_hit(player_ptr, DAMAGE_ATTACK, ep_ptr-&gt;dam, ep_ptr-&gt;killer);</code></li>
+</ul>
+<h2>モンスター処理詳細</h2>
+<p><code>switch_effects_monster()</code> の <code>AttributeType::MIND_BLAST</code> 分岐は <code>effect_monster_mind_blast()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>return effect_monster_mind_blast(player_ptr, em_ptr);</code></li>
+</ul>
+<h3><code>effect_monster_mind_blast()</code></h3>
+<p>実装: <code>src/effect/effect-monster-spirit.cpp</code></p>
+<ul>
+<li><code>em_ptr-&gt;obvious = true;</code></li>
+<li><code>bool has_immute = em_ptr-&gt;monrace-&gt;kind_flags.has(MonsterKindType::UNIQUE);</code></li>
+<li><code>has_immute |= em_ptr-&gt;monrace-&gt;resistance_flags.has(MonsterResistanceType::NO_CONF);</code></li>
+<li><code>if (em_ptr-&gt;monrace-&gt;resistance_flags.has(MonsterResistanceType::NO_CONF)) {</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;resistance_flags.set(MonsterResistanceType::NO_CONF);</code></li>
+<li><code>em_ptr-&gt;note = _(&quot;には効果がなかった。&quot;, &quot; is unaffected.&quot;);</code></li>
+<li><code>em_ptr-&gt;dam = 0;</code></li>
+<li><code>} else if (em_ptr-&gt;monrace-&gt;misc_flags.has(MonsterMiscType::EMPTY_MIND)) {</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;r_misc_flags.set(MonsterMiscType::EMPTY_MIND);</code></li>
+<li><code>em_ptr-&gt;note = _(&quot;には完全な耐性がある！&quot;, &quot; is immune.&quot;);</code></li>
+<li><code>em_ptr-&gt;dam = 0;</code></li>
+<li><code>} else if (em_ptr-&gt;monrace-&gt;misc_flags.has(MonsterMiscType::WEIRD_MIND)) {</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;r_misc_flags.set(MonsterMiscType::WEIRD_MIND);</code></li>
+<li><code>em_ptr-&gt;note = _(&quot;には耐性がある。&quot;, &quot; resists.&quot;);</code></li>
+<li><code>em_ptr-&gt;dam /= 3;</code></li>
+<li><code>em_ptr-&gt;note = _(&quot;は精神攻撃を食らった。&quot;, &quot; is blasted by psionic energy.&quot;);</code></li>
+<li><code>em_ptr-&gt;note_dies = _(&quot;の精神は崩壊し、肉体は抜け殻となった。&quot;, &quot; collapses, a mindless husk.&quot;);</code></li>
+<li><code>em_ptr-&gt;do_conf = randint0(4) + 4;</code></li>
+<li><code>em_ptr-&gt;do_conf = randint0(8) + 8;</code></li>
+</ul>
+<h2>地形処理詳細</h2>
+<p><code>affect_feature()</code> の <code>AttributeType::MIND_BLAST</code> 分岐です。実装: <code>src/effect/effect-feature.cpp</code></p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>break;</code></li>
+</ul>
+<h2>アイテム処理詳細</h2>
+<p>この AttributeType は <code>affect_item()</code> 内で アイテム への明示処理を持ちません。</p>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

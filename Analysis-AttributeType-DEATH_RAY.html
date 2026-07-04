@@ -150,6 +150,56 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<p><code>switch_effects_player()</code> の <code>AttributeType::DEATH_RAY</code> 分岐は <code>effect_player_death_ray()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>effect_player_death_ray(player_ptr, ep_ptr);</code></li>
+<li><code>return;</code></li>
+</ul>
+<h3><code>effect_player_death_ray()</code></h3>
+<p>実装: <code>src/effect/effect-player-resist-hurt.cpp</code></p>
+<ul>
+<li><code>ep_ptr-&gt;dam = ep_ptr-&gt;dam * calc_deathray_damage_rate(player_ptr, CALC_RAND) / 100;</code></li>
+<li><code>ep_ptr-&gt;get_damage = take_hit(player_ptr, DAMAGE_ATTACK, ep_ptr-&gt;dam, ep_ptr-&gt;killer);</code></li>
+</ul>
+<h2>モンスター処理詳細</h2>
+<p><code>switch_effects_monster()</code> の <code>AttributeType::DEATH_RAY</code> 分岐は <code>effect_monster_death_ray()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>return effect_monster_death_ray(player_ptr, em_ptr);</code></li>
+</ul>
+<h3><code>effect_monster_death_ray()</code></h3>
+<p>実装: <code>src/effect/effect-monster-switcher.cpp</code></p>
+<ul>
+<li><code>em_ptr-&gt;obvious = true;</code></li>
+<li><code>if (em_ptr-&gt;monrace-&gt;kind_flags.has(MonsterKindType::DEMON)) {</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;r_kind_flags.set(MonsterKindType::DEMON);</code></li>
+<li><code>if (em_ptr-&gt;monrace-&gt;kind_flags.has(MonsterKindType::UNDEAD)) {</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;r_kind_flags.set(MonsterKindType::UNDEAD);</code></li>
+<li><code>if (em_ptr-&gt;monrace-&gt;kind_flags.has(MonsterKindType::NONLIVING)) {</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;r_kind_flags.set(MonsterKindType::NONLIVING);</code></li>
+<li><code>em_ptr-&gt;note = _(&quot;には完全な耐性がある！&quot;, &quot; is immune.&quot;);</code></li>
+<li><code>em_ptr-&gt;obvious = false;</code></li>
+<li><code>em_ptr-&gt;dam = 0;</code></li>
+<li><code>bool has_resistance = (em_ptr-&gt;monrace-&gt;kind_flags.has(MonsterKindType::UNIQUE) &amp;&amp; (randint1(888) != 666));</code></li>
+<li><code>has_resistance |= (((em_ptr-&gt;monrace-&gt;level + randint1(20)) &gt; randint1((em_ptr-&gt;caster_lev / 2) + randint1(10))) &amp;&amp; randint1(100) != 66);</code></li>
+<li><code>if (has_resistance) {</code></li>
+<li><code>em_ptr-&gt;note = _(&quot;には耐性がある！&quot;, &quot; resists!&quot;);</code></li>
+<li><code>em_ptr-&gt;obvious = false;</code></li>
+<li><code>em_ptr-&gt;dam = 0;</code></li>
+</ul>
+<h2>地形処理詳細</h2>
+<p><code>affect_feature()</code> の <code>AttributeType::DEATH_RAY</code> 分岐です。実装: <code>src/effect/effect-feature.cpp</code></p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>message = _(&quot;枯れた&quot;, &quot;was blasted.&quot;);</code></li>
+<li><code>break;</code></li>
+</ul>
+<h2>アイテム処理詳細</h2>
+<p>この AttributeType は <code>affect_item()</code> 内で アイテム への明示処理を持ちません。</p>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

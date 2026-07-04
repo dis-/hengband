@@ -150,6 +150,20 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<p>この AttributeType はプレイヤー対象の分岐を持たず、既定分岐でダメージ 0 として扱われます。</p>
+<h2>モンスター処理詳細</h2>
+<p>この AttributeType はモンスター対象の明示分岐を持たず、既定分岐で skipped として扱われます。</p>
+<h2>地形処理詳細</h2>
+<p><code>affect_feature()</code> の <code>AttributeType::MAKE_TREE</code> 分岐です。実装: <code>src/effect/effect-feature.cpp</code></p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>obvious = true;</code></li>
+</ul>
+<h2>アイテム処理詳細</h2>
+<p>この AttributeType は <code>affect_item()</code> 内で アイテム への明示処理を持ちません。</p>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

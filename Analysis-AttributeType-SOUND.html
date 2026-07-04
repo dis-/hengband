@@ -150,6 +150,71 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<p><code>switch_effects_player()</code> の <code>AttributeType::SOUND</code> 分岐は <code>effect_player_sound()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>effect_player_sound(player_ptr, ep_ptr);</code></li>
+<li><code>return;</code></li>
+</ul>
+<h3><code>effect_player_sound()</code></h3>
+<p>実装: <code>src/effect/effect-player-resist-hurt.cpp</code></p>
+<ul>
+<li><code>ep_ptr-&gt;dam = ep_ptr-&gt;dam * calc_sound_damage_rate(player_ptr, CALC_RAND) / 100;</code></li>
+<li><code>if (!has_resist_sound(player_ptr) &amp;&amp; !check_multishadow(player_ptr)) {</code></li>
+<li><code>(void)BadStatusSetter(player_ptr).mod_stun(plus_stun);</code></li>
+<li><code>if (!has_resist_sound(player_ptr) || one_in_(13)) {</code></li>
+<li><code>inventory_damage(player_ptr, BreakerCold(), 2);</code></li>
+<li><code>ep_ptr-&gt;get_damage = take_hit(player_ptr, DAMAGE_ATTACK, ep_ptr-&gt;dam, ep_ptr-&gt;killer);</code></li>
+</ul>
+<h2>モンスター処理詳細</h2>
+<p><code>switch_effects_monster()</code> の <code>AttributeType::SOUND</code> 分岐は <code>effect_monster_sound()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>return effect_monster_sound(player_ptr, em_ptr);</code></li>
+</ul>
+<h3><code>effect_monster_sound()</code></h3>
+<p>実装: <code>src/effect/effect-monster-resist-hurt.cpp</code></p>
+<ul>
+<li><code>em_ptr-&gt;obvious = true;</code></li>
+<li><code>if (em_ptr-&gt;monrace-&gt;resistance_flags.has_not(MonsterResistanceType::RESIST_SOUND)) {</code></li>
+<li><code>em_ptr-&gt;do_stun = (10 + randint1(15) + em_ptr-&gt;r) / (em_ptr-&gt;r + 1);</code></li>
+<li><code>em_ptr-&gt;note = _(&quot;には耐性がある。&quot;, &quot; resists.&quot;);</code></li>
+<li><code>em_ptr-&gt;dam *= 2;</code></li>
+<li><code>em_ptr-&gt;dam /= randint1(6) + 6;</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;r_resistance_flags.set(MonsterResistanceType::RESIST_SOUND);</code></li>
+</ul>
+<h2>地形処理詳細</h2>
+<p><code>affect_feature()</code> の <code>AttributeType::SOUND</code> 分岐です。実装: <code>src/effect/effect-feature.cpp</code></p>
+<h3>分岐 1</h3>
+<ul>
+<li><code>message = _(&quot;粉砕された&quot;, &quot;was crushed.&quot;);</code></li>
+<li><code>break;</code></li>
+</ul>
+<h3>分岐 2</h3>
+<ul>
+<li><code>if (grid.is_mirror() &amp;&amp; player_ptr-&gt;lev &lt; 40) {</code></li>
+<li><code>msg_print(_(&quot;鏡が割れた！&quot;, &quot;The mirror was shattered!&quot;));</code></li>
+<li><code>sound(SoundKind::GLASS);</code></li>
+<li><code>SpellsMirrorMaster(player_ptr).remove_mirror(y, x);</code></li>
+<li><code>project(player_ptr, 0, 2, y, x, player_ptr-&gt;lev / 2 + 5, AttributeType::SHARDS,</code></li>
+<li><code>(PROJECT_GRID | PROJECT_ITEM | PROJECT_KILL | PROJECT_JUMP | PROJECT_NO_HANGEKI));</code></li>
+<li><code>if (terrain.flags.has_not(TerrainCharacteristics::GLASS) || terrain.flags.has(TerrainCharacteristics::PERMANENT) || (dam &lt; 200)) {</code></li>
+<li><code>break;</code></li>
+<li><code>if (known &amp;&amp; (grid.is_mark())) {</code></li>
+<li><code>msg_format(_(&quot;%sが割れた！&quot;, &quot;The %s crumbled!&quot;), grid.get_terrain(TerrainKind::MIMIC).name.data());</code></li>
+</ul>
+<h2>アイテム処理詳細</h2>
+<p><code>affect_item()</code> の <code>AttributeType::SOUND</code> 分岐です。実装: <code>src/effect/effect-item.cpp</code></p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>if (BreakerCold().hates(&amp;item)) {</code></li>
+<li><code>note_kill = _(&quot;砕け散ってしまった！&quot;, (plural ? &quot; shatter!&quot; : &quot; shatters!&quot;));</code></li>
+<li><code>do_kill = true;</code></li>
+<li><code>break;</code></li>
+</ul>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

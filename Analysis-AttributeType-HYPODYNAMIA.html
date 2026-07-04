@@ -150,6 +150,35 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<p>この AttributeType はプレイヤー対象の分岐を持たず、既定分岐でダメージ 0 として扱われます。</p>
+<h2>モンスター処理詳細</h2>
+<p><code>switch_effects_monster()</code> の <code>AttributeType::HYPODYNAMIA</code> 分岐は <code>effect_monster_hypodynamia()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>return effect_monster_hypodynamia(player_ptr, em_ptr);</code></li>
+</ul>
+<h3><code>effect_monster_hypodynamia()</code></h3>
+<p>実装: <code>src/effect/effect-monster-switcher.cpp</code></p>
+<ul>
+<li><code>em_ptr-&gt;obvious = true;</code></li>
+<li><code>em_ptr-&gt;do_time = (em_ptr-&gt;dam + 7) / 8;</code></li>
+<li><code>if (em_ptr-&gt;monrace-&gt;kind_flags.has(MonsterKindType::DEMON)) {</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;r_kind_flags.set(MonsterKindType::DEMON);</code></li>
+<li><code>if (em_ptr-&gt;monrace-&gt;kind_flags.has(MonsterKindType::UNDEAD)) {</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;r_kind_flags.set(MonsterKindType::UNDEAD);</code></li>
+<li><code>if (em_ptr-&gt;monrace-&gt;kind_flags.has(MonsterKindType::NONLIVING)) {</code></li>
+<li><code>em_ptr-&gt;monrace-&gt;r_kind_flags.set(MonsterKindType::NONLIVING);</code></li>
+<li><code>em_ptr-&gt;note = _(&quot;には効果がなかった。&quot;, &quot; is unaffected.&quot;);</code></li>
+<li><code>em_ptr-&gt;obvious = false;</code></li>
+<li><code>em_ptr-&gt;dam = 0;</code></li>
+</ul>
+<h2>地形処理詳細</h2>
+<p>この AttributeType は <code>affect_feature()</code> 内で 地形 への明示処理を持ちません。</p>
+<h2>アイテム処理詳細</h2>
+<p>この AttributeType は <code>affect_item()</code> 内で アイテム への明示処理を持ちません。</p>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

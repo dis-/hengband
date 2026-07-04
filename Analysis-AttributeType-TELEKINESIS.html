@@ -150,6 +150,35 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<p>この AttributeType はプレイヤー対象の分岐を持たず、既定分岐でダメージ 0 として扱われます。</p>
+<h2>モンスター処理詳細</h2>
+<p><code>switch_effects_monster()</code> の <code>AttributeType::TELEKINESIS</code> 分岐は <code>effect_monster_telekinesis()</code> を実行します。</p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>return effect_monster_telekinesis(em_ptr);</code></li>
+</ul>
+<h3><code>effect_monster_telekinesis()</code></h3>
+<p>実装: <code>src/effect/effect-monster-psi.cpp</code></p>
+<ul>
+<li><code>em_ptr-&gt;obvious = true;</code></li>
+<li><code>em_ptr-&gt;do_dist = 0;</code></li>
+<li><code>em_ptr-&gt;do_dist = 7;</code></li>
+<li><code>em_ptr-&gt;do_stun = Dice::roll((em_ptr-&gt;caster_lev / 20) + 3, em_ptr-&gt;dam) + 1;</code></li>
+<li><code>if (em_ptr-&gt;monrace-&gt;kind_flags.has(MonsterKindType::UNIQUE) || (em_ptr-&gt;monrace-&gt;level &gt; 5 + randint1(em_ptr-&gt;dam))) {</code></li>
+<li><code>em_ptr-&gt;do_stun = 0;</code></li>
+<li><code>em_ptr-&gt;obvious = false;</code></li>
+</ul>
+<h2>地形処理詳細</h2>
+<p><code>affect_feature()</code> の <code>AttributeType::TELEKINESIS</code> 分岐です。実装: <code>src/effect/effect-feature.cpp</code></p>
+<h3>分岐本体</h3>
+<ul>
+<li><code>break;</code></li>
+</ul>
+<h2>アイテム処理詳細</h2>
+<p>この AttributeType は <code>affect_item()</code> 内で アイテム への明示処理を持ちません。</p>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
