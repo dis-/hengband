@@ -126,7 +126,7 @@
 <th style="text-align:right">最低Lv</th>
 <th style="text-align:right">消費</th>
 <th>能力値</th>
-<th style="text-align:right">失敗率</th>
+<th style="text-align:right">難度</th>
 <th>効果</th>
 </tr>
 </thead>
@@ -137,20 +137,22 @@
 <td style="text-align:right">0</td>
 <td>DEX</td>
 <td style="text-align:right">0%</td>
-<td>身体を酷使して素早く移動する。使用中は自然HP回復ができない。</td>
+<td>身体を酷使して素早く移動する。使用中は移動の消費エネルギーが <code>(45 - レベル / 2)%</code> になる。</td>
 </tr>
 </tbody>
 </table></div>
-<p>「速駆け」は ACTION_HAYAGAKE をON/OFFする。現在地が投射不能地形、または浮遊なしで深い地形にいる場合は「ここでは素早く動けない。」となる。忍者は暗い場所へ移動すると超隠密 s_stealth になり、明るい場所へ出ると解除される。s_stealth 中は後述の奇襲が発生し得る。</p>
+<p>「速駆け」は ACTION_HAYAGAKE をON/OFFする。現在地が投射不能地形、または浮遊なしで深い地形にいる場合は「ここでは素早く動けない。」となる。速駆け中は移動の消費エネルギーだけが <code>(45 - レベル / 2)%</code> になり、Lv1なら45%で約2.2倍速、Lv50なら20%で5倍速で移動する。他の行動は速くならない。使用中は自然HP回復ができない。これは忍者の恒常速度補正とは別物である。忍者は暗い場所へ移動すると超隠密 s_stealth になり、明るい場所へ出ると解除される。s_stealth 中は後述の奇襲が発生し得る。</p>
 <h3>忍術一覧</h3>
 <p>忍術はMPではなくHPを消費する。</p>
+<p>表の難度は <code>mind_powers</code> の基本失敗率であり、能力値・レベル・朦朧などを加味した実際の失敗率ではない。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
 <th>名称</th>
 <th style="text-align:right">解禁Lv</th>
 <th style="text-align:right">消費HP</th>
-<th style="text-align:right">失率</th>
+<th style="text-align:right">難度</th>
+<th>効果/ダメージ</th>
 </tr>
 </thead>
 <tbody>
@@ -159,114 +161,133 @@
 <td style="text-align:right">1</td>
 <td style="text-align:right">1</td>
 <td style="text-align:right">20%</td>
+<td>半径3の周辺または部屋を暗くする。ダメージなし。</td>
 </tr>
 <tr>
 <td>周辺調査</td>
 <td style="text-align:right">2</td>
 <td style="text-align:right">2</td>
 <td style="text-align:right">25%</td>
+<td>通常モンスターを感知。Lv5超で罠・扉・階段を感知。Lv15超で通常アイテムを感知。Lv44超で階全体を照らす。</td>
 </tr>
 <tr>
 <td>葉隠れ</td>
 <td style="text-align:right">3</td>
 <td style="text-align:right">3</td>
 <td style="text-align:right">25%</td>
+<td>距離10のテレポート。</td>
 </tr>
 <tr>
 <td>変わり身</td>
 <td style="text-align:right">5</td>
 <td style="text-align:right">3</td>
 <td style="text-align:right">30%</td>
+<td>変わり身待機になる。攻撃時に、混乱・盲目・麻痺・幻覚中や朦朧判定失敗時を除き、距離 <code>10 + 1d90</code> でテレポートし元位置に忍者の木の像を落とす。通常発動時の失敗は3分の1。</td>
 </tr>
 <tr>
 <td>高飛び</td>
 <td style="text-align:right">7</td>
 <td style="text-align:right">8</td>
 <td style="text-align:right">35%</td>
+<td>距離 <code>レベル * 5</code> のテレポート。</td>
 </tr>
 <tr>
 <td>一撃離脱</td>
 <td style="text-align:right">8</td>
 <td style="text-align:right">10</td>
 <td style="text-align:right">35%</td>
+<td>隣接モンスターを攻撃し、その後テレポートする。</td>
 </tr>
 <tr>
 <td>金縛り</td>
 <td style="text-align:right">10</td>
 <td style="text-align:right">10</td>
 <td style="text-align:right">40%</td>
+<td>指定方向のモンスター1体を停止させる。ダメージなし。</td>
 </tr>
 <tr>
 <td>古の口伝</td>
 <td style="text-align:right">12</td>
 <td style="text-align:right">12</td>
 <td style="text-align:right">70%</td>
+<td>アイテムを1個鑑定する。</td>
 </tr>
 <tr>
 <td>浮雲</td>
 <td style="text-align:right">15</td>
 <td style="text-align:right">10</td>
 <td style="text-align:right">50%</td>
+<td><code>20 + 1d20</code> ターン浮遊を得る。</td>
 </tr>
 <tr>
 <td>火遁</td>
 <td style="text-align:right">17</td>
 <td style="text-align:right">12</td>
 <td style="text-align:right">45%</td>
+<td>自分中心に火炎属性ダメージ <code>50 + レベル</code>、半径 <code>レベル / 10 + 2</code> のボールを発生させ、距離30テレポートし、レベルターンの一時火炎耐性を得る。</td>
 </tr>
 <tr>
 <td>入身</td>
 <td style="text-align:right">18</td>
 <td style="text-align:right">20</td>
 <td style="text-align:right">40%</td>
+<td>射程5。経路上の目標へ接近し、到達可能な直前位置へ移動して入身攻撃を行う。</td>
 </tr>
 <tr>
 <td>八方手裏剣</td>
 <td style="text-align:right">20</td>
 <td style="text-align:right">5</td>
 <td style="text-align:right">50%</td>
+<td>所持中のくさびを最大8回投げる。くさびがなくなると中断する。</td>
 </tr>
 <tr>
 <td>鎖鎌</td>
 <td style="text-align:right">22</td>
 <td style="text-align:right">15</td>
 <td style="text-align:right">55%</td>
+<td>モンスター1体を自分の近くへ引き寄せる。</td>
 </tr>
 <tr>
 <td>煙玉</td>
 <td style="text-align:right">25</td>
 <td style="text-align:right">32</td>
 <td style="text-align:right">60%</td>
+<td>指定方向へ混乱属性ダメージ <code>レベル * 3</code>、半径3のボールを放つ。</td>
 </tr>
 <tr>
 <td>転身</td>
 <td style="text-align:right">28</td>
 <td style="text-align:right">32</td>
 <td style="text-align:right">60%</td>
+<td>指定方向のモンスター1体と位置を交換する。</td>
 </tr>
 <tr>
 <td>爆発の紋章</td>
 <td style="text-align:right">30</td>
 <td style="text-align:right">30</td>
 <td style="text-align:right">70%</td>
+<td>足元に爆発のルーンを作る。モンスターが踏むと爆発する。</td>
 </tr>
 <tr>
 <td>土遁</td>
 <td style="text-align:right">32</td>
 <td style="text-align:right">40</td>
 <td style="text-align:right">40%</td>
+<td><code>レベル / 2 + 1d(レベル / 2)</code> ターン壁抜けを得て、レベルターンの一時酸耐性を得る。</td>
 </tr>
 <tr>
 <td>霧隠れ</td>
 <td style="text-align:right">34</td>
 <td style="text-align:right">35</td>
 <td style="text-align:right">50%</td>
+<td>自分中心に毒・衰弱・混乱属性それぞれのダメージ <code>75 + レベル * 2 / 3</code>、半径 <code>レベル / 5 + 2</code> のボールを発生させ、距離30テレポートする。</td>
 </tr>
 <tr>
 <td>煉獄火炎</td>
 <td style="text-align:right">38</td>
 <td style="text-align:right">40</td>
 <td style="text-align:right">60%</td>
+<td><code>3d9</code> 回、半径4以内のランダム地点へ火炎・地獄・プラズマのいずれかのビームを放つ。各ビームのダメージは <code>(6 + レベル / 8)d10</code>。</td>
 </tr>
 </tbody>
 </table></div>
@@ -1055,7 +1076,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 19:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 20:25 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
