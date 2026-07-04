@@ -173,52 +173,708 @@
 </tbody>
 </table></div>
 <h3>エッセンス抽出</h3>
-<p>抽出対象の旧フラグと、再生成後の新フラグとの差分からエッセンスを得る。能力値、能力維持、魔力支配、隠密、探索、赤外線視力、採掘、スピード、追加攻撃、武器属性、耐性、麻痺知らず、テレパシー、スレイ、射撃強化、攻撃、防御などが抽出候補になる。固定/ランダムアーティファクトから抽出した場合は、通常の抽出に加えて「ユニーク」を10得る。</p>
+<p>抽出対象の旧フラグと、再生成後の新フラグとの差分からエッセンスを得る。取り出せるエッセンスの**全種類は後述の「抽出できるエッセンス一覧」**に列挙する。固定/ランダムアーティファクトから抽出した場合は、通常の抽出に加えて「ユニーク」を10得る。</p>
 <p>pval を持つ能力は、旧 pval が正なら差分ぶんだけ抽出量が増える。ダイス面・ダイス数・命中・ダメージの増加分は「攻撃」、AC・AC修正の増加分は「防御」として、差分1につき10を基礎値にする。最終量は個数を掛け、呪い・マイナス効果による係数 dec / 4 を掛け、矢弾ならさらに10で割る。抽出後のアイテムは完全鑑定済み・既知になる。</p>
 <h3>エッセンス付加</h3>
-<p>付加に必要なエッセンスは効果ごとに固定され、複数種類を要求する効果は各エッセンスを同数消費する。矢弾に付ける場合、消費量は10分の1になる。能力値・スピードなど pval を持つ効果は、付加数に比例して必要数が増える。</p>
-<div class="tablewrap"><table class="sortable">
-<thead>
-<tr>
-<th>効果カテゴリ</th>
-<th>必要エッセンス（例）</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>能力値</td>
-<td>「腕力」は腕力20。「スピード」はスピード12。pval を増やすほど同じ量を追加で払う。</td>
-</tr>
-<tr>
-<td>武器属性</td>
-<td>「焼棄」は焼棄20。「切れ味」は溶解+電撃+焼棄+凍結を各10。</td>
-</tr>
-<tr>
-<td>射撃</td>
-<td>「射撃倍率強化」「射撃速度強化」はどちらも射撃強化50。対象は弓。</td>
-</tr>
-<tr>
-<td>スレイ</td>
-<td>「邪悪倍打」は邪悪倍打100。「竜倍倍打」は竜倍打60。</td>
-</tr>
-<tr>
-<td>耐性・能力</td>
-<td>「耐火炎」は耐火炎15。「耐毒」は耐毒25。「麻痺知らず」は麻痺知らず20。「テレパシー」はテレパシー15。</td>
-</tr>
-<tr>
-<td>発動</td>
-<td>「火炎耐性」は耐火炎30。「全感知」は探索+テレパシーを各30。</td>
-</tr>
-<tr>
-<td>その他</td>
-<td>「火炎オーラ」は耐火炎+焼棄を各50。「源氏の小手」は二刀流20。</td>
-</tr>
-</tbody>
-</table></div>
+<p>付加に必要なエッセンスは効果ごとに固定され、複数種類を要求する効果は各エッセンスを同数消費する。矢弾に付ける場合、消費量は10分の1になる。能力値・スピードなど pval を持つ効果は、付加数に比例して必要数が増える。付加できる効果の**全一覧は後述の「エッセンス付加：全効果一覧」**を参照（例示ではなく全件を掲載）。</p>
 <h2>戦闘・装備上の特徴</h2>
 <p>鍛冶効果には武器属性、スレイ、能力、発動などが含まれる。武器属性とスレイは近接武器・矢弾向けで、矢弾に付けられる武器属性は溶解・電撃・焼棄・凍結・毒殺に限られる。「切れ味」は剣にだけ付けられ、毒針には付けられない。「源氏の小手」は小手にだけ付けられる。</p>
 <p>武器強化は「攻撃」を使い、命中とダメージを最大 Lv / 5 + 5 まで上げる。防具強化は「防御」を使い、AC修正を同じ上限まで上げる。攻撃で傷つかないようにする強化も鍛冶コマンドに含まれ、通常のエッセンス付加と違ってアーティファクトやエッセンス付加済みアイテムにも使える。</p>
 <p>鍛冶師そのものに専用の打撃回数、射撃回数、乗馬、狙撃補正はない。戦闘技能の数値そのものは自動生成欄および<a href="Analysis-Skills.html">技能</a>を参照。</p>
+<h2>エッセンス付加：全効果一覧</h2>
+<p>付加できる効果の<strong>全 135 種</strong>（<code>src/smith/smith-tables.cpp</code>）。「必要エッセンス」は付加1回あたりの消費量で、複数種を要求する効果はそれぞれ同数を消費する。「数値」カテゴリ（能力値・スピード等の pval 効果）は付加する値ぶん、この量を繰り返し消費する。矢弾に付ける場合の消費は 1/10。「発動」は対応するランダムアーティファクト発動を付与する。</p>
+<details>
+<summary>全 135 効果を表示（分類順）</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>効果</th>
+<th>分類</th>
+<th>必要エッセンス（1回あたり）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>装備保持</td>
+<td>武器防具強化</td>
+<td>耐酸・耐電撃・耐火炎・耐冷気 各×10</td>
+</tr>
+<tr>
+<td>防御</td>
+<td>武器防具強化</td>
+<td>防御 ×15</td>
+</tr>
+<tr>
+<td>攻撃</td>
+<td>武器防具強化</td>
+<td>攻撃 ×30</td>
+</tr>
+<tr>
+<td>スピード</td>
+<td>数値</td>
+<td>スピード ×12</td>
+</tr>
+<tr>
+<td>探索</td>
+<td>数値</td>
+<td>探索 ×15</td>
+</tr>
+<tr>
+<td>赤外線視力</td>
+<td>数値</td>
+<td>赤外線視力 ×15</td>
+</tr>
+<tr>
+<td>採掘</td>
+<td>数値</td>
+<td>採掘 ×15</td>
+</tr>
+<tr>
+<td>腕力</td>
+<td>数値</td>
+<td>腕力 ×20</td>
+</tr>
+<tr>
+<td>知能</td>
+<td>数値</td>
+<td>知能 ×20</td>
+</tr>
+<tr>
+<td>賢さ</td>
+<td>数値</td>
+<td>賢さ ×20</td>
+</tr>
+<tr>
+<td>器用さ</td>
+<td>数値</td>
+<td>器用さ ×20</td>
+</tr>
+<tr>
+<td>耐久力</td>
+<td>数値</td>
+<td>耐久力 ×20</td>
+</tr>
+<tr>
+<td>魅力</td>
+<td>数値</td>
+<td>魅力 ×20</td>
+</tr>
+<tr>
+<td>魔力支配</td>
+<td>数値</td>
+<td>魔力支配 ×20</td>
+</tr>
+<tr>
+<td>隠密</td>
+<td>数値</td>
+<td>隠密 ×40</td>
+</tr>
+<tr>
+<td>切れ味</td>
+<td>武器属性</td>
+<td>溶解・電撃・焼棄・凍結 各×10</td>
+</tr>
+<tr>
+<td>カオス攻撃</td>
+<td>武器属性</td>
+<td>カオス攻撃 ×15</td>
+</tr>
+<tr>
+<td>地震攻撃</td>
+<td>武器属性</td>
+<td>地震 ×15</td>
+</tr>
+<tr>
+<td>追加攻撃</td>
+<td>武器属性</td>
+<td>追加攻撃 ×20</td>
+</tr>
+<tr>
+<td>毒殺</td>
+<td>武器属性</td>
+<td>毒殺 ×20</td>
+</tr>
+<tr>
+<td>溶解</td>
+<td>武器属性</td>
+<td>溶解 ×20</td>
+</tr>
+<tr>
+<td>電撃</td>
+<td>武器属性</td>
+<td>電撃 ×20</td>
+</tr>
+<tr>
+<td>焼棄</td>
+<td>武器属性</td>
+<td>焼棄 ×20</td>
+</tr>
+<tr>
+<td>凍結</td>
+<td>武器属性</td>
+<td>凍結 ×20</td>
+</tr>
+<tr>
+<td>魔術属性攻撃</td>
+<td>武器属性</td>
+<td>魔術 ×20</td>
+</tr>
+<tr>
+<td>射撃倍率強化</td>
+<td>武器属性</td>
+<td>射撃強化 ×50</td>
+</tr>
+<tr>
+<td>射撃速度強化</td>
+<td>武器属性</td>
+<td>射撃強化 ×50</td>
+</tr>
+<tr>
+<td>吸血攻撃</td>
+<td>武器属性</td>
+<td>吸血攻撃 ×60</td>
+</tr>
+<tr>
+<td>動物倍打</td>
+<td>スレイ</td>
+<td>動物倍打 ×20</td>
+</tr>
+<tr>
+<td>不死倍打</td>
+<td>スレイ</td>
+<td>不死倍打 ×20</td>
+</tr>
+<tr>
+<td>悪魔倍打</td>
+<td>スレイ</td>
+<td>悪魔倍打 ×20</td>
+</tr>
+<tr>
+<td>オーク倍打</td>
+<td>スレイ</td>
+<td>オーク倍打 ×20</td>
+</tr>
+<tr>
+<td>トロル倍打</td>
+<td>スレイ</td>
+<td>トロル倍打 ×20</td>
+</tr>
+<tr>
+<td>巨人倍打</td>
+<td>スレイ</td>
+<td>巨人倍打 ×20</td>
+</tr>
+<tr>
+<td>竜倍打</td>
+<td>スレイ</td>
+<td>竜倍打 ×20</td>
+</tr>
+<tr>
+<td>人間倍打</td>
+<td>スレイ</td>
+<td>人間倍打 ×20</td>
+</tr>
+<tr>
+<td>善良倍打</td>
+<td>スレイ</td>
+<td>善良倍打 ×20</td>
+</tr>
+<tr>
+<td>動物倍倍打</td>
+<td>スレイ</td>
+<td>動物倍打 ×60</td>
+</tr>
+<tr>
+<td>不死倍倍打</td>
+<td>スレイ</td>
+<td>不死倍打 ×60</td>
+</tr>
+<tr>
+<td>悪魔倍倍打</td>
+<td>スレイ</td>
+<td>悪魔倍打 ×60</td>
+</tr>
+<tr>
+<td>オーク倍倍打</td>
+<td>スレイ</td>
+<td>オーク倍打 ×60</td>
+</tr>
+<tr>
+<td>トロル倍倍打</td>
+<td>スレイ</td>
+<td>トロル倍打 ×60</td>
+</tr>
+<tr>
+<td>巨人倍倍打</td>
+<td>スレイ</td>
+<td>巨人倍打 ×60</td>
+</tr>
+<tr>
+<td>竜倍倍打</td>
+<td>スレイ</td>
+<td>竜倍打 ×60</td>
+</tr>
+<tr>
+<td>人間倍倍打</td>
+<td>スレイ</td>
+<td>人間倍打 ×60</td>
+</tr>
+<tr>
+<td>善良倍倍打</td>
+<td>スレイ</td>
+<td>善良倍打 ×60</td>
+</tr>
+<tr>
+<td>邪悪倍打</td>
+<td>スレイ</td>
+<td>邪悪倍打 ×100</td>
+</tr>
+<tr>
+<td>耐酸</td>
+<td>耐性</td>
+<td>耐酸 ×15</td>
+</tr>
+<tr>
+<td>耐電撃</td>
+<td>耐性</td>
+<td>耐電撃 ×15</td>
+</tr>
+<tr>
+<td>耐火炎</td>
+<td>耐性</td>
+<td>耐火炎 ×15</td>
+</tr>
+<tr>
+<td>耐冷気</td>
+<td>耐性</td>
+<td>耐冷気 ×15</td>
+</tr>
+<tr>
+<td>反射</td>
+<td>耐性</td>
+<td>反射 ×20</td>
+</tr>
+<tr>
+<td>耐恐怖</td>
+<td>耐性</td>
+<td>耐恐怖 ×20</td>
+</tr>
+<tr>
+<td>耐閃光</td>
+<td>耐性</td>
+<td>耐閃光 ×20</td>
+</tr>
+<tr>
+<td>耐暗黒</td>
+<td>耐性</td>
+<td>耐暗黒 ×20</td>
+</tr>
+<tr>
+<td>耐盲目</td>
+<td>耐性</td>
+<td>耐盲目 ×20</td>
+</tr>
+<tr>
+<td>耐混乱</td>
+<td>耐性</td>
+<td>耐混乱 ×20</td>
+</tr>
+<tr>
+<td>耐轟音</td>
+<td>耐性</td>
+<td>耐轟音 ×20</td>
+</tr>
+<tr>
+<td>耐破片</td>
+<td>耐性</td>
+<td>耐破片 ×20</td>
+</tr>
+<tr>
+<td>耐地獄</td>
+<td>耐性</td>
+<td>耐地獄 ×20</td>
+</tr>
+<tr>
+<td>耐因果混乱</td>
+<td>耐性</td>
+<td>耐因果混乱 ×20</td>
+</tr>
+<tr>
+<td>耐カオス</td>
+<td>耐性</td>
+<td>耐カオス ×20</td>
+</tr>
+<tr>
+<td>耐劣化</td>
+<td>耐性</td>
+<td>耐劣化 ×20</td>
+</tr>
+<tr>
+<td>耐水</td>
+<td>耐性</td>
+<td>耐水 ×20</td>
+</tr>
+<tr>
+<td>耐時間逆転</td>
+<td>耐性</td>
+<td>耐時間逆転 ×20</td>
+</tr>
+<tr>
+<td>耐呪力</td>
+<td>耐性</td>
+<td>耐呪力 ×20</td>
+</tr>
+<tr>
+<td>耐毒</td>
+<td>耐性</td>
+<td>耐毒 ×25</td>
+</tr>
+<tr>
+<td>全耐性</td>
+<td>耐性</td>
+<td>耐酸・耐電撃・耐火炎・耐冷気 各×150</td>
+</tr>
+<tr>
+<td>酸免疫</td>
+<td>耐性</td>
+<td>免疫・耐酸 各×200</td>
+</tr>
+<tr>
+<td>電撃免疫</td>
+<td>耐性</td>
+<td>免疫・耐電撃 各×200</td>
+</tr>
+<tr>
+<td>火炎免疫</td>
+<td>耐性</td>
+<td>免疫・耐火炎 各×200</td>
+</tr>
+<tr>
+<td>冷気免疫</td>
+<td>耐性</td>
+<td>免疫・耐冷気 各×200</td>
+</tr>
+<tr>
+<td>腕力維持</td>
+<td>能力</td>
+<td>能力維持 ×15</td>
+</tr>
+<tr>
+<td>知能維持</td>
+<td>能力</td>
+<td>能力維持 ×15</td>
+</tr>
+<tr>
+<td>賢さ維持</td>
+<td>能力</td>
+<td>能力維持 ×15</td>
+</tr>
+<tr>
+<td>器用さ維持</td>
+<td>能力</td>
+<td>能力維持 ×15</td>
+</tr>
+<tr>
+<td>耐久力維持</td>
+<td>能力</td>
+<td>能力維持 ×15</td>
+</tr>
+<tr>
+<td>魅力維持</td>
+<td>能力</td>
+<td>能力維持 ×15</td>
+</tr>
+<tr>
+<td>遅消化</td>
+<td>能力</td>
+<td>遅消化 ×15</td>
+</tr>
+<tr>
+<td>反魔法</td>
+<td>能力</td>
+<td>反魔法 ×15</td>
+</tr>
+<tr>
+<td>永久光源</td>
+<td>能力</td>
+<td>永久光源 ×15</td>
+</tr>
+<tr>
+<td>反テレポート</td>
+<td>能力</td>
+<td>反テレポ ×15</td>
+</tr>
+<tr>
+<td>経験値維持</td>
+<td>能力</td>
+<td>経験値維持 ×20</td>
+</tr>
+<tr>
+<td>麻痺知らず</td>
+<td>能力</td>
+<td>麻痺知らず ×20</td>
+</tr>
+<tr>
+<td>警告</td>
+<td>能力</td>
+<td>警告 ×20</td>
+</tr>
+<tr>
+<td>浮遊</td>
+<td>能力</td>
+<td>浮遊 ×20</td>
+</tr>
+<tr>
+<td>可視透明</td>
+<td>能力</td>
+<td>可視透明 ×20</td>
+</tr>
+<tr>
+<td>急速回復</td>
+<td>能力</td>
+<td>急速回復 ×20</td>
+</tr>
+<tr>
+<td>テレポート</td>
+<td>能力</td>
+<td>テレポート ×25</td>
+</tr>
+<tr>
+<td>テレパシー</td>
+<td>ESP</td>
+<td>テレパシー ×15</td>
+</tr>
+<tr>
+<td>動物ESP</td>
+<td>ESP</td>
+<td>動物倍打 ×40</td>
+</tr>
+<tr>
+<td>不死ESP</td>
+<td>ESP</td>
+<td>不死倍打 ×40</td>
+</tr>
+<tr>
+<td>悪魔ESP</td>
+<td>ESP</td>
+<td>悪魔倍打 ×40</td>
+</tr>
+<tr>
+<td>オークESP</td>
+<td>ESP</td>
+<td>オーク倍打 ×40</td>
+</tr>
+<tr>
+<td>トロルESP</td>
+<td>ESP</td>
+<td>トロル倍打 ×40</td>
+</tr>
+<tr>
+<td>巨人ESP</td>
+<td>ESP</td>
+<td>巨人倍打 ×40</td>
+</tr>
+<tr>
+<td>竜ESP</td>
+<td>ESP</td>
+<td>竜倍打 ×40</td>
+</tr>
+<tr>
+<td>人間ESP</td>
+<td>ESP</td>
+<td>人間倍打 ×40</td>
+</tr>
+<tr>
+<td>善良ESP</td>
+<td>ESP</td>
+<td>善良倍打 ×40</td>
+</tr>
+<tr>
+<td>ユニークESP</td>
+<td>ESP</td>
+<td>ユニーク ×100</td>
+</tr>
+<tr>
+<td>源氏の小手</td>
+<td>その他</td>
+<td>二刀流 ×20</td>
+</tr>
+<tr>
+<td>火炎オーラ</td>
+<td>その他</td>
+<td>耐火炎・焼棄 各×50</td>
+</tr>
+<tr>
+<td>電撃オーラ</td>
+<td>その他</td>
+<td>耐電撃・電撃 各×50</td>
+</tr>
+<tr>
+<td>冷気オーラ</td>
+<td>その他</td>
+<td>耐冷気・凍結 各×50</td>
+</tr>
+<tr>
+<td>殺戮の小手</td>
+<td>その他</td>
+<td>攻撃 ×200</td>
+</tr>
+<tr>
+<td>地震</td>
+<td>発動</td>
+<td>地震 ×15</td>
+</tr>
+<tr>
+<td>スピード</td>
+<td>発動</td>
+<td>スピード ×25</td>
+</tr>
+<tr>
+<td>酸耐性</td>
+<td>発動</td>
+<td>耐酸 ×30</td>
+</tr>
+<tr>
+<td>電撃耐性</td>
+<td>発動</td>
+<td>耐電撃 ×30</td>
+</tr>
+<tr>
+<td>火炎耐性</td>
+<td>発動</td>
+<td>耐火炎 ×30</td>
+</tr>
+<tr>
+<td>冷気耐性</td>
+<td>発動</td>
+<td>耐冷気 ×30</td>
+</tr>
+<tr>
+<td>ショート・テレポート</td>
+<td>発動</td>
+<td>テレポート ×30</td>
+</tr>
+<tr>
+<td>イルミネーション</td>
+<td>発動</td>
+<td>永久光源 ×30</td>
+</tr>
+<tr>
+<td>魔法の地図と光</td>
+<td>発動</td>
+<td>探索・永久光源 各×30</td>
+</tr>
+<tr>
+<td>全感知</td>
+<td>発動</td>
+<td>探索・テレパシー 各×30</td>
+</tr>
+<tr>
+<td>経験値復活</td>
+<td>発動</td>
+<td>経験値維持 ×30</td>
+</tr>
+<tr>
+<td>害虫駆除</td>
+<td>発動</td>
+<td>毒殺 ×30</td>
+</tr>
+<tr>
+<td>放射能球</td>
+<td>発動</td>
+<td>毒殺・カオス攻撃 各×30</td>
+</tr>
+<tr>
+<td>パニック・モンスター</td>
+<td>発動</td>
+<td>カオス攻撃 ×30</td>
+</tr>
+<tr>
+<td>毒耐性</td>
+<td>発動</td>
+<td>耐毒 ×40</td>
+</tr>
+<tr>
+<td>テレポート</td>
+<td>発動</td>
+<td>テレポート ×40</td>
+</tr>
+<tr>
+<td>全ステータスと経験値復活</td>
+<td>発動</td>
+<td>能力維持・経験値維持 各×40</td>
+</tr>
+<tr>
+<td>アシッド・ボール</td>
+<td>発動</td>
+<td>溶解 ×40</td>
+</tr>
+<tr>
+<td>サンダー・ボール</td>
+<td>発動</td>
+<td>電撃 ×40</td>
+</tr>
+<tr>
+<td>ファイア・ボール</td>
+<td>発動</td>
+<td>焼棄 ×40</td>
+</tr>
+<tr>
+<td>アイス・ボール</td>
+<td>発動</td>
+<td>凍結 ×40</td>
+</tr>
+<tr>
+<td>太陽光線</td>
+<td>発動</td>
+<td>永久光源 ×40</td>
+</tr>
+<tr>
+<td>善良退散</td>
+<td>発動</td>
+<td>善良倍打 ×50</td>
+</tr>
+<tr>
+<td>空腹充足</td>
+<td>発動</td>
+<td>遅消化 ×50</td>
+</tr>
+<tr>
+<td>岩石溶解</td>
+<td>発動</td>
+<td>採掘 ×100</td>
+</tr>
+<tr>
+<td>階にいるユニークモンスターを表示</td>
+<td>発動</td>
+<td>ユニーク ×100</td>
+</tr>
+<tr>
+<td>対邪悪結界</td>
+<td>発動</td>
+<td>邪悪倍打 ×100</td>
+</tr>
+<tr>
+<td>邪悪退散</td>
+<td>発動</td>
+<td>邪悪倍打 ×100</td>
+</tr>
+<tr>
+<td>吸血の矢</td>
+<td>発動</td>
+<td>吸血攻撃 ×100</td>
+</tr>
+<tr>
+<td>体力回復</td>
+<td>発動</td>
+<td>急速回復 ×100</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<h2>抽出できるエッセンス一覧</h2>
+<p>エッセンス抽出は、魔法のかかった武器・防具・矢弾を「無効化」し、その装備が持っていた能力を下記のエッセンスとして取り出す。取り出せるエッセンスは次の<strong>全 71 種</strong>（<code>src/smith/smith-tables.cpp</code> の名称テーブル）。上の付加効果は、これらのエッセンスを消費して実現される。</p>
+<p><code>腕力</code> ・ <code>知能</code> ・ <code>賢さ</code> ・ <code>器用さ</code> ・ <code>耐久力</code> ・ <code>魅力</code> ・ <code>能力維持</code> ・ <code>魔力支配</code> ・ <code>隠密</code> ・ <code>探索</code> ・ <code>赤外線視力</code> ・ <code>採掘</code> ・ <code>スピード</code> ・ <code>追加攻撃</code> ・ <code>カオス攻撃</code> ・ <code>吸血攻撃</code> ・ <code>地震</code> ・ <code>毒殺</code> ・ <code>溶解</code> ・ <code>電撃</code> ・ <code>焼棄</code> ・ <code>凍結</code> ・ <code>魔術</code> ・ <code>免疫</code> ・ <code>反射</code> ・ <code>耐酸</code> ・ <code>耐電撃</code> ・ <code>耐火炎</code> ・ <code>耐冷気</code> ・ <code>耐毒</code> ・ <code>耐恐怖</code> ・ <code>耐閃光</code> ・ <code>耐暗黒</code> ・ <code>耐盲目</code> ・ <code>耐混乱</code> ・ <code>耐轟音</code> ・ <code>耐破片</code> ・ <code>耐地獄</code> ・ <code>耐因果混乱</code> ・ <code>耐カオス</code> ・ <code>耐劣化</code> ・ <code>耐水</code> ・ <code>耐時間逆転</code> ・ <code>耐呪力</code> ・ <code>経験値維持</code> ・ <code>麻痺知らず</code> ・ <code>警告</code> ・ <code>浮遊</code> ・ <code>可視透明</code> ・ <code>テレパシー</code> ・ <code>遅消化</code> ・ <code>急速回復</code> ・ <code>テレポート</code> ・ <code>反魔法</code> ・ <code>永久光源</code> ・ <code>反テレポ</code> ・ <code>邪悪倍打</code> ・ <code>動物倍打</code> ・ <code>不死倍打</code> ・ <code>悪魔倍打</code> ・ <code>オーク倍打</code> ・ <code>トロル倍打</code> ・ <code>巨人倍打</code> ・ <code>竜倍打</code> ・ <code>人間倍打</code> ・ <code>善良倍打</code> ・ <code>二刀流</code> ・ <code>射撃強化</code> ・ <code>ユニーク</code> ・ <code>攻撃</code> ・ <code>防御</code></p>
 <h2>基礎スペック</h2>
 <div class="tablewrap"><table class="sortable">
 <thead>
@@ -429,7 +1085,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 19:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 20:07 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
