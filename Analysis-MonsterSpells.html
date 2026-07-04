@@ -253,7 +253,7 @@
 </thead>
 <tbody>
 <tr>
-<td>マジックミサイル (MISSILE)</td>
+<td>マジック・ミサイル (MISSILE)</td>
 <td>rlev / 3</td>
 <td>2d6</td>
 <td></td>
@@ -271,67 +271,67 @@
 <td>powerfulでレベル寄与が増加</td>
 </tr>
 <tr>
-<td>酸のボルト (BO_ACID)</td>
+<td>アシッド・ボルト (BO_ACID)</td>
 <td>(rlev/3) * (mult/div)</td>
 <td>7d8</td>
 <td>mult=powerful?2:1</td>
 </tr>
 <tr>
-<td>電撃のボルト (BO_ELEC)</td>
+<td>サンダー・ボルト (BO_ELEC)</td>
 <td>(rlev/3) * (mult/div)</td>
 <td>4d8</td>
 <td>同上</td>
 </tr>
 <tr>
-<td>火炎のボルト (BO_FIRE)</td>
+<td>ファイア・ボルト (BO_FIRE)</td>
 <td>(rlev/3) * (mult/div)</td>
 <td>9d8</td>
 <td>同上</td>
 </tr>
 <tr>
-<td>冷気のボルト (BO_COLD)</td>
+<td>アイス・ボルト (BO_COLD)</td>
 <td>(rlev/3) * (mult/div)</td>
 <td>6d8</td>
 <td>同上</td>
 </tr>
 <tr>
-<td>水のボルト (BO_WATE)</td>
+<td>ウォーター・ボルト (BO_WATE)</td>
 <td>rlev*3 / (powerful?2:3)</td>
 <td>10d10</td>
 <td></td>
 </tr>
 <tr>
-<td>魔力のボルト (BO_MANA)</td>
+<td>魔力の矢 (BO_MANA)</td>
 <td>50</td>
 <td>1d(rlev*7/2)</td>
 <td></td>
 </tr>
 <tr>
-<td>プラズマボルト (BO_PLAS)</td>
+<td>プラズマ・ボルト (BO_PLAS)</td>
 <td>10 + rlev*3/(powerful?2:3)</td>
 <td>8d7</td>
 <td></td>
 </tr>
 <tr>
-<td>極寒のボルト (BO_ICEE)</td>
+<td>極寒の矢 (BO_ICEE)</td>
 <td>rlev*3/(powerful?2:3)</td>
 <td>6d6</td>
 <td></td>
 </tr>
 <tr>
-<td>虚無/深淵のボルト (BO_VOID/ABYSS)</td>
+<td>ヴォイド・ボルト / アビス・ボルト (BO_VOID/ABYSS)</td>
 <td>10 + rlev*3/(powerful?2:3)</td>
 <td>13d14</td>
 <td></td>
 </tr>
 <tr>
-<td>メテオボルト (BO_METEOR)</td>
+<td>メテオストライク (BO_METEOR)</td>
 <td>30 + rlev*2</td>
 <td>1d(rlev)</td>
 <td></td>
 </tr>
 <tr>
-<td>閃光のボルト (BO_LITE)</td>
+<td>スターライトアロー (BO_LITE)</td>
 <td>powerful?60:40</td>
 <td>1d(powerful? rlev<em>4 : rlev</em>2)</td>
 <td></td>
@@ -362,19 +362,19 @@
 <td>mult=powerful?2:1</td>
 </tr>
 <tr>
-<td>カオス球 (BA_CHAO)</td>
+<td>純ログルス (BA_CHAO)</td>
 <td>powerful? rlev<em>3 : rlev</em>2</td>
 <td>10d10</td>
 <td></td>
 </tr>
 <tr>
-<td>酸/電撃/火炎/冷気の球 (BA_ACID/ELEC/FIRE/COLD)</td>
+<td>アシッド・ボール / サンダー・ボール / ファイア・ボール / アイス・ボール (BA_ACID/ELEC/FIRE/COLD)</td>
 <td>powerful時: rlev*4+50 / 非powerful時は下記</td>
 <td>powerful時 10d10</td>
 <td>非powerful時は固定値+1dNの形（属性別、下記）</td>
 </tr>
 <tr>
-<td>毒の球 (BA_POIS)</td>
+<td>悪臭雲 (BA_POIS)</td>
 <td>0</td>
 <td>12d2、mult=powerful?2:1</td>
 <td></td>
@@ -392,19 +392,19 @@
 <td></td>
 </tr>
 <tr>
-<td>魔力嵐/暗黒の嵐 (BA_MANA/DARK)</td>
+<td>魔力の嵐 / 暗黒の嵐 (BA_MANA/DARK)</td>
 <td>rlev*4 + 50</td>
 <td>10d10</td>
 <td></td>
 </tr>
 <tr>
-<td>スターバースト (BA_LITE)</td>
+<td>スター・バースト (BA_LITE)</td>
 <td>rlev*4 + 50</td>
 <td>10d10</td>
 <td></td>
 </tr>
 <tr>
-<td>虚無/深淵の球 (BA_VOID/ABYSS)</td>
+<td>虚無の嵐 / 深淵の嵐 (BA_VOID/ABYSS)</td>
 <td>powerful? rlev<em>3 : rlev</em>2</td>
 <td>10d10</td>
 <td></td>
@@ -434,15 +434,15 @@ BA_COLD (非powerful): dam = 10, dice = 1d(rlev*3/2)
 </thead>
 <tbody>
 <tr>
-<td>軽傷の呪い (CAUSE_1)</td>
+<td>軽傷 (CAUSE_1)</td>
 <td>3d8</td>
 </tr>
 <tr>
-<td>重傷の呪い (CAUSE_2)</td>
+<td>重傷 (CAUSE_2)</td>
 <td>8d8</td>
 </tr>
 <tr>
-<td>致命傷の呪い (CAUSE_3)</td>
+<td>致命傷 (CAUSE_3)</td>
 <td>10d15</td>
 </tr>
 <tr>
@@ -523,7 +523,7 @@ dam  = 40 * (mult / div)   ダイス = 1d20
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/mspell/mspell-damage-calculator.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 13:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 14:06 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
