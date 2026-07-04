@@ -57,7 +57,7 @@ function setupSidebarTree(){
     }
     if(!sub)continue;
     var href=topLink?topLink.getAttribute('href')||'':'';
-    if(!(href.endsWith('Ironman.html')||href.endsWith('Analysis.html')))continue;
+    if(!(href.endsWith('Ironman.html')||href.endsWith('Analysis.html')||href.endsWith('Classes.html')))continue;
     var details=document.createElement('details'),summary=document.createElement('summary');
     details.className='side-group';
     while(li.firstChild&&li.firstChild!==sub)summary.appendChild(li.firstChild);
