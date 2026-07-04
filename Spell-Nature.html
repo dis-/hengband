@@ -28,6 +28,7 @@
 </ul>
 <h3>📘 解説 / Guides</h3>
 <ul>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
 <li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
 <li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
 <ul>
@@ -48,7 +49,7 @@
 </li>
 </ul>
 </aside><main class="content"><h1>自然領域の呪文 / Nature Realm Spells</h1>
-<p>自然領域（Nature）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>自然領域（Nature）の呪文書と呪文一覧。「詳細効果」はゲームのソースコードから導出したレベル依存の効果値です（Lv=プレイヤーレベル）。</p>
 <p>Spellbooks and spells of the Nature realm.</p>
 <p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
 <h2>[野性の召喚] / [Call of the Wild]</h2>
@@ -66,49 +67,49 @@
 <td>0</td>
 <td>モンスター感知<br>Detect Creatures</td>
 <td>近くの全ての見えるモンスターを感知する。<br>Detects all monsters in your vicinity unless invisible.</td>
-<td></td>
+<td>半径30以内のモンスターを感知する。</td>
 </tr>
 <tr>
 <td>1</td>
 <td>稲妻<br>Lightning</td>
 <td>電撃の短いビームを放つ。<br>Fires a short beam of lightning.</td>
-<td></td>
+<td>電撃のビームを放つ。ダメージ (3+(Lv-1)/5)d4、射程 Lv/6+2。</td>
 </tr>
 <tr>
 <td>2</td>
 <td>罠と扉感知<br>Detect Doors and Traps</td>
 <td>近くの全ての罠と扉を感知する。<br>Detects traps, doors, and stairs in your vicinity.</td>
-<td></td>
+<td>半径30以内の罠・扉・階段を感知する。</td>
 </tr>
 <tr>
 <td>3</td>
 <td>食糧生成<br>Produce Food</td>
 <td>食料を一つ作り出す。<br>Produces a Ration of Food.</td>
-<td></td>
+<td>食料を1つ生成する。</td>
 </tr>
 <tr>
 <td>4</td>
 <td>日の光<br>Daylight</td>
 <td>光源が照らしている範囲か部屋全体を永久に明るくする。<br>Lights up nearby area and the inside of a room permanently.</td>
-<td></td>
+<td>周囲を照らす。照明半径 Lv/10+1。範囲内の敵に 2d(Lv/2)。光に弱いアンデッド種族は自身も傷つく。</td>
 </tr>
 <tr>
 <td>5</td>
 <td>動物習し<br>Animal Taming</td>
 <td>動物1体を魅了する。抵抗されると無効。<br>Attempts to charm an animal.</td>
-<td></td>
+<td>対象の動物1体を魅了する。威力 Lv。</td>
 </tr>
 <tr>
 <td>6</td>
 <td>環境への耐性<br>Resist Environment</td>
 <td>一定時間、冷気、炎、電撃に対する耐性を得る。装備による耐性に累積する。<br>Gives resistance to fire, cold and electricity for a while. These resistances can be added to those from equipment for more powerful resistances.</td>
-<td></td>
+<td>一定時間、火炎・冷気・電撃への耐性。期間 各 20+1d20 ターン。</td>
 </tr>
 <tr>
 <td>7</td>
 <td>傷と毒治療<br>Cure Wounds &amp; Poison</td>
 <td>怪我を全快させ、毒を体から完全に取り除き、体力を少し回復させる。<br>Heals all cuts and poisons. Heals HP a little.</td>
-<td></td>
+<td>体力を 2d8 回復し、切り傷と毒を治す。</td>
 </tr>
 </tbody>
 </table></div>
@@ -127,49 +128,49 @@
 <td>8</td>
 <td>岩石溶解<br>Stone to Mud</td>
 <td>壁を溶かして床にする。<br>Turns one rock square to mud.</td>
-<td></td>
+<td>指定方向の壁を溶かして通路にする。ダメージ 20+1d30。</td>
 </tr>
 <tr>
 <td>9</td>
 <td>アイス・ボルト<br>Frost Bolt</td>
 <td>冷気のボルトもしくはビームを放つ。<br>Fires a bolt or beam of cold.</td>
-<td></td>
+<td>冷気のボルト（またはビーム）。ダメージ (3+(Lv-5)/4)d8。</td>
 </tr>
 <tr>
 <td>10</td>
 <td>自然の覚醒<br>Nature Awareness</td>
 <td>周辺の地形を感知し、近くの罠、扉、階段、全てのモンスターを感知する。<br>Maps nearby area. Detects all monsters, traps, doors and stairs.</td>
-<td></td>
+<td>周辺の地形・罠・扉・階段・モンスターを感知する。</td>
 </tr>
 <tr>
 <td>11</td>
 <td>ファイア・ボルト<br>Fire Bolt</td>
 <td>火炎のボルトもしくはビームを放つ。<br>Fires a bolt or beam of fire.</td>
-<td></td>
+<td>火炎のボルト（またはビーム）。ダメージ (5+(Lv-5)/4)d8。</td>
 </tr>
 <tr>
 <td>12</td>
 <td>太陽光線<br>Ray of Sunlight</td>
 <td>光線を放つ。光りを嫌うモンスターに効果がある。<br>Fires a beam of light which damages light-sensitive monsters.</td>
-<td></td>
+<td>太陽光線を放つ。ダメージ 6d8。通路を照らし、光に弱い敵に有効。</td>
 </tr>
 <tr>
 <td>13</td>
 <td>足かせ<br>Entangle</td>
 <td>視界内の全てのモンスターを減速させる。抵抗されると無効。<br>Attempts to slow all monsters in sight.</td>
-<td></td>
+<td>視界内のモンスターを減速させる。威力 Lv。</td>
 </tr>
 <tr>
 <td>14</td>
 <td>動物召喚<br>Summon Animal</td>
 <td>動物を1体召喚する。<br>Summons an animal.</td>
-<td></td>
+<td>動物を1体（味方として）召喚する。</td>
 </tr>
 <tr>
 <td>15</td>
 <td>薬草治療<br>Herbal Healing</td>
 <td>体力を大幅に回復させ、負傷、朦朧状態、毒から全快する。<br>Heals HP greatly. Completely cures cuts, poisons and being stunned.</td>
-<td></td>
+<td>体力を 500 回復し、切り傷・朦朧などを治す。</td>
 </tr>
 </tbody>
 </table></div>
@@ -188,49 +189,49 @@
 <td>16</td>
 <td>階段生成<br>Stair Building</td>
 <td>自分のいる位置に階段を作る。<br>Creates a staircase which goes down or up.</td>
-<td></td>
+<td>階段を作成する。</td>
 </tr>
 <tr>
 <td>17</td>
 <td>肌石化<br>Stone Skin</td>
 <td>一定時間、ACを上昇させる。<br>Gives a bonus to AC for a while.</td>
-<td></td>
+<td>一定時間、AC（防御力）が上昇する。期間 20+1d30 ターン。</td>
 </tr>
 <tr>
 <td>18</td>
 <td>真・耐性<br>Resistance True</td>
 <td>一定時間、酸、電撃、炎、冷気、毒に対する耐性を得る。装備による耐性に累積する。<br>Gives resistance to fire, cold, electricity, acid and poison for a while. These resistances can be added to those from equipment for more powerful resistances.</td>
-<td></td>
+<td>一定時間、火炎・冷気・電撃・酸・毒の全耐性。期間 各 20+1d20 ターン。</td>
 </tr>
 <tr>
 <td>19</td>
 <td>森林創造<br>Forest Creation</td>
 <td>周囲に木を作り出す。<br>Creates trees in all adjacent squares.</td>
-<td></td>
+<td>周囲に木を生成する。</td>
 </tr>
 <tr>
 <td>20</td>
 <td>動物友和<br>Animal Friendship</td>
 <td>視界内の全ての動物を魅了する。抵抗されると無効。<br>Attempts to charm all animals in sight.</td>
-<td></td>
+<td>視界内の動物を魅了する。威力 Lv×2。</td>
 </tr>
 <tr>
 <td>21</td>
 <td>試金石<br>Stone Tell</td>
 <td>アイテムの持つ能力を完全に知る。<br><em>Identifies</em> an item.</td>
-<td></td>
+<td>アイテム1つを完全に鑑定する（＊鑑定＊）。</td>
 </tr>
 <tr>
 <td>22</td>
 <td>石の壁<br>Wall of Stone</td>
 <td>自分の周囲に花崗岩の壁を作る。<br>Creates granite walls in all adjacent squares.</td>
-<td></td>
+<td>自分の周囲に石の壁を作る。</td>
 </tr>
 <tr>
 <td>23</td>
 <td>腐食防止<br>Protect from Corrosion</td>
 <td>アイテムを酸で傷つかないよう加工する。<br>Makes a piece of equipment acid-proof.</td>
-<td></td>
+<td>装備品を酸による劣化から守る。</td>
 </tr>
 </tbody>
 </table></div>
@@ -249,49 +250,49 @@
 <td>24</td>
 <td>地震<br>Earthquake</td>
 <td>周囲のダンジョンを揺らし、壁と床をランダムに入れ変える。<br>Shakes dungeon structure, and results in random swapping of floors and walls.</td>
-<td></td>
+<td>周囲に地震を起こす（半径10）。</td>
 </tr>
 <tr>
 <td>25</td>
 <td>カマイタチ<br>Whirlwind</td>
 <td>全方向に向かって攻撃する。<br>Attacks all adjacent monsters.</td>
-<td></td>
+<td>隣接する全モンスターを攻撃する。</td>
 </tr>
 <tr>
 <td>26</td>
 <td>ブリザード<br>Blizzard</td>
 <td>巨大な冷気の球を放つ。<br>Fires a huge ball of cold.</td>
-<td></td>
+<td>冷気のボール。ダメージ 70+Lv×3/2、半径 Lv/12+1。</td>
 </tr>
 <tr>
 <td>27</td>
 <td>稲妻嵐<br>Lightning Storm</td>
 <td>巨大な電撃の球を放つ。<br>Fires a huge electric ball.</td>
-<td></td>
+<td>電撃のボール。ダメージ 90+Lv×3/2、半径 Lv/12+1。</td>
 </tr>
 <tr>
 <td>28</td>
 <td>渦潮<br>Whirlpool</td>
 <td>巨大な水の球を放つ。<br>Fires a huge ball of water.</td>
-<td></td>
+<td>水のボール。ダメージ 100+Lv×3/2、半径 Lv/12+1。</td>
 </tr>
 <tr>
 <td>29</td>
 <td>陽光召喚<br>Call Sunlight</td>
 <td>自分を中心とした光の球を発生させる。さらに、その階全体を永久に照らし、ダンジョン内すべてのアイテムを感知する。<br>Generates ball of light centered on you. Maps and lights whole dungeon level. Knows all objects location.</td>
-<td></td>
+<td>自分中心に閃光のボール。最大ダメージ 150、半径8。フロアを照らし感知する。光に弱いアンデッド種族は自傷。</td>
 </tr>
 <tr>
 <td>30</td>
 <td>精霊の刃<br>Elemental Branding</td>
 <td>武器に炎か冷気の属性をつける。<br>Brands current weapon with fire or frost.</td>
-<td></td>
+<td>武器に火炎または冷気の属性を付与する。</td>
 </tr>
 <tr>
 <td>31</td>
 <td>自然の脅威<br>Nature's Wrath</td>
 <td>近くの全てのモンスターにダメージを与え、地震を起こし、自分を中心とした分解の球を発生させる。<br>Damages all monsters in sight. Makes quake. Generates disintegration ball centered on you.</td>
-<td></td>
+<td>視界内の敵に Lv×4 ダメージ、周囲に地震、さらに自分中心に分解のボール（(100+Lv)×2、半径 1+Lv/12）。</td>
 </tr>
 </tbody>
 </table></div>
@@ -299,7 +300,7 @@
 <blockquote>
 <p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
 This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
-生成 / Generated: 2026-07-04 03:02 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 03:09 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

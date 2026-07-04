@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ゲームモード / Game Modes · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-Critical.html">会心の一撃 / Critical</a></li>
+<li><a href="Analysis-Experience.html">経験値 / Experience</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数 / Blows</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>ゲームモード / Game Modes</h1>
+<p>ここではキャラクター作成時の「出生オプション」（<code>GameOptionPage::BIRTH</code>）を、プレイ内容を大きく変えるゲームモードとして整理します。項目名・初期値は <code>src/game-option/option-types-table.cpp</code>、スコア倍率は <code>src/player/player-status.cpp</code> の <code>calc_score()</code>、キャラクターダンプ上の表示は <code>src/io-dump/character-dump.cpp</code> に基づきます。</p>
+<p>説明文に <code>(*)</code> が付くものは出生時設定として扱われ、開始後に気軽に切り替える前提ではありません。難易度やスコアが変わる項目は、ハイスコア狙いの条件にも直結します。</p>
+<h2>一覧</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>分類</th>
+<th>オプション</th>
+<th>初期値</th>
+<th>内容</th>
+<th>スコア影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>世界</td>
+<td><code>vanilla_town</code></td>
+<td>OFF</td>
+<td>元祖の街/クエストと荒野なし。街・荒野・クエスト構造をシンプルにする。</td>
+<td>なし</td>
+</tr>
+<tr>
+<td>世界</td>
+<td><code>lite_town</code></td>
+<td>OFF</td>
+<td>小規模な街/荒野なし。荒野を使わない軽量な街構成。</td>
+<td>なし</td>
+</tr>
+<tr>
+<td>鉄人</td>
+<td><a href="Ironman-Shops.html"><code>ironman_shops</code></a></td>
+<td>OFF</td>
+<td>店を使用しない。全店舗が常に施錠される。</td>
+<td>倍率 +50</td>
+</tr>
+<tr>
+<td>鉄人</td>
+<td><a href="Ironman-SmallestFloor.html"><code>ironman_smallest_floor</code></a></td>
+<td>OFF</td>
+<td>常に非常に小さいフロアを生成。</td>
+<td>倍率 +10</td>
+</tr>
+<tr>
+<td>鉄人</td>
+<td><a href="Ironman-Downward.html"><code>ironman_downward</code></a></td>
+<td>OFF</td>
+<td>帰還と上り階段なし。一方通行で潜る。</td>
+<td>最終スコア ×2</td>
+</tr>
+<tr>
+<td>鉄人</td>
+<td><a href="Ironman-ForceArenaFloor.html"><code>ironman_force_arena_floor</code></a></td>
+<td>OFF</td>
+<td>常に空っぽのアリーナフロアを生成。</td>
+<td>倍率 +20</td>
+</tr>
+<tr>
+<td>鉄人</td>
+<td><a href="Ironman-Rooms.html"><code>ironman_rooms</code></a></td>
+<td>OFF</td>
+<td>常に普通でない部屋を生成。</td>
+<td>倍率 +100</td>
+</tr>
+<tr>
+<td>鉄人</td>
+<td><a href="Nightmare.html"><code>ironman_nightmare</code></a></td>
+<td>OFF</td>
+<td>悪夢モード。敵強化や各種悪夢効果が有効。</td>
+<td>倍率 +100</td>
+</tr>
+<tr>
+<td>操作/生成</td>
+<td><code>left_hander</code></td>
+<td>OFF</td>
+<td>左利き。装備表示や主手/副手の表示が左右反転する。</td>
+<td>なし</td>
+</tr>
+<tr>
+<td>難易度</td>
+<td><code>preserve_mode</code></td>
+<td>ON</td>
+<td>伝説のアイテムを取り逃しても再生成される。OFF では未鑑定で消えた固定アーティファクトも失われやすい。</td>
+<td>OFF で倍率 +10</td>
+</tr>
+<tr>
+<td>生成</td>
+<td><code>autoroller</code></td>
+<td>ON</td>
+<td>能力値にオートローラーを使用できる。</td>
+<td>OFF で倍率 +10</td>
+</tr>
+<tr>
+<td>生成</td>
+<td><code>autochara</code></td>
+<td>OFF</td>
+<td>体格/地位にオートローラーを使用する。</td>
+<td>なし</td>
+</tr>
+<tr>
+<td>拠点</td>
+<td><code>powerup_home</code></td>
+<td>ON</td>
+<td>我が家を拡張する。OFF では我が家の容量が小さい。</td>
+<td>OFF で倍率 +50</td>
+</tr>
+<tr>
+<td>セーブ</td>
+<td><code>keep_savefile</code></td>
+<td>ON</td>
+<td>同一のセーブファイルでゲームを開始する。</td>
+<td>なし</td>
+</tr>
+<tr>
+<td>AI</td>
+<td><code>smart_learn</code></td>
+<td>ON</td>
+<td>モンスターは失敗を学習する。</td>
+<td>OFF で倍率 -20</td>
+</tr>
+<tr>
+<td>AI</td>
+<td><code>smart_cheat</code></td>
+<td>OFF</td>
+<td>モンスターはプレイヤーの弱みを突く。</td>
+<td>ON で倍率 +30</td>
+</tr>
+</tbody>
+</table></div>
+<h2>鉄人モード</h2>
+<p>鉄人系オプションは高難度化の中心です。店なし、最小フロア、一方通行、常時アリーナ、特殊部屋、悪夢モードがあり、個別の挙動は <a href="Ironman.html">鉄人オプション</a> と各詳細ページにまとめています。</p>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロアの強制生成</a></li>
+<li><a href="Ironman-Downward.html">帰還と上り階段なし</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロアの強制生成</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋を生成</a></li>
+<li><a href="Nightmare.html">悪夢モード</a></li>
+</ul>
+<h2>スコアに関わる設定</h2>
+<p><code>calc_score()</code> では基準倍率 100 に対して、出生オプションの状態に応じた補正を加えます。鉄人系以外では、<code>preserve_mode</code> OFF、<code>autoroller</code> OFF、<code>powerup_home</code> OFF、<code>smart_learn</code> OFF、<code>smart_cheat</code> ON が倍率に影響します。<code>ironman_downward</code> は倍率加算ではなく、最終スコアを 2 倍にします。</p>
+<p>詳しい計算順と式は <a href="Score.html">スコアの算出方法</a> を参照してください。</p>
+<h2>ダンプに表示される主なモード</h2>
+<p>キャラクターダンプでは、保存モード、街構成、鉄人系、アリーナフロア許可などが <code>[オプション設定]</code> に表示されます。<code>ironman_smallest_floor</code> が ON の場合、通常のフロアサイズ系設定は <code>IGNORED</code> として扱われます。</p>
+<h2>関連ページ</h2>
+<ul>
+<li><a href="Ironman.html">鉄人オプション</a></li>
+<li><a href="Nightmare.html">悪夢モード</a></li>
+<li><a href="Score.html">スコアの算出方法</a></li>
+</ul>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/game-option/option-types-table.cpp</code>, <code>src/player/player-status.cpp</code>, <code>src/io-dump/character-dump.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 03:09 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
