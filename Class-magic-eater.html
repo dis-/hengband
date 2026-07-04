@@ -149,6 +149,42 @@
 </tr>
 </tbody>
 </table></div>
+<h3>取り込んだ魔力の扱い</h3>
+<p><code>魔力の取り込み</code> は杖・魔法棒・ロッドを対象にし、鑑定済みで充填中でない魔法道具だけを取り込める。取り込んだ実体アイテムは消滅し、後から取り出せない。何も能力を持たない杖は取り込めない。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>系統</th>
+<th style="text-align:right">取り込み上限</th>
+<th>充填/回復の扱い</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>杖</td>
+<td style="text-align:right">同一種類ごとに最大99、種類配列は <code>EATER_ITEM_GROUP_SIZE=256</code></td>
+<td><code>EATER_CHARGE=0x10000</code> を1回分として管理する。発動で1回分減り、自然回復で <code>count * EATER_CHARGE</code> まで戻る。</td>
+</tr>
+<tr>
+<td>魔法棒</td>
+<td style="text-align:right">同一種類ごとに最大99、種類配列は <code>EATER_ITEM_GROUP_SIZE=256</code></td>
+<td>杖と同じく <code>EATER_CHARGE=0x10000</code> を1回分として管理する。発動で1回分減り、自然回復で <code>count * EATER_CHARGE</code> まで戻る。</td>
+</tr>
+<tr>
+<td>ロッド</td>
+<td style="text-align:right">同一種類ごとに最大99本、種類配列は <code>EATER_ITEM_GROUP_SIZE=256</code></td>
+<td>回数ではなく残り充填時間を <code>EATER_ROD_CHARGE=0x10</code> 単位で管理する。発動すると <code>pval * EATER_ROD_CHARGE</code> だけ充填時間が増え、自然回復で0へ減る。</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>杖は取り込んだ杖の <code>pval</code> を基準に使用回数上限が増える。同じ種類を追加で取り込む場合、増加量は乱数を含めておよそ1/3から2/3になり、最低1は増える。</li>
+<li>魔法棒はスタック内の残り <code>pval</code> を本数で分けながら取り込み、同じ種類を追加で取り込む場合は杖と同じ補正を受ける。</li>
+<li>ロッドは取り込んだ本数ぶん <code>count</code> が増える。使用可能判定は <code>charge &lt;= pval * (count - 1) * EATER_ROD_CHARGE</code> で、一覧では <code>charge</code> から充填中の本数を表示する。</li>
+<li>魔道具術師のチャージ自然回復は通常のMP回復処理とは別に行われる。休息中は回復量が2倍になり、再生があればさらに2倍になる。杖・魔法棒は <code>regen_amount * (30 + INT補正) * (count + 13) / (30 * 8)</code> ずつ増え、ロッドは <code>regen_amount * (30 + INT補正) * (count + 10) * EATER_ROD_CHARGE / (30 * 16 * PY_REGEN_NORMAL)</code> ずつ残り充填時間が減る。</li>
+<li>発動失敗率は道具のレベルを基準にする。ロッドは <code>baseitem.level * 5 / 6 - 5</code>、杖・魔法棒は <code>baseitem.level</code> を使い、初期値は <code>level * 4 / 5 + 20</code>。INTによる魔法能力補正で下がり、プレイヤーレベルが <code>level / 2</code> を超える分だけさらに <code>3 * (Lv - level / 2)</code> 下がる。最低失敗率、朦朧ペナルティ、通常の魔法失敗率補正も適用され、上限は95%。</li>
+<li><code>強力発動</code> はLv10から使え、消費MPは <code>10+(Lv-10)/2</code>。発動処理へ強力発動フラグを渡し、取り込んだ道具を威力を高めて使用する。</li>
+</ul>
 <h2>戦闘・装備上の特徴</h2>
 <p>このページでは能力値補正・技能補正・習熟度上限・称号・魔法種別は扱わない。</p>
 <p>魔道具術師の戦闘上の特徴は、手持ちの魔法道具を消費物として使うだけでなく、「魔力の取り込み」によって職業固有のリソースへ変換し、「強力発動」で威力を高めて発動できる点にある。</p>
@@ -923,7 +959,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:31 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:24 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

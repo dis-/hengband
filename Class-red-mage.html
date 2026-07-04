@@ -118,8 +118,8 @@
 <h2>概要</h2>
 <p>赤魔道師は全ての下級魔法を使うことができ、戦闘力も十分にあります。レベルが上がると強力な能力「連続魔」を身につけることができます。しかし、魔法を覚えるスピードは遅く、上級魔法を使えないので、メイジほどには魔法を頼りにすることができません。魔法道具使用と魔法防御はそこそこですが、それ以外の技能は苦手です。魔法に必要な能力は知能です。</p>
 <h2>固有システム・特殊能力</h2>
-<p>赤魔道師は全ての下級魔法を使える職業として扱われる。通常の領域選択に属していなくても魔法領域なら詠唱対象になるが、魔法領域以外は対象外。</p>
-<p>秘術以外の領域では、上位の魔法書を使えない。ソース上は秘術以外かつ魔法書番号が 2 より大きい場合に選択不可になる。</p>
+<p><strong>赤魔道師は魔法領域を選択しない。</strong> 出生時の領域選択がなく（<code>realm1_choices</code> に含まれない）、代わりに<strong>全魔法領域の「下級魔法」を使える</strong>。ただし魔法領域（Life〜Crusade）のみが対象で、歌・剣術・呪術などの技系領域は対象外。</p>
+<p>「下級」の制限として、<strong>秘術以外の領域では上位の魔法書（3・4冊目）を使えない</strong>（ソース上、秘術以外かつ魔法書番号が 2 より大きいと詠唱不可）。すなわち秘術は全4冊、他領域は各1・2冊目までを扱える。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -918,7 +918,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:49 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:24 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

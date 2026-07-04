@@ -123,6 +123,9 @@
 <tr>
 <th>No.</th>
 <th>呪文名 / Spell</th>
+<th>習得Lv</th>
+<th>消費MP</th>
+<th>失率%</th>
 <th>効果 / Effect</th>
 <th>詳細効果（ソース準拠）</th>
 </tr>
@@ -131,48 +134,72 @@
 <tr>
 <td>0</td>
 <td>邪なる祝福<br>Evily blessing</td>
+<td>1</td>
+<td>2</td>
+<td>20</td>
 <td>祝福により攻撃精度と防御力が上がる。<br>Attempts to increase +to_hit of a weapon and AC</td>
 <td>【呪術】かけ続ける間、邪悪な祝福（命中率・ACにボーナス）を得る。</td>
 </tr>
 <tr>
 <td>1</td>
 <td>軽傷の治癒<br>Cure light wounds</td>
+<td>1</td>
+<td>2</td>
+<td>20</td>
 <td>HPや傷を少し回復させる。<br>Heals cuts and HP a little.</td>
 <td>【呪術】かけ続ける間、毎ターン体力を 1d10 回復し、軽い切り傷を治す。</td>
 </tr>
 <tr>
 <td>2</td>
 <td>悪魔のオーラ<br>Demonic aura</td>
+<td>3</td>
+<td>2</td>
+<td>30</td>
 <td>炎のオーラを身にまとい、回復速度が速くなる。<br>Gives fire aura and regeneration.</td>
 <td>【呪術】かけ続ける間、炎のオーラを纏う（触れた敵に火炎、体力の急速回復）。</td>
 </tr>
 <tr>
 <td>3</td>
 <td>悪臭霧<br>Stinking mist</td>
+<td>5</td>
+<td>3</td>
+<td>30</td>
 <td>視界内のモンスターに微弱量の毒のダメージを与える。<br>Deals a little poison damage to all monsters in your sight.</td>
 <td>【呪術】かけ続ける間、毎ターン視界内の敵に毒。ダメージ 1d(Lv/2+5)。</td>
 </tr>
 <tr>
 <td>4</td>
 <td>腕力強化<br>Extra might</td>
+<td>7</td>
+<td>3</td>
+<td>40</td>
 <td>術者の腕力を上昇させる。<br>Attempts to increase your strength.</td>
 <td>【呪術】かけ続ける間、腕力が増す。</td>
 </tr>
 <tr>
 <td>5</td>
 <td>武器呪縛<br>Curse weapon</td>
+<td>8</td>
+<td>10</td>
+<td>60</td>
 <td>装備している武器を呪う。<br>Curses your weapon.</td>
 <td>【単発】装備中の武器を呪う（呪いを付与し、稀に強い呪い）。</td>
 </tr>
 <tr>
 <td>6</td>
 <td>邪悪感知<br>Evil detection</td>
+<td>9</td>
+<td>3</td>
+<td>30</td>
 <td>周囲の邪悪なモンスターを感知する。<br>Detects evil monsters.</td>
 <td>視界の範囲内にいる邪悪なモンスターの存在を感知する。</td>
 </tr>
 <tr>
 <td>7</td>
 <td>我慢<br>Patience</td>
+<td>10</td>
+<td>5</td>
+<td>40</td>
 <td>数ターン攻撃を耐えた後、受けたダメージを地獄の業火として周囲に放出する。<br>Bursts hell fire strongly after enduring damage for a few turns.</td>
 <td>【呪術】受けたダメージを溜め、解除時（または上限200）にまとめて地獄の火で反射する。半径 2+溜め/50。</td>
 </tr>
@@ -184,6 +211,9 @@
 <tr>
 <th>No.</th>
 <th>呪文名 / Spell</th>
+<th>習得Lv</th>
+<th>消費MP</th>
+<th>失率%</th>
 <th>効果 / Effect</th>
 <th>詳細効果（ソース準拠）</th>
 </tr>
@@ -192,48 +222,72 @@
 <tr>
 <td>8</td>
 <td>氷の鎧<br>Armor of ice</td>
+<td>12</td>
+<td>8</td>
+<td>40</td>
 <td>氷のオーラを身にまとい、防御力が上昇する。<br>Surrounds you with an icy aura and gives a bonus to AC.</td>
 <td>【呪術】かけ続ける間、氷の鎧を纏う（AC上昇・冷気オーラ）。</td>
 </tr>
 <tr>
 <td>9</td>
 <td>重傷の治癒<br>Cure serious wounds</td>
+<td>12</td>
+<td>9</td>
+<td>35</td>
 <td>体力や傷を多少回復させる。<br>Heals cuts and HP.</td>
 <td>【呪術】かけ続ける間、毎ターン体力を 2d10 回復し、切り傷を治す。</td>
 </tr>
 <tr>
 <td>10</td>
 <td>薬品吸入<br>Inhale potion</td>
+<td>15</td>
+<td>10</td>
+<td>50</td>
 <td>呪文詠唱を中止することなく、薬の効果を得ることができる。<br>Quaffs a potion without canceling spell casting.</td>
 <td>【単発】呪術の詠唱を続けたまま素早く薬を飲む。</td>
 </tr>
 <tr>
 <td>11</td>
 <td>衰弱の霧<br>Hypodynamic mist</td>
+<td>20</td>
+<td>12</td>
+<td>45</td>
 <td>視界内のモンスターに微弱量の衰弱属性のダメージを与える。<br>Deals a little life-draining damage to all monsters in your sight.</td>
 <td>【呪術】かけ続ける間、毎ターン視界内の敵の生命力を吸収する。ダメージ 1d(Lv/2+5)。</td>
 </tr>
 <tr>
 <td>12</td>
 <td>魔剣化<br>Swords to runeswords</td>
+<td>25</td>
+<td>15</td>
+<td>50</td>
 <td>武器の攻撃力を上げる。切れ味を得、呪いに応じて与えるダメージが上昇し、善良なモンスターに対するダメージが2倍になる。<br>Gives vorpal ability to your weapon. Increases damage from your weapon acccording to curse of your weapon.</td>
 <td>【呪術】かけ続ける間、武器を魔剣化する（威力上昇）。</td>
 </tr>
 <tr>
 <td>13</td>
 <td>混乱の手<br>Touch of confusion</td>
+<td>30</td>
+<td>12</td>
+<td>60</td>
 <td>攻撃した際モンスターを混乱させる。<br>Confuses a monster when you attack.</td>
 <td>【呪術】かけ続ける間、近接攻撃に混乱効果を付与する。</td>
 </tr>
 <tr>
 <td>14</td>
 <td>肉体強化<br>Building up</td>
+<td>35</td>
+<td>10</td>
+<td>60</td>
 <td>術者の腕力、器用さ、耐久力を上昇させる。攻撃回数の上限を 1 増加させる。<br>Attempts to increases your strength, dexterity and constitusion.</td>
 <td>【呪術】かけ続ける間、肉体を鍛える（腕力・器用さ・耐久が上昇）。</td>
 </tr>
 <tr>
 <td>15</td>
 <td>反テレポート結界<br>Anti teleport barrier</td>
+<td>40</td>
+<td>16</td>
+<td>70</td>
 <td>視界内のモンスターのテレポートを阻害するバリアを張る。<br>Obstructs all teleportations by monsters in your sight.</td>
 <td>【呪術】かけ続ける間、敵のテレポートを封じる。威力 Lv×3/2。</td>
 </tr>
@@ -245,6 +299,9 @@
 <tr>
 <th>No.</th>
 <th>呪文名 / Spell</th>
+<th>習得Lv</th>
+<th>消費MP</th>
+<th>失率%</th>
 <th>効果 / Effect</th>
 <th>詳細効果（ソース準拠）</th>
 </tr>
@@ -253,48 +310,72 @@
 <tr>
 <td>16</td>
 <td>衝撃のクローク<br>Cloak of shock</td>
+<td>15</td>
+<td>8</td>
+<td>20</td>
 <td>電気のオーラを身にまとい、動きが速くなる。<br>Gives lightning aura and a bonus to speed.</td>
 <td>【呪術】かけ続ける間、稲妻のオーラを纏う（触れた敵に電撃・加速）。</td>
 </tr>
 <tr>
 <td>17</td>
 <td>致命傷の治癒<br>Cure critical wounds</td>
+<td>18</td>
+<td>15</td>
+<td>50</td>
 <td>体力や傷を回復させる。<br>Heals cuts and HP greatly.</td>
 <td>【呪術】かけ続ける間、毎ターン体力を 4d10 回復し、傷を治す。</td>
 </tr>
 <tr>
 <td>18</td>
 <td>呪力封入<br>Recharging</td>
+<td>22</td>
+<td>10</td>
+<td>65</td>
 <td>魔法の道具に魔力を再充填する。<br>Recharges a magic device.</td>
 <td>【単発】魔法棒・杖・ロッドに充填する。威力 Lv×2。</td>
 </tr>
 <tr>
 <td>19</td>
 <td>死者復活<br>Animate Dead</td>
+<td>25</td>
+<td>28</td>
+<td>70</td>
 <td>死体を蘇らせてペットにする。<br>Raises corpses and skeletons from dead.</td>
 <td>【呪術】かけ続ける間、毎ターン周囲の死体・骨を蘇らせる（常に味方、敵対なし）。</td>
 </tr>
 <tr>
 <td>20</td>
 <td>防具呪縛<br>Curse armor</td>
+<td>28</td>
+<td>10</td>
+<td>70</td>
 <td>装備している防具に呪いをかける。<br>Curse a piece of armour that you are wielding.</td>
 <td>【単発】装備中の防具を呪う（呪いを付与し、稀に強い呪い）。</td>
 </tr>
 <tr>
 <td>21</td>
 <td>影のクローク<br>Cloak of shadow</td>
+<td>30</td>
+<td>20</td>
+<td>60</td>
 <td>影のオーラを身にまとい、敵に影のダメージを与える。<br>Gives aura of shadow.</td>
 <td>【呪術】呪われたクロークを装備中、影のオーラを纏う。</td>
 </tr>
 <tr>
 <td>22</td>
 <td>苦痛を魔力に<br>Pain to mana</td>
+<td>36</td>
+<td>22</td>
+<td>70</td>
 <td>視界内のモンスターに精神ダメージ与え、魔力を吸い取る。<br>Deals psychic damage to all monsters in sight and drains some mana.</td>
 <td>【呪術】かけ続ける間、毎ターン視界内の敵の精神を削り、自分のMPに変換する。ダメージ 1d(Lv×3/2)。</td>
 </tr>
 <tr>
 <td>23</td>
 <td>目には目を<br>Eye for an eye</td>
+<td>40</td>
+<td>28</td>
+<td>70</td>
 <td>打撃や魔法で受けたダメージを、攻撃元のモンスターにも与える。<br>Returns same damage which you got to the monster which damaged you.</td>
 <td>【呪術】かけ続ける間、受けたダメージを与えてきた相手に返す。</td>
 </tr>
@@ -306,6 +387,9 @@
 <tr>
 <th>No.</th>
 <th>呪文名 / Spell</th>
+<th>習得Lv</th>
+<th>消費MP</th>
+<th>失率%</th>
 <th>効果 / Effect</th>
 <th>詳細効果（ソース準拠）</th>
 </tr>
@@ -314,48 +398,72 @@
 <tr>
 <td>24</td>
 <td>反増殖結界<br>Anti multiply barrier</td>
+<td>5</td>
+<td>6</td>
+<td>35</td>
 <td>その階の増殖するモンスターの増殖を阻止する。<br>Obstructs all multiplying by monsters on entire floor.</td>
 <td>【呪術】かけ続ける間、モンスターの増殖を阻止する。</td>
 </tr>
 <tr>
 <td>25</td>
 <td>全復活<br>Restoration</td>
+<td>22</td>
+<td>24</td>
+<td>70</td>
 <td>経験値を徐々に復活し、減少した能力値を回復させる。<br>Restores experience and status.</td>
 <td>【呪術】かけ続ける間、毎ターン低下した能力値と経験値を回復する（全回復で自動終了）。</td>
 </tr>
 <tr>
 <td>26</td>
 <td>呪力吸収<br>Drain curse power</td>
+<td>25</td>
+<td>2</td>
+<td>65</td>
 <td>呪われた装備品の呪いを吸収して魔力を回復する。<br>Drains curse on your equipment and heals SP a little.</td>
 <td>【単発】呪われた装備から魔力を吸収してMPを回復する（装備の呪いが解ける場合あり）。</td>
 </tr>
 <tr>
 <td>27</td>
 <td>吸血の刃<br>Swords to vampires</td>
+<td>32</td>
+<td>20</td>
+<td>50</td>
 <td>吸血属性で攻撃する。<br>Gives vampiric ability to your weapon.</td>
 <td>【呪術】かけ続ける間、武器に吸血能力を付与する。</td>
 </tr>
 <tr>
 <td>28</td>
 <td>朦朧の言葉<br>Word of stun</td>
+<td>35</td>
+<td>35</td>
+<td>70</td>
 <td>視界内のモンスターを朦朧とさせる。<br>Stuns all monsters in your sight.</td>
 <td>【呪術】かけ続ける間、毎ターン視界内の敵を朦朧させる。威力 Lv×4。</td>
 </tr>
 <tr>
 <td>29</td>
 <td>影移動<br>Moving into shadow</td>
+<td>38</td>
+<td>32</td>
+<td>70</td>
 <td>モンスターの隣のマスに瞬間移動する。<br>Teleports you close to a monster.</td>
 <td>【単発】敵に隣接する地点へ影移動（テレポート）する。失敗すると近距離テレポート。</td>
 </tr>
 <tr>
 <td>30</td>
 <td>反魔法結界<br>Anti magic barrier</td>
+<td>42</td>
+<td>24</td>
+<td>70</td>
 <td>視界内のモンスターの魔法を阻害するバリアを張る。<br>Obstructs all magic spells of monsters in your sight.</td>
 <td>【呪術】かけ続ける間、敵の魔法詠唱を封じる。威力 Lv×3/2。</td>
 </tr>
 <tr>
 <td>31</td>
 <td>復讐の宣告<br>Revenge sentence</td>
+<td>46</td>
+<td>45</td>
+<td>80</td>
 <td>数ターン後にそれまで受けたダメージに応じた威力の地獄の劫火の弾を放つ。<br>Fires a ball of hell fire to try avenging damage from a few turns.</td>
 <td>【呪術】復讐を宣告し、数ターン後に溜めたダメージを地獄の火で反射する（半径1）。</td>
 </tr>
@@ -365,7 +473,7 @@
 <blockquote>
 <p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
 This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
-生成 / Generated: 2026-07-04 15:28 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:24 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

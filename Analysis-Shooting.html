@@ -151,12 +151,12 @@ num += 発射増加(XTRA_SHOTS)の個数 × 100
 <td>+lev×3</td>
 </tr>
 <tr>
-<td>弓術家</td>
+<td>アーチャー</td>
 <td>矢</td>
 <td>+lev×5+50</td>
 </tr>
 <tr>
-<td>弓術家</td>
+<td>アーチャー</td>
 <td>弾・クロスボウの矢</td>
 <td>+lev×4</td>
 </tr>
@@ -404,20 +404,20 @@ randint0(chance) &lt; ac × 3 / 4 → 外れ
 <tbody>
 <tr>
 <td>矢（ARROW）</td>
-<td style="text-align:center">20% − 弓術家ボーナス×2</td>
+<td style="text-align:center">20% − アーチャーボーナス×2</td>
 </tr>
 <tr>
 <td>弾（SHOT）</td>
-<td style="text-align:center">10% − 弓術家ボーナス</td>
+<td style="text-align:center">10% − アーチャーボーナス</td>
 </tr>
 <tr>
 <td>クロスボウの矢（BOLT）</td>
-<td style="text-align:center">10% − 弓術家ボーナス</td>
+<td style="text-align:center">10% − アーチャーボーナス</td>
 </tr>
 </tbody>
 </table></div>
-<p>弓術家（ARCHER）は破損率が軽減される。弓術家ボーナスは次式で求まる。</p>
-<pre><code>弓術家ボーナス = (lev - 1) / 7 + 4
+<p>アーチャー（ARCHER）は破損率が軽減される。アーチャーボーナスは次式で求まる。</p>
+<pre><code>アーチャーボーナス = (lev - 1) / 7 + 4
 </code></pre>
 <p>破損しなかった矢弾は着弾地点付近に落下する（<code>drop_ammo_near()</code>）。命中しなかった場合（<code>hit_body</code> が偽）は破損率0として床に落ちる。</p>
 <p>なお、命中したモンスターを倒せず、かつ矢弾が固定アーティファクトでスナイパーの集中度が0の場合、矢弾はモンスターに突き刺さった状態になる（<code>stick_to</code>）。</p>
@@ -426,7 +426,7 @@ randint0(chance) &lt; ac × 3 / 4 → 外れ
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/combat/shoot.cpp</code>, <code>src/system/baseitem/baseitem-key.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 15:28 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:24 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
