@@ -150,6 +150,36 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<h3>解釈</h3>
+<ul>
+<li>属性副作用を持たない単純ダメージです。<code>ep_ptr-&gt;dam</code> がそのまま <code>take_hit(DAMAGE_ATTACK)</code> に入ります。</li>
+<li><code>take_hit()</code> に渡った値が最終的なHP減少の基礎になります。直前/内部で、捨て身なら2倍、居合なら約1.2倍に補正されます。</li>
+<li><code>DAMAGE_ATTACK</code> は無敵で通常0、多重影なら本体に届かず0、幽体化中は半減、無想の構え中も半減します。</li>
+<li><code>DAMAGE_FORCE</code> は無敵・多重影・幽体を切り裂く特殊経路で、<code>PSY_SPEAR</code> などが使います。</li>
+<li>補正後の値が <code>chp</code> から引かれ、0未満なら死亡処理と死因記録へ進みます。戻り値 <code>get_damage</code> はこの実HP減少量です。</li>
+</ul>
+<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
+<h2>モンスター処理詳細</h2>
+<h3>解釈</h3>
+<ul>
+<li>モンスター側では追加の耐性・状態異常処理を持たず、投射処理で計算された基本ダメージをそのまま後続のHP減少へ渡します。</li>
+</ul>
+<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
+<h2>地形処理詳細</h2>
+<h3>解釈</h3>
+<ul>
+<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
+</ul>
+<p>参照: <code>src/effect/effect-feature.cpp</code></p>
+<h2>アイテム処理詳細</h2>
+<h3>解釈</h3>
+<ul>
+<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
+</ul>
+<p>参照: <code>src/effect/effect-item.cpp</code></p>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

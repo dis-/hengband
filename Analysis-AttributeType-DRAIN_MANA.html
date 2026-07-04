@@ -150,6 +150,32 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<h3>解釈</h3>
+<ul>
+<li>MP吸収です。MPを最大 <code>ep_ptr-&gt;dam</code> 減らし、発生源がモンスターならそのHPを回復します。HPダメージはありません。</li>
+</ul>
+<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
+<h2>モンスター処理詳細</h2>
+<h3>解釈</h3>
+<ul>
+<li>モンスター処理は <code>EffectMonster</code> の <code>dam</code>、状態量、表示メモ、学習フラグを調整する段階です。ここで変化した値が後続の実HP減少や状態付与に使われます。</li>
+</ul>
+<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
+<h2>地形処理詳細</h2>
+<h3>解釈</h3>
+<ul>
+<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
+</ul>
+<p>参照: <code>src/effect/effect-feature.cpp</code></p>
+<h2>アイテム処理詳細</h2>
+<h3>解釈</h3>
+<ul>
+<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
+</ul>
+<p>参照: <code>src/effect/effect-item.cpp</code></p>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

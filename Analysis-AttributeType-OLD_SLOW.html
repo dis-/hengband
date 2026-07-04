@@ -150,6 +150,32 @@
 </tr>
 </tbody>
 </table></div>
+<!-- attribute-detail:start -->
+<h2>プレイヤー処理詳細</h2>
+<h3>解釈</h3>
+<ul>
+<li>プレイヤーに減速を付与します。<code>take_hit()</code> は呼ばれず、HPダメージは発生しません。</li>
+</ul>
+<p>参照: <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-player-resist-hurt.cpp</code>, <code>src/player/player-damage.cpp</code></p>
+<h2>モンスター処理詳細</h2>
+<h3>解釈</h3>
+<ul>
+<li>HPを減らすだけでなく、朦朧・混乱・睡眠・減速などの状態量を <code>EffectMonster</code> に積み、後続処理で反映させます。</li>
+</ul>
+<p>参照: <code>src/effect/effect-monster-switcher.cpp</code> と各 <code>effect_monster_*</code> 実装。</p>
+<h2>地形処理詳細</h2>
+<h3>解釈</h3>
+<ul>
+<li>この属性では地形への固有変化はほぼありません。木への共通属性反応を除き、床・壁・ドアなどはそのまま残ります。</li>
+</ul>
+<p>参照: <code>src/effect/effect-feature.cpp</code></p>
+<h2>アイテム処理詳細</h2>
+<h3>解釈</h3>
+<ul>
+<li>この属性では床上アイテムへの固有処理はありません。投射が通っても、アイテム破壊・識別・復活などは起きません。</li>
+</ul>
+<p>参照: <code>src/effect/effect-item.cpp</code></p>
+<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
