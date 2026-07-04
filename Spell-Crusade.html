@@ -65,7 +65,7 @@
 </li>
 </ul>
 </aside><main class="content"><h1>破邪領域の呪文 / Crusade Realm Spells</h1>
-<p>破邪領域（Crusade）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>破邪領域（Crusade）の呪文書と呪文一覧。「詳細効果」はゲームのソースコードから導出したレベル依存の効果値です（Lv=プレイヤーレベル）。</p>
 <p>Spellbooks and spells of the Crusade realm.</p>
 <p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
 <h2>[徒弟読本] / [Rites of Initiation]</h2>
@@ -83,49 +83,49 @@
 <td>0</td>
 <td>光のしずく<br>Drip of Light</td>
 <td>閃光のボルトもしくはビームを放つ。<br>Fires a bolt or beam of light.</td>
-<td></td>
+<td>閃光のボルト（またはビーム）。ダメージ (3+(Lv-1)/5)d4。</td>
 </tr>
 <tr>
 <td>1</td>
 <td>邪悪存在感知<br>Detect Evil</td>
 <td>近くの邪悪なモンスターを感知する。<br>Detects all evil monsters in your vicinity.</td>
-<td></td>
+<td>半径30以内の邪悪なモンスターを感知する。</td>
 </tr>
 <tr>
 <td>2</td>
 <td>開かれた道<br>Unbarring Ways</td>
 <td>一直線上の全ての罠と扉を破壊する。<br>Fires a beam which destroys traps and doors.</td>
-<td></td>
+<td>指定方向の罠と扉を破壊する。</td>
 </tr>
 <tr>
 <td>3</td>
 <td>耐光耐暗<br>Resist Lite and Dark</td>
 <td>一定時間、閃光と暗黒に対する耐性を得る。<br>Gives resistance to lite and darkness for a while.</td>
-<td></td>
+<td>一定時間、閃光と暗黒への耐性。期間 各 20+1d20 ターン。</td>
 </tr>
 <tr>
 <td>4</td>
 <td>懲罰<br>Punishment</td>
 <td>電撃のボルトもしくはビームを放つ。<br>Fires a bolt or beam of lightning.</td>
-<td></td>
+<td>電撃のボルト（またはビーム）。ダメージ (6+(Lv-5)/4)d8。</td>
 </tr>
 <tr>
 <td>5</td>
 <td>入口<br>Portal</td>
 <td>中距離のテレポートをする。<br>Teleports you a medium distance.</td>
-<td></td>
+<td>中距離テレポート。移動距離 25+Lv/2。</td>
 </tr>
 <tr>
 <td>6</td>
 <td>身体浄化<br>Purify</td>
 <td>傷、毒、朦朧から全快する。<br>Heals all cuts, poisons and being stunned.</td>
-<td></td>
+<td>切り傷・毒・朦朧を治す。</td>
 </tr>
 <tr>
 <td>7</td>
 <td>解呪<br>Remove Curse</td>
 <td>アイテムにかかった弱い呪いを解除する。<br>Removes normal curses from equipped items.</td>
-<td></td>
+<td>装備品にかかった弱い呪いを解く。</td>
 </tr>
 </tbody>
 </table></div>
@@ -144,49 +144,49 @@
 <td>8</td>
 <td>士気高揚<br>Heroism</td>
 <td>一定時間、ヒーロー気分になる。<br>Removes fear. Gives a bonus to hit for a while. Heals you for 10 HP.</td>
-<td></td>
+<td>一定時間、士気高揚（命中上昇・恐怖無効）と体力回復。期間 25+1d25 ターン。</td>
 </tr>
 <tr>
 <td>9</td>
 <td>邪悪飛ばし<br>Scatter Evil</td>
 <td>邪悪なモンスター1体をテレポートさせる。抵抗されると無効。<br>Attempts to teleport an evil monster away.</td>
-<td></td>
+<td>邪悪なモンスターを対邪悪テレポートで吹き飛ばす。威力 視界×5。</td>
 </tr>
 <tr>
 <td>10</td>
 <td>聖なる光球<br>Holy Orb</td>
 <td>聖なる力をもつ宝珠を放つ。邪悪なモンスターに対して大きなダメージを与えるが、善良なモンスターには効果がない。<br>Fires a ball with holy power. Hurts evil monsters greatly but doesn't affect good monsters.</td>
-<td></td>
+<td>聖なる火のボール。ダメージ 3d6 + (Lv+Lv/2〈僧侶・ハイメイジ・スペルマスター〉または Lv+Lv/4)。半径2（Lv30以上で3）。</td>
 </tr>
 <tr>
 <td>11</td>
 <td>啓明<br>Revelation</td>
 <td>一定時間、光源範囲を増やす。<br>Lights up the area more.</td>
-<td></td>
+<td>一定時間、周囲を見通す（透視）。期間 20+1d20 ターン。</td>
 </tr>
 <tr>
 <td>12</td>
 <td>対邪悪結界<br>Protection from Evil</td>
 <td>邪悪なモンスターの攻撃を防ぐバリアを張る。<br>Gives aura which protects you from evil monsters' physical attack.</td>
-<td></td>
+<td>一定時間、対邪悪の結界を張る。期間 25 + 1d(3×Lv) ターン。</td>
 </tr>
 <tr>
 <td>13</td>
 <td>呪い退散<br>Dispel Curse</td>
 <td>アイテムにかかった強力な呪いを解除する。<br>Removes normal and heavy curses from equipped items.</td>
-<td></td>
+<td>装備品の強力な呪いを含め、すべての呪いを解く。</td>
 </tr>
 <tr>
 <td>14</td>
 <td>太陽の槍<br>Sunlance</td>
 <td>強力な閃光のボルトを放つ。<br>Fires a powerful bolt of light.</td>
-<td></td>
+<td>閃光のボルト。ダメージ Lv×3。</td>
 </tr>
 <tr>
 <td>15</td>
 <td>聖なる御言葉<br>Holy Word</td>
 <td>視界内の邪悪な存在に大きなダメージを与え、体力を回復し、毒、恐怖、朦朧状態、負傷から全快する。<br>Damages all evil monsters in sight, heals HP somewhat and completely cures fear, poisons, cuts and being stunned.</td>
-<td></td>
+<td>視界内の邪悪に 1d(Lv×6) ダメージ。体力100回復し、恐怖・毒・朦朧・切り傷を治す。</td>
 </tr>
 </tbody>
 </table></div>
@@ -205,49 +205,49 @@
 <td>16</td>
 <td>聖なるオーラ<br>Holy Aura</td>
 <td>一定時間、邪悪なモンスターを傷つける聖なるオーラを得る。<br>Gives a temporary aura of holy power that injures evil monsters which attack you.</td>
-<td></td>
+<td>一定時間、聖なるオーラを纏う（触れた敵を浄化）。期間 20+1d20 ターン。</td>
 </tr>
 <tr>
 <td>17</td>
 <td>悪魔祓い<br>Exorcism</td>
 <td>攻撃したアンデッド及び悪魔に驚異的な力を発揮する。<br>Deals powerful damage to undead and demons, while draining their HP.</td>
-<td></td>
+<td>一定時間、除霊（エクソシズム）の力を得る。期間 20+1d20 ターン。</td>
 </tr>
 <tr>
 <td>18</td>
 <td>聖なる刃<br>Holy Blade</td>
 <td>通常の武器に滅邪の属性をつける。<br>Makes current weapon especially deadly against evil monsters.</td>
-<td></td>
+<td>武器に聖なる（対邪悪）属性を付与する。</td>
 </tr>
 <tr>
 <td>19</td>
 <td>熾天使の抱擁<br>Seraph's Embrace</td>
 <td>一定時間、天使に変化する。変化している間は本来の種族の能力を失い、代わりに天使としての能力を得る。<br>Causes you to mimic an angel for a while. You lose the abilities of your original race and get the abilities of an angel for that time.</td>
-<td></td>
+<td>一定時間、熾天使に変身する。期間 (10+Lv/2) + 1d(10+Lv/2) ターン。</td>
 </tr>
 <tr>
 <td>20</td>
 <td>裁きの雷<br>Judgment Thunder</td>
 <td>大きな雷の球を放つ。<br>Fires a huge ball of lightning.</td>
-<td></td>
+<td>電撃のボール。ダメージ 200+Lv×2、半径4。</td>
 </tr>
 <tr>
 <td>21</td>
 <td>太陽降下<br>Sunfall</td>
 <td>巨大な閃光の球を放つ。<br>Fires a huge ball of powerful light.</td>
-<td></td>
+<td>閃光のボール。ダメージ 100+Lv×2、半径4。</td>
 </tr>
 <tr>
 <td>22</td>
 <td>魔力消去<br>Dispel Magic</td>
 <td>モンスターにかかっている魔法を打ち消す。<br>Dispels magic affecting target monster.</td>
-<td></td>
+<td>対象モンスターにかかった魔法（加速など）を打ち消す。</td>
 </tr>
 <tr>
 <td>23</td>
 <td>天使召喚<br>Summon Angel</td>
 <td>天使を1体召喚する。<br>Summons an angel.</td>
-<td></td>
+<td>天使を召喚する（2/3で味方、1/3で敵対）。</td>
 </tr>
 </tbody>
 </table></div>
@@ -266,49 +266,49 @@
 <td>24</td>
 <td>邪悪追放<br>Banish Evil</td>
 <td>視界内の全ての邪悪なモンスターをテレポートさせる。抵抗されると無効。<br>Teleports all evil monsters in sight away unless resisted.</td>
-<td></td>
+<td>視界内の邪悪なモンスターを追放する。威力 100。</td>
 </tr>
 <tr>
 <td>25</td>
 <td>ハルマゲドン<br>Armageddon</td>
 <td>周辺のアイテム、モンスター、地形を破壊する。<br>Destroys everything in nearby area.</td>
-<td></td>
+<td>周囲一帯を破壊する。半径 12+1d4。</td>
 </tr>
 <tr>
 <td>26</td>
 <td>目には目を<br>An Eye for an Eye</td>
 <td>一定時間、自分がダメージを受けたときに攻撃を行ったモンスターに対して同等のダメージを与える。<br>Gives special aura for a while. When you are attacked by a monster, the monster is injured with same amount of damage as you took.</td>
-<td></td>
+<td>一定時間、受けたダメージを相手に反射する。期間 10+1d10 ターン。</td>
 </tr>
 <tr>
 <td>27</td>
 <td>黒の防御円<br>Circle of Protection Black</td>
 <td>一定時間、暗黒に対する免疫を得る。<br>Gives an immunity to darkness for a while.</td>
-<td></td>
+<td>一定時間、暗黒への完全免疫。期間 20+1d20 ターン。</td>
 </tr>
 <tr>
 <td>28</td>
 <td>神の怒り<br>Wrath of the God</td>
 <td>超巨大な分解の球を放つ。<br>Fires a huge ball of disintegration.</td>
-<td></td>
+<td>分解のボール。ダメージ (Lv×3+25)×16/7、半径7。</td>
 </tr>
 <tr>
 <td>29</td>
 <td>神雷<br>Divine Thunder</td>
 <td>超巨大な雷の球を放つ。<br>Generates a huge ball of lightning.</td>
-<td></td>
+<td>電撃のボール。ダメージ Lv×15、半径 Lv/5。</td>
 </tr>
 <tr>
 <td>30</td>
 <td>神威<br>Divine Intervention</td>
 <td>隣接するモンスターに聖なるダメージを与え、視界内のモンスターにダメージ、減速、朦朧、混乱、恐怖、眠りを与える。さらに体力を回復する。<br>Damages all adjacent monsters with holy power. Damages and attempt to slow, stun, confuse, scare and freeze all monsters in sight. And heals HP.</td>
-<td></td>
+<td>自分中心に聖なる火（威力 Lv×11）。周囲の敵を退散(Lv×4)・減速・朦朧・混乱・恐怖・麻痺させ、体力100回復。</td>
 </tr>
 <tr>
 <td>31</td>
 <td>神性変異<br>Divine Transformation</td>
 <td>半神に変化する。変化している間は本来の種族の能力を失い、代わりに半神としての能力を得る。<br>Causes you to mimic a demigod for a while. You lose the abilities of your original race and get the abilities of a demigod for that time.</td>
-<td></td>
+<td>一定時間、半神に変身する。期間 (10+Lv/2) + 1d(10+Lv/2) ターン。</td>
 </tr>
 </tbody>
 </table></div>
@@ -316,7 +316,7 @@
 <blockquote>
 <p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
 This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
-生成 / Generated: 2026-07-04 03:24 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 03:28 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
