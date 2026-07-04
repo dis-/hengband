@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>会心の一撃 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-Critical.html">会心の一撃 / Critical</a></li>
+<li><a href="Analysis-Experience.html">経験値 / Experience</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数 / Blows</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>会心の一撃</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<p>会心の一撃（クリティカル）は、通常より高いダメージを与える確率的な強打です。近接と射撃で判定式・倍率が異なります。</p>
+<h2>近接攻撃の会心</h2>
+<h3>発生判定</h3>
+<p>打撃力 <code>i</code> を次で求めます。</p>
+<pre><code>i ＝ 武器重量 ＋ 命中修正×3 ＋ 武器の命中ボーナス(plus)×5 ＋ 打撃技能(skill_thn)
+</code></pre>
+<p><code>randint1(pow) ≤ i</code> なら会心が発生します。<code>pow</code> は通常 <strong>5000</strong>、忍者は <strong>4444</strong>。ブランドの「衝撃」(impact) が乗った打撃では <code>pow</code> が半分になり会心しやすくなります。必殺技「魔人斬り」「無双三段」は必ず会心します。</p>
+<h3>威力</h3>
+<p>会心が出ると強度 <code>k ＝ 武器重量 ＋ 1d650</code>（<code>CRITICAL_DIE_SIDES = 650</code>）を求めます。衝撃・魔人斬り・無双三段ではもう一度 1d650 を加算します。<code>k</code> に応じて、ダイス＋ボーナス後の打撃ダメージ <code>base</code> が次のように増幅されます。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>強度 k</th>
+<th>ダメージ</th>
+<th>メッセージ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>k &lt; 400</td>
+<td>2×base ＋5</td>
+<td>手ごたえがあった！</td>
+</tr>
+<tr>
+<td>k &lt; 700</td>
+<td>2×base ＋10</td>
+<td>かなりの手ごたえがあった！</td>
+</tr>
+<tr>
+<td>k &lt; 900</td>
+<td>3×base ＋15</td>
+<td>会心の一撃だ！</td>
+</tr>
+<tr>
+<td>k &lt; 1300</td>
+<td>3×base ＋20</td>
+<td>最高の会心の一撃だ！</td>
+</tr>
+<tr>
+<td>k ≥ 1300</td>
+<td>3.5×base ＋25</td>
+<td>比類なき最高の会心の一撃だ！</td>
+</tr>
+</tbody>
+</table></div>
+<p>武器が重いほど、発生率・威力ともに上がります。</p>
+<h2>射撃攻撃の会心</h2>
+<h3>発生判定</h3>
+<p>命中力 <code>power</code> を、射撃技能 <code>skill_thb</code>・武器経験値・弓/弩の倍率・命中ボーナス（弓の <code>to_h_b</code> ＋ 矢弾の命中）から求めます。</p>
+<pre><code>power ＝ skill_thb ＋ (経験値補正 ＋ ボーナス) × BTH_PLUS_ADJ
+</code></pre>
+<ul>
+<li>スナイパーの集中度で <code>power</code> が (1＋集中/5) 倍。スナイパーが弩(ボルト)を使うとさらに 2 倍。</li>
+<li>弓自体の命中ボーナスが大きいほど上がる（＋ 弓の命中 ×8×(集中＋5)）。</li>
+<li><code>randint1(10000) ≤ power</code> で会心。</li>
+</ul>
+<h3>威力</h3>
+<p><code>k ＝ 矢弾重量 × 1d500</code>。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>強度 k</th>
+<th>倍率</th>
+<th>メッセージ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>k &lt; 900</td>
+<td>×1.5</td>
+<td>手ごたえがあった！</td>
+</tr>
+<tr>
+<td>k &lt; 1350</td>
+<td>×2</td>
+<td>かなりの手ごたえがあった！</td>
+</tr>
+<tr>
+<td>k ≥ 1350</td>
+<td>×3</td>
+<td>会心の一撃だ！</td>
+</tr>
+</tbody>
+</table></div>
+<h2>即死・急所</h2>
+<ul>
+<li><strong>毒針</strong>（Poison Needle）や必殺技「急所突き」は、一定確率でユニーク以外を即死させます（外れるとダメージ 1）。</li>
+<li><strong>忍者</strong>は、明かりの無い状態か 1/7 の確率で「急所を突く」判定を行い、条件次第で 5 倍ダメージや一撃死を狙えます。</li>
+</ul>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/combat/attack-criticality.cpp</code>, <code>src/combat/shoot.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 01:46 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

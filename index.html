@@ -7,7 +7,7 @@
 <header class="site-header">
 <a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
 <div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
-<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a></nav>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
 </header>
 <div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
 <ul>
@@ -38,6 +38,13 @@
 <li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
 </ul>
 </li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-Critical.html">会心の一撃 / Critical</a></li>
+<li><a href="Analysis-Experience.html">経験値 / Experience</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数 / Blows</a></li>
+</ul>
+</li>
 </ul>
 </aside><main class="content"><h1>変愚蛮怒 データ仕様 Wiki / Hengband Data Reference</h1>
 <p>変愚蛮怒 (Hengband) のゲームデータ (<code>lib/edit/*.jsonc</code>) から自動生成した、日英併記のリファレンスです。</p>
@@ -60,12 +67,17 @@
 <li><a href="Ironman-Shops.html">店を使用しない</a> ・ <a href="Ironman-SmallestFloor.html">最小フロア</a> ・ <a href="Ironman-ForceArenaFloor.html">アリーナフロア強制</a> ・ <a href="Ironman-Rooms.html">常に特殊な部屋</a> ・ <a href="Nightmare.html">悪夢モード</a> ・ <a href="Ironman-Downward.html">帰還・上り階段なし</a></li>
 </ul>
 </li>
+<li>🔬 <strong><a href="Analysis.html">解析 / Analysis</a></strong> — ソース解析による内部仕様
+<ul>
+<li><a href="Analysis-Critical.html">会心の一撃</a> ・ <a href="Analysis-Experience.html">経験値</a> ・ <a href="Analysis-Blows.html">攻撃回数</a></li>
+</ul>
+</li>
 </ul>
 <hr>
 <blockquote>
 <p>🤖 全ページ自動生成。手動編集しないでください（<code>tools/generate-wiki.mjs</code> で再生成）。
 All pages auto-generated — do not edit by hand (regenerate via <code>tools/generate-wiki.mjs</code>).
-生成 / Generated: 2026-07-04 01:41 UTC · hengband <code>5ebae9734</code></p>
+生成 / Generated: 2026-07-04 01:46 UTC · hengband <code>5ebae9734</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

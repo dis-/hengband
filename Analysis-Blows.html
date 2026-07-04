@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>攻撃回数 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-Critical.html">会心の一撃 / Critical</a></li>
+<li><a href="Analysis-Experience.html">経験値 / Experience</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数 / Blows</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>攻撃回数</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<p>1 ターンあたりの近接攻撃回数 <code>num_blow</code> は、腕力・器用さ・武器重量・職業から決まります。二刀流や利き手/逆手は左右別々に計算されます。</p>
+<h2>武器を装備している場合</h2>
+<ol>
+<li>職業ごとの基本値 <code>num</code>（回数上限）・<code>wgt</code>（基準重量）・<code>mul</code>（腕力係数）を取得します。</li>
+<li>実効除数 <code>div ＝ max(武器重量, wgt)</code>。</li>
+<li>腕力インデックス <code>str_index ＝ adj_str_blow[腕力] × mul ÷ div</code>（上限 11）。
+<ul>
+<li>両手持ち補正: 戦士・狂戦士は <code>＋(lev÷23＋1)</code>、その他は ＋1。</li>
+<li>忍者は −1。</li>
+</ul>
+</li>
+<li>器用さインデックス <code>dex_index ＝ adj_dex_blow[器用さ]</code>（上限 11）。</li>
+<li><code>num_blow ＝ blows_table[str_index][dex_index]</code> を求め、職業上限 <code>num</code> で頭打ちにします。</li>
+<li>さらに次を加減算します。
+<ul>
+<li>追加打撃（装備等の <code>extra_blows</code>）を加算。</li>
+<li>戦士 ＋<code>lev÷40</code>、狂戦士 ＋<code>lev÷23</code>、盗賊は軽い武器(50未満)かつ器用さ内部値30以上で ＋1。</li>
+<li>侍の「風塵」の型は −1。</li>
+<li>毒針は常に 1 回。</li>
+<li>忍者以外が忍者装備でない…等、適さない武器では回数半減。</li>
+<li>最低 1 回。</li>
+</ul>
+</li>
+</ol>
+<h2>素手（武術）の場合</h2>
+<p>モンク・練気術師などの素手攻撃は別計算で、<code>blow_base ＝ レベル ＋ adj_dex_blow[器用さ]</code> を基準に、職業ごとの閾値表で段階的に回数が増えます（例: 練気術師は blow_base が 18 / 31 / 44 / 58 を超えるごとに ＋1）。</p>
+<h2>ポイント</h2>
+<p>重い武器を無理に持つと回数が激減します。攻撃回数を伸ばすには、腕力・器用さと武器重量のバランスが重要です。</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-status.cpp</code>（calc_num_blow）, <code>src/combat/attack-power-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 01:46 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
