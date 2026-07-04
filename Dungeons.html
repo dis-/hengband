@@ -1,0 +1,926 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ダンジョン一覧 / Dungeon List · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+</aside><main class="content"><h1>ダンジョン一覧 / Dungeon List</h1>
+<p>変愚蛮怒のダンジョン定義。プレイヤーが荒野（ワールドマップ）の各地点から潜れる21のダンジョンを規定します。各ダンジョンは深さの範囲（最浅・最深階、1階=50フィート）、入場に必要なプレイヤーレベル、出現モンスターの種別制限、生成される巣（nest）・落し穴部屋（pit）の種類、床・壁の地形、そして地形生成を制御するフラグを持ちます。「鉄獄（Angband）」が本編の主ダンジョンで、最深127階（6350フィート）まで続きます。<code>final_floor</code> を持つダンジョンは最深階に守護者（ボスモンスター）や固定アーティファクト・アイテムが配置されます。<code>wild_y</code>/<code>wild_x</code> は荒野マップ上の入口座標です。</p>
+<p>Dungeon definitions for Hengband. These govern the 21 dungeons the player can descend into from locations on the wilderness (overworld) map. Each dungeon specifies its depth range (min/max floor, where one floor = 50 feet), the minimum player level required to enter, restrictions on which monster kinds spawn, the kinds of monster nests and pits that can generate, floor and wall terrain, and flags controlling level generation. &quot;Angband&quot; (鉄獄) is the main dungeon of the game, running to a maximum of floor 127 (6350 feet). Dungeons with a <code>final_floor</code> place a guardian boss and/or fixed artifact/item on their deepest level. <code>wild_y</code>/<code>wild_x</code> are the entrance coordinates on the wilderness map.</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>ID / ID</th>
+<th>名前 / Name</th>
+<th>深さ (最浅〜最深) / Depth (min–max)</th>
+<th>必要Lv / Min PL</th>
+<th>荒野座標 (y,x) / Wild (y,x)</th>
+<th>説明 / Description</th>
+<th>種別条件 / Filter mode</th>
+<th>モンスター種別 / Monster kinds</th>
+<th>出現記号 / Symbols</th>
+<th>巣穴 (pit) / Pits</th>
+<th>巣 (nest) / Nests</th>
+<th>生成フラグ / Gen flags</th>
+<th>最深階配置 / Final floor</th>
+<th>良/優品率 / Good/Great %</th>
+<th>通常モンスター率 / Normal rate %</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>荒野<br>Wilderness</td>
+<td>—</td>
+<td>0</td>
+<td>0, 0</td>
+<td>荒野<br>wilderness</td>
+<td>制限なし/No restriction</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>—</td>
+<td>75%/20%</td>
+<td>100</td>
+</tr>
+<tr>
+<td>1</td>
+<td>鉄獄<br>Angband</td>
+<td>1–127</td>
+<td>30</td>
+<td>40, 57</td>
+<td>鉄獄への入り口<br>the entrance to the Dungeon of Angband</td>
+<td>制限なし/No restriction</td>
+<td></td>
+<td></td>
+<td>オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン, ダークエルフ</td>
+<td>クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 狂気, 犬小屋, 動物園, 教会, アンデッド</td>
+<td>洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, カーテン, ガラスの部屋, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, アーケード(店舗街), 酸の湖, 酸の川, 毒の湖, 毒の川</td>
+<td>—</td>
+<td>75%/20%</td>
+<td>100</td>
+</tr>
+<tr>
+<td>2</td>
+<td>イークの洞穴<br>Yeek cave</td>
+<td>1–13</td>
+<td>1</td>
+<td>48, 5</td>
+<td>イークの住みかへと続く小さな洞穴<br>the entrance to the cave leading to the Yeek's den</td>
+<td>いずれかを満たす/Match any flag</td>
+<td></td>
+<td>y</td>
+<td></td>
+<td></td>
+<td>ヴォルトなし, 初心者向け, 洞窟</td>
+<td>guardian#237, object#426</td>
+<td>75%/20%</td>
+<td>25</td>
+</tr>
+<tr>
+<td>3</td>
+<td>オークの洞窟<br>Orc cave</td>
+<td>10–23</td>
+<td>5</td>
+<td>45, 30</td>
+<td>オークの洞窟へ続く薄暗いトンネル<br>a dark tunnel leading to an Orc Cave</td>
+<td>いずれかを満たす/Match any flag</td>
+<td>オーク, トロル</td>
+<td>o, O, T</td>
+<td>オーク, シンボル(善), シンボル(悪)</td>
+<td>クローン, シンボル(善), シンボル(悪), 狂気, 犬小屋</td>
+<td>洞窟, 水の川, 洞穴(巨大空洞), 樹木の湖, 破壊された領域, 最大</td>
+<td>guardian#373, object#148</td>
+<td>75%/20%</td>
+<td>15</td>
+</tr>
+<tr>
+<td>4</td>
+<td>迷宮<br>Labyrinth</td>
+<td>10–18</td>
+<td>1</td>
+<td>57, 31</td>
+<td>恐るべき奇妙な迷宮<br>the frightening entrance to the Labyrinth</td>
+<td>制限なし/No restriction</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>迷路, 最小, 地図を忘れる</td>
+<td>guardian#1034, object#354</td>
+<td>75%/20%</td>
+<td>100</td>
+</tr>
+<tr>
+<td>5</td>
+<td>竜の住みか<br>Dragon's lair</td>
+<td>60–72</td>
+<td>25</td>
+<td>28, 74</td>
+<td>竜の住みかへ続く大きく、薄暗い恐るべきトンネル<br>a big tunnel leading to a Dragon's Lair</td>
+<td>いずれかを満たす/Match any flag</td>
+<td>ドラゴン</td>
+<td>d, D</td>
+<td>トロル, 巨人, シンボル(悪), ドラゴン</td>
+<td>クローン, 犬小屋, 動物園</td>
+<td>最大, 溶岩の川, 洞穴(巨大空洞), 破壊された領域, 洞窟, 溶岩の湖, 樹木の湖, 瓦礫の湖, 酸の湖, 酸の川, 毒の湖, 毒の川</td>
+<td>—</td>
+<td>75%/20%</td>
+<td>15</td>
+</tr>
+<tr>
+<td>6</td>
+<td>墓地<br>Graveyard</td>
+<td>40–70</td>
+<td>18</td>
+<td>19, 85</td>
+<td>墓地の地下への穴<br>a hole to the Graveyard underground</td>
+<td>いずれかを満たす/Match any flag</td>
+<td>アンデッド, 非生物</td>
+<td></td>
+<td>狂気, シンボル(悪), デーモン</td>
+<td>クローン, ゼリー, シンボル(悪), ミミック, 狂気, 犬小屋, アンデッド</td>
+<td>水の川, 破壊された領域, 闘技場(障害物なし広間), 水の湖, 瓦礫の湖, 毒の湖, 毒の川</td>
+<td>guardian#804, artifact#89</td>
+<td>75%/20%</td>
+<td>6</td>
+</tr>
+<tr>
+<td>7</td>
+<td>森<br>Forest</td>
+<td>15–32</td>
+<td>5</td>
+<td>53, 63</td>
+<td>森へ続く草の道<br>a path leading to a Forest</td>
+<td>いずれかを満たす/Match any flag</td>
+<td>動物, 森林に出現</td>
+<td>S, J, Z, #</td>
+<td>オーク</td>
+<td>ゼリー, ミミック, 犬小屋</td>
+<td>扉なし, 水の川</td>
+<td>guardian#481, object#592</td>
+<td>75%/20%</td>
+<td>23</td>
+</tr>
+<tr>
+<td>8</td>
+<td>火山<br>Volcano</td>
+<td>50–60</td>
+<td>18</td>
+<td>53, 13</td>
+<td>火山の中心への穴<br>a hole to the center of the Volcano</td>
+<td>いずれかを満たす/Match any flag</td>
+<td>火炎耐性(免疫), 飛行可能, 火山に出現</td>
+<td></td>
+<td>オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), ドラゴン, デーモン</td>
+<td>クローン, シンボル(善), シンボル(悪), ミミック, 狂気, 犬小屋, 動物園, アンデッド</td>
+<td>洞窟, 洞穴(巨大空洞), 溶岩の湖, 溶岩の川, 破壊された領域</td>
+<td>guardian#972, object#629</td>
+<td>80%/30%</td>
+<td>0</td>
+</tr>
+<tr>
+<td>9</td>
+<td>地獄<br>Hell</td>
+<td>666–696</td>
+<td>50</td>
+<td>62, 94</td>
+<td>地獄への階段<br>the stairway to Hell</td>
+<td>全条件を満たす/Match all flags</td>
+<td>火炎耐性(免疫), 邪悪</td>
+<td></td>
+<td>狂気, ドラゴン, デーモン</td>
+<td>動物園, アンデッド</td>
+<td>洞穴(巨大空洞), 溶岩の湖, 溶岩の川, クリア対象(勝利), 最大</td>
+<td>—</td>
+<td>90%/77%</td>
+<td>0</td>
+</tr>
+<tr>
+<td>10</td>
+<td>天界<br>Heaven</td>
+<td>555–585</td>
+<td>50</td>
+<td>2, 94</td>
+<td>天界へと通じる道<br>the way to Heaven</td>
+<td>全条件を満たす/Match all flags</td>
+<td>善良</td>
+<td></td>
+<td>教会</td>
+<td>シンボル(善), 教会</td>
+<td>水の川, クリア対象(勝利), 最大, ガラスの部屋</td>
+<td>—</td>
+<td>85%/35%</td>
+<td>0</td>
+</tr>
+<tr>
+<td>11</td>
+<td>水没した遺跡<br>Numenor</td>
+<td>55–75</td>
+<td>30</td>
+<td>27, 30</td>
+<td>失われた地ヌメノールへの水没した道<br>a submerged way to the lost land of Numenor</td>
+<td>いずれかを満たす/Match any flag</td>
+<td>泳ぐことができる, 飛行可能, 水棲生物, 海洋に出現</td>
+<td></td>
+<td></td>
+<td></td>
+<td>水の湖, 水の川, 破壊された領域</td>
+<td>guardian#854, artifact#107</td>
+<td>80%/30%</td>
+<td>0</td>
+</tr>
+<tr>
+<td>12</td>
+<td>城<br>Castle</td>
+<td>20–65</td>
+<td>30</td>
+<td>34, 88</td>
+<td>城<br>the entrance to the Castle</td>
+<td>いずれかを満たす/Match any flag</td>
+<td>デーモン</td>
+<td>p, h, H, g</td>
+<td>オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, デーモン, ダークエルフ</td>
+<td>クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 狂気, 教会, アンデッド</td>
+<td>闘技場(障害物なし広間), 洞窟なし, カーテン, ガラスの部屋</td>
+<td>guardian#882</td>
+<td>75%/20%</td>
+<td>25</td>
+</tr>
+<tr>
+<td>13</td>
+<td>ルルイエ<br>R'lyeh</td>
+<td>80–96</td>
+<td>45</td>
+<td>3, 40</td>
+<td>ルルイエ<br>a way to R'lyeh</td>
+<td>いずれかを満たす/Match any flag</td>
+<td>デーモン, 狂気(正気を失わせる)</td>
+<td></td>
+<td>狂気, シンボル(悪), ドラゴン, デーモン</td>
+<td>クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 狂気, アンデッド</td>
+<td>闘技場(障害物なし広間), 大きい, 水の川, 水の湖, 酸の湖, 酸の川, 毒の湖, 毒の川</td>
+<td>guardian#857, artifact#129</td>
+<td>75%/20%</td>
+<td>25</td>
+</tr>
+<tr>
+<td>14</td>
+<td>山<br>Mountain</td>
+<td>25–50</td>
+<td>20</td>
+<td>46, 76</td>
+<td>山<br>a way leading to the mountain</td>
+<td>いずれかを満たす/Match any flag</td>
+<td>トロル, 巨人, 飛行可能, 動物, 山地に出現</td>
+<td>O, Y, H</td>
+<td>オーク, トロル, 巨人, シンボル(善), シンボル(悪), ドラゴン</td>
+<td>クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 犬小屋, 動物園</td>
+<td>水の川, 洞窟, 洞穴(巨大空洞), 扉なし, 最大</td>
+<td>guardian#468, object#239</td>
+<td>75%/20%</td>
+<td>25</td>
+</tr>
+<tr>
+<td>15</td>
+<td>金鉱<br>Mine</td>
+<td>75–80</td>
+<td>50</td>
+<td>23, 49</td>
+<td>金鉱<br>the entrance to the Mine</td>
+<td>いずれかを満たす/Match any flag</td>
+<td></td>
+<td>$</td>
+<td></td>
+<td>ミミック</td>
+<td>水の川, 洞窟, 洞穴(巨大空洞), 最小, 溶岩の川, 破壊された領域, 酸の湖, 酸の川</td>
+<td>—</td>
+<td>80%/25%</td>
+<td>1</td>
+</tr>
+<tr>
+<td>16</td>
+<td>反魔法の洞窟<br>Anti-magic cave</td>
+<td>40–50</td>
+<td>30</td>
+<td>6, 84</td>
+<td>反魔法の洞窟<br>the entrance to the cave filled with anti-magic cloud</td>
+<td>制限なし/No restriction</td>
+<td></td>
+<td></td>
+<td>オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン</td>
+<td>クローン, シンボル(善), シンボル(悪), 狂気, 犬小屋, 動物園, 教会</td>
+<td>洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, 魔法禁止(反魔法)</td>
+<td>—</td>
+<td>75%/20%</td>
+<td>0</td>
+</tr>
+<tr>
+<td>17</td>
+<td>反攻撃の洞窟<br>Anti-melee cave</td>
+<td>40–50</td>
+<td>30</td>
+<td>45, 47</td>
+<td>反攻撃の洞窟<br>the entrance to the cave filled with restricting magical field</td>
+<td>制限なし/No restriction</td>
+<td></td>
+<td></td>
+<td>オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン</td>
+<td>クローン, シンボル(善), シンボル(悪), 狂気, 犬小屋, 動物園, 教会</td>
+<td>洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, ガラスの部屋, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, 近接攻撃禁止</td>
+<td>—</td>
+<td>75%/20%</td>
+<td>0</td>
+</tr>
+<tr>
+<td>18</td>
+<td>カメレオン洞<br>Chameleon cave</td>
+<td>30–45</td>
+<td>30</td>
+<td>52, 94</td>
+<td>カメレオンだけが棲息する洞窟<br>the entrance to the chameleon's den</td>
+<td>いずれかを満たす/Match any flag</td>
+<td>カメレオン</td>
+<td></td>
+<td></td>
+<td></td>
+<td>洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, カメレオン出現</td>
+<td>guardian#1041, object#617</td>
+<td>75%/20%</td>
+<td>0</td>
+</tr>
+<tr>
+<td>19</td>
+<td>暗闇の洞窟<br>Dark cave</td>
+<td>55–72</td>
+<td>30</td>
+<td>12, 57</td>
+<td>暗闇の洞窟<br>the dark entrance to the cave filled with magical darkness</td>
+<td>制限なし/No restriction</td>
+<td></td>
+<td></td>
+<td>オーク, トロル, 巨人, 狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン, ダークエルフ</td>
+<td>クローン, ゼリー, シンボル(善), シンボル(悪), ミミック, 狂気, 犬小屋, 動物園, 教会, アンデッド</td>
+<td>洞穴(巨大空洞), 水の川, 溶岩の川, 闘技場(障害物なし広間), 破壊された領域, 小さい, ガラスの部屋, 水の湖, 溶岩の湖, 瓦礫の湖, 樹木の湖, 酸の湖, 酸の川, 毒の湖, 毒の川, 暗黒(照明なし)</td>
+<td>guardian#803</td>
+<td>80%/30%</td>
+<td>100</td>
+</tr>
+<tr>
+<td>20</td>
+<td>ガラスの城<br>Glass castle</td>
+<td>40–60</td>
+<td>30</td>
+<td>40, 37</td>
+<td>ガラスの城<br>the entrance to the glass castle</td>
+<td>いずれかを満たす/Match any flag</td>
+<td>透明, 光源を持つ(弱), 自身が発光(弱), 光源を持つ(強), 自身が発光(強), 暗黒を持つ(弱), 自身が暗黒(弱), 暗黒を持つ(強), 自身が暗黒(強)</td>
+<td></td>
+<td>狂気, シンボル(善), シンボル(悪), 教会, ドラゴン, デーモン</td>
+<td>クローン, シンボル(善), シンボル(悪), ミミック, 狂気, 教会, アンデッド</td>
+<td>闘技場(障害物なし広間), 洞窟なし, カーテン, ガラスの扉, ガラスの部屋</td>
+<td>—</td>
+<td>75%/20%</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<h3>凡例 / Legend</h3>
+<details>
+<summary>モンスター種別フィルタモード / Monster filter mode (5)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NONE</code></td>
+<td>制限なし</td>
+<td>No restriction</td>
+</tr>
+<tr>
+<td><code>AND</code></td>
+<td>全条件を満たす</td>
+<td>Match all flags</td>
+</tr>
+<tr>
+<td><code>NAND</code></td>
+<td>全条件は満たさない</td>
+<td>Not all flags</td>
+</tr>
+<tr>
+<td><code>OR</code></td>
+<td>いずれかを満たす</td>
+<td>Match any flag</td>
+</tr>
+<tr>
+<td><code>NOR</code></td>
+<td>いずれも満たさない</td>
+<td>Match no flag</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<details>
+<summary>モンスター種別フラグ / Monster kind flags (29)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ANIMAL</code></td>
+<td>動物</td>
+<td>Animal</td>
+</tr>
+<tr>
+<td><code>AQUATIC</code></td>
+<td>水棲生物</td>
+<td>Aquatic</td>
+</tr>
+<tr>
+<td><code>CAN_FLY</code></td>
+<td>飛行可能</td>
+<td>Can fly</td>
+</tr>
+<tr>
+<td><code>CAN_SWIM</code></td>
+<td>泳ぐことができる</td>
+<td>Can swim</td>
+</tr>
+<tr>
+<td><code>CHAMELEON</code></td>
+<td>カメレオン</td>
+<td>Chameleon</td>
+</tr>
+<tr>
+<td><code>DEMON</code></td>
+<td>デーモン</td>
+<td>Demon</td>
+</tr>
+<tr>
+<td><code>DRAGON</code></td>
+<td>ドラゴン</td>
+<td>Dragon</td>
+</tr>
+<tr>
+<td><code>ELDRITCH_HORROR</code></td>
+<td>狂気(正気を失わせる)</td>
+<td>Eldritch horror</td>
+</tr>
+<tr>
+<td><code>EVIL</code></td>
+<td>邪悪</td>
+<td>Evil</td>
+</tr>
+<tr>
+<td><code>GIANT</code></td>
+<td>巨人</td>
+<td>Giant</td>
+</tr>
+<tr>
+<td><code>GOOD</code></td>
+<td>善良</td>
+<td>Good</td>
+</tr>
+<tr>
+<td><code>IM_FIRE</code></td>
+<td>火炎耐性(免疫)</td>
+<td>Immune to fire</td>
+</tr>
+<tr>
+<td><code>INVISIBLE</code></td>
+<td>透明</td>
+<td>Invisible</td>
+</tr>
+<tr>
+<td><code>NONLIVING</code></td>
+<td>非生物</td>
+<td>Nonliving</td>
+</tr>
+<tr>
+<td><code>ORC</code></td>
+<td>オーク</td>
+<td>Orc</td>
+</tr>
+<tr>
+<td><code>TROLL</code></td>
+<td>トロル</td>
+<td>Troll</td>
+</tr>
+<tr>
+<td><code>UNDEAD</code></td>
+<td>アンデッド</td>
+<td>Undead</td>
+</tr>
+<tr>
+<td><code>HAS_LITE_1</code></td>
+<td>光源を持つ(弱)</td>
+<td>Has light 1</td>
+</tr>
+<tr>
+<td><code>HAS_LITE_2</code></td>
+<td>光源を持つ(強)</td>
+<td>Has light 2</td>
+</tr>
+<tr>
+<td><code>HAS_DARK_1</code></td>
+<td>暗黒を持つ(弱)</td>
+<td>Has dark 1</td>
+</tr>
+<tr>
+<td><code>HAS_DARK_2</code></td>
+<td>暗黒を持つ(強)</td>
+<td>Has dark 2</td>
+</tr>
+<tr>
+<td><code>SELF_LITE_1</code></td>
+<td>自身が発光(弱)</td>
+<td>Self light 1</td>
+</tr>
+<tr>
+<td><code>SELF_LITE_2</code></td>
+<td>自身が発光(強)</td>
+<td>Self light 2</td>
+</tr>
+<tr>
+<td><code>SELF_DARK_1</code></td>
+<td>自身が暗黒(弱)</td>
+<td>Self dark 1</td>
+</tr>
+<tr>
+<td><code>SELF_DARK_2</code></td>
+<td>自身が暗黒(強)</td>
+<td>Self dark 2</td>
+</tr>
+<tr>
+<td><code>WILD_MOUNTAIN</code></td>
+<td>山地に出現</td>
+<td>Wild: mountain</td>
+</tr>
+<tr>
+<td><code>WILD_OCEAN</code></td>
+<td>海洋に出現</td>
+<td>Wild: ocean</td>
+</tr>
+<tr>
+<td><code>WILD_VOLCANO</code></td>
+<td>火山に出現</td>
+<td>Wild: volcano</td>
+</tr>
+<tr>
+<td><code>WILD_WOOD</code></td>
+<td>森林に出現</td>
+<td>Wild: wood</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<details>
+<summary>落し穴部屋(pit)の種類 / Pit kinds (10)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ORC</code></td>
+<td>オーク</td>
+<td>Orc</td>
+</tr>
+<tr>
+<td><code>TROLL</code></td>
+<td>トロル</td>
+<td>Troll</td>
+</tr>
+<tr>
+<td><code>GIANT</code></td>
+<td>巨人</td>
+<td>Giant</td>
+</tr>
+<tr>
+<td><code>HORROR</code></td>
+<td>狂気</td>
+<td>Lovecraftian</td>
+</tr>
+<tr>
+<td><code>SYMBOL_GOOD</code></td>
+<td>シンボル(善)</td>
+<td>Symbol good</td>
+</tr>
+<tr>
+<td><code>SYMBOL_EVIL</code></td>
+<td>シンボル(悪)</td>
+<td>Symbol evil</td>
+</tr>
+<tr>
+<td><code>CHAPEL</code></td>
+<td>教会</td>
+<td>Chapel</td>
+</tr>
+<tr>
+<td><code>DRAGON</code></td>
+<td>ドラゴン</td>
+<td>Dragon</td>
+</tr>
+<tr>
+<td><code>DEMON</code></td>
+<td>デーモン</td>
+<td>Demon</td>
+</tr>
+<tr>
+<td><code>DARK_ELF</code></td>
+<td>ダークエルフ</td>
+<td>Dark elf</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<details>
+<summary>巣(nest)の種類 / Nest kinds (10)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CLONE</code></td>
+<td>クローン</td>
+<td>Clone</td>
+</tr>
+<tr>
+<td><code>JELLY</code></td>
+<td>ゼリー</td>
+<td>Jelly</td>
+</tr>
+<tr>
+<td><code>SYMBOL_GOOD</code></td>
+<td>シンボル(善)</td>
+<td>Symbol good</td>
+</tr>
+<tr>
+<td><code>SYMBOL_EVIL</code></td>
+<td>シンボル(悪)</td>
+<td>Symbol evil</td>
+</tr>
+<tr>
+<td><code>MIMIC</code></td>
+<td>ミミック</td>
+<td>Mimic</td>
+</tr>
+<tr>
+<td><code>HORROR</code></td>
+<td>狂気</td>
+<td>Lovecraftian</td>
+</tr>
+<tr>
+<td><code>KENNEL</code></td>
+<td>犬小屋</td>
+<td>Kennel</td>
+</tr>
+<tr>
+<td><code>ANIMAL</code></td>
+<td>動物園</td>
+<td>Animal</td>
+</tr>
+<tr>
+<td><code>CHAPEL</code></td>
+<td>教会</td>
+<td>Chapel</td>
+</tr>
+<tr>
+<td><code>UNDEAD</code></td>
+<td>アンデッド</td>
+<td>Undead</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<details>
+<summary>ダンジョン生成フラグ / Dungeon generation flags (33)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ACID_RIVER</code></td>
+<td>酸の川</td>
+<td>Acid river</td>
+</tr>
+<tr>
+<td><code>ARCADE</code></td>
+<td>アーケード(店舗街)</td>
+<td>Arcade</td>
+</tr>
+<tr>
+<td><code>ARENA</code></td>
+<td>闘技場(障害物なし広間)</td>
+<td>Arena</td>
+</tr>
+<tr>
+<td><code>BEGINNER</code></td>
+<td>初心者向け</td>
+<td>Beginner</td>
+</tr>
+<tr>
+<td><code>CAVE</code></td>
+<td>洞窟</td>
+<td>Cave</td>
+</tr>
+<tr>
+<td><code>CAVERN</code></td>
+<td>洞穴(巨大空洞)</td>
+<td>Cavern</td>
+</tr>
+<tr>
+<td><code>CHAMELEON</code></td>
+<td>カメレオン出現</td>
+<td>Chameleon</td>
+</tr>
+<tr>
+<td><code>CURTAIN</code></td>
+<td>カーテン</td>
+<td>Curtain</td>
+</tr>
+<tr>
+<td><code>DARKNESS</code></td>
+<td>暗黒(照明なし)</td>
+<td>Darkness</td>
+</tr>
+<tr>
+<td><code>DESTROY</code></td>
+<td>破壊された領域</td>
+<td>Destroyed area</td>
+</tr>
+<tr>
+<td><code>FORGET</code></td>
+<td>地図を忘れる</td>
+<td>Forget map</td>
+</tr>
+<tr>
+<td><code>GLASS_DOOR</code></td>
+<td>ガラスの扉</td>
+<td>Glass door</td>
+</tr>
+<tr>
+<td><code>GLASS_ROOM</code></td>
+<td>ガラスの部屋</td>
+<td>Glass room</td>
+</tr>
+<tr>
+<td><code>LAKE_ACID</code></td>
+<td>酸の湖</td>
+<td>Acid lake</td>
+</tr>
+<tr>
+<td><code>LAKE_LAVA</code></td>
+<td>溶岩の湖</td>
+<td>Lava lake</td>
+</tr>
+<tr>
+<td><code>LAKE_POISONOUS</code></td>
+<td>毒の湖</td>
+<td>Poison lake</td>
+</tr>
+<tr>
+<td><code>LAKE_RUBBLE</code></td>
+<td>瓦礫の湖</td>
+<td>Rubble lake</td>
+</tr>
+<tr>
+<td><code>LAKE_TREE</code></td>
+<td>樹木の湖</td>
+<td>Tree lake</td>
+</tr>
+<tr>
+<td><code>LAKE_WATER</code></td>
+<td>水の湖</td>
+<td>Water lake</td>
+</tr>
+<tr>
+<td><code>LARGE</code></td>
+<td>大きい</td>
+<td>Large</td>
+</tr>
+<tr>
+<td><code>LARGEST</code></td>
+<td>最大</td>
+<td>Largest</td>
+</tr>
+<tr>
+<td><code>LAVA_RIVER</code></td>
+<td>溶岩の川</td>
+<td>Lava river</td>
+</tr>
+<tr>
+<td><code>MAZE</code></td>
+<td>迷路</td>
+<td>Maze</td>
+</tr>
+<tr>
+<td><code>NO_CAVE</code></td>
+<td>洞窟なし</td>
+<td>No cave</td>
+</tr>
+<tr>
+<td><code>NO_DOORS</code></td>
+<td>扉なし</td>
+<td>No doors</td>
+</tr>
+<tr>
+<td><code>NO_MAGIC</code></td>
+<td>魔法禁止(反魔法)</td>
+<td>No magic</td>
+</tr>
+<tr>
+<td><code>NO_MELEE</code></td>
+<td>近接攻撃禁止</td>
+<td>No melee</td>
+</tr>
+<tr>
+<td><code>NO_VAULT</code></td>
+<td>ヴォルトなし</td>
+<td>No vault</td>
+</tr>
+<tr>
+<td><code>POISONOUS_RIVER</code></td>
+<td>毒の川</td>
+<td>Poison river</td>
+</tr>
+<tr>
+<td><code>SMALL</code></td>
+<td>小さい</td>
+<td>Small</td>
+</tr>
+<tr>
+<td><code>SMALLEST</code></td>
+<td>最小</td>
+<td>Smallest</td>
+</tr>
+<tr>
+<td><code>WATER_RIVER</code></td>
+<td>水の川</td>
+<td>Water river</td>
+</tr>
+<tr>
+<td><code>WINNER</code></td>
+<td>クリア対象(勝利)</td>
+<td>Winner dungeon</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<hr>
+<blockquote>
+<p>🤖 このページは <code>lib/edit/DungeonDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
+This page is auto-generated from <code>lib/edit/DungeonDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
+生成 / Generated: 2026-07-04 00:01 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

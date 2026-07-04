@@ -1,0 +1,3773 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>呪文一覧 / Spell List · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+</aside><main class="content"><h1>呪文一覧 / Spell List</h1>
+<p>このデータは、ヘンガバンド（変愚蛮怒）で魔法職が唱えられる全ての呪文（技）の名前と効果説明を定義します。呪文は13の「領域」(realm) に分かれ、各領域は4冊の「呪文書」(book) を持ち、各呪文書には最大8つの呪文が収録されています（全13領域 × 4冊 × 最大8呪文 = 416呪文）。各呪文は識別番号 <code>spell_id</code>（呪文書内での0〜31の位置）、読み込み用の <code>spell_tag</code>、そして日本語・英語の呪文名と効果説明を持ちます。実際の消費MP・失敗率・最低レベルなどの数値は職業や領域ごとにプログラム側で決まるため、このファイルには含まれません。ここにあるのは呪文の「名前」と「何をするか」のテキストのみです。「歌」(MUSIC)、「武芸」(HISSATSU)、「呪術」(HEX) の3領域はメイジ系の呪文ではなく、それぞれ吟遊詩人の歌・剣術の技・呪いの詠唱ですが、データ構造は完全に共通です。</p>
+<p>This data defines the name and effect description of every spell (or technique) that a spellcasting class can cast in Hengband. Spells are organized into 13 &quot;realms,&quot; each realm holds 4 &quot;spellbooks,&quot; and each book contains up to 8 spells (13 realms × 4 books × up to 8 spells = 416 spells total). Each spell carries an identifier <code>spell_id</code> (its 0–31 slot within the book), a load-time <code>spell_tag</code>, and Japanese/English name and effect description. The actual mana cost, fail rate, and minimum level are decided in code per class and realm, so they do not appear in this file — only the spell's name and a plain-text summary of what it does. Three realms — MUSIC (bard songs), HISSATSU (Kendo sword techniques), and HEX (curse chants) — are not mage-style spells, but they share exactly the same data structure.</p>
+<h2>生命/Life</h2>
+<h3>[一般祈祷] / [Book of Common Prayer]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>軽傷の治癒</td>
+<td>Cure Light Wounds</td>
+<td>怪我と体力を少し回復させる。</td>
+<td>Heals cuts and HP a little.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>祝福</td>
+<td>Bless</td>
+<td>一定時間、命中率とACにボーナスを得る。</td>
+<td>Gives a bonus to hit and AC for a few turns.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>軽傷</td>
+<td>Cause Light Wounds</td>
+<td>1体のモンスターに小ダメージを与える。抵抗されると無効。</td>
+<td>Wounds a monster a little unless resisted.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>光の召喚</td>
+<td>Call Light</td>
+<td>光源が照らしている範囲か部屋全体を永久に明るくする。</td>
+<td>Lights up nearby area and the inside of a room permanently.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>罠 &amp; 隠し扉感知</td>
+<td>Detect Doors &amp; Traps</td>
+<td>近くの全ての罠と扉と階段を感知する。</td>
+<td>Detects traps, doors, and stairs in your vicinity.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>重傷の治癒</td>
+<td>Cure Medium Wounds</td>
+<td>怪我と体力を中程度回復させる。</td>
+<td>Heals cuts and HP more.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>解毒</td>
+<td>Cure Poison</td>
+<td>体内の毒を取り除く。</td>
+<td>Cures yourself of any poisons.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>空腹充足</td>
+<td>Satisfy Hunger</td>
+<td>満腹にする。</td>
+<td>Satisfies hunger.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[上級祈祷] / [High Mass]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>解呪</td>
+<td>Remove Curse</td>
+<td>アイテムにかかった弱い呪いを解除する。</td>
+<td>Removes normal curses from equipped items.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>重傷</td>
+<td>Cause Medium Wounds</td>
+<td>1体のモンスターに中ダメージを与える。抵抗されると無効。</td>
+<td>Wounds a monster unless resisted.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>致命傷の治癒</td>
+<td>Cure Critical Wounds</td>
+<td>体力を大幅に回復させ、負傷と朦朧状態も全快する。</td>
+<td>Heals HP greatly. Also cures cuts and being stunned.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>耐熱耐寒</td>
+<td>Resist Heat and Cold</td>
+<td>一定時間、火炎と冷気に対する耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to fire and cold. These resistances can be added to those from equipment for more powerful resistances</td>
+</tr>
+<tr>
+<td>12</td>
+<td>周辺感知</td>
+<td>Sense Surroundings</td>
+<td>周辺の地形を感知する。</td>
+<td>Maps nearby area.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>パニック・アンデッド</td>
+<td>Turn Undead</td>
+<td>視界内のアンデッドを恐怖させる。抵抗されると無効。</td>
+<td>Attempts to scare undead monsters in sight.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>体力回復</td>
+<td>Healing</td>
+<td>極めて強力な回復呪文で、負傷と朦朧状態も全快する。</td>
+<td>Is very powerful healing magic. Also completely cures cuts and being stunned.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>結界の紋章</td>
+<td>Rune of Protection</td>
+<td>自分のいる床の上に、モンスターが通り抜けたり召喚されたりすることができなくなるルーンを描く。</td>
+<td>Sets a rune on the floor beneath you. If you are on a rune, monsters cannot attack you but can try to break the rune.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[一角獣の書] / [Book of the Unicorn]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td><em>解呪</em></td>
+<td>Dispel Curse</td>
+<td>アイテムにかかった強力な呪いを解除する。</td>
+<td>Removes normal and heavy curses from equipped items.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>鑑識</td>
+<td>Perception</td>
+<td>アイテムを識別する。</td>
+<td>Identifies an item.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>アンデッド退散</td>
+<td>Dispel Undead</td>
+<td>視界内の全てのアンデッドにダメージを与える。</td>
+<td>Damages all undead monsters in sight.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>凪の刻</td>
+<td>Day of the Dove</td>
+<td>視界内の全てのモンスターを魅了する。抵抗されると無効。</td>
+<td>Attempts to charm all monsters in sight.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>致命傷</td>
+<td>Cause Critical Wounds</td>
+<td>1体のモンスターに大ダメージを与える。抵抗されると無効。</td>
+<td>Wounds a monster critically unless resisted.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>帰還の詔</td>
+<td>Word of Recall</td>
+<td>地上にいるときはダンジョンの最深階へ、ダンジョンにいるときは地上へと移動する。</td>
+<td>Recalls player from dungeon to town or from town to the deepest level of dungeon.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>真実の祭壇</td>
+<td>Alter Reality</td>
+<td>現在の階を再構成する。</td>
+<td>Recreates current dungeon level.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>真・結界</td>
+<td>Warding True</td>
+<td>自分のいる床と周囲8マスの床の上に、モンスターが通り抜けたり召喚されたりすることができなくなるルーンを描く。</td>
+<td>Creates runes in all adjacent squares and under you.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[聖杯の加護] / [Blessings of the Grail]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>不毛化</td>
+<td>Sterilization</td>
+<td>この階の増殖するモンスターが増殖できなくなる。</td>
+<td>Prevents any breeders on current level from breeding.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>全感知</td>
+<td>Detection</td>
+<td>近くの全てのモンスター、罠、扉、階段、財宝、そしてアイテムを感知する。</td>
+<td>Detects all monsters, traps, doors, stairs, treasures and items in your vicinity.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>アンデッド消滅</td>
+<td>Annihilate Undead</td>
+<td>自分の周囲にいるアンデッドを現在の階から消し去る。抵抗されると無効。</td>
+<td>Eliminates all nearby undead monsters, exhausting you. Powerful or unique monsters may be able to resist.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>千里眼</td>
+<td>Clairvoyance</td>
+<td>その階全体を永久に照らし、ダンジョン内すべてのアイテムを感知する。</td>
+<td>Maps and lights whole dungeon level. Knows all objects location. And gives telepathy for a while.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>全復活</td>
+<td>Restoration</td>
+<td>すべてのステータスと経験値を回復する。</td>
+<td>Restores all stats and experience.</td>
+</tr>
+<tr>
+<td>29</td>
+<td><em>体力回復</em></td>
+<td>Healing True</td>
+<td>最強の治癒の魔法で、負傷と朦朧状態も全快する。</td>
+<td>Is the greatest healing magic. Heals all HP, cuts and being stunned.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>聖なるビジョン</td>
+<td>Holy Vision</td>
+<td>アイテムの持つ能力を完全に知る。</td>
+<td><em>Identifies</em> an item.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>究極の耐性</td>
+<td>Ultimate Resistance</td>
+<td>一定時間、あらゆる耐性を付け、ACと魔法防御能力を上昇させる。</td>
+<td>Gives ultimate resistance, bonus to AC and speed.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>仙術/Sorcery</h2>
+<h3>[入門書] / [Beginner's Handbook]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>モンスター感知</td>
+<td>Detect Monsters</td>
+<td>近くの全ての見えるモンスターを感知する。</td>
+<td>Detects all monsters in your vicinity unless invisible.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>ショート・テレポート</td>
+<td>Phase Door</td>
+<td>近距離のテレポートをする。</td>
+<td>Teleports you a short distance.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>罠と扉感知</td>
+<td>Detect Doors and Traps</td>
+<td>近くの全ての扉と罠を感知する。</td>
+<td>Detects traps, doors, and stairs in your vicinity.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ライト・エリア</td>
+<td>Light Area</td>
+<td>光源が照らしている範囲か部屋全体を永久に明るくする。</td>
+<td>Lights up nearby area and the inside of a room permanently.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>パニック・モンスター</td>
+<td>Confuse Monster</td>
+<td>モンスター1体を混乱させる。抵抗されると無効。</td>
+<td>Attempts to confuse a monster.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>テレポート</td>
+<td>Teleport</td>
+<td>遠距離のテレポートをする。</td>
+<td>Teleports you a long distance.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>スリープ・モンスター</td>
+<td>Sleep Monster</td>
+<td>モンスター1体を眠らせる。抵抗されると無効。</td>
+<td>Attempts to put a monster to sleep.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>魔力充填</td>
+<td>Recharging</td>
+<td>杖/魔法棒の充填回数を増やすか、充填中のロッドの充填時間を減らす。</td>
+<td>Recharges staffs, wands or rods.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[仙人の書] / [Master Sorcerer's Handbook]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>魔法の地図</td>
+<td>Magic Mapping</td>
+<td>周辺の地形を感知する。</td>
+<td>Maps nearby area.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>鑑定</td>
+<td>Identify</td>
+<td>アイテムを識別する。</td>
+<td>Identifies an item.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>スロウ・モンスター</td>
+<td>Slow Monster</td>
+<td>モンスター1体を減速させる。抵抗されると無効。</td>
+<td>Attempts to slow a monster.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>周辺スリープ</td>
+<td>Mass Sleep</td>
+<td>視界内の全てのモンスターを眠らせる。抵抗されると無効。</td>
+<td>Attempts to put all monsters in sight to sleep.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>テレポート・モンスター</td>
+<td>Teleport Away</td>
+<td>モンスターをテレポートさせるビームを放つ。抵抗されると無効。</td>
+<td>Teleports all monsters on the line away unless resisted.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>スピード</td>
+<td>Haste Self</td>
+<td>一定時間、加速する。</td>
+<td>Hastes you for a while.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>真・感知</td>
+<td>Detection True</td>
+<td>近くの全てのモンスター、罠、扉、階段、財宝、そしてアイテムを感知する。</td>
+<td>Detects all monsters, traps, doors, stairs, treasures and items in your vicinity.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>真・鑑定</td>
+<td>Identify True</td>
+<td>アイテムの持つ能力を完全に知る。</td>
+<td><em>Identifies</em> an item.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[紋様仙術] / [Pattern Sorcery]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>物体と財宝感知</td>
+<td>Detect items and Treasure</td>
+<td>近くの全てのアイテムと財宝を感知する。</td>
+<td>Detects all treasures and items in your vicinity.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>チャーム・モンスター</td>
+<td>Charm Monster</td>
+<td>モンスター1体を魅了する。抵抗されると無効。</td>
+<td>Attempts to charm a monster.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>精神感知</td>
+<td>Sense Minds</td>
+<td>一定時間、テレパシー能力を得る。</td>
+<td>Gives telepathy for a while.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>街移動</td>
+<td>Teleport to town</td>
+<td>街へ移動する。地上にいるときしか使えない。</td>
+<td>Instantly teleports you to a town which you choose. Can only be used outdoors.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>自己分析</td>
+<td>Self Knowledge</td>
+<td>現在の自分の状態を完全に知る。</td>
+<td>Gives you useful info regarding your current resistances, the powers of your weapon and maximum limits of your stats.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>テレポート・レベル</td>
+<td>Teleport Level</td>
+<td>瞬時に上か下の階にテレポートする。</td>
+<td>Instantly teleports you up or down a level.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>帰還の呪文</td>
+<td>Word of Recall</td>
+<td>地上にいるときはダンジョンの最深階へ、ダンジョンにいるときは地上へと移動する。</td>
+<td>Recalls player from dungeon to town or from town to the deepest level of dungeon.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>次元の扉</td>
+<td>Dimension Door</td>
+<td>短距離内の指定した場所にテレポートする。</td>
+<td>Teleports you to a given location.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[力の魔道書] / [Grimoire of Power]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>調査</td>
+<td>Probing</td>
+<td>モンスターの属性、残り体力、最大体力、スピード、正体を知る。</td>
+<td>Probes all monsters' alignment, HP, speed and their true character.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>爆発のルーン</td>
+<td>Explosive Rune</td>
+<td>自分のいる床の上に、モンスターが通ると爆発してダメージを与えるルーンを描く。</td>
+<td>Sets a rune under you. The rune will explode when a monster moves on it.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>念動力</td>
+<td>Telekinesis</td>
+<td>アイテムを自分の足元へ移動させる。</td>
+<td>Pulls a distant item close to you.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>千里眼</td>
+<td>Clairvoyance</td>
+<td>その階全体を永久に照らし、ダンジョン内すべてのアイテムを感知する。さらに、一定時間テレパシー能力を得る。</td>
+<td>Maps and lights whole dungeon level. Knows all objects location. And gives telepathy for a while.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>魅了の視線</td>
+<td>Charm monsters</td>
+<td>視界内の全てのモンスターを魅了する。抵抗されると無効。</td>
+<td>Attempts to charm all monsters in sight.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>錬金術</td>
+<td>Alchemy</td>
+<td>アイテム1つをお金に変える。</td>
+<td>Turns an item into 1/3 of its value in gold.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>怪物追放</td>
+<td>Banishment</td>
+<td>視界内の全てのモンスターをテレポートさせる。抵抗されると無効。</td>
+<td>Teleports all monsters in sight away unless resisted.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>無傷の球</td>
+<td>Globe of Invulnerability</td>
+<td>一定時間、ダメージを受けなくなるバリアを張る。切れた瞬間に少しターンを消費するので注意。</td>
+<td>Generates a barrier which completely protects you from almost all damage. Takes a few of your turns when the barrier breaks or duration time is exceeded.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>自然/Nature</h2>
+<h3>[野性の召喚] / [Call of the Wild]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>モンスター感知</td>
+<td>Detect Creatures</td>
+<td>近くの全ての見えるモンスターを感知する。</td>
+<td>Detects all monsters in your vicinity unless invisible.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>稲妻</td>
+<td>Lightning</td>
+<td>電撃の短いビームを放つ。</td>
+<td>Fires a short beam of lightning.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>罠と扉感知</td>
+<td>Detect Doors and Traps</td>
+<td>近くの全ての罠と扉を感知する。</td>
+<td>Detects traps, doors, and stairs in your vicinity.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>食糧生成</td>
+<td>Produce Food</td>
+<td>食料を一つ作り出す。</td>
+<td>Produces a Ration of Food.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>日の光</td>
+<td>Daylight</td>
+<td>光源が照らしている範囲か部屋全体を永久に明るくする。</td>
+<td>Lights up nearby area and the inside of a room permanently.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>動物習し</td>
+<td>Animal Taming</td>
+<td>動物1体を魅了する。抵抗されると無効。</td>
+<td>Attempts to charm an animal.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>環境への耐性</td>
+<td>Resist Environment</td>
+<td>一定時間、冷気、炎、電撃に対する耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to fire, cold and electricity for a while. These resistances can be added to those from equipment for more powerful resistances.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>傷と毒治療</td>
+<td>Cure Wounds &amp; Poison</td>
+<td>怪我を全快させ、毒を体から完全に取り除き、体力を少し回復させる。</td>
+<td>Heals all cuts and poisons. Heals HP a little.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[自然の秘術] / [Nature Mastery]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>岩石溶解</td>
+<td>Stone to Mud</td>
+<td>壁を溶かして床にする。</td>
+<td>Turns one rock square to mud.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>アイス・ボルト</td>
+<td>Frost Bolt</td>
+<td>冷気のボルトもしくはビームを放つ。</td>
+<td>Fires a bolt or beam of cold.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>自然の覚醒</td>
+<td>Nature Awareness</td>
+<td>周辺の地形を感知し、近くの罠、扉、階段、全てのモンスターを感知する。</td>
+<td>Maps nearby area. Detects all monsters, traps, doors and stairs.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>ファイア・ボルト</td>
+<td>Fire Bolt</td>
+<td>火炎のボルトもしくはビームを放つ。</td>
+<td>Fires a bolt or beam of fire.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>太陽光線</td>
+<td>Ray of Sunlight</td>
+<td>光線を放つ。光りを嫌うモンスターに効果がある。</td>
+<td>Fires a beam of light which damages light-sensitive monsters.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>足かせ</td>
+<td>Entangle</td>
+<td>視界内の全てのモンスターを減速させる。抵抗されると無効。</td>
+<td>Attempts to slow all monsters in sight.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>動物召喚</td>
+<td>Summon Animal</td>
+<td>動物を1体召喚する。</td>
+<td>Summons an animal.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>薬草治療</td>
+<td>Herbal Healing</td>
+<td>体力を大幅に回復させ、負傷、朦朧状態、毒から全快する。</td>
+<td>Heals HP greatly. Completely cures cuts, poisons and being stunned.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[自然の恵み] / [Nature's Gifts]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>階段生成</td>
+<td>Stair Building</td>
+<td>自分のいる位置に階段を作る。</td>
+<td>Creates a staircase which goes down or up.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>肌石化</td>
+<td>Stone Skin</td>
+<td>一定時間、ACを上昇させる。</td>
+<td>Gives a bonus to AC for a while.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>真・耐性</td>
+<td>Resistance True</td>
+<td>一定時間、酸、電撃、炎、冷気、毒に対する耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to fire, cold, electricity, acid and poison for a while. These resistances can be added to those from equipment for more powerful resistances.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>森林創造</td>
+<td>Forest Creation</td>
+<td>周囲に木を作り出す。</td>
+<td>Creates trees in all adjacent squares.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>動物友和</td>
+<td>Animal Friendship</td>
+<td>視界内の全ての動物を魅了する。抵抗されると無効。</td>
+<td>Attempts to charm all animals in sight.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>試金石</td>
+<td>Stone Tell</td>
+<td>アイテムの持つ能力を完全に知る。</td>
+<td><em>Identifies</em> an item.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>石の壁</td>
+<td>Wall of Stone</td>
+<td>自分の周囲に花崗岩の壁を作る。</td>
+<td>Creates granite walls in all adjacent squares.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>腐食防止</td>
+<td>Protect from Corrosion</td>
+<td>アイテムを酸で傷つかないよう加工する。</td>
+<td>Makes a piece of equipment acid-proof.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[自然の脅威] / [Nature's Wrath]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>地震</td>
+<td>Earthquake</td>
+<td>周囲のダンジョンを揺らし、壁と床をランダムに入れ変える。</td>
+<td>Shakes dungeon structure, and results in random swapping of floors and walls.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>カマイタチ</td>
+<td>Whirlwind</td>
+<td>全方向に向かって攻撃する。</td>
+<td>Attacks all adjacent monsters.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>ブリザード</td>
+<td>Blizzard</td>
+<td>巨大な冷気の球を放つ。</td>
+<td>Fires a huge ball of cold.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>稲妻嵐</td>
+<td>Lightning Storm</td>
+<td>巨大な電撃の球を放つ。</td>
+<td>Fires a huge electric ball.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>渦潮</td>
+<td>Whirlpool</td>
+<td>巨大な水の球を放つ。</td>
+<td>Fires a huge ball of water.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>陽光召喚</td>
+<td>Call Sunlight</td>
+<td>自分を中心とした光の球を発生させる。さらに、その階全体を永久に照らし、ダンジョン内すべてのアイテムを感知する。</td>
+<td>Generates ball of light centered on you. Maps and lights whole dungeon level. Knows all objects location.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>精霊の刃</td>
+<td>Elemental Branding</td>
+<td>武器に炎か冷気の属性をつける。</td>
+<td>Brands current weapon with fire or frost.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>自然の脅威</td>
+<td>Nature's Wrath</td>
+<td>近くの全てのモンスターにダメージを与え、地震を起こし、自分を中心とした分解の球を発生させる。</td>
+<td>Damages all monsters in sight. Makes quake. Generates disintegration ball centered on you.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>カオス/Chaos</h2>
+<h3>[カオスの徴] / [Sign of Chaos]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>マジック・ミサイル</td>
+<td>Magic Missile</td>
+<td>弱い魔法の矢を放つ。</td>
+<td>Fires a weak bolt of magic.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>トラップ/ドア破壊</td>
+<td>Trap / Door Destruction</td>
+<td>隣接する罠と扉を破壊する。</td>
+<td>Destroys all doors and traps in adjacent squares.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>閃光</td>
+<td>Flash of Light</td>
+<td>光源が照らしている範囲か部屋全体を永久に明るくする。</td>
+<td>Lights up nearby area and the inside of a room permanently.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>混乱の手</td>
+<td>Touch of Confusion</td>
+<td>相手を混乱させる攻撃をできるようにする。</td>
+<td>Attempts to confuse the next monster that you hit.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>魔力炸裂</td>
+<td>Mana Burst</td>
+<td>魔法の球を放つ。</td>
+<td>Fires a ball of magic.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ファイア・ボルト</td>
+<td>Fire Bolt</td>
+<td>炎のボルトもしくはビームを放つ。</td>
+<td>Fires a bolt or beam of fire.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>力の拳</td>
+<td>Fist of Force</td>
+<td>ごく小さな分解の球を放つ。</td>
+<td>Fires a tiny ball of disintegration.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>テレポート</td>
+<td>Teleport Self</td>
+<td>遠距離のテレポートをする。</td>
+<td>Teleports you a long distance.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[カオス秘術] / [Chaos Mastery]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>ワンダー</td>
+<td>Wonder</td>
+<td>モンスターにランダムな効果を与える。</td>
+<td>Fires something with random effects.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>カオス・ボルト</td>
+<td>Chaos Bolt</td>
+<td>カオスのボルトもしくはビームを放つ。</td>
+<td>Fires a bolt or ball of chaos.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>ソニック・ブーム</td>
+<td>Sonic Boom</td>
+<td>自分を中心とした轟音の球を発生させる。</td>
+<td>Generates a ball of sound centered on you.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>破滅の矢</td>
+<td>Doom Bolt</td>
+<td>純粋な魔力のビームを放つ。</td>
+<td>Fires a beam of pure mana.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>ファイア・ボール</td>
+<td>Fire Ball</td>
+<td>炎の球を放つ。</td>
+<td>Fires a ball of fire.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>テレポート・アウェイ</td>
+<td>Teleport Other</td>
+<td>モンスターをテレポートさせるビームを放つ。抵抗されると無効。</td>
+<td>Teleports all monsters on the line away unless resisted.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>破壊の言葉</td>
+<td>Word of Destruction</td>
+<td>周辺のアイテム、モンスター、地形を破壊する。</td>
+<td>Destroys everything in nearby area.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>ログルス発動</td>
+<td>Invoke Logrus</td>
+<td>巨大なカオスの球を放つ。</td>
+<td>Fires a huge ball of chaos.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[カオス魔導] / [Chaos Channels]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>他者変容</td>
+<td>Polymorph Other</td>
+<td>モンスター1体を変身させる。抵抗されると無効。</td>
+<td>Attempts to polymorph a monster.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>連鎖稲妻</td>
+<td>Chain Lightning</td>
+<td>全方向に対して電撃のビームを放つ。</td>
+<td>Fires lightning beams in all directions.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>魔力封入</td>
+<td>Arcane Binding</td>
+<td>杖/魔法棒の充填回数を増やすか、充填中のロッドの充填時間を減らす。</td>
+<td>Recharges staffs, wands or rods.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>原子分解</td>
+<td>Disintegrate</td>
+<td>巨大な分解の球を放つ。</td>
+<td>Fires a huge ball of disintegration.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>現実変容</td>
+<td>Alter Reality</td>
+<td>現在の階を再構成する。</td>
+<td>Recreates current dungeon level.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>マジック・ロケット</td>
+<td>Magic Rocket</td>
+<td>ロケットを発射する。</td>
+<td>Fires a magic rocket.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>混沌の刃</td>
+<td>Chaos Branding</td>
+<td>武器にカオスの属性をつける。</td>
+<td>Makes current weapon a Chaotic weapon.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>悪魔召喚</td>
+<td>Summon Demon</td>
+<td>悪魔を1体召喚する。</td>
+<td>Summons a demon.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[ハルマゲドン大全] / [Armageddon Tome]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>重力光線</td>
+<td>Beam of Gravity</td>
+<td>重力のビームを放つ。</td>
+<td>Fires a beam of gravity.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>流星群</td>
+<td>Meteor Swarm</td>
+<td>自分の周辺に隕石を落とす。</td>
+<td>Causes meteorites to fall down on nearby random locations.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>焔の一撃</td>
+<td>Flame Strike</td>
+<td>自分を中心とした超巨大な炎の球を発生させる。</td>
+<td>Generates a huge ball of fire centered on you.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>混沌召来</td>
+<td>Call Chaos</td>
+<td>ランダムな属性の球やビームを発生させる。</td>
+<td>Generates random kinds of balls or beams.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>自己変容</td>
+<td>Polymorph Self</td>
+<td>自分を変身させようとする。</td>
+<td>Polymorphs yourself.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>魔力の嵐</td>
+<td>Mana Storm</td>
+<td>非常に強力で巨大な純粋な魔力の球を放つ。</td>
+<td>Fires an extremely powerful huge ball of pure mana.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>ログルスのブレス</td>
+<td>Breathe Logrus</td>
+<td>非常に強力なカオスの球を放つ。</td>
+<td>Fires an extremely powerful ball of chaos.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>虚無召来</td>
+<td>Call the Void</td>
+<td>自分の周囲に向かって、ロケット、純粋な魔力の球、放射性廃棄物の球を放つ。ただし、壁に隣接して使用すると広範囲を破壊する。</td>
+<td>Fires rockets, mana balls and nuclear waste balls in all directions if you are not adjacent to any walls. Otherwise <em>destroys</em> huge area.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>暗黒/Death</h2>
+<h3>[暗黒祈祷] / [Black Prayers]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>無生命感知</td>
+<td>Detect Unlife</td>
+<td>近くの生命のないモンスターを感知する。</td>
+<td>Detects all nonliving monsters in your vicinity.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>呪殺弾</td>
+<td>Malediction</td>
+<td>ごく小さな邪悪な力を持つボールを放つ。善良なモンスターには大きなダメージを与える。</td>
+<td>Fires a tiny ball of evil power which hurts good monsters greatly.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>邪悪感知</td>
+<td>Detect Evil</td>
+<td>近くの邪悪なモンスターを感知する。</td>
+<td>Detects all evil monsters in your vicinity.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>悪臭雲</td>
+<td>Stinking Cloud</td>
+<td>毒の球を放つ。</td>
+<td>Fires a ball of poison.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>黒い眠り</td>
+<td>Black Sleep</td>
+<td>1体のモンスターを眠らせる。抵抗されると無効。</td>
+<td>Attempts to put a monster to sleep.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>耐毒</td>
+<td>Resist Poison</td>
+<td>一定時間、毒への耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to poison. This resistance can be added to that from equipment for more powerful resistance.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>恐慌</td>
+<td>Horrify</td>
+<td>モンスター1体を恐怖させ、朦朧させる。抵抗されると無効。</td>
+<td>Attempts to scare and stun a monster.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>アンデッド従属</td>
+<td>Enslave Undead</td>
+<td>アンデッド1体を魅了する。抵抗されると無効。</td>
+<td>Attempts to charm an undead monster.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[暗黒大成] / [Black Mass]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>エントロピーの球</td>
+<td>Orb of Entropy</td>
+<td>生命のある者のHPと最大HP双方にダメージを与える効果のある球を放つ。</td>
+<td>Fires a ball which reduces both HP and MaxHP of living monsters.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>地獄の矢</td>
+<td>Nether Bolt</td>
+<td>地獄のボルトもしくはビームを放つ。</td>
+<td>Fires a bolt or beam of nether.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>殺戮雲</td>
+<td>Cloud kill</td>
+<td>自分を中心とした毒の球を発生させる。</td>
+<td>Generates a ball of poison centered on you.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>モンスター消滅</td>
+<td>Genocide One</td>
+<td>モンスター1体を消し去る。経験値やアイテムは手に入らない。抵抗されると無効。</td>
+<td>Attempts to eradicate one monster.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>毒の刃</td>
+<td>Poison Branding</td>
+<td>武器に毒の属性をつける。</td>
+<td>Makes current weapon poison branded.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>吸血の矢</td>
+<td>Vampiric Bolt</td>
+<td>ボルトによりモンスター1体から生命力を吸いとる。吸いとった生命力によって満腹度が上がる。</td>
+<td>Fires a bolt which transfers HP from a monster to you. You will also gain nutritional sustenance from this.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>反魂の術</td>
+<td>Animate dead</td>
+<td>周囲の死体や骨を生き返す。</td>
+<td>Resurrects nearby corpses and skeletons. And makes them your pets.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>抹殺</td>
+<td>Genocide</td>
+<td>指定した文字のモンスターを現在の階から消し去る。抵抗されると無効。</td>
+<td>Eliminates an entire class of monster, exhausting you. Powerful or unique monsters may resist.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[暗黒魔導] / [Black Channels]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>狂戦士化</td>
+<td>Berserk</td>
+<td>狂戦士化し、恐怖を除去する。</td>
+<td>Gives a bonus to hit and HP, immunity to fear for a while. But decreases AC.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>悪霊召喚</td>
+<td>Invoke Spirits</td>
+<td>ランダムで様々な効果が起こる。</td>
+<td>Causes random effects.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>暗黒の矢</td>
+<td>Dark Bolt</td>
+<td>暗黒のボルトもしくはビームを放つ。</td>
+<td>Fires a bolt or beam of darkness.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>狂乱戦士</td>
+<td>Battle Frenzy</td>
+<td>狂戦士化し、恐怖を除去し、加速する。</td>
+<td>Gives another bonus to hit and HP, immunity to fear for a while. Hastes you. But decreases AC.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>吸血の刃</td>
+<td>Vampiric Branding</td>
+<td>武器に吸血の属性をつける。</td>
+<td>Makes current weapon Vampiric.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>吸血の連矢</td>
+<td>Vampiric Bolts</td>
+<td>3連射のボルトによりモンスター1体から生命力を吸いとる。吸いとった生命力によって体力が回復する。</td>
+<td>Fires 3 bolts. Each of the bolts absorbs some HP from a monster and gives them to you.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>死の言魂</td>
+<td>Nether Wave</td>
+<td>視界内の生命のあるモンスターにダメージを与える。</td>
+<td>Damages all living monsters in sight.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>暗黒の嵐</td>
+<td>Darkness Storm</td>
+<td>巨大な暗黒の球を放つ。</td>
+<td>Fires a huge ball of darkness.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[ネクロノミコン] / [Necronomicon]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>死の光線</td>
+<td>Death Ray</td>
+<td>死の光線を放つ。</td>
+<td>Fires a beam of death.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>死者召喚</td>
+<td>Raise the Dead</td>
+<td>1体のアンデッドを召喚する。</td>
+<td>Summons an undead monster.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>死者の秘伝</td>
+<td>Secrets of the Dead</td>
+<td>アイテムを1つ識別する。レベルが高いとアイテムの能力を完全に知ることができる。</td>
+<td>Identifies or, at higher levels, <em>identifies</em> an item.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>吸血鬼変化</td>
+<td>Polymorph Vampire</td>
+<td>一定時間、吸血鬼に変化する。変化している間は本来の種族の能力を失い、代わりに吸血鬼としての能力を得る。</td>
+<td>Causes you to mimic a vampire for a while. You lose the abilities of your original race and get the abilities of a vampire for that time.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>経験値復活</td>
+<td>Restore Life</td>
+<td>失った経験値を回復する。</td>
+<td>Restores lost experience.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>周辺抹殺</td>
+<td>Mass Genocide</td>
+<td>自分の周囲にいるモンスターを現在の階から消し去る。抵抗されると無効。</td>
+<td>Eliminates all nearby monsters, exhausting you. Powerful or unique monsters may be able to resist.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>地獄の劫火</td>
+<td>Hellfire</td>
+<td>邪悪な力を持つ宝珠を放つ。善良なモンスターには大きなダメージを与える。</td>
+<td>Fires a powerful ball of evil power. Hurts good monsters greatly.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>幽体化</td>
+<td>Wraithform</td>
+<td>一定時間、壁を通り抜けることができ受けるダメージが軽減される幽体の状態に変身する。</td>
+<td>Causes you to be ghost-like for a while. That reduces the damage you take and allows you to pass through walls.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>トランプ/Trump</h2>
+<h3>[召喚と奇術] / [Conjurings &amp; Tricks]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>ショート・テレポート</td>
+<td>Phase Door</td>
+<td>近距離のテレポートをする。</td>
+<td>Teleports you a short distance.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>蜘蛛のカード</td>
+<td>Trump Spiders</td>
+<td>蜘蛛を召喚する。</td>
+<td>Summons spiders.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>シャッフル</td>
+<td>Shuffle</td>
+<td>カードの占いをする。</td>
+<td>Causes random effects.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>フロア・リセット</td>
+<td>Reset Recall</td>
+<td>最深階を変更する。</td>
+<td>Resets the 'deepest' level for recall spell.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>テレポート</td>
+<td>Teleport</td>
+<td>遠距離のテレポートをする。</td>
+<td>Teleports you a long distance.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>感知のカード</td>
+<td>Trump Spying</td>
+<td>一定時間、テレパシー能力を得る。</td>
+<td>Gives telepathy for a while.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>テレポート・モンスター</td>
+<td>Teleport Away</td>
+<td>モンスターをテレポートさせるビームを放つ。抵抗されると無効。</td>
+<td>Teleports all monsters on the line away unless resisted.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>動物のカード</td>
+<td>Trump Animals</td>
+<td>1体の動物を召喚する。</td>
+<td>Summons an animal.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[万物のデッキ] / [Deck of Many Things]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>移動のカード</td>
+<td>Trump Reach</td>
+<td>アイテムを自分の足元へ移動させる。</td>
+<td>Pulls a distant item close to you.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>カミカゼのカード</td>
+<td>Trump Kamikaze</td>
+<td>複数の爆発するモンスターを召喚する。</td>
+<td>Summons multiple exploding monsters.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>幻霊召喚</td>
+<td>Phantasmal Servant</td>
+<td>1体の幽霊を召喚する。</td>
+<td>Summons a ghost.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>スピード・モンスター</td>
+<td>Haste Monster</td>
+<td>モンスター1体を加速させる。</td>
+<td>Hastes a monster.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>テレポート・レベル</td>
+<td>Teleport Level</td>
+<td>瞬時に上か下の階にテレポートする。</td>
+<td>Instantly teleports you up or down a level.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>次元の扉</td>
+<td>Dimension Door</td>
+<td>短距離内の指定した場所にテレポートする。</td>
+<td>Teleports you to a given location.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>帰還の呪文</td>
+<td>Word of Recall</td>
+<td>地上にいるときはダンジョンの最深階へ、ダンジョンにいるときは地上へと移動する。</td>
+<td>Recalls player from dungeon to town or from town to the deepest level of dungeon.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>怪物追放</td>
+<td>Banish</td>
+<td>視界内の全てのモンスターをテレポートさせる。抵抗されると無効。</td>
+<td>Teleports all monsters in sight away unless resisted.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[運命の切札] / [Trumps of Doom]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>位置交換のカード</td>
+<td>Swap Position</td>
+<td>1体のモンスターと位置を交換する。</td>
+<td>Swap positions of you and a monster.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>アンデッドのカード</td>
+<td>Trump Undead</td>
+<td>1体のアンデッドを召喚する。</td>
+<td>Summons an undead monster.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>爬虫類のカード</td>
+<td>Trump Reptile</td>
+<td>1体のヒドラを召喚する。</td>
+<td>Summons a hydra.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>モンスターのカード</td>
+<td>Trump Monsters</td>
+<td>複数のモンスターを召喚する。</td>
+<td>Summons some monsters.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>ハウンドのカード</td>
+<td>Trump Hounds</td>
+<td>1グループのハウンドを召喚する。</td>
+<td>Summons a group of hounds.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>トランプの刃</td>
+<td>Trump Branding</td>
+<td>武器にトランプの属性をつける。</td>
+<td>Makes current weapon a Trump weapon.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>人間トランプ</td>
+<td>Living Trump</td>
+<td>ランダムにテレポートする突然変異か、自分の意思でテレポートする突然変異が身につく。</td>
+<td>Gives mutation which makes you teleport randomly or makes you able to teleport at will.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>サイバーデーモンのカード</td>
+<td>Trump Cyberdemon</td>
+<td>1体のサイバーデーモンを召喚する。</td>
+<td>Summons a cyber demon.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[ファイブ・エース] / [Five Aces]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>予見のカード</td>
+<td>Trump Divination</td>
+<td>近くの全てのモンスター、罠、扉、階段、財宝、そしてアイテムを感知する。</td>
+<td>Detects all monsters, traps, doors, stairs, treasures and items in your vicinity.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>知識のカード</td>
+<td>Trump Lore</td>
+<td>アイテムの持つ能力を完全に知る。</td>
+<td><em>Identifies</em> an item.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>回復モンスター</td>
+<td>Heal Monster</td>
+<td>モンスター1体の体力を回復させる。</td>
+<td>Heals a monster.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>ドラゴンのカード</td>
+<td>Trump Dragon</td>
+<td>1体のドラゴンを召喚する。</td>
+<td>Summons a dragon.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>隕石のカード</td>
+<td>Trump Meteor</td>
+<td>自分の周辺に隕石を落とす。</td>
+<td>Causes meteorites to fall down on nearby random locations.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>デーモンのカード</td>
+<td>Trump Demon</td>
+<td>1体の悪魔を召喚する。</td>
+<td>Summons a demon.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>地獄のカード</td>
+<td>Trump Greater Undead</td>
+<td>1体の上級アンデッドを召喚する。</td>
+<td>Summons a greater undead.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>古代ドラゴンのカード</td>
+<td>Trump Ancient Dragon</td>
+<td>1体の古代ドラゴンを召喚する。</td>
+<td>Summons an ancient dragon.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>秘術/Arcane</h2>
+<h3>[初心者教本] / [Cantrips for Beginners]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>電撃</td>
+<td>Zap</td>
+<td>電撃のボルトもしくはビームを放つ。</td>
+<td>Fires a bolt or beam of lightning.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>魔法の施錠</td>
+<td>Wizard Lock</td>
+<td>扉に鍵をかける。</td>
+<td>Locks a door.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>透明体感知</td>
+<td>Detect Invisibility</td>
+<td>近くの透明なモンスターを感知する。</td>
+<td>Detects all invisible monsters in your vicinity.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>モンスター感知</td>
+<td>Detect Monsters</td>
+<td>近くの全ての見えるモンスターを感知する。</td>
+<td>Detects all monsters in your vicinity unless invisible.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>ショート・テレポート</td>
+<td>Blink</td>
+<td>近距離のテレポートをする。</td>
+<td>Teleports you a short distance.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ライト・エリア</td>
+<td>Light Area</td>
+<td>光源が照らしている範囲か部屋全体を永久に明るくする。</td>
+<td>Lights up nearby area and the inside of a room permanently.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>罠と扉 破壊</td>
+<td>Trap &amp; Door Destruction</td>
+<td>一直線上の全ての罠と扉を破壊する。</td>
+<td>Fires a beam which destroys traps and doors.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>軽傷の治癒</td>
+<td>Cure Light Wounds</td>
+<td>怪我と体力を少し回復させる。</td>
+<td>Heals cuts and HP a little.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[小秘術] / [Minor Arcana]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>罠と扉 感知</td>
+<td>Detect Doors &amp; Traps</td>
+<td>近くの全ての罠と扉と階段を感知する。</td>
+<td>Detects traps, doors, and stairs in your vicinity.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>燃素</td>
+<td>Phlogiston</td>
+<td>光源に燃料を補給する。</td>
+<td>Adds more turns of light to a lantern or torch.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>財宝感知</td>
+<td>Detect Treasure</td>
+<td>近くの財宝を感知する。</td>
+<td>Detects all treasures in your vicinity.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>魔法 感知</td>
+<td>Detect Enchantment</td>
+<td>近くの魔法がかかったアイテムを感知する。</td>
+<td>Detects all magical items in your vicinity.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>アイテム感知</td>
+<td>Detect Objects</td>
+<td>近くの全てのアイテムを感知する。</td>
+<td>Detects all items in your vicinity.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>解毒</td>
+<td>Cure Poison</td>
+<td>毒を体内から完全に取り除く。</td>
+<td>Cures yourself of any poisons.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>耐冷</td>
+<td>Resist Cold</td>
+<td>一定時間、冷気への耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to cold. This resistance can be added to that from equipment for more powerful resistance.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>耐火</td>
+<td>Resist Fire</td>
+<td>一定時間、炎への耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to fire. This resistance can be added to that from equipment for more powerful resistance.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[大秘術] / [Major Arcana]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>耐電</td>
+<td>Resist Lightning</td>
+<td>一定時間、電撃への耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to electricity. This resistance can be added to that from equipment for more powerful resistance.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>耐酸</td>
+<td>Resist Acid</td>
+<td>一定時間、酸への耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to acid. This resistance can be added to that from equipment for more powerful resistance.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>重傷の治癒</td>
+<td>Cure Medium Wounds</td>
+<td>怪我と体力を中程度回復させる。</td>
+<td>Heals cuts and HP.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>テレポート</td>
+<td>Teleport</td>
+<td>遠距離のテレポートをする。</td>
+<td>Teleports you a long distance.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>鑑定</td>
+<td>Identify</td>
+<td>アイテムを識別する。</td>
+<td>Identifies an item.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>岩石溶解</td>
+<td>Stone to Mud</td>
+<td>壁を溶かして床にする。</td>
+<td>Turns one rock square to mud.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>閃光</td>
+<td>Ray of Light</td>
+<td>光線を放つ。光りを嫌うモンスターに効果がある。</td>
+<td>Fires a beam of light which damages to light-sensitive monsters.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>空腹充足</td>
+<td>Satisfy Hunger</td>
+<td>満腹にする。</td>
+<td>Satisfies hunger.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[秘術大全] / [Manual of Mastery]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>透明視認</td>
+<td>See Invisible</td>
+<td>一定時間、透明なものが見えるようになる。</td>
+<td>Gives see invisible for a while.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>エレメンタル召喚</td>
+<td>Conjure Elemental</td>
+<td>1体のエレメンタルを召喚する。</td>
+<td>Summons an elemental.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>テレポート・レベル</td>
+<td>Teleport Level</td>
+<td>瞬時に上か下の階にテレポートする。</td>
+<td>Instantly teleports you up or down a level.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>テレポート・モンスター</td>
+<td>Teleport Away</td>
+<td>モンスターをテレポートさせるビームを放つ。抵抗されると無効。</td>
+<td>Teleports all monsters on the line away unless resisted.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>元素の球</td>
+<td>Elemental Ball</td>
+<td>炎、電撃、冷気、酸のどれかの球を放つ。</td>
+<td>Fires a ball of some elements.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>全感知</td>
+<td>Detection</td>
+<td>近くの全てのモンスター、罠、扉、階段、財宝、そしてアイテムを感知する。</td>
+<td>Detects all monsters, traps, doors, stairs, treasures and items in your vicinity.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>帰還の呪文</td>
+<td>Word of Recall</td>
+<td>地上にいるときはダンジョンの最深階へ、ダンジョンにいるときは地上へと移動する。</td>
+<td>Recalls player from dungeon to town or from town to the deepest level of dungeon.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>千里眼</td>
+<td>Clairvoyance</td>
+<td>その階全体を永久に照らし、ダンジョン内すべてのアイテムを感知する。さらに、一定時間テレパシー能力を得る。</td>
+<td>Maps and lights whole dungeon level. Reveals locations of all objects. Gives telepathy for a while.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>匠/Craft</h2>
+<h3>[新弟子用教本] / [Handbook for Pupils]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>赤外線視力</td>
+<td>Infravision</td>
+<td>一定時間、赤外線視力が増強される。</td>
+<td>Gives infravision for a while.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>回復力強化</td>
+<td>Regeneration</td>
+<td>一定時間、回復力が増強される。</td>
+<td>Gives regeneration ability for a while.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>空腹充足</td>
+<td>Satisfy Hunger</td>
+<td>満腹になる。</td>
+<td>Satisfies hunger.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>耐冷気</td>
+<td>Resist Cold</td>
+<td>一定時間、冷気への耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to cold. This resistance can be added to that from equipment for more powerful resistance.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>耐火炎</td>
+<td>Resist Fire</td>
+<td>一定時間、炎への耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to fire. This resistance can be added to that from equipment for more powerful resistance.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>士気高揚</td>
+<td>Heroism</td>
+<td>一定時間、ヒーロー気分になる。</td>
+<td>Removes fear. Gives a bonus to hit for a while. Heals you for 10 HP.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>耐電撃</td>
+<td>Resist Lightning</td>
+<td>一定時間、電撃への耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to electricity. This resistance can be added to that from equipment for more powerful resistance.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>耐酸</td>
+<td>Resist Acid</td>
+<td>一定時間、酸への耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to acid. This resistance can be added to that from equipment for more powerful resistance.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[有段者への道] / [Grade Holder's Book]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>透明視認</td>
+<td>See Invisibility</td>
+<td>一定時間、透明なものが見えるようになる。</td>
+<td>Gives see invisible for a while.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>解呪</td>
+<td>Remove Curse</td>
+<td>アイテムにかかった弱い呪いを解除する。</td>
+<td>Removes normal curses from equipped items.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>耐毒</td>
+<td>Resist Poison</td>
+<td>一定時間、毒への耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to poison. This resistance can be added to that from equipment for more powerful resistance.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>狂戦士化</td>
+<td>Berserk</td>
+<td>狂戦士化し、恐怖を除去する。</td>
+<td>Gives a bonus to hit and HP, immunity to fear for a while. But decreases AC.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>自己分析</td>
+<td>Self Knowledge</td>
+<td>現在の自分の状態を完全に知る。</td>
+<td>Gives you useful info regarding your current resistances, the powers of your weapon and maximum limits of your stats.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>対邪悪結界</td>
+<td>Protection from Evil</td>
+<td>邪悪なモンスターの攻撃を防ぐバリアを張る。</td>
+<td>Gives aura which protect you from evil monsters' physical attack.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>癒し</td>
+<td>Cure</td>
+<td>毒、朦朧状態、負傷を全快させ、幻覚を直す。</td>
+<td>Completely heals poisons, cuts, hallucination and being stunned.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>魔法剣</td>
+<td>Mana Branding</td>
+<td>一定時間、武器に冷気、炎、電撃、酸、毒のいずれかの属性をつける。武器を持たないと使えない。</td>
+<td>Causes current weapon to temporarily do additional damage from cold, fire, lightning, acid or poison. You must be wielding one or more weapons.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[師範代の書] / [Note of Acting Master]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>テレパシー</td>
+<td>Telepathy</td>
+<td>一定時間、テレパシー能力を得る。</td>
+<td>Gives telepathy for a while.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>肌石化</td>
+<td>Stone Skin</td>
+<td>一定時間、ACを上昇させる。</td>
+<td>Gives a bonus to AC for a while.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>全耐性</td>
+<td>Resistance</td>
+<td>一定時間、酸、電撃、炎、冷気、毒に対する耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to fire, cold, electricity, acid and poison for a while. These resistances can be added to those from equipment for more powerful resistances.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>スピード</td>
+<td>Haste Self</td>
+<td>一定時間、加速する。</td>
+<td>Hastes you for a while.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>壁抜け</td>
+<td>Walk through Wall</td>
+<td>一定時間、半物質化し壁を通り抜けられるようになる。</td>
+<td>Gives ability to pass walls for a while.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>盾磨き</td>
+<td>Polish Shield</td>
+<td>盾に反射の属性をつける。</td>
+<td>Makes a shield a shield of reflection.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>ゴーレム製造</td>
+<td>Create Golem</td>
+<td>1体のゴーレムを製造する。</td>
+<td>Creates a golem.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>魔法の鎧</td>
+<td>Magical armor</td>
+<td>一定時間、魔法防御力とACが上がり、混乱と盲目の耐性、反射能力、麻痺知らず、浮遊を得る。</td>
+<td>Gives resistance to magic, bonus to AC, resistance to confusion, blindness, reflection, free action and levitation for a while.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[悟りの書] / [Spiritual Enlightenment]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>装備無力化</td>
+<td>Remove Enchantment</td>
+<td>武器・防具にかけられたあらゆる魔力を完全に解除する。</td>
+<td>Completely removes all magics from any weapon or armor.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>呪い粉砕</td>
+<td>Remove All Curse</td>
+<td>アイテムにかかった強力な呪いを解除する。</td>
+<td>Removes normal and heavy curses from equipped items.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>完全なる知識</td>
+<td>Knowledge True</td>
+<td>アイテムの持つ能力を完全に知る。</td>
+<td><em>Identifies</em> an item.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>武器強化</td>
+<td>Enchant Weapon</td>
+<td>武器の命中率修正とダメージ修正を強化する。</td>
+<td>Attempts to increase +to-hit, +to-dam of a weapon.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>防具強化</td>
+<td>Enchant Armor</td>
+<td>鎧の防御修正を強化する。</td>
+<td>Attempts to increase +AC of an armor.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>武器属性付与</td>
+<td>Brand Weapon</td>
+<td>武器にランダムに属性をつける。</td>
+<td>Makes current weapon a random ego weapon.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>人間トランプ</td>
+<td>Living Trump</td>
+<td>ランダムにテレポートする突然変異か、自分の意思でテレポートする突然変異が身につく。</td>
+<td>Gives mutation which makes you teleport randomly or makes you able to teleport at will.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>属性への免疫</td>
+<td>Immunity</td>
+<td>一定時間、冷気、炎、電撃、酸のいずれかに対する免疫を得る。</td>
+<td>Gives an immunity to fire, cold, electricity or acid for a while.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>悪魔/Daemon</h2>
+<h3>[闇夜の呪い] / [Dark Incantations]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>マジック・ミサイル</td>
+<td>Magic Missile</td>
+<td>弱い魔法の矢を放つ。</td>
+<td>Fires a weak bolt of magic.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>無生命感知</td>
+<td>Detect Unlife</td>
+<td>近くの生命のないモンスターを感知する。</td>
+<td>Detects all nonliving monsters in your vicinity.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>邪なる祝福</td>
+<td>Evil Bless</td>
+<td>一定時間、命中率とACにボーナスを得る。</td>
+<td>Gives a bonus to hit and AC for a few turns.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>耐火炎</td>
+<td>Resist Fire</td>
+<td>一定時間、炎への耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to fire, cold and electricity for a while. These resistances can be added to those from equipment for more powerful resistances.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>ファイア・ボルト</td>
+<td>Fire Bolt</td>
+<td>炎のボルトもしくはビームを放つ。</td>
+<td>Fires a bolt or beam of fire.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>古代の死霊召喚</td>
+<td>Summon Manes</td>
+<td>古代の死霊を召喚する。</td>
+<td>Summons one or more Manes.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>地獄球</td>
+<td>Nether Ball</td>
+<td>地獄の球を放つ。</td>
+<td>Fires a ball of nether.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>士気高揚</td>
+<td>Raise the Morale</td>
+<td>一定時間、ヒーロー気分になる。</td>
+<td>Removes fear. Gives a bonus to hit for a while. Heals you for 10 HP.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[不朽の儀式] / [Immortal Rituals]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>ビジョン</td>
+<td>Vision</td>
+<td>周辺の地形を感知する。</td>
+<td>Maps nearby area.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>耐地獄</td>
+<td>Resist Nether</td>
+<td>一定時間、地獄への耐性を得る。</td>
+<td>Gives resistance to nether for a while.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>プラズマ・ボルト</td>
+<td>Plasma bolt</td>
+<td>プラズマのボルトもしくはビームを放つ。</td>
+<td>Fires a bolt or beam of plasma.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>ファイア・ボール</td>
+<td>Fire Ball</td>
+<td>炎の球を放つ。</td>
+<td>Fires a ball of fire.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>炎の刃</td>
+<td>Fire Branding</td>
+<td>武器に炎の属性をつける。</td>
+<td>Makes current weapon fire branded.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>地獄の波動</td>
+<td>Nether Wave</td>
+<td>視界内の全てのモンスターにダメージを与える。善良なモンスターに特に大きなダメージを与える。</td>
+<td>Damages all monsters in sight. Hurts good monsters greatly.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>堕落</td>
+<td>Corrupt</td>
+<td>強力な深淵のボルトを放つ。</td>
+<td>Fires a powerful bolt of abyss.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>デーモン召喚</td>
+<td>Summon Demon</td>
+<td>悪魔1体を召喚する。</td>
+<td>Summons a demon.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[悪魔の叡知] / [Demonthoughts]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>悪魔の目</td>
+<td>Devilish Eye</td>
+<td>一定時間、テレパシー能力を得る。</td>
+<td>Gives telepathy for a while.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>悪魔のクローク</td>
+<td>Devil Cloak</td>
+<td>恐怖を取り除き、一定時間、炎と冷気の耐性、炎のオーラを得る。耐性は装備による耐性に累積する。</td>
+<td>Removes fear. Gives resistance to fire and cold, and aura of fire. These resistances can be added to those from equipment for more powerful resistances.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>溶岩流</td>
+<td>Lava Flow</td>
+<td>自分を中心とした炎の球を作り出し、床を溶岩に変える。</td>
+<td>Generates a ball of fire centered on you which transforms floors to magma.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>プラズマ球</td>
+<td>Plasma Ball</td>
+<td>プラズマの球を放つ。</td>
+<td>Fires a ball of plasma.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>悪魔変化</td>
+<td>Polymorph Demon</td>
+<td>一定時間、悪魔に変化する。変化している間は本来の種族の能力を失い、代わりに悪魔としての能力を得る。</td>
+<td>Causes you to mimic a demon for a while. You lose the abilities of your original race and get the abilities of a demon for that time.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>火炎破</td>
+<td>Fireblast</td>
+<td>大きな炎の球を放つ。</td>
+<td>Fires a huge ball of fire.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>サキュバスの接吻</td>
+<td>Succubus's Kiss</td>
+<td>因果混乱の球を放つ。</td>
+<td>Fires a ball of nexus.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>破滅の手</td>
+<td>Doom Hand</td>
+<td>破滅の手を放つ。食らったモンスターはそのときのHPの半分前後のダメージを受ける。</td>
+<td>Attempts to cut a monster's HP roughly in half.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[劫火の魔書] / [Hellfire Tome]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>不滅の肉体</td>
+<td>Immortal Body</td>
+<td>一定時間、時間逆転への耐性を得る。</td>
+<td>Gives resistance to time for a while.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>狂気の円環</td>
+<td>Insanity Circle</td>
+<td>自分を中心としたカオスの球、混乱の球を発生させ、近くのモンスターを魅了する。</td>
+<td>Generates balls of chaos, confusion and charm centered on you.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>ペット爆破</td>
+<td>Explode Pets</td>
+<td>全てのペットを強制的に爆破させる。</td>
+<td>Makes all pets explode.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>グレーターデーモン召喚</td>
+<td>Summon Greater Demon</td>
+<td>上級デーモンを召喚する。召喚するには人間('p','h','t'で表されるモンスター)の死体を捧げなければならない。</td>
+<td>Summons greater demon. Requires the sacrifice of a human corpse ('p', 'h' or 't').</td>
+</tr>
+<tr>
+<td>28</td>
+<td>炎の嵐</td>
+<td>Fire Storm</td>
+<td>超巨大な炎の球を放つ。</td>
+<td>Generates a huge ball of fire.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>地獄嵐</td>
+<td>Nether Storm</td>
+<td>超巨大な地獄の球を放つ。</td>
+<td>Generates a huge ball of nether.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>深淵招来</td>
+<td>Call the Abyss</td>
+<td>非常に強力な極小の深淵の球を放つ。</td>
+<td>Fires an extremely powerful tiny ball of abyss.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>魔王変化</td>
+<td>Polymorph Demonlord</td>
+<td>悪魔の王に変化する。変化している間は本来の種族の能力を失い、代わりに悪魔の王としての能力を得、壁を破壊しながら歩く。</td>
+<td>Causes you to mimic a demon lord for a while. You lose the abilities of your original race and get the great abilities of a demon lord for that time. Even hard walls can't stop your walking.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>破邪/Crusade</h2>
+<h3>[徒弟読本] / [Rites of Initiation]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>光のしずく</td>
+<td>Drip of Light</td>
+<td>閃光のボルトもしくはビームを放つ。</td>
+<td>Fires a bolt or beam of light.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>邪悪存在感知</td>
+<td>Detect Evil</td>
+<td>近くの邪悪なモンスターを感知する。</td>
+<td>Detects all evil monsters in your vicinity.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>開かれた道</td>
+<td>Unbarring Ways</td>
+<td>一直線上の全ての罠と扉を破壊する。</td>
+<td>Fires a beam which destroys traps and doors.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>耐光耐暗</td>
+<td>Resist Lite and Dark</td>
+<td>一定時間、閃光と暗黒に対する耐性を得る。</td>
+<td>Gives resistance to lite and darkness for a while.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>懲罰</td>
+<td>Punishment</td>
+<td>電撃のボルトもしくはビームを放つ。</td>
+<td>Fires a bolt or beam of lightning.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>入口</td>
+<td>Portal</td>
+<td>中距離のテレポートをする。</td>
+<td>Teleports you a medium distance.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>身体浄化</td>
+<td>Purify</td>
+<td>傷、毒、朦朧から全快する。</td>
+<td>Heals all cuts, poisons and being stunned.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>解呪</td>
+<td>Remove Curse</td>
+<td>アイテムにかかった弱い呪いを解除する。</td>
+<td>Removes normal curses from equipped items.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[戦術指南] / [Ways of War]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>士気高揚</td>
+<td>Heroism</td>
+<td>一定時間、ヒーロー気分になる。</td>
+<td>Removes fear. Gives a bonus to hit for a while. Heals you for 10 HP.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>邪悪飛ばし</td>
+<td>Scatter Evil</td>
+<td>邪悪なモンスター1体をテレポートさせる。抵抗されると無効。</td>
+<td>Attempts to teleport an evil monster away.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>聖なる光球</td>
+<td>Holy Orb</td>
+<td>聖なる力をもつ宝珠を放つ。邪悪なモンスターに対して大きなダメージを与えるが、善良なモンスターには効果がない。</td>
+<td>Fires a ball with holy power. Hurts evil monsters greatly but doesn't affect good monsters.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>啓明</td>
+<td>Revelation</td>
+<td>一定時間、光源範囲を増やす。</td>
+<td>Lights up the area more.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>対邪悪結界</td>
+<td>Protection from Evil</td>
+<td>邪悪なモンスターの攻撃を防ぐバリアを張る。</td>
+<td>Gives aura which protects you from evil monsters' physical attack.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>呪い退散</td>
+<td>Dispel Curse</td>
+<td>アイテムにかかった強力な呪いを解除する。</td>
+<td>Removes normal and heavy curses from equipped items.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>太陽の槍</td>
+<td>Sunlance</td>
+<td>強力な閃光のボルトを放つ。</td>
+<td>Fires a powerful bolt of light.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>聖なる御言葉</td>
+<td>Holy Word</td>
+<td>視界内の邪悪な存在に大きなダメージを与え、体力を回復し、毒、恐怖、朦朧状態、負傷から全快する。</td>
+<td>Damages all evil monsters in sight, heals HP somewhat and completely cures fear, poisons, cuts and being stunned.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[退魔払邪] / [Exorcism and Dispelling]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>聖なるオーラ</td>
+<td>Holy Aura</td>
+<td>一定時間、邪悪なモンスターを傷つける聖なるオーラを得る。</td>
+<td>Gives a temporary aura of holy power that injures evil monsters which attack you.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>悪魔祓い</td>
+<td>Exorcism</td>
+<td>攻撃したアンデッド及び悪魔に驚異的な力を発揮する。</td>
+<td>Deals powerful damage to undead and demons, while draining their HP.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>聖なる刃</td>
+<td>Holy Blade</td>
+<td>通常の武器に滅邪の属性をつける。</td>
+<td>Makes current weapon especially deadly against evil monsters.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>熾天使の抱擁</td>
+<td>Seraph's Embrace</td>
+<td>一定時間、天使に変化する。変化している間は本来の種族の能力を失い、代わりに天使としての能力を得る。</td>
+<td>Causes you to mimic an angel for a while. You lose the abilities of your original race and get the abilities of an angel for that time.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>裁きの雷</td>
+<td>Judgment Thunder</td>
+<td>大きな雷の球を放つ。</td>
+<td>Fires a huge ball of lightning.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>太陽降下</td>
+<td>Sunfall</td>
+<td>巨大な閃光の球を放つ。</td>
+<td>Fires a huge ball of powerful light.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>魔力消去</td>
+<td>Dispel Magic</td>
+<td>モンスターにかかっている魔法を打ち消す。</td>
+<td>Dispels magic affecting target monster.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>天使召喚</td>
+<td>Summon Angel</td>
+<td>天使を1体召喚する。</td>
+<td>Summons an angel.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[天神怒罰] / [Wrath of God]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>邪悪追放</td>
+<td>Banish Evil</td>
+<td>視界内の全ての邪悪なモンスターをテレポートさせる。抵抗されると無効。</td>
+<td>Teleports all evil monsters in sight away unless resisted.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>ハルマゲドン</td>
+<td>Armageddon</td>
+<td>周辺のアイテム、モンスター、地形を破壊する。</td>
+<td>Destroys everything in nearby area.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>目には目を</td>
+<td>An Eye for an Eye</td>
+<td>一定時間、自分がダメージを受けたときに攻撃を行ったモンスターに対して同等のダメージを与える。</td>
+<td>Gives special aura for a while. When you are attacked by a monster, the monster is injured with same amount of damage as you took.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>黒の防御円</td>
+<td>Circle of Protection Black</td>
+<td>一定時間、暗黒に対する免疫を得る。</td>
+<td>Gives an immunity to darkness for a while.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>神の怒り</td>
+<td>Wrath of the God</td>
+<td>超巨大な分解の球を放つ。</td>
+<td>Fires a huge ball of disintegration.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>神雷</td>
+<td>Divine Thunder</td>
+<td>超巨大な雷の球を放つ。</td>
+<td>Generates a huge ball of lightning.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>神威</td>
+<td>Divine Intervention</td>
+<td>隣接するモンスターに聖なるダメージを与え、視界内のモンスターにダメージ、減速、朦朧、混乱、恐怖、眠りを与える。さらに体力を回復する。</td>
+<td>Damages all adjacent monsters with holy power. Damages and attempt to slow, stun, confuse, scare and freeze all monsters in sight. And heals HP.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>神性変異</td>
+<td>Divine Transformation</td>
+<td>半神に変化する。変化している間は本来の種族の能力を失い、代わりに半神としての能力を得る。</td>
+<td>Causes you to mimic a demigod for a while. You lose the abilities of your original race and get the abilities of a demigod for that time.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>歌/Music</h2>
+<h3>[見習い教本] / [Apprentice Handbook]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>遅鈍の歌</td>
+<td>Song of Holding</td>
+<td>視界内の全てのモンスターを減速させる。抵抗されると無効。</td>
+<td>Attempts to slow all monsters in sight.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>祝福の歌</td>
+<td>Song of Blessing</td>
+<td>命中率とACのボーナスを得る。</td>
+<td>Gives a bonus to hit and AC for a few turns.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>崩壊の音色</td>
+<td>Wrecking Note</td>
+<td>轟音のボルトを放つ。</td>
+<td>Fires a bolt of sound.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>朦朧の旋律</td>
+<td>Stun Pattern</td>
+<td>視界内の全てのモンスターを朦朧させる。抵抗されると無効。</td>
+<td>Attempts to stun all monsters in sight.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>生命の流れ</td>
+<td>Flow of Life</td>
+<td>体力を少し回復させる。</td>
+<td>Heals HP a little.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>太陽の歌</td>
+<td>Song of the Sun</td>
+<td>光源が照らしている範囲か部屋全体を永久に明るくする。</td>
+<td>Lights up nearby area and the inside of a room permanently.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>恐怖の歌</td>
+<td>Song of Fear</td>
+<td>視界内の全てのモンスターを恐怖させる。抵抗されると無効。</td>
+<td>Attempts to scare all monsters in sight.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>戦いの歌</td>
+<td>Heroic Ballad</td>
+<td>ヒーロー気分になる。</td>
+<td>Removes fear. Gives a bonus to hit for a while. Heals you for 10 HP.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[詩人楽曲集] / [Minstrel's Music]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>霊的知覚</td>
+<td>Clairaudience</td>
+<td>近くの罠/扉/階段を感知する。レベル15で全てのモンスター、20で財宝とアイテムを感知できるようになる。レベル25で周辺の地形を感知し、40でその階全体を永久に照らし、ダンジョン内のすべてのアイテムを感知する。この効果は歌い続けることで順に起こる。</td>
+<td>Detects traps, doors and stairs in your vicinity. And detects all monsters at level 15, treasures and items at level 20. Maps nearby area at level 25. Lights and know the whole level at level 40. These effects accumulate as the song continues.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>魂の歌</td>
+<td>Soul Shriek</td>
+<td>視界内の全てのモンスターに対して精神攻撃を行う。</td>
+<td>Damages all monsters in sight with PSI damages.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>知識の歌</td>
+<td>Song of Lore</td>
+<td>自分のいるマスと隣りのマスに落ちているアイテムを鑑定する。</td>
+<td>Identifies all items which are in the adjacent squares.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>隠遁の歌</td>
+<td>Hiding Tune</td>
+<td>隠密行動能力を上昇させる。</td>
+<td>Gives improved stealth.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>幻影の旋律</td>
+<td>Illusion Pattern</td>
+<td>視界内の全てのモンスターを混乱させる。抵抗されると無効。</td>
+<td>Attempts to confuse all monsters in sight.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>破滅の叫び</td>
+<td>Doomcall</td>
+<td>視界内の全てのモンスターに対して轟音攻撃を行う。</td>
+<td>Damages all monsters in sight with booming sound.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>フィリエルの歌</td>
+<td>Firiel's Song</td>
+<td>周囲の死体や骨を生き返す。</td>
+<td>Resurrects nearby corpses and skeletons. And makes them your pets.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>旅の仲間</td>
+<td>Fellowship Chant</td>
+<td>視界内の全てのモンスターを魅了する。抵抗されると無効。</td>
+<td>Attempts to charm all monsters in sight.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[リヴェンデルの竪琴] / [Harps of Rivendell]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>フルゥの行進曲</td>
+<td>Hru's March</td>
+<td>壁を掘り進む。自分の足元のアイテムは蒸発する。</td>
+<td>Makes you be able to burrow into walls. Objects under your feet evaporate.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>フィンロドの護り</td>
+<td>Finrod's Resistance</td>
+<td>酸、電撃、炎、冷気、毒に対する耐性を得る。装備による耐性に累積する。</td>
+<td>Gives resistance to fire, cold, electricity, acid and poison. These resistances can be added to those from equipment for more powerful resistances.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>ホビットのメロディ</td>
+<td>Hobbit Melodies</td>
+<td>加速する。</td>
+<td>Hastes you.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>歪んだ世界</td>
+<td>World Contortion</td>
+<td>近くのモンスターをテレポートさせる。抵抗されると無効。</td>
+<td>Teleports all nearby monsters away unless resisted.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>退散の歌</td>
+<td>Dispelling Chant</td>
+<td>視界内の全てのモンスターにダメージを与える。邪悪なモンスターに特に大きなダメージを与える。</td>
+<td>Damages all monsters in sight. Hurts evil monsters greatly.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>サルマンの甘言</td>
+<td>The Voice of Saruman</td>
+<td>視界内の全てのモンスターを減速させ、眠らせようとする。抵抗されると無効。</td>
+<td>Attempts to slow and put to sleep all monsters in sight.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>嵐の音色</td>
+<td>Song of the Tempest</td>
+<td>轟音のビームを放つ。</td>
+<td>Fires a beam of sound.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>もう一つの世界</td>
+<td>Ambarkanta</td>
+<td>現在の階を再構成する。</td>
+<td>Recreates current dungeon level.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[ベレリアンドの詩] / [Lays of Beleriand]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>破壊の旋律</td>
+<td>Wrecking Pattern</td>
+<td>周囲のダンジョンを揺らし、壁と床をランダムに入れ変える。</td>
+<td>Shakes dungeon structure, and results in random swapping of floors and walls.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>停滞の歌</td>
+<td>Stationary Shriek</td>
+<td>視界内の全てのモンスターを麻痺させようとする。抵抗されると無効。</td>
+<td>Attempts to freeze all monsters in sight.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>エルベレスの聖歌</td>
+<td>Elbereth's Chant</td>
+<td>自分のいる床の上に、モンスターが通り抜けたり召喚されたりすることができなくなるルーンを描く。</td>
+<td>Sets a rune on the floor beneath you. If you are on a rune, monsters cannot attack you but can try to break the rune.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>英雄の詩</td>
+<td>The Hero's Poem</td>
+<td>加速し、ヒーロー気分になり、視界内の全てのモンスターにダメージを与える。</td>
+<td>Hastes you. Gives heroism. Damages all monsters in sight.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>ヤヴァンナの助け</td>
+<td>Relief of Yavanna</td>
+<td>強力な回復の歌で、負傷と朦朧状態も全快する。</td>
+<td>Powerful healing song. Also completely heals cuts and being stunned.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>再生の歌</td>
+<td>Goddess's rebirth</td>
+<td>すべてのステータスと経験値を回復する。</td>
+<td>Restores all stats and experience.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>サウロンの魔術</td>
+<td>Wizardry of Sauron</td>
+<td>非常に強力でごく小さい轟音の球を放つ。</td>
+<td>Fires an extremely powerful tiny ball of sound.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>フィンゴルフィンの挑戦</td>
+<td>Fingolfin's Challenge</td>
+<td>ダメージを受けなくなるバリアを張る。</td>
+<td>Generates a barrier which completely protects you from almost all damage.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>武芸/Kendo (Hissatsu)</h2>
+<h3>[武芸諸譜] / [Bugei Shofu]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>飛飯綱</td>
+<td>Tobi-Izuna</td>
+<td>2マス離れたところにいるモンスターを攻撃する。</td>
+<td>Attacks a monster two squares away.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>五月雨斬り</td>
+<td>3-Way Attack</td>
+<td>3方向に対して攻撃する。</td>
+<td>Attacks in 3 directions at one time.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ブーメラン</td>
+<td>Boomerang</td>
+<td>武器を手元に戻ってくるように投げる。戻ってこないこともある。</td>
+<td>Throws current weapon. It'll return to your hand unless the action failed.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>焔霊</td>
+<td>Burning Strike</td>
+<td>火炎耐性のないモンスターに大ダメージを与える。</td>
+<td>Attacks a monster with more damage unless it has resistance to fire.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>殺気感知</td>
+<td>Detect Ferocity</td>
+<td>近くの思考することができるモンスターを感知する。</td>
+<td>Detects all monsters except the mindless in your vicinity.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>みね打ち</td>
+<td>Strike to Stun</td>
+<td>相手にダメージを与えないが、朦朧とさせる。</td>
+<td>Attempts to stun a monster next to you.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>カウンター</td>
+<td>Counter</td>
+<td>相手に攻撃されたときに反撃する。反撃するたびにMPを消費。</td>
+<td>Prepares to counterattack. When attacked by a monster, strikes back using SP each time.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>払い抜け</td>
+<td>Harainuke</td>
+<td>攻撃した後、反対側に抜ける。</td>
+<td>In one action, attacks a monster with your weapons normally and then moves to the space beyond the monster if that space is not blocked.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[柳生武芸帳] / [Yagyuu Bugeichou]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>サーペンツタン</td>
+<td>Serpent's Tongue</td>
+<td>毒耐性のないモンスターに大ダメージを与える。</td>
+<td>Attacks a monster with more damage unless it has resistance to poison.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>斬魔剣弐の太刀</td>
+<td>Zammaken</td>
+<td>生命のない邪悪なモンスターに大ダメージを与えるが、他のモンスターには全く効果がない。</td>
+<td>Attacks an evil unliving monster with great damage. Has no effect on other monsters.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>裂風剣</td>
+<td>Wind Blast</td>
+<td>攻撃した相手を後方へ吹き飛ばす。</td>
+<td>Attacks an adjacent monster and blows it away.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>刀匠の目利き</td>
+<td>Judge</td>
+<td>武器・防具を1つ識別する。レベル45以上で武器・防具の能力を完全に知ることができる。</td>
+<td>Identifies a weapon or armor. <em>Identifies</em> the item at level 45.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>破岩斬</td>
+<td>Rock Smash</td>
+<td>岩を壊し、岩石系のモンスターに大ダメージを与える。</td>
+<td>Breaks rock or greatly damages a monster made of rocks.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>乱れ雪月花</td>
+<td>Midare-Setsugekka</td>
+<td>攻撃回数が増え、冷気耐性のないモンスターに大ダメージを与える。</td>
+<td>Attacks a monster with an increased number of attacks and more damage unless it has resistance to cold.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>急所突き</td>
+<td>Spot Aiming</td>
+<td>モンスターを一撃で倒す攻撃を繰り出す。失敗すると1点しかダメージを与えられない。</td>
+<td>Attempts to kill a monster instantly. If that fails, causes only 1HP of damage.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>魔神斬り</td>
+<td>Majingiri</td>
+<td>会心の一撃で攻撃する。攻撃がかわされやすい。</td>
+<td>Attempts to attack with a critical hit, but this attack is easy to evade for a monster.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[五輪書] / [Gorinnosho]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>捨て身</td>
+<td>Desperate Attack</td>
+<td>強力な攻撃を繰り出す。次のターンまでの間、食らうダメージが増える。</td>
+<td>Attacks with all of your power, but all damage you take will be doubled for one turn.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>雷撃鷲爪斬</td>
+<td>Lightning Eagle</td>
+<td>電撃耐性のないモンスターに非常に大きいダメージを与える。</td>
+<td>Attacks a monster with more damage unless it has resistance to electricity.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>入身</td>
+<td>Rush Attack</td>
+<td>素早く相手に近寄り攻撃する。</td>
+<td>Steps close to a monster and attacks at the same time.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>赤流渦</td>
+<td>Bloody Maelstrom</td>
+<td>自分自身も傷を作りつつ、その傷が深いほど大きい威力で全方向の敵を攻撃できる。生きていないモンスターには効果がない。</td>
+<td>Attacks all adjacent monsters with power corresponding to your cuts. Then increases your cuts. Has no effect on unliving monsters.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>激震撃</td>
+<td>Earthquake Blow</td>
+<td>地震を起こす。</td>
+<td>Shakes dungeon structure, and results in random swapping of floors and walls.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>地走り</td>
+<td>Crack</td>
+<td>衝撃波のビームを放つ。</td>
+<td>Fires a shock wave as a beam.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>気迫の雄叫び</td>
+<td>War Cry</td>
+<td>視界内の全モンスターに対して轟音の攻撃を行う。さらに、近くにいるモンスターを怒らせる。</td>
+<td>Damages all monsters in sight with sound. Aggravates nearby monsters.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>無双三段</td>
+<td>Musou-Sandan</td>
+<td>強力な3段攻撃を繰り出す。</td>
+<td>Attacks with three powerful strikes.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[北辰一刀流皆伝] / [Hokusin Ittouryuu Kaiden]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>吸血鬼の牙</td>
+<td>Vampire's Fang</td>
+<td>攻撃した相手の体力を吸いとり、自分の体力を回復させる。生命を持たないモンスターには通じない。</td>
+<td>Attacks with vampiric strikes which absorb HP from a monster and heal you. Has no effect on unliving monsters.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>幻惑</td>
+<td>Moon Dazzling</td>
+<td>視界内の起きている全モンスターに朦朧、混乱、眠りを与えようとする。</td>
+<td>Attempts to stun, confuse and put to sleep all waking monsters.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>百人斬り</td>
+<td>Hundred Slaughter</td>
+<td>連続して入身でモンスターを攻撃する。攻撃するたびにMPを消費。MPがなくなるか、モンスターを倒せなかったら百人斬りは終了する。</td>
+<td>Performs a series of rush attacks. The series continues as long as the attacked monster dies and you have sufficient SP.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>天翔龍閃</td>
+<td>Dragonic Flash</td>
+<td>視界内の場所を指定して、その場所と自分の間にいる全モンスターを攻撃し、その場所に移動する。</td>
+<td>Runs toward given location while attacking all monsters on the path.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>二重の剣撃</td>
+<td>Twin Slash</td>
+<td>1ターンで2度攻撃を行う。</td>
+<td>Attack twice in one turn.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>虎伏絶刀勢</td>
+<td>Kofuku-Zettousei</td>
+<td>強力な攻撃を行い、近くの場所にも効果が及ぶ。</td>
+<td>Performs a powerful attack which even affects nearby monsters.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>慶雲鬼忍剣</td>
+<td>Keiun-Kininken</td>
+<td>自分もダメージをくらうが、相手に非常に大きなダメージを与える。アンデッドには特に効果がある。</td>
+<td>Attacks a monster with extremely powerful damage, but you also take some damage. Hurts an undead monster greatly.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>切腹</td>
+<td>Harakiri</td>
+<td>「武士道とは、死ぬことと見つけたり。」</td>
+<td>'Bushido, the way of warriors, is found in death'</td>
+</tr>
+</tbody>
+</table></div>
+<h2>呪術/Hex</h2>
+<h3>[呪術入門] / [Handbook of Hex]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>邪なる祝福</td>
+<td>Evily blessing</td>
+<td>祝福により攻撃精度と防御力が上がる。</td>
+<td>Attempts to increase +to_hit of a weapon and AC</td>
+</tr>
+<tr>
+<td>1</td>
+<td>軽傷の治癒</td>
+<td>Cure light wounds</td>
+<td>HPや傷を少し回復させる。</td>
+<td>Heals cuts and HP a little.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>悪魔のオーラ</td>
+<td>Demonic aura</td>
+<td>炎のオーラを身にまとい、回復速度が速くなる。</td>
+<td>Gives fire aura and regeneration.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>悪臭霧</td>
+<td>Stinking mist</td>
+<td>視界内のモンスターに微弱量の毒のダメージを与える。</td>
+<td>Deals a little poison damage to all monsters in your sight.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>腕力強化</td>
+<td>Extra might</td>
+<td>術者の腕力を上昇させる。</td>
+<td>Attempts to increase your strength.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>武器呪縛</td>
+<td>Curse weapon</td>
+<td>装備している武器を呪う。</td>
+<td>Curses your weapon.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>邪悪感知</td>
+<td>Evil detection</td>
+<td>周囲の邪悪なモンスターを感知する。</td>
+<td>Detects evil monsters.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>我慢</td>
+<td>Patience</td>
+<td>数ターン攻撃を耐えた後、受けたダメージを地獄の業火として周囲に放出する。</td>
+<td>Bursts hell fire strongly after enduring damage for a few turns.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[上級呪法] / [High Curse]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>氷の鎧</td>
+<td>Armor of ice</td>
+<td>氷のオーラを身にまとい、防御力が上昇する。</td>
+<td>Surrounds you with an icy aura and gives a bonus to AC.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>重傷の治癒</td>
+<td>Cure serious wounds</td>
+<td>体力や傷を多少回復させる。</td>
+<td>Heals cuts and HP.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>薬品吸入</td>
+<td>Inhale potion</td>
+<td>呪文詠唱を中止することなく、薬の効果を得ることができる。</td>
+<td>Quaffs a potion without canceling spell casting.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>衰弱の霧</td>
+<td>Hypodynamic mist</td>
+<td>視界内のモンスターに微弱量の衰弱属性のダメージを与える。</td>
+<td>Deals a little life-draining damage to all monsters in your sight.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>魔剣化</td>
+<td>Swords to runeswords</td>
+<td>武器の攻撃力を上げる。切れ味を得、呪いに応じて与えるダメージが上昇し、善良なモンスターに対するダメージが2倍になる。</td>
+<td>Gives vorpal ability to your weapon. Increases damage from your weapon acccording to curse of your weapon.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>混乱の手</td>
+<td>Touch of confusion</td>
+<td>攻撃した際モンスターを混乱させる。</td>
+<td>Confuses a monster when you attack.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>肉体強化</td>
+<td>Building up</td>
+<td>術者の腕力、器用さ、耐久力を上昇させる。攻撃回数の上限を 1 増加させる。</td>
+<td>Attempts to increases your strength, dexterity and constitusion.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>反テレポート結界</td>
+<td>Anti teleport barrier</td>
+<td>視界内のモンスターのテレポートを阻害するバリアを張る。</td>
+<td>Obstructs all teleportations by monsters in your sight.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[怨恨呪縛] / [Curse and Spelling]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>衝撃のクローク</td>
+<td>Cloak of shock</td>
+<td>電気のオーラを身にまとい、動きが速くなる。</td>
+<td>Gives lightning aura and a bonus to speed.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>致命傷の治癒</td>
+<td>Cure critical wounds</td>
+<td>体力や傷を回復させる。</td>
+<td>Heals cuts and HP greatly.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>呪力封入</td>
+<td>Recharging</td>
+<td>魔法の道具に魔力を再充填する。</td>
+<td>Recharges a magic device.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>死者復活</td>
+<td>Animate Dead</td>
+<td>死体を蘇らせてペットにする。</td>
+<td>Raises corpses and skeletons from dead.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>防具呪縛</td>
+<td>Curse armor</td>
+<td>装備している防具に呪いをかける。</td>
+<td>Curse a piece of armour that you are wielding.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>影のクローク</td>
+<td>Cloak of shadow</td>
+<td>影のオーラを身にまとい、敵に影のダメージを与える。</td>
+<td>Gives aura of shadow.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>苦痛を魔力に</td>
+<td>Pain to mana</td>
+<td>視界内のモンスターに精神ダメージ与え、魔力を吸い取る。</td>
+<td>Deals psychic damage to all monsters in sight and drains some mana.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>目には目を</td>
+<td>Eye for an eye</td>
+<td>打撃や魔法で受けたダメージを、攻撃元のモンスターにも与える。</td>
+<td>Returns same damage which you got to the monster which damaged you.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>[禁呪法大全] / [Forbidden Cursebook]</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>番号 / ID</th>
+<th>呪文名 / Spell (JA)</th>
+<th>Spell (EN)</th>
+<th>効果 / Effect (JA)</th>
+<th>Effect (EN)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>反増殖結界</td>
+<td>Anti multiply barrier</td>
+<td>その階の増殖するモンスターの増殖を阻止する。</td>
+<td>Obstructs all multiplying by monsters on entire floor.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>全復活</td>
+<td>Restoration</td>
+<td>経験値を徐々に復活し、減少した能力値を回復させる。</td>
+<td>Restores experience and status.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>呪力吸収</td>
+<td>Drain curse power</td>
+<td>呪われた装備品の呪いを吸収して魔力を回復する。</td>
+<td>Drains curse on your equipment and heals SP a little.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>吸血の刃</td>
+<td>Swords to vampires</td>
+<td>吸血属性で攻撃する。</td>
+<td>Gives vampiric ability to your weapon.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>朦朧の言葉</td>
+<td>Word of stun</td>
+<td>視界内のモンスターを朦朧とさせる。</td>
+<td>Stuns all monsters in your sight.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>影移動</td>
+<td>Moving into shadow</td>
+<td>モンスターの隣のマスに瞬間移動する。</td>
+<td>Teleports you close to a monster.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>反魔法結界</td>
+<td>Anti magic barrier</td>
+<td>視界内のモンスターの魔法を阻害するバリアを張る。</td>
+<td>Obstructs all magic spells of monsters in your sight.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>復讐の宣告</td>
+<td>Revenge sentence</td>
+<td>数ターン後にそれまで受けたダメージに応じた威力の地獄の劫火の弾を放つ。</td>
+<td>Fires a ball of hell fire to try avenging damage from a few turns.</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<h3>凡例 / Legend</h3>
+<details>
+<summary>魔法領域 / Magic Realm (13)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LIFE</code></td>
+<td>生命</td>
+<td>Life</td>
+</tr>
+<tr>
+<td><code>SORCERY</code></td>
+<td>仙術</td>
+<td>Sorcery</td>
+</tr>
+<tr>
+<td><code>NATURE</code></td>
+<td>自然</td>
+<td>Nature</td>
+</tr>
+<tr>
+<td><code>CHAOS</code></td>
+<td>カオス</td>
+<td>Chaos</td>
+</tr>
+<tr>
+<td><code>DEATH</code></td>
+<td>暗黒</td>
+<td>Death</td>
+</tr>
+<tr>
+<td><code>TRUMP</code></td>
+<td>トランプ</td>
+<td>Trump</td>
+</tr>
+<tr>
+<td><code>ARCANE</code></td>
+<td>秘術</td>
+<td>Arcane</td>
+</tr>
+<tr>
+<td><code>CRAFT</code></td>
+<td>匠</td>
+<td>Craft</td>
+</tr>
+<tr>
+<td><code>DEMON</code></td>
+<td>悪魔</td>
+<td>Daemon</td>
+</tr>
+<tr>
+<td><code>CRUSADE</code></td>
+<td>破邪</td>
+<td>Crusade</td>
+</tr>
+<tr>
+<td><code>MUSIC</code></td>
+<td>歌</td>
+<td>Music</td>
+</tr>
+<tr>
+<td><code>HISSATSU</code></td>
+<td>武芸</td>
+<td>Kendo (Hissatsu)</td>
+</tr>
+<tr>
+<td><code>HEX</code></td>
+<td>呪術</td>
+<td>Hex</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<hr>
+<blockquote>
+<p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
+This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
+生成 / Generated: 2026-07-04 00:01 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

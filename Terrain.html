@@ -1,0 +1,3283 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>地形一覧 / Terrain List · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+</aside><main class="content"><h1>地形一覧 / Terrain List</h1>
+<p><strong>地形定義 (Terrain)</strong> は、ダンジョン・広域マップ・街を構成するすべてのマス目の種類を定義します。床・壁・鉱脈・扉・階段・トラップ・水/溶岩/毒沼などの液体、店舗・施設の入口、パターン、クエストの出入口といった全 190 種類の地形が含まれます。各地形は表示シンボル（文字・色・点灯状態）と、視界・射線の通し方、移動・飛行・水泳の可否、破壊・掘削・解除の対象になるか、といった多数の<strong>特性フラグ</strong>を持ちます。<code>interactions</code>（体当たり・解除・破壊などの行動後に変化する先の地形）や、トラップ種別・店舗/施設種別・扉/坑道の頑丈さ（power）などの付随情報も定義されます。</p>
+<p><strong>Terrain definitions</strong> describe every kind of grid that makes up the dungeon, wilderness, and towns. All 190 features are listed here: floors, walls, mineral veins, doors, staircases, traps, liquids (water, lava, poison/acid/cold puddles), shop and building entrances, the Pattern, and quest entrances/exits. Each terrain carries a display <strong>symbol</strong> (character, color, lit state) plus a set of <strong>characteristic flags</strong> that govern line-of-sight, projection, whether you can walk/fly/swim over it, and whether it can be bashed, tunneled, disarmed, or disintegrated. Supporting data includes <code>interactions</code> (what a grid turns into after actions such as bashing, disarming, or being destroyed) and details like trap type, shop/building type, and the toughness (power) of doors and veins.</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>ID / ID</th>
+<th>記号 / Sym</th>
+<th>名称 / Name</th>
+<th>キー / Key</th>
+<th>色 / Color</th>
+<th>点灯 / Lit</th>
+<th>表示優先 / Map Pri.</th>
+<th>擬態先 / Mimic</th>
+<th>特性フラグ / Flags</th>
+<th>種別/威力 / Type / Power</th>
+<th>行動後の変化 / Interactions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><img src="images/glyph-white-32.svg" width="32" height="46" alt=" " title="  · White"></td>
+<td>未知の地形<br>unknown grid</td>
+<td>NONE</td>
+<td>白/White</td>
+<td></td>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td><img src="images/glyph-white-46.svg" width="32" height="46" alt="." title=". · White"></td>
+<td>床<br>open floor</td>
+<td>FLOOR</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 床である, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td><img src="images/glyph-white-46.svg" width="32" height="46" alt="." title=". · White"></td>
+<td>隠れたトラップ<br>invisible trap</td>
+<td>INVIS</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td>FLOOR</td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 隠し扉/罠が潜む, トラップがある, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td></td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>隠し状態(擬態元)/Secret (hidden form) → INVIS</td>
+</tr>
+<tr>
+<td>3</td>
+<td><img src="images/glyph-yellow-59.svg" width="32" height="46" alt=";" title="; · Yellow"></td>
+<td>守りのルーン<br>rune of protection</td>
+<td>RUNE_PROTECTION</td>
+<td>黄/Yellow</td>
+<td>○</td>
+<td>16</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 守りのルーン, 飛行で通過可, 分解属性の対象</td>
+<td></td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>4</td>
+<td><img src="images/glyph-light-brown-39.svg" width="32" height="46" alt="'" title="' · Light Brown"></td>
+<td>開いたドア<br>open door</td>
+<td>OPEN_DOOR</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 閉じるコマンド対象, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>door pow 0</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>閉じた後/After closing → CLOSED_DOOR</td>
+</tr>
+<tr>
+<td>5</td>
+<td><img src="images/glyph-brown-39.svg" width="32" height="46" alt="'" title="' · Brown"></td>
+<td>壊れたドア<br>broken door</td>
+<td>BROKEN_DOOR</td>
+<td>茶/Brown (Umber)</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 走行時に足を止める対象, 常に記憶される, 閉じるコマンド対象, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>door pow 0</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>6</td>
+<td><img src="images/glyph-white-60.svg" width="32" height="46" alt="&lt;" title="&lt; · White"></td>
+<td>上り階段<br>up staircase</td>
+<td>UP_STAIR</td>
+<td>白/White</td>
+<td>○</td>
+<td>35</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 階段がある, 上りに通じる, 破壊不能の永久地形, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td>坑道化時/As a shaft → SHAFT_UP</td>
+</tr>
+<tr>
+<td>7</td>
+<td><img src="images/glyph-white-62.svg" width="32" height="46" alt="&gt;" title="&gt; · White"></td>
+<td>下り階段<br>down staircase</td>
+<td>DOWN_STAIR</td>
+<td>白/White</td>
+<td>○</td>
+<td>35</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 階段がある, 下りに通じる, 破壊不能の永久地形, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td>坑道化時/As a shaft → SHAFT_DOWN</td>
+</tr>
+<tr>
+<td>8</td>
+<td><img src="images/glyph-yellow-62.svg" width="32" height="46" alt="&gt;" title="&gt; · Yellow"></td>
+<td>クエスト入口<br>quest entrance</td>
+<td>QUEST_ENTER</td>
+<td>黄/Yellow</td>
+<td></td>
+<td>35</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 階段がある, 下りに通じる, 破壊不能の永久地形, 飛行で通過可, 特別な地形, クエストの入口, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td><img src="images/glyph-yellow-60.svg" width="32" height="46" alt="&lt;" title="&lt; · Yellow"></td>
+<td>クエスト出口<br>quest exit</td>
+<td>QUEST_EXIT</td>
+<td>黄/Yellow</td>
+<td></td>
+<td>35</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 階段がある, 上りに通じる, 破壊不能の永久地形, 飛行で通過可, 特別な地形, クエストの出口, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td><img src="images/glyph-red-62.svg" width="32" height="46" alt="&gt;" title="&gt; · Red"></td>
+<td>クエスト下り階段<br>quest down level</td>
+<td>QUEST_DOWN</td>
+<td>赤/Red</td>
+<td></td>
+<td>35</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 階段がある, 下りに通じる, 破壊不能の永久地形, 飛行で通過可, 特別な地形, クエスト関連, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td><img src="images/glyph-red-60.svg" width="32" height="46" alt="&lt;" title="&lt; · Red"></td>
+<td>クエスト上がり階段<br>quest up level</td>
+<td>QUEST_UP</td>
+<td>赤/Red</td>
+<td></td>
+<td>35</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 階段がある, 上りに通じる, 破壊不能の永久地形, 飛行で通過可, 特別な地形, クエスト関連, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td><img src="images/glyph-green-62.svg" width="32" height="46" alt="&gt;" title="&gt; · Green"></td>
+<td>街の出口<br>town exit</td>
+<td>TOWN_EXIT</td>
+<td>緑/Green</td>
+<td></td>
+<td>35</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 階段がある, 下りに通じる, 破壊不能の永久地形, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td><img src="images/glyph-light-brown-60.svg" width="32" height="46" alt="&lt;" title="&lt; · Light Brown"></td>
+<td>上り坑道<br>shaft up</td>
+<td>SHAFT_UP</td>
+<td>明るい茶/Light Brown</td>
+<td>○</td>
+<td>35</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 階段がある, 上りに通じる, 破壊不能の永久地形, 飛行で通過可, 坑道(2階層移動), テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td><img src="images/glyph-light-brown-62.svg" width="32" height="46" alt="&gt;" title="&gt; · Light Brown"></td>
+<td>下り坑道<br>shaft down</td>
+<td>SHAFT_DOWN</td>
+<td>明るい茶/Light Brown</td>
+<td>○</td>
+<td>35</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 階段がある, 下りに通じる, 破壊不能の永久地形, 飛行で通過可, 坑道(2階層移動), テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td><img src="images/glyph-white-94.svg" width="32" height="46" alt="^" title="^ · White"></td>
+<td>トラップ・ドア<br>trap door</td>
+<td>TRAP_TRAPDOOR</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 下りに通じる, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 落とし戸/Trap door (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>17</td>
+<td><img src="images/glyph-gray-94.svg" width="32" height="46" alt="^" title="^ · Gray"></td>
+<td>落とし穴<br>pit</td>
+<td>TRAP_PIT</td>
+<td>灰色/Gray (Slate)</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 落とし穴/Pit (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>18</td>
+<td><img src="images/glyph-gray-94.svg" width="32" height="46" alt="^" title="^ · Gray"></td>
+<td>落とし穴<br>pit</td>
+<td>TRAP_SPIKED_PIT</td>
+<td>灰色/Gray (Slate)</td>
+<td>○</td>
+<td>2</td>
+<td>TRAP_PIT</td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: スパイクの落とし穴/Spiked pit (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>19</td>
+<td><img src="images/glyph-gray-94.svg" width="32" height="46" alt="^" title="^ · Gray"></td>
+<td>落とし穴<br>pit</td>
+<td>TRAP_POISON_PIT</td>
+<td>灰色/Gray (Slate)</td>
+<td>○</td>
+<td>2</td>
+<td>TRAP_PIT</td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 毒針の落とし穴/Poison pit (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>20</td>
+<td><img src="images/glyph-light-green-94.svg" width="32" height="46" alt="^" title="^ · Light Green"></td>
+<td>邪悪なルーン<br>evil rune</td>
+<td>TRAP_TY_CURSE</td>
+<td>明るい緑/Light Green</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: テレポート・レベルの呪い(TYの呪い)/Ty curse (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>罠発動後/After trap triggers → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>21</td>
+<td><img src="images/glyph-orange-94.svg" width="32" height="46" alt="^" title="^ · Orange"></td>
+<td>奇妙なルーン<br>strange rune</td>
+<td>TRAP_TELEPORT</td>
+<td>オレンジ/Orange</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: テレポート/Teleport (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>22</td>
+<td><img src="images/glyph-brown-94.svg" width="32" height="46" alt="^" title="^ · Brown"></td>
+<td>焦げた場所<br>discolored spot</td>
+<td>TRAP_FIRE</td>
+<td>茶/Brown (Umber)</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 火炎/Fire (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>23</td>
+<td><img src="images/glyph-brown-94.svg" width="32" height="46" alt="^" title="^ · Brown"></td>
+<td>焦げた場所<br>discolored spot</td>
+<td>TRAP_ACID</td>
+<td>茶/Brown (Umber)</td>
+<td>○</td>
+<td>2</td>
+<td>TRAP_FIRE</td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 酸/Acid (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>24</td>
+<td><img src="images/glyph-red-94.svg" width="32" height="46" alt="^" title="^ · Red"></td>
+<td>ダーツ・トラップ<br>dart trap</td>
+<td>TRAP_SLOW</td>
+<td>赤/Red</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 減速(ダーツ)/Slow (dart) (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>25</td>
+<td><img src="images/glyph-red-94.svg" width="32" height="46" alt="^" title="^ · Red"></td>
+<td>ダーツ・トラップ<br>dart trap</td>
+<td>TRAP_LOSE_STR</td>
+<td>赤/Red</td>
+<td>○</td>
+<td>2</td>
+<td>TRAP_SLOW</td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 腕力減少(ダーツ)/Lose STR (dart) (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>26</td>
+<td><img src="images/glyph-red-94.svg" width="32" height="46" alt="^" title="^ · Red"></td>
+<td>ダーツ・トラップ<br>dart trap</td>
+<td>TRAP_LOSE_DEX</td>
+<td>赤/Red</td>
+<td>○</td>
+<td>2</td>
+<td>TRAP_SLOW</td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 器用さ減少(ダーツ)/Lose DEX (dart) (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>27</td>
+<td><img src="images/glyph-red-94.svg" width="32" height="46" alt="^" title="^ · Red"></td>
+<td>ダーツ・トラップ<br>dart trap</td>
+<td>TRAP_LOSE_CON</td>
+<td>赤/Red</td>
+<td>○</td>
+<td>2</td>
+<td>TRAP_SLOW</td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 耐久力減少(ダーツ)/Lose CON (dart) (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>28</td>
+<td><img src="images/glyph-green-94.svg" width="32" height="46" alt="^" title="^ · Green"></td>
+<td>ガス・トラップ<br>gas trap</td>
+<td>TRAP_BLIND</td>
+<td>緑/Green</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 盲目ガス/Blind (gas) (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>29</td>
+<td><img src="images/glyph-green-94.svg" width="32" height="46" alt="^" title="^ · Green"></td>
+<td>ガス・トラップ<br>gas trap</td>
+<td>TRAP_CONFUSE</td>
+<td>緑/Green</td>
+<td>○</td>
+<td>2</td>
+<td>TRAP_BLIND</td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 混乱ガス/Confuse (gas) (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>30</td>
+<td><img src="images/glyph-green-94.svg" width="32" height="46" alt="^" title="^ · Green"></td>
+<td>ガス・トラップ<br>gas trap</td>
+<td>TRAP_POISON</td>
+<td>緑/Green</td>
+<td>○</td>
+<td>2</td>
+<td>TRAP_BLIND</td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 毒ガス/Poison (gas) (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>31</td>
+<td><img src="images/glyph-green-94.svg" width="32" height="46" alt="^" title="^ · Green"></td>
+<td>ガス・トラップ<br>gas trap</td>
+<td>TRAP_SLEEP</td>
+<td>緑/Green</td>
+<td>○</td>
+<td>2</td>
+<td>TRAP_BLIND</td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 睡眠ガス/Sleep (gas) (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>32</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>ドア<br>door</td>
+<td>CLOSED_DOOR</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 0<br>tunnel pow 0</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_1</td>
+</tr>
+<tr>
+<td>33</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>鍵のかかったドア<br>locked door</td>
+<td>LOCKED_DOOR_1</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 1<br>tunnel pow 1</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_2<br>解除後/After disarming → CLOSED_DOOR</td>
+</tr>
+<tr>
+<td>34</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>鍵のかかったドア<br>locked door</td>
+<td>LOCKED_DOOR_2</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 2<br>tunnel pow 2</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_3<br>解除後/After disarming → CLOSED_DOOR</td>
+</tr>
+<tr>
+<td>35</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>鍵のかかったドア<br>locked door</td>
+<td>LOCKED_DOOR_3</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 3<br>tunnel pow 3</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_4<br>解除後/After disarming → CLOSED_DOOR</td>
+</tr>
+<tr>
+<td>36</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>鍵のかかったドア<br>locked door</td>
+<td>LOCKED_DOOR_4</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 4<br>tunnel pow 4</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_5<br>解除後/After disarming → CLOSED_DOOR</td>
+</tr>
+<tr>
+<td>37</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>鍵のかかったドア<br>locked door</td>
+<td>LOCKED_DOOR_5</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 5<br>tunnel pow 5</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_6<br>解除後/After disarming → CLOSED_DOOR</td>
+</tr>
+<tr>
+<td>38</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>鍵のかかったドア<br>locked door</td>
+<td>LOCKED_DOOR_6</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 6<br>tunnel pow 6</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_7<br>解除後/After disarming → CLOSED_DOOR</td>
+</tr>
+<tr>
+<td>39</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>鍵のかかったドア<br>locked door</td>
+<td>LOCKED_DOOR_7</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 7<br>tunnel pow 7</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_7<br>解除後/After disarming → CLOSED_DOOR</td>
+</tr>
+<tr>
+<td>40</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>くさびが打たれたドア<br>jammed door</td>
+<td>JAMMED_DOOR_0</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 0<br>tunnel pow 0</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_1</td>
+</tr>
+<tr>
+<td>41</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>くさびが打たれたドア<br>jammed door</td>
+<td>JAMMED_DOOR_1</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 1<br>tunnel pow 1</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_2</td>
+</tr>
+<tr>
+<td>42</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>くさびが打たれたドア<br>jammed door</td>
+<td>JAMMED_DOOR_2</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 2<br>tunnel pow 2</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_3</td>
+</tr>
+<tr>
+<td>43</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>くさびが打たれたドア<br>jammed door</td>
+<td>JAMMED_DOOR_3</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 3<br>tunnel pow 3</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_4</td>
+</tr>
+<tr>
+<td>44</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>くさびが打たれたドア<br>jammed door</td>
+<td>JAMMED_DOOR_4</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 4<br>tunnel pow 4</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_5</td>
+</tr>
+<tr>
+<td>45</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>くさびが打たれたドア<br>jammed door</td>
+<td>JAMMED_DOOR_5</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 5<br>tunnel pow 5</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_6</td>
+</tr>
+<tr>
+<td>46</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>くさびが打たれたドア<br>jammed door</td>
+<td>JAMMED_DOOR_6</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 6<br>tunnel pow 6</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR<br>くさびを打った後/After spiking → JAMMED_DOOR_7</td>
+</tr>
+<tr>
+<td>47</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>くさびが打たれたドア<br>jammed door</td>
+<td>JAMMED_DOOR_7</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_DOOR</td>
+<td>走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 7<br>tunnel pow 7</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR</td>
+</tr>
+<tr>
+<td>48</td>
+<td><img src="images/glyph-white-35.svg" width="32" height="46" alt="#" title="# · White"></td>
+<td>隠しドア<br>secret door</td>
+<td>SECRET_DOOR</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>GRANITE</td>
+<td>隠し扉/罠が潜む, 走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>door pow 0<br>tunnel pow 0</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>隠し状態(擬態元)/Secret (hidden form) → CLOSED_DOOR<br>開けた後/After opening → OPEN_DOOR<br>体当たり後/After bashing → BROKEN_DOOR</td>
+</tr>
+<tr>
+<td>49</td>
+<td><img src="images/glyph-white-58.svg" width="32" height="46" alt=":" title=": · White"></td>
+<td>岩石<br>pile of rubble</td>
+<td>RUBBLE</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, アイテムを含む, 岩石溶解の対象, 通過可能, 掘削コマンド対象, 分解属性の対象</td>
+<td>tunnel pow 10</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>50</td>
+<td><img src="images/glyph-gray-37.svg" width="32" height="46" alt="%" title="% · Gray"></td>
+<td>溶岩の鉱脈<br>magma vein</td>
+<td>MAGMA_VEIN</td>
+<td>灰色/Gray (Slate)</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 10</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>財宝を含む可能性/May contain gold → MAGMA_TREASURE</td>
+</tr>
+<tr>
+<td>51</td>
+<td><img src="images/glyph-white-37.svg" width="32" height="46" alt="%" title="% · White"></td>
+<td>石英の鉱脈<br>quartz vein</td>
+<td>QUARTZ_VEIN</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 20</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>財宝を含む可能性/May contain gold → QUARTZ_TREASURE</td>
+</tr>
+<tr>
+<td>52</td>
+<td><img src="images/glyph-gray-37.svg" width="32" height="46" alt="%" title="% · Gray"></td>
+<td>溶岩の鉱脈(隠された財宝を含有)<br>magma vein with hidden treasure</td>
+<td>MAGMA_HIDDEN</td>
+<td>灰色/Gray (Slate)</td>
+<td>○</td>
+<td>2</td>
+<td>MAGMA_VEIN</td>
+<td>隠し扉/罠が潜む, 常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 10</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>落とす財宝(ダイス)/Gold dropped (dice) → 1d1<br>隠し状態(擬態元)/Secret (hidden form) → MAGMA_TREASURE</td>
+</tr>
+<tr>
+<td>53</td>
+<td><img src="images/glyph-white-37.svg" width="32" height="46" alt="%" title="% · White"></td>
+<td>石英の鉱脈(隠された財宝を含有)<br>quartz vein hidden treasure</td>
+<td>QUARTZ_HIDDEN</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td>QUARTZ_VEIN</td>
+<td>隠し扉/罠が潜む, 常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 20</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>落とす財宝(ダイス)/Gold dropped (dice) → 1d1<br>隠し状態(擬態元)/Secret (hidden form) → QUARTZ_TREASURE</td>
+</tr>
+<tr>
+<td>54</td>
+<td><img src="images/glyph-orange-42.svg" width="32" height="46" alt="*" title="* · Orange"></td>
+<td>財宝を含有した溶岩の鉱脈<br>magma vein with treasure</td>
+<td>MAGMA_TREASURE</td>
+<td>オレンジ/Orange</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 20</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>落とす財宝(ダイス)/Gold dropped (dice) → 1d1<br>隠された時/When re-hidden → MAGMA_HIDDEN</td>
+</tr>
+<tr>
+<td>55</td>
+<td><img src="images/glyph-orange-42.svg" width="32" height="46" alt="*" title="* · Orange"></td>
+<td>財宝を含有した石英の鉱脈<br>quartz vein with treasure</td>
+<td>QUARTZ_TREASURE</td>
+<td>オレンジ/Orange</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 20</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>落とす財宝(ダイス)/Gold dropped (dice) → 1d1<br>隠された時/When re-hidden → QUARTZ_HIDDEN</td>
+</tr>
+<tr>
+<td>56</td>
+<td><img src="images/glyph-white-35.svg" width="32" height="46" alt="#" title="# · White"></td>
+<td>花崗岩の壁<br>granite wall</td>
+<td>GRANITE</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 40</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>57</td>
+<td><img src="images/glyph-white-35.svg" width="32" height="46" alt="#" title="# · White"></td>
+<td>花崗岩の壁<br>granite wall</td>
+<td>GRANITE_INNER</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td>GRANITE</td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 40</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>58</td>
+<td><img src="images/glyph-white-35.svg" width="32" height="46" alt="#" title="# · White"></td>
+<td>花崗岩の壁<br>granite wall</td>
+<td>GRANITE_OUTER</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td>GRANITE</td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 40</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>59</td>
+<td><img src="images/glyph-white-35.svg" width="32" height="46" alt="#" title="# · White"></td>
+<td>花崗岩の壁<br>granite wall</td>
+<td>GRANITE_SOLID</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td>GRANITE</td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 40</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>60</td>
+<td><img src="images/glyph-light-brown-35.svg" width="32" height="46" alt="#" title="# · Light Brown"></td>
+<td>永久岩の壁<br>permanent wall</td>
+<td>PERMANENT</td>
+<td>明るい茶/Light Brown</td>
+<td>○</td>
+<td>5</td>
+<td></td>
+<td>常に記憶される, 壁である, 破壊不能の永久地形</td>
+<td>tunnel pow 0</td>
+<td>永久解除時/When made non-permanent → GRANITE</td>
+</tr>
+<tr>
+<td>61</td>
+<td><img src="images/glyph-light-brown-35.svg" width="32" height="46" alt="#" title="# · Light Brown"></td>
+<td>永久岩の壁<br>permanent wall</td>
+<td>PERMANENT_INNER</td>
+<td>明るい茶/Light Brown</td>
+<td>○</td>
+<td>5</td>
+<td>PERMANENT</td>
+<td>常に記憶される, 壁である, 破壊不能の永久地形</td>
+<td>tunnel pow 0</td>
+<td>永久解除時/When made non-permanent → GRANITE</td>
+</tr>
+<tr>
+<td>62</td>
+<td><img src="images/glyph-light-brown-35.svg" width="32" height="46" alt="#" title="# · Light Brown"></td>
+<td>永久岩の壁<br>permanent wall</td>
+<td>PERMANENT_OUTER</td>
+<td>明るい茶/Light Brown</td>
+<td>○</td>
+<td>5</td>
+<td>PERMANENT</td>
+<td>常に記憶される, 壁である, 破壊不能の永久地形</td>
+<td>tunnel pow 0</td>
+<td>永久解除時/When made non-permanent → GRANITE</td>
+</tr>
+<tr>
+<td>63</td>
+<td><img src="images/glyph-light-brown-35.svg" width="32" height="46" alt="#" title="# · Light Brown"></td>
+<td>永久岩の壁<br>permanent wall</td>
+<td>PERMANENT_SOLID</td>
+<td>明るい茶/Light Brown</td>
+<td>○</td>
+<td>5</td>
+<td>PERMANENT</td>
+<td>常に記憶される, 壁である, 破壊不能の永久地形</td>
+<td>tunnel pow 0</td>
+<td>永久解除時/When made non-permanent → GRANITE</td>
+</tr>
+<tr>
+<td>64</td>
+<td><img src="images/glyph-light-red-59.svg" width="32" height="46" alt=";" title="; · Light Red"></td>
+<td>爆発ルーン<br>rune of explosion</td>
+<td>RUNE_EXPLOSION</td>
+<td>明るい赤/Light Red</td>
+<td>○</td>
+<td>16</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 飛行で通過可, 爆発のルーン, 分解属性の対象</td>
+<td></td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>65</td>
+<td><img src="images/glyph-white-42.svg" width="32" height="46" alt="*" title="* · White"></td>
+<td>パターン出発点<br>Pattern startpoint</td>
+<td>PATTERN_START</td>
+<td>白/White</td>
+<td></td>
+<td>16</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 飛行で通過可</td>
+<td>pattern: パターンの開始/Pattern start</td>
+<td></td>
+</tr>
+<tr>
+<td>66</td>
+<td><img src="images/glyph-light-blue-42.svg" width="32" height="46" alt="*" title="* · Light Blue"></td>
+<td>パターンの一部<br>section of the Pattern</td>
+<td>PATTERN_1</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>16</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 飛行で通過可</td>
+<td>pattern: パターン第1区画/Pattern tile 1</td>
+<td></td>
+</tr>
+<tr>
+<td>67</td>
+<td><img src="images/glyph-blue-42.svg" width="32" height="46" alt="*" title="* · Blue"></td>
+<td>パターンの一部<br>section of the Pattern</td>
+<td>PATTERN_2</td>
+<td>青/Blue</td>
+<td></td>
+<td>16</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 飛行で通過可</td>
+<td>pattern: パターン第2区画/Pattern tile 2</td>
+<td></td>
+</tr>
+<tr>
+<td>68</td>
+<td><img src="images/glyph-light-blue-42.svg" width="32" height="46" alt="*" title="* · Light Blue"></td>
+<td>パターンの一部<br>section of the Pattern</td>
+<td>PATTERN_3</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>16</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 飛行で通過可</td>
+<td>pattern: パターン第3区画/Pattern tile 3</td>
+<td></td>
+</tr>
+<tr>
+<td>69</td>
+<td><img src="images/glyph-blue-42.svg" width="32" height="46" alt="*" title="* · Blue"></td>
+<td>パターンの一部<br>section of the Pattern</td>
+<td>PATTERN_4</td>
+<td>青/Blue</td>
+<td></td>
+<td>16</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 飛行で通過可</td>
+<td>pattern: パターン第4区画/Pattern tile 4</td>
+<td></td>
+</tr>
+<tr>
+<td>70</td>
+<td><img src="images/glyph-light-gray-42.svg" width="32" height="46" alt="*" title="* · Light Gray"></td>
+<td>パターンの一部<br>section of the Pattern</td>
+<td>PATTERN_END</td>
+<td>明るい灰色/Light Gray</td>
+<td></td>
+<td>16</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 飛行で通過可</td>
+<td>pattern: パターンの終点/Pattern end</td>
+<td></td>
+</tr>
+<tr>
+<td>71</td>
+<td><img src="images/glyph-light-gray-42.svg" width="32" height="46" alt="*" title="* · Light Gray"></td>
+<td>パターンの一部(discharged)<br>section of the Pattern (discharged)</td>
+<td>PATTERN_OLD</td>
+<td>明るい灰色/Light Gray</td>
+<td></td>
+<td>16</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 飛行で通過可</td>
+<td>pattern: 古いパターン/Old pattern</td>
+<td></td>
+</tr>
+<tr>
+<td>72</td>
+<td><img src="images/glyph-white-42.svg" width="32" height="46" alt="*" title="* · White"></td>
+<td>パターン出口<br>Pattern exit</td>
+<td>PATTERN_EXIT</td>
+<td>白/White</td>
+<td></td>
+<td>16</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 飛行で通過可</td>
+<td>pattern: パターン・テレポート/Pattern teleport</td>
+<td></td>
+</tr>
+<tr>
+<td>73</td>
+<td><img src="images/glyph-dark-gray-42.svg" width="32" height="46" alt="*" title="* · Dark Gray"></td>
+<td>壊れたパターンの一部<br>corrupted section of the Pattern</td>
+<td>PATTERN_CORRUPTED</td>
+<td>暗い灰色/Dark Gray</td>
+<td></td>
+<td>16</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 飛行で通過可</td>
+<td>pattern: 壊れたパターン/Wrecked pattern</td>
+<td></td>
+</tr>
+<tr>
+<td>74</td>
+<td><img src="images/glyph-light-brown-49.svg" width="32" height="46" alt="1" title="1 · Light Brown"></td>
+<td>雑貨屋<br>General Store</td>
+<td>GENERAL_STORE</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>store: 雑貨屋/General Store<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>75</td>
+<td><img src="images/glyph-gray-50.svg" width="32" height="46" alt="2" title="2 · Gray"></td>
+<td>防具屋<br>Armoury</td>
+<td>ARMOURY</td>
+<td>灰色/Gray (Slate)</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>store: 防具屋/Armoury<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>76</td>
+<td><img src="images/glyph-white-51.svg" width="32" height="46" alt="3" title="3 · White"></td>
+<td>武器専門店<br>Weaponsmith's Shop</td>
+<td>WEAPON_SMITHS</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>store: 武器専門店/Weaponsmith<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>77</td>
+<td><img src="images/glyph-green-52.svg" width="32" height="46" alt="4" title="4 · Green"></td>
+<td>寺院<br>Temple</td>
+<td>TEMPLE</td>
+<td>緑/Green</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>store: 寺院/Temple<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>78</td>
+<td><img src="images/glyph-blue-53.svg" width="32" height="46" alt="5" title="5 · Blue"></td>
+<td>錬金術の店<br>Alchemy Shop</td>
+<td>ALCHEMY_SHOP</td>
+<td>青/Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>store: 錬金術の店/Alchemist<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>79</td>
+<td><img src="images/glyph-red-54.svg" width="32" height="46" alt="6" title="6 · Red"></td>
+<td>魔法の店<br>Magic Shop</td>
+<td>MAGIC_SHOP</td>
+<td>赤/Red</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>store: 魔法の店/Magic Shop<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>80</td>
+<td><img src="images/glyph-dark-gray-55.svg" width="32" height="46" alt="7" title="7 · Dark Gray"></td>
+<td>ブラック・マーケット<br>Black Market</td>
+<td>BLACK_MARKET</td>
+<td>暗い灰色/Dark Gray</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>store: ブラックマーケット/Black Market<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>81</td>
+<td><img src="images/glyph-yellow-56.svg" width="32" height="46" alt="8" title="8 · Yellow"></td>
+<td>我が家<br>Home</td>
+<td>HOME</td>
+<td>黄/Yellow</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>store: 我が家/Home<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>82</td>
+<td><img src="images/glyph-orange-57.svg" width="32" height="46" alt="9" title="9 · Orange"></td>
+<td>書店<br>Bookstore</td>
+<td>BOOKSTORE</td>
+<td>オレンジ/Orange</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>store: 書店/Bookstore<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>83</td>
+<td><img src="images/glyph-blue-126.svg" width="32" height="46" alt="~" title="~ · Blue"></td>
+<td>深い水<br>deep water</td>
+<td>DEEP_WATER</td>
+<td>青/Blue</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 常に記憶される, 水がある, 深い, 飛行で通過可, 泳いで通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>84</td>
+<td><img src="images/glyph-light-blue-126.svg" width="32" height="46" alt="~" title="~ · Light Blue"></td>
+<td>浅い水の流れ<br>shallow water</td>
+<td>SHALLOW_WATER</td>
+<td>明るい青/Light Blue</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 床である, 常に記憶される, 水がある, 浅い, 飛行で通過可, 泳いで通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>85</td>
+<td><img src="images/glyph-red-126.svg" width="32" height="46" alt="~" title="~ · Red"></td>
+<td>深い溶岩溜り<br>deep lava</td>
+<td>DEEP_LAVA</td>
+<td>赤/Red</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 常に記憶される, 常に光っている, 溶岩がある, 深い, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>86</td>
+<td><img src="images/glyph-orange-126.svg" width="32" height="46" alt="~" title="~ · Orange"></td>
+<td>浅い溶岩の流れ<br>shallow lava</td>
+<td>SHALLOW_LAVA</td>
+<td>オレンジ/Orange</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 常に記憶される, 溶岩がある, 浅い, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>87</td>
+<td><img src="images/glyph-dark-gray-35.svg" width="32" height="46" alt="#" title="# · Dark Gray"></td>
+<td>暗い穴<br>dark pit</td>
+<td>DARK_PIT</td>
+<td>暗い灰色/Dark Gray</td>
+<td></td>
+<td>1</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 常に記憶される, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>88</td>
+<td><img src="images/glyph-brown-46.svg" width="32" height="46" alt="." title=". · Brown"></td>
+<td>砂地<br>dirt</td>
+<td>DIRT</td>
+<td>茶/Brown (Umber)</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 床である, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>89</td>
+<td><img src="images/glyph-green-46.svg" width="32" height="46" alt="." title=". · Green"></td>
+<td>草地<br>patch of grass</td>
+<td>GRASS</td>
+<td>緑/Green</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 床である, 飛行で通過可, 植物が生えている, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>90</td>
+<td><img src="images/glyph-dark-gray-94.svg" width="32" height="46" alt="^" title="^ · Dark Gray"></td>
+<td>コンパクトルーン<br>compact rune</td>
+<td>TRAP_TRAPS</td>
+<td>暗い灰色/Dark Gray</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: トラップ召喚/Summon traps (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>罠発動後/After trap triggers → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>91</td>
+<td><img src="images/glyph-light-red-94.svg" width="32" height="46" alt="^" title="^ · Light Red"></td>
+<td>警報装置<br>alarm</td>
+<td>TRAP_ALARM</td>
+<td>明るい赤/Light Red</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 警報/Alarm (pow 5)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>92</td>
+<td><img src="images/glyph-white-94.svg" width="32" height="46" alt="^" title="^ · White"></td>
+<td>開門スイッチ<br>wall opening trap</td>
+<td>TRAP_OPEN</td>
+<td>白/White</td>
+<td>○</td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: 開放(周囲の壁破壊)/Open (wall-breaker) (pow 100)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>93</td>
+<td><img src="images/glyph-light-green-58.svg" width="32" height="46" alt=":" title=": · Light Green"></td>
+<td>花<br>flower</td>
+<td>FLOWER</td>
+<td>明るい緑/Light Green</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 床である, 常に記憶される, 飛行で通過可, 植物が生えている, 分解属性の対象, テレポート先になれる</td>
+<td></td>
+<td>破壊された後/When destroyed → GRASS</td>
+</tr>
+<tr>
+<td>94</td>
+<td><img src="images/glyph-green-58.svg" width="32" height="46" alt=":" title=": · Green"></td>
+<td>草むら<br>brake</td>
+<td>BRAKE</td>
+<td>緑/Green</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 床である, 常に記憶される, 飛行で通過可, 植物が生えている, 分解属性の対象, テレポート先になれる</td>
+<td></td>
+<td>破壊された後/When destroyed → GRASS</td>
+</tr>
+<tr>
+<td>95</td>
+<td><img src="images/glyph-violet-48.svg" width="32" height="46" alt="0" title="0 · Violet"></td>
+<td>博物館<br>Museum</td>
+<td>MUSEUM</td>
+<td>紫/Violet</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>store: 博物館/Museum<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>96</td>
+<td><img src="images/glyph-light-green-35.svg" width="32" height="46" alt="#" title="# · Light Green"></td>
+<td>木<br>tree</td>
+<td>TREE</td>
+<td>明るい緑/Light Green</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>移動可能, モンスター配置可, アイテムを落とせる, 常に記憶される, 自動移動で迂回, 飛行で通過可, 木が生えている, 植物が生えている, 分解属性の対象</td>
+<td>tunnel pow 10</td>
+<td>破壊された後/When destroyed → GRASS</td>
+</tr>
+<tr>
+<td>97</td>
+<td><img src="images/glyph-orange-94.svg" width="32" height="46" alt="^" title="^ · Orange"></td>
+<td>山脈<br>mountain chain</td>
+<td>MOUNTAIN</td>
+<td>オレンジ/Orange</td>
+<td>○</td>
+<td>5</td>
+<td></td>
+<td>常に記憶される, 壁である, 破壊不能の永久地形, 山地形(広域), テレポート先になれる, モンスター配置可, 飛行で通過可, 自動移動で迂回</td>
+<td>tunnel pow 0</td>
+<td>永久解除時/When made non-permanent → <em>INNER</em></td>
+</tr>
+<tr>
+<td>98</td>
+<td><img src="images/glyph-orange-94.svg" width="32" height="46" alt="^" title="^ · Orange"></td>
+<td>山脈(壁)<br>mountain chain (wall)</td>
+<td>MOUNTAIN_WALL</td>
+<td>オレンジ/Orange</td>
+<td>○</td>
+<td>5</td>
+<td>MOUNTAIN</td>
+<td>常に記憶される, 壁である, 破壊不能の永久地形</td>
+<td>tunnel pow 0</td>
+<td>永久解除時/When made non-permanent → <em>INNER</em></td>
+</tr>
+<tr>
+<td>128</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_0</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_00<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>129</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_1</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_01<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>130</td>
+<td><img src="images/glyph-violet-43.svg" width="32" height="46" alt="+" title="+ · Violet"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_2</td>
+<td>紫/Violet</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_02<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>131</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_3</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_03<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>132</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_4</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_04<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>133</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_5</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_05<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>134</td>
+<td><img src="images/glyph-light-brown-43.svg" width="32" height="46" alt="+" title="+ · Light Brown"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_6</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_06<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>135</td>
+<td><img src="images/glyph-orange-43.svg" width="32" height="46" alt="+" title="+ · Orange"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_7</td>
+<td>オレンジ/Orange</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_07<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>136</td>
+<td><img src="images/glyph-light-red-43.svg" width="32" height="46" alt="+" title="+ · Light Red"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_8</td>
+<td>明るい赤/Light Red</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_08<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>137</td>
+<td><img src="images/glyph-light-green-43.svg" width="32" height="46" alt="+" title="+ · Light Green"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_9</td>
+<td>明るい緑/Light Green</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_09<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>138</td>
+<td><img src="images/glyph-violet-43.svg" width="32" height="46" alt="+" title="+ · Violet"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_10</td>
+<td>紫/Violet</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_10<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>139</td>
+<td><img src="images/glyph-brown-43.svg" width="32" height="46" alt="+" title="+ · Brown"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_11</td>
+<td>茶/Brown (Umber)</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_11<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>140</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_12</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_12<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>141</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_13</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_13<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>142</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_14</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_14<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>143</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_15</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_15<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>144</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_16</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_16<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>145</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_17</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_17<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>146</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_18</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_18<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>147</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_19</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_19<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>148</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_20</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_20<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>149</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_21</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_21<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>150</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_22</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_22<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>151</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_23</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_23<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>152</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_24</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_24<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>153</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_25</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_25<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>154</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_26</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_26<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>155</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_27</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_27<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>156</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_28</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_28<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>157</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_29</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_29<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>158</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_30</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_30<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>159</td>
+<td><img src="images/glyph-light-blue-43.svg" width="32" height="46" alt="+" title="+ · Light Blue"></td>
+<td>建物<br>Building</td>
+<td>BUILDING_31</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 常に光っている</td>
+<td>building: BUILDING_31<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>160</td>
+<td><img src="images/glyph-white-32.svg" width="32" height="46" alt=" " title="  · White"></td>
+<td></td>
+<td><em>FLOOR</em></td>
+<td>白/White</td>
+<td></td>
+<td></td>
+<td>FLOOR</td>
+<td></td>
+<td>convert: 床に変換/To floor</td>
+<td></td>
+</tr>
+<tr>
+<td>161</td>
+<td><img src="images/glyph-white-32.svg" width="32" height="46" alt=" " title="  · White"></td>
+<td></td>
+<td><em>WALL</em></td>
+<td>白/White</td>
+<td></td>
+<td></td>
+<td>GRANITE</td>
+<td></td>
+<td>convert: 壁に変換/To wall</td>
+<td></td>
+</tr>
+<tr>
+<td>162</td>
+<td><img src="images/glyph-white-32.svg" width="32" height="46" alt=" " title="  · White"></td>
+<td></td>
+<td><em>INNER</em></td>
+<td>白/White</td>
+<td></td>
+<td></td>
+<td>GRANITE</td>
+<td></td>
+<td>convert: 内壁に変換/To inner wall</td>
+<td></td>
+</tr>
+<tr>
+<td>163</td>
+<td><img src="images/glyph-white-32.svg" width="32" height="46" alt=" " title="  · White"></td>
+<td></td>
+<td><em>OUTER</em></td>
+<td>白/White</td>
+<td></td>
+<td></td>
+<td>GRANITE</td>
+<td></td>
+<td>convert: 外壁に変換/To outer wall</td>
+<td></td>
+</tr>
+<tr>
+<td>164</td>
+<td><img src="images/glyph-white-32.svg" width="32" height="46" alt=" " title="  · White"></td>
+<td></td>
+<td><em>SOLID</em></td>
+<td>白/White</td>
+<td></td>
+<td></td>
+<td>GRANITE</td>
+<td></td>
+<td>convert: 固い壁に変換/To solid wall</td>
+<td></td>
+</tr>
+<tr>
+<td>165</td>
+<td><img src="images/glyph-white-32.svg" width="32" height="46" alt=" " title="  · White"></td>
+<td></td>
+<td><em>STREAM1</em></td>
+<td>白/White</td>
+<td></td>
+<td></td>
+<td>MAGMA_VEIN</td>
+<td></td>
+<td>convert: 鉱脈/流れに変換/To stream/vein</td>
+<td></td>
+</tr>
+<tr>
+<td>166</td>
+<td><img src="images/glyph-white-32.svg" width="32" height="46" alt=" " title="  · White"></td>
+<td></td>
+<td><em>STREAM2</em></td>
+<td>白/White</td>
+<td></td>
+<td></td>
+<td>QUARTZ_VEIN</td>
+<td></td>
+<td>convert: 鉱脈/流れに変換/To stream/vein</td>
+<td></td>
+</tr>
+<tr>
+<td>191</td>
+<td><img src="images/glyph-violet-43.svg" width="32" height="46" alt="+" title="+ · Violet"></td>
+<td>入場門<br>gate of arena</td>
+<td>ARENA_GATE</td>
+<td>紫/Violet</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形</td>
+<td>building: BUILDING_02<br>door pow 0</td>
+<td></td>
+</tr>
+<tr>
+<td>192</td>
+<td><img src="images/glyph-light-gray-42.svg" width="32" height="46" alt="*" title="* · Light Gray"></td>
+<td>街<br>Town</td>
+<td>TOWN</td>
+<td>明るい灰色/Light Gray</td>
+<td></td>
+<td>35</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 破壊不能の永久地形, 飛行で通過可, 特別な地形, 街がある(広域), テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>193</td>
+<td><img src="images/glyph-violet-62.svg" width="32" height="46" alt="&gt;" title="&gt; · Violet"></td>
+<td>ダンジョンへの入口<br>entrance to dungeon</td>
+<td>ENTRANCE</td>
+<td>紫/Violet</td>
+<td></td>
+<td>35</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 階段がある, 下りに通じる, 破壊不能の永久地形, 飛行で通過可, 特別な地形, ダンジョン入口(広域), テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>194</td>
+<td><img src="images/glyph-light-blue-46.svg" width="32" height="46" alt="." title=". · Light Blue"></td>
+<td>沼地<br>swamp</td>
+<td>SWAMP</td>
+<td>明るい青/Light Blue</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 床である, 常に記憶される, 水がある, 浅い, 飛行で通過可, 泳いで通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>195</td>
+<td><img src="images/glyph-violet-42.svg" width="32" height="46" alt="*" title="* · Violet"></td>
+<td>鏡<br>mirror</td>
+<td>MIRROR</td>
+<td>紫/Violet</td>
+<td>○</td>
+<td>16</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 飛行で通過可, 分解属性の対象, 鏡が張られている</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>196</td>
+<td><img src="images/glyph-dark-gray-120.svg" width="32" height="46" alt="x" title="x · Dark Gray"></td>
+<td>未知の地形 (未感知)<br>unknown grid (not detected)</td>
+<td>UNDETECTED</td>
+<td>暗い灰色/Dark Gray</td>
+<td></td>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>197</td>
+<td><img src="images/glyph-violet-94.svg" width="32" height="46" alt="^" title="^ · Violet"></td>
+<td>ハルマゲドン・トラップ<br>Armageddon trap</td>
+<td>TRAP_ARMAGEDDON</td>
+<td>紫/Violet</td>
+<td>○</td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: ハルマゲドン召喚/Armageddon summon (pow 100)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>罠発動後/After trap triggers → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>198</td>
+<td><img src="images/glyph-blue-94.svg" width="32" height="46" alt="^" title="^ · Blue"></td>
+<td>ピラニア・トラップ<br>Piranha trap</td>
+<td>TRAP_PIRANHA</td>
+<td>青/Blue</td>
+<td>○</td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 解除コマンド対象, 踏むと罠が発動, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>trap: ピラニア(水路化)/Piranha (pow 100)</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>罠発動後/After trap triggers → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>199</td>
+<td><img src="images/glyph-white-46.svg" width="32" height="46" alt="." title=". · White"></td>
+<td>ガラスの床<br>glass floor</td>
+<td>GLASS_FLOOR</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 床である, 飛行で通過可, 分解属性の対象, テレポート先になれる, ガラス製</td>
+<td></td>
+<td>破壊された後/When destroyed → DARK_PIT</td>
+</tr>
+<tr>
+<td>200</td>
+<td><img src="images/glyph-white-39.svg" width="32" height="46" alt="'" title="' · White"></td>
+<td>開いたガラスのドア<br>open glass door</td>
+<td>OPEN_GLASS_DOOR</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 走行時に足を止める対象, 常に記憶される, 閉じるコマンド対象, 飛行で通過可, 分解属性の対象, テレポート先になれる, ガラス製</td>
+<td>door pow 0</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>閉じた後/After closing → CLOSED_GLASS_DOOR</td>
+</tr>
+<tr>
+<td>201</td>
+<td><img src="images/glyph-light-gray-39.svg" width="32" height="46" alt="'" title="' · Light Gray"></td>
+<td>壊れたガラスのドア<br>broken glass door</td>
+<td>BROKEN_GLASS_DOOR</td>
+<td>明るい灰色/Light Gray</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 走行時に足を止める対象, 常に記憶される, 閉じるコマンド対象, 飛行で通過可, 分解属性の対象, テレポート先になれる, ガラス製</td>
+<td>door pow 0</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>202</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>ガラスのドア<br>glass door</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 0<br>tunnel pow 0</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_1</td>
+</tr>
+<tr>
+<td>203</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>鍵のかかったガラスのドア<br>locked glass door</td>
+<td>LOCKED_GLASS_DOOR_1</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 1<br>tunnel pow 1</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_2<br>解除後/After disarming → CLOSED_GLASS_DOOR</td>
+</tr>
+<tr>
+<td>204</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>鍵のかかったガラスのドア<br>locked glass door</td>
+<td>LOCKED_GLASS_DOOR_2</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 2<br>tunnel pow 2</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_3<br>解除後/After disarming → CLOSED_GLASS_DOOR</td>
+</tr>
+<tr>
+<td>205</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>鍵のかかったガラスのドア<br>locked glass door</td>
+<td>LOCKED_GLASS_DOOR_3</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 3<br>tunnel pow 3</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_4<br>解除後/After disarming → CLOSED_GLASS_DOOR</td>
+</tr>
+<tr>
+<td>206</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>鍵のかかったガラスのドア<br>locked glass door</td>
+<td>LOCKED_GLASS_DOOR_4</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 4<br>tunnel pow 4</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_5<br>解除後/After disarming → CLOSED_GLASS_DOOR</td>
+</tr>
+<tr>
+<td>207</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>鍵のかかったガラスのドア<br>locked glass door</td>
+<td>LOCKED_GLASS_DOOR_5</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 5<br>tunnel pow 5</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_6<br>解除後/After disarming → CLOSED_GLASS_DOOR</td>
+</tr>
+<tr>
+<td>208</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>鍵のかかったガラスのドア<br>locked glass door</td>
+<td>LOCKED_GLASS_DOOR_6</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 6<br>tunnel pow 6</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_7<br>解除後/After disarming → CLOSED_GLASS_DOOR</td>
+</tr>
+<tr>
+<td>209</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>鍵のかかったガラスのドア<br>locked glass door</td>
+<td>LOCKED_GLASS_DOOR_7</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 7<br>tunnel pow 7</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_7<br>解除後/After disarming → CLOSED_GLASS_DOOR</td>
+</tr>
+<tr>
+<td>210</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>くさびが打たれたガラスのドア<br>jammed glass door</td>
+<td>JAMMED_GLASS_DOOR_0</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 0<br>tunnel pow 0</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → BROKEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_1</td>
+</tr>
+<tr>
+<td>211</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>くさびが打たれたガラスのドア<br>jammed glass door</td>
+<td>JAMMED_GLASS_DOOR_1</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 1<br>tunnel pow 1</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → BROKEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_2</td>
+</tr>
+<tr>
+<td>212</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>くさびが打たれたガラスのドア<br>jammed glass door</td>
+<td>JAMMED_GLASS_DOOR_2</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 2<br>tunnel pow 2</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → BROKEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_3</td>
+</tr>
+<tr>
+<td>213</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>くさびが打たれたガラスのドア<br>jammed glass door</td>
+<td>JAMMED_GLASS_DOOR_3</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 3<br>tunnel pow 3</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → BROKEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_4</td>
+</tr>
+<tr>
+<td>214</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>くさびが打たれたガラスのドア<br>jammed glass door</td>
+<td>JAMMED_GLASS_DOOR_4</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 4<br>tunnel pow 4</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → BROKEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_5</td>
+</tr>
+<tr>
+<td>215</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>くさびが打たれたガラスのドア<br>jammed glass door</td>
+<td>JAMMED_GLASS_DOOR_5</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 5<br>tunnel pow 5</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → BROKEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_6</td>
+</tr>
+<tr>
+<td>216</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>くさびが打たれたガラスのドア<br>jammed glass door</td>
+<td>JAMMED_GLASS_DOOR_6</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 6<br>tunnel pow 6</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → BROKEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR<br>くさびを打った後/After spiking → JAMMED_GLASS_DOOR_7</td>
+</tr>
+<tr>
+<td>217</td>
+<td><img src="images/glyph-white-43.svg" width="32" height="46" alt="+" title="+ · White"></td>
+<td>くさびが打たれたガラスのドア<br>jammed glass door</td>
+<td>JAMMED_GLASS_DOOR_7</td>
+<td>白/White</td>
+<td></td>
+<td>10</td>
+<td>CLOSED_GLASS_DOOR</td>
+<td>視界が通る, 走行時に足を止める対象, 常に記憶される, 体当たり対象, くさびを打てる, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>door pow 7<br>tunnel pow 7</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → BROKEN_GLASS_DOOR<br>体当たり後/After bashing → BROKEN_GLASS_DOOR</td>
+</tr>
+<tr>
+<td>218</td>
+<td><img src="images/glyph-white-35.svg" width="32" height="46" alt="#" title="# · White"></td>
+<td>ガラスの壁<br>glass wall</td>
+<td>GLASS_WALL</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>tunnel pow 40</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em></td>
+</tr>
+<tr>
+<td>219</td>
+<td><img src="images/glyph-white-35.svg" width="32" height="46" alt="#" title="# · White"></td>
+<td>永久ガラスの壁<br>permanent glass wall</td>
+<td>PERMANENT_GLASS_WALL</td>
+<td>白/White</td>
+<td>○</td>
+<td>5</td>
+<td></td>
+<td>常に記憶される, 視界が通る, 壁である, 破壊不能の永久地形, ガラス製</td>
+<td>tunnel pow 0</td>
+<td>永久解除時/When made non-permanent → GLASS_WALL</td>
+</tr>
+<tr>
+<td>220</td>
+<td><img src="images/glyph-red-39.svg" width="32" height="46" alt="'" title="' · Red"></td>
+<td>開いたカーテン<br>open curtain</td>
+<td>OPEN_CURTAIN</td>
+<td>赤/Red</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 走行時に足を止める対象, 常に記憶される, 閉じるコマンド対象, 飛行で通過可, 分解属性の対象, テレポート先になれる</td>
+<td>door pow 0</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>閉じた後/After closing → CLOSED_CURTAIN</td>
+</tr>
+<tr>
+<td>221</td>
+<td><img src="images/glyph-light-red-39.svg" width="32" height="46" alt="'" title="' · Light Red"></td>
+<td>カーテン<br>curtain</td>
+<td>CLOSED_CURTAIN</td>
+<td>明るい赤/Light Red</td>
+<td></td>
+<td>10</td>
+<td></td>
+<td>飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 走行時に足を止める対象, 常に記憶される, 開けるコマンド対象, 分解属性の対象, テレポート先になれる</td>
+<td>door pow 0</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>開けた後/After opening → OPEN_CURTAIN</td>
+</tr>
+<tr>
+<td>222</td>
+<td><img src="images/glyph-white-58.svg" width="32" height="46" alt=":" title=": · White"></td>
+<td>岩石<br>pile of rubble</td>
+<td>RUBBLE_ON_SHALLOW_WATER</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, アイテムを含む, 岩石溶解の対象, 通過可能, 掘削コマンド対象, 分解属性の対象</td>
+<td>tunnel pow 10</td>
+<td>破壊された後/When destroyed → SHALLOW_WATER</td>
+</tr>
+<tr>
+<td>223</td>
+<td><img src="images/glyph-gray-37.svg" width="32" height="46" alt="%" title="% · Gray"></td>
+<td>溶岩の鉱脈<br>magma vein</td>
+<td>MAGMA_VEIN_ON_SHALLOW_WATER</td>
+<td>灰色/Gray (Slate)</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 10</td>
+<td>破壊された後/When destroyed → SHALLOW_WATER<br>財宝を含む可能性/May contain gold → MAGMA_TREASURE</td>
+</tr>
+<tr>
+<td>224</td>
+<td><img src="images/glyph-white-37.svg" width="32" height="46" alt="%" title="% · White"></td>
+<td>石英の鉱脈<br>quartz vein</td>
+<td>QUARTZ_VEIN_ON_SHALLOW_WATER</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 20</td>
+<td>破壊された後/When destroyed → SHALLOW_WATER<br>財宝を含む可能性/May contain gold → QUARTZ_TREASURE</td>
+</tr>
+<tr>
+<td>225</td>
+<td><img src="images/glyph-white-35.svg" width="32" height="46" alt="#" title="# · White"></td>
+<td>花崗岩の壁<br>granite wall</td>
+<td>GRANITE_ON_SHALLOW_WATER</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 40</td>
+<td>破壊された後/When destroyed → SHALLOW_WATER</td>
+</tr>
+<tr>
+<td>226</td>
+<td><img src="images/glyph-white-35.svg" width="32" height="46" alt="#" title="# · White"></td>
+<td>ガラスの壁<br>glass wall</td>
+<td>GLASS_WALL_ON_SHALLOW_WATER</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>tunnel pow 40</td>
+<td>破壊された後/When destroyed → SHALLOW_WATER</td>
+</tr>
+<tr>
+<td>227</td>
+<td><img src="images/glyph-blue-94.svg" width="32" height="46" alt="^" title="^ · Blue"></td>
+<td>極低温帯<br>heavy cold zone</td>
+<td>HEAVY_COLD_ZONE</td>
+<td>青/Blue</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 常に記憶される, 冷気溜まりがある, 深い, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>228</td>
+<td><img src="images/glyph-light-blue-94.svg" width="32" height="46" alt="^" title="^ · Light Blue"></td>
+<td>低温帯<br>cold zone</td>
+<td>COLD_ZONE</td>
+<td>明るい青/Light Blue</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 常に記憶される, 冷気溜まりがある, 浅い, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>229</td>
+<td><img src="images/glyph-yellow-94.svg" width="32" height="46" alt="^" title="^ · Yellow"></td>
+<td>高圧帯電帯<br>heavy electrical zone</td>
+<td>HEAVY_ELECTRICAL_ZONE</td>
+<td>黄/Yellow</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 常に記憶される, 常に光っている, 帯電している, 深い, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>230</td>
+<td><img src="images/glyph-orange-94.svg" width="32" height="46" alt="^" title="^ · Orange"></td>
+<td>帯電帯<br>electrical zone</td>
+<td>ELECTRICAL_ZONE</td>
+<td>オレンジ/Orange</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 常に記憶される, 帯電している, 浅い, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>231</td>
+<td><img src="images/glyph-brown-126.svg" width="32" height="46" alt="~" title="~ · Brown"></td>
+<td>深い酸の沼<br>deep acid puddle</td>
+<td>DEEP_ACID_PUDDLE</td>
+<td>茶/Brown (Umber)</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 常に記憶される, 酸溜まりがある, 深い, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>232</td>
+<td><img src="images/glyph-light-brown-126.svg" width="32" height="46" alt="~" title="~ · Light Brown"></td>
+<td>浅い酸の沼<br>shallow acid puddle</td>
+<td>SHALLOW_ACID_PUDDLE</td>
+<td>明るい茶/Light Brown</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 常に記憶される, 酸溜まりがある, 浅い, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>233</td>
+<td><img src="images/glyph-green-126.svg" width="32" height="46" alt="~" title="~ · Green"></td>
+<td>深い毒の沼<br>deep poisonous puddle</td>
+<td>DEEP_POISONOUS_PUDDLE</td>
+<td>緑/Green</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, 常に記憶される, 毒溜まりがある, 深い, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>234</td>
+<td><img src="images/glyph-light-green-126.svg" width="32" height="46" alt="~" title="~ · Light Green"></td>
+<td>浅い毒の沼<br>shallow poisonous puddle</td>
+<td>SHALLOW_POISONOUS_PUDDLE</td>
+<td>明るい緑/Light Green</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 飛び道具が通過できる, 移動可能, モンスター配置可, アイテムを落とせる, 常に記憶される, 毒溜まりがある, 浅い, 飛行で通過可, テレポート先になれる</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>235</td>
+<td><img src="images/glyph-white-58.svg" width="32" height="46" alt=":" title=": · White"></td>
+<td>岩石<br>pile of rubble</td>
+<td>RUBBLE_ON_DEEP_WATER</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, アイテムを含む, 岩石溶解の対象, 通過可能, 掘削コマンド対象, 分解属性の対象</td>
+<td>tunnel pow 10</td>
+<td>破壊された後/When destroyed → DEEP_WATER</td>
+</tr>
+<tr>
+<td>236</td>
+<td><img src="images/glyph-gray-37.svg" width="32" height="46" alt="%" title="% · Gray"></td>
+<td>溶岩の鉱脈<br>magma vein</td>
+<td>MAGMA_VEIN_ON_DEEP_WATER</td>
+<td>灰色/Gray (Slate)</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 10</td>
+<td>破壊された後/When destroyed → DEEP_WATER<br>財宝を含む可能性/May contain gold → MAGMA_TREASURE</td>
+</tr>
+<tr>
+<td>237</td>
+<td><img src="images/glyph-white-37.svg" width="32" height="46" alt="%" title="% · White"></td>
+<td>石英の鉱脈<br>quartz vein</td>
+<td>QUARTZ_VEIN_ON_DEEP_WATER</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 20</td>
+<td>破壊された後/When destroyed → DEEP_WATER<br>財宝を含む可能性/May contain gold → QUARTZ_TREASURE</td>
+</tr>
+<tr>
+<td>238</td>
+<td><img src="images/glyph-white-35.svg" width="32" height="46" alt="#" title="# · White"></td>
+<td>花崗岩の壁<br>granite wall</td>
+<td>GRANITE_ON_DEEP_WATER</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 40</td>
+<td>破壊された後/When destroyed → DEEP_WATER</td>
+</tr>
+<tr>
+<td>239</td>
+<td><img src="images/glyph-white-35.svg" width="32" height="46" alt="#" title="# · White"></td>
+<td>ガラスの壁<br>glass wall</td>
+<td>GLASS_WALL_ON_DEEP_WATER</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>視界が通る, 常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象, ガラス製</td>
+<td>tunnel pow 40</td>
+<td>破壊された後/When destroyed → DEEP_WATER</td>
+</tr>
+<tr>
+<td>240</td>
+<td><img src="images/glyph-orange-42.svg" width="32" height="46" alt="*" title="* · Orange"></td>
+<td>財宝を含有した石英の鉱脈<br>quartz vein with treasure</td>
+<td>QUARTZ_TREASURE_2</td>
+<td>オレンジ/Orange</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 30</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>落とす財宝(ダイス)/Gold dropped (dice) → 2d2<br>隠された時/When re-hidden → QUARTZ_HIDDEN_2</td>
+</tr>
+<tr>
+<td>241</td>
+<td><img src="images/glyph-orange-42.svg" width="32" height="46" alt="*" title="* · Orange"></td>
+<td>財宝を含有した石英の鉱脈<br>quartz vein with treasure</td>
+<td>QUARTZ_TREASURE_3</td>
+<td>オレンジ/Orange</td>
+<td>○</td>
+<td>2</td>
+<td></td>
+<td>常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 30</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>落とす財宝(ダイス)/Gold dropped (dice) → 3d3<br>隠された時/When re-hidden → QUARTZ_HIDDEN_3</td>
+</tr>
+<tr>
+<td>242</td>
+<td><img src="images/glyph-white-37.svg" width="32" height="46" alt="%" title="% · White"></td>
+<td>石英の鉱脈(隠された財宝を含有)<br>quartz vein hidden treasure</td>
+<td>QUARTZ_HIDDEN_2</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td>QUARTZ_VEIN</td>
+<td>隠し扉/罠が潜む, 常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 30</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>落とす財宝(ダイス)/Gold dropped (dice) → 2d2<br>隠し状態(擬態元)/Secret (hidden form) → QUARTZ_TREASURE_2</td>
+</tr>
+<tr>
+<td>243</td>
+<td><img src="images/glyph-white-37.svg" width="32" height="46" alt="%" title="% · White"></td>
+<td>石英の鉱脈(隠された財宝を含有)<br>quartz vein hidden treasure</td>
+<td>QUARTZ_HIDDEN_3</td>
+<td>白/White</td>
+<td>○</td>
+<td>2</td>
+<td>QUARTZ_VEIN</td>
+<td>隠し扉/罠が潜む, 常に記憶される, 壁である, 岩石溶解の対象, 通過可能, 分解属性の対象</td>
+<td>tunnel pow 30</td>
+<td>破壊された後/When destroyed → <em>FLOOR</em><br>落とす財宝(ダイス)/Gold dropped (dice) → 3d3<br>隠し状態(擬態元)/Secret (hidden form) → QUARTZ_TREASURE_3</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<h3>凡例 / Legend</h3>
+<details>
+<summary>表示色 / Display Colors (16)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>White</code></td>
+<td>白</td>
+<td>White</td>
+</tr>
+<tr>
+<td><code>Light Brown</code></td>
+<td>明るい茶</td>
+<td>Light Brown</td>
+</tr>
+<tr>
+<td><code>Light Blue</code></td>
+<td>明るい青</td>
+<td>Light Blue</td>
+</tr>
+<tr>
+<td><code>Orange</code></td>
+<td>オレンジ</td>
+<td>Orange</td>
+</tr>
+<tr>
+<td><code>Red</code></td>
+<td>赤</td>
+<td>Red</td>
+</tr>
+<tr>
+<td><code>Green</code></td>
+<td>緑</td>
+<td>Green</td>
+</tr>
+<tr>
+<td><code>Gray</code></td>
+<td>灰色</td>
+<td>Gray (Slate)</td>
+</tr>
+<tr>
+<td><code>Violet</code></td>
+<td>紫</td>
+<td>Violet</td>
+</tr>
+<tr>
+<td><code>Brown</code></td>
+<td>茶</td>
+<td>Brown (Umber)</td>
+</tr>
+<tr>
+<td><code>Blue</code></td>
+<td>青</td>
+<td>Blue</td>
+</tr>
+<tr>
+<td><code>Yellow</code></td>
+<td>黄</td>
+<td>Yellow</td>
+</tr>
+<tr>
+<td><code>Light Green</code></td>
+<td>明るい緑</td>
+<td>Light Green</td>
+</tr>
+<tr>
+<td><code>Dark Gray</code></td>
+<td>暗い灰色</td>
+<td>Dark Gray</td>
+</tr>
+<tr>
+<td><code>Light Red</code></td>
+<td>明るい赤</td>
+<td>Light Red</td>
+</tr>
+<tr>
+<td><code>Light Gray</code></td>
+<td>明るい灰色</td>
+<td>Light Gray</td>
+</tr>
+<tr>
+<td><code>Black</code></td>
+<td>黒</td>
+<td>Black</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<details>
+<summary>地形特性フラグ / Terrain Characteristic Flags (56)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LOS</code></td>
+<td>視界が通る</td>
+<td>Line of sight passes</td>
+</tr>
+<tr>
+<td><code>PROJECTION</code></td>
+<td>飛び道具が通過できる</td>
+<td>Projectiles pass through</td>
+</tr>
+<tr>
+<td><code>MOVE</code></td>
+<td>移動可能</td>
+<td>Can be walked on</td>
+</tr>
+<tr>
+<td><code>PLACE</code></td>
+<td>モンスター配置可</td>
+<td>Monsters may be placed</td>
+</tr>
+<tr>
+<td><code>DROP</code></td>
+<td>アイテムを落とせる</td>
+<td>Items may be dropped</td>
+</tr>
+<tr>
+<td><code>SECRET</code></td>
+<td>隠し扉/罠が潜む</td>
+<td>May hide a secret door/trap</td>
+</tr>
+<tr>
+<td><code>NOTICE</code></td>
+<td>走行時に足を止める対象</td>
+<td>Interesting; stops running</td>
+</tr>
+<tr>
+<td><code>REMEMBER</code></td>
+<td>常に記憶される</td>
+<td>Always remembered</td>
+</tr>
+<tr>
+<td><code>OPEN</code></td>
+<td>開けるコマンド対象</td>
+<td>Can be opened</td>
+</tr>
+<tr>
+<td><code>CLOSE</code></td>
+<td>閉じるコマンド対象</td>
+<td>Can be closed</td>
+</tr>
+<tr>
+<td><code>BASH</code></td>
+<td>体当たり対象</td>
+<td>Can be bashed</td>
+</tr>
+<tr>
+<td><code>SPIKE</code></td>
+<td>くさびを打てる</td>
+<td>Can be spiked</td>
+</tr>
+<tr>
+<td><code>DISARM</code></td>
+<td>解除コマンド対象</td>
+<td>Can be disarmed</td>
+</tr>
+<tr>
+<td><code>STORE</code></td>
+<td>店舗の入口</td>
+<td>Shop entrance</td>
+</tr>
+<tr>
+<td><code>HAS_ITEM</code></td>
+<td>アイテムを含む</td>
+<td>Contains an item</td>
+</tr>
+<tr>
+<td><code>TRAP</code></td>
+<td>トラップがある</td>
+<td>Has a trap</td>
+</tr>
+<tr>
+<td><code>HIT_TRAP</code></td>
+<td>踏むと罠が発動</td>
+<td>Triggers a trap when entered</td>
+</tr>
+<tr>
+<td><code>STAIRS</code></td>
+<td>階段がある</td>
+<td>Has stairs</td>
+</tr>
+<tr>
+<td><code>UP_STAIRS</code></td>
+<td>上りに通じる</td>
+<td>Leads upward</td>
+</tr>
+<tr>
+<td><code>DOWN_STAIRS</code></td>
+<td>下りに通じる</td>
+<td>Leads downward</td>
+</tr>
+<tr>
+<td><code>SHAFT</code></td>
+<td>坑道(2階層移動)</td>
+<td>Shaft (descends two levels)</td>
+</tr>
+<tr>
+<td><code>RUNE_PROTECTION</code></td>
+<td>守りのルーン</td>
+<td>Rune of protection</td>
+</tr>
+<tr>
+<td><code>RUNE_EXPLOSION</code></td>
+<td>爆発のルーン</td>
+<td>Explosive rune</td>
+</tr>
+<tr>
+<td><code>AVOID_RUN</code></td>
+<td>自動移動で迂回</td>
+<td>Avoided when auto-running</td>
+</tr>
+<tr>
+<td><code>FLOOR</code></td>
+<td>床である</td>
+<td>Is a floor</td>
+</tr>
+<tr>
+<td><code>WALL</code></td>
+<td>壁である</td>
+<td>Is a wall</td>
+</tr>
+<tr>
+<td><code>PERMANENT</code></td>
+<td>破壊不能の永久地形</td>
+<td>Indestructible / permanent</td>
+</tr>
+<tr>
+<td><code>GLOW</code></td>
+<td>常に光っている</td>
+<td>Always glowing</td>
+</tr>
+<tr>
+<td><code>WATER</code></td>
+<td>水がある</td>
+<td>Has water</td>
+</tr>
+<tr>
+<td><code>LAVA</code></td>
+<td>溶岩がある</td>
+<td>Has lava</td>
+</tr>
+<tr>
+<td><code>SHALLOW</code></td>
+<td>浅い</td>
+<td>Shallow</td>
+</tr>
+<tr>
+<td><code>DEEP</code></td>
+<td>深い</td>
+<td>Deep</td>
+</tr>
+<tr>
+<td><code>POISON_PUDDLE</code></td>
+<td>毒溜まりがある</td>
+<td>Poison puddle</td>
+</tr>
+<tr>
+<td><code>COLD_PUDDLE</code></td>
+<td>冷気溜まりがある</td>
+<td>Cold puddle</td>
+</tr>
+<tr>
+<td><code>ACID_PUDDLE</code></td>
+<td>酸溜まりがある</td>
+<td>Acid puddle</td>
+</tr>
+<tr>
+<td><code>ELEC_PUDDLE</code></td>
+<td>帯電している</td>
+<td>Electrified puddle</td>
+</tr>
+<tr>
+<td><code>STONE</code></td>
+<td>岩石溶解の対象</td>
+<td>Subject to stone-to-mud</td>
+</tr>
+<tr>
+<td><code>CAN_FLY</code></td>
+<td>飛行で通過可</td>
+<td>Can be flown over</td>
+</tr>
+<tr>
+<td><code>CAN_SWIM</code></td>
+<td>泳いで通過可</td>
+<td>Can be swum</td>
+</tr>
+<tr>
+<td><code>CAN_PASS</code></td>
+<td>通過可能</td>
+<td>Can pass through</td>
+</tr>
+<tr>
+<td><code>CAN_DIG</code></td>
+<td>掘削コマンド対象</td>
+<td>Can be dug</td>
+</tr>
+<tr>
+<td><code>CAN_DISINTEGRATE</code></td>
+<td>分解属性の対象</td>
+<td>Can be disintegrated</td>
+</tr>
+<tr>
+<td><code>TREE</code></td>
+<td>木が生えている</td>
+<td>Has a tree</td>
+</tr>
+<tr>
+<td><code>PLANT</code></td>
+<td>植物が生えている</td>
+<td>Has a plant</td>
+</tr>
+<tr>
+<td><code>MOUNTAIN</code></td>
+<td>山地形(広域)</td>
+<td>Mountain (wilderness)</td>
+</tr>
+<tr>
+<td><code>SPECIAL</code></td>
+<td>特別な地形</td>
+<td>Special quest/dungeon grid</td>
+</tr>
+<tr>
+<td><code>QUEST</code></td>
+<td>クエスト関連</td>
+<td>Quest-related</td>
+</tr>
+<tr>
+<td><code>QUEST_ENTER</code></td>
+<td>クエストの入口</td>
+<td>Quest entrance</td>
+</tr>
+<tr>
+<td><code>QUEST_EXIT</code></td>
+<td>クエストの出口</td>
+<td>Quest exit</td>
+</tr>
+<tr>
+<td><code>BLDG</code></td>
+<td>施設の入口</td>
+<td>Building entrance</td>
+</tr>
+<tr>
+<td><code>PATTERN</code></td>
+<td>パターンがある</td>
+<td>Is part of the Pattern</td>
+</tr>
+<tr>
+<td><code>TOWN</code></td>
+<td>街がある(広域)</td>
+<td>Town (wilderness)</td>
+</tr>
+<tr>
+<td><code>ENTRANCE</code></td>
+<td>ダンジョン入口(広域)</td>
+<td>Dungeon entrance (wilderness)</td>
+</tr>
+<tr>
+<td><code>MIRROR</code></td>
+<td>鏡が張られている</td>
+<td>Has a mage's mirror</td>
+</tr>
+<tr>
+<td><code>TELEPORTABLE</code></td>
+<td>テレポート先になれる</td>
+<td>Valid teleport destination</td>
+</tr>
+<tr>
+<td><code>GLASS</code></td>
+<td>ガラス製</td>
+<td>Made of glass</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<details>
+<summary>トラップ種別 / Trap Types (21)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TRAPDOOR</code></td>
+<td>落とし戸</td>
+<td>Trap door</td>
+</tr>
+<tr>
+<td><code>PIT</code></td>
+<td>落とし穴</td>
+<td>Pit</td>
+</tr>
+<tr>
+<td><code>SPIKED_PIT</code></td>
+<td>スパイクの落とし穴</td>
+<td>Spiked pit</td>
+</tr>
+<tr>
+<td><code>POISON_PIT</code></td>
+<td>毒針の落とし穴</td>
+<td>Poison pit</td>
+</tr>
+<tr>
+<td><code>TY_CURSE</code></td>
+<td>テレポート・レベルの呪い(TYの呪い)</td>
+<td>Ty curse</td>
+</tr>
+<tr>
+<td><code>TELEPORT</code></td>
+<td>テレポート</td>
+<td>Teleport</td>
+</tr>
+<tr>
+<td><code>FIRE</code></td>
+<td>火炎</td>
+<td>Fire</td>
+</tr>
+<tr>
+<td><code>ACID</code></td>
+<td>酸</td>
+<td>Acid</td>
+</tr>
+<tr>
+<td><code>SLOW</code></td>
+<td>減速(ダーツ)</td>
+<td>Slow (dart)</td>
+</tr>
+<tr>
+<td><code>LOSE_STR</code></td>
+<td>腕力減少(ダーツ)</td>
+<td>Lose STR (dart)</td>
+</tr>
+<tr>
+<td><code>LOSE_DEX</code></td>
+<td>器用さ減少(ダーツ)</td>
+<td>Lose DEX (dart)</td>
+</tr>
+<tr>
+<td><code>LOSE_CON</code></td>
+<td>耐久力減少(ダーツ)</td>
+<td>Lose CON (dart)</td>
+</tr>
+<tr>
+<td><code>BLIND</code></td>
+<td>盲目ガス</td>
+<td>Blind (gas)</td>
+</tr>
+<tr>
+<td><code>CONFUSE</code></td>
+<td>混乱ガス</td>
+<td>Confuse (gas)</td>
+</tr>
+<tr>
+<td><code>POISON</code></td>
+<td>毒ガス</td>
+<td>Poison (gas)</td>
+</tr>
+<tr>
+<td><code>SLEEP</code></td>
+<td>睡眠ガス</td>
+<td>Sleep (gas)</td>
+</tr>
+<tr>
+<td><code>TRAPS</code></td>
+<td>トラップ召喚</td>
+<td>Summon traps</td>
+</tr>
+<tr>
+<td><code>ALARM</code></td>
+<td>警報</td>
+<td>Alarm</td>
+</tr>
+<tr>
+<td><code>OPEN</code></td>
+<td>開放(周囲の壁破壊)</td>
+<td>Open (wall-breaker)</td>
+</tr>
+<tr>
+<td><code>ARMAGEDDON</code></td>
+<td>ハルマゲドン召喚</td>
+<td>Armageddon summon</td>
+</tr>
+<tr>
+<td><code>PIRANHA</code></td>
+<td>ピラニア(水路化)</td>
+<td>Piranha</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<details>
+<summary>店舗種別 / Shop Types (10)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GENERAL</code></td>
+<td>雑貨屋</td>
+<td>General Store</td>
+</tr>
+<tr>
+<td><code>ARMOURY</code></td>
+<td>防具屋</td>
+<td>Armoury</td>
+</tr>
+<tr>
+<td><code>WEAPON</code></td>
+<td>武器専門店</td>
+<td>Weaponsmith</td>
+</tr>
+<tr>
+<td><code>TEMPLE</code></td>
+<td>寺院</td>
+<td>Temple</td>
+</tr>
+<tr>
+<td><code>ALCHEMIST</code></td>
+<td>錬金術の店</td>
+<td>Alchemist</td>
+</tr>
+<tr>
+<td><code>MAGIC</code></td>
+<td>魔法の店</td>
+<td>Magic Shop</td>
+</tr>
+<tr>
+<td><code>BLACK</code></td>
+<td>ブラックマーケット</td>
+<td>Black Market</td>
+</tr>
+<tr>
+<td><code>HOME</code></td>
+<td>我が家</td>
+<td>Home</td>
+</tr>
+<tr>
+<td><code>BOOK</code></td>
+<td>書店</td>
+<td>Bookstore</td>
+</tr>
+<tr>
+<td><code>MUSEUM</code></td>
+<td>博物館</td>
+<td>Museum</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<details>
+<summary>パターン種別 / Pattern Grid Types (9)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>START</code></td>
+<td>パターンの開始</td>
+<td>Pattern start</td>
+</tr>
+<tr>
+<td><code>TILE_1</code></td>
+<td>パターン第1区画</td>
+<td>Pattern tile 1</td>
+</tr>
+<tr>
+<td><code>TILE_2</code></td>
+<td>パターン第2区画</td>
+<td>Pattern tile 2</td>
+</tr>
+<tr>
+<td><code>TILE_3</code></td>
+<td>パターン第3区画</td>
+<td>Pattern tile 3</td>
+</tr>
+<tr>
+<td><code>TILE_4</code></td>
+<td>パターン第4区画</td>
+<td>Pattern tile 4</td>
+</tr>
+<tr>
+<td><code>END</code></td>
+<td>パターンの終点</td>
+<td>Pattern end</td>
+</tr>
+<tr>
+<td><code>OLD</code></td>
+<td>古いパターン</td>
+<td>Old pattern</td>
+</tr>
+<tr>
+<td><code>TELEPORT</code></td>
+<td>パターン・テレポート</td>
+<td>Pattern teleport</td>
+</tr>
+<tr>
+<td><code>WRECKED</code></td>
+<td>壊れたパターン</td>
+<td>Wrecked pattern</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<details>
+<summary>生成時の変換種別 / Generation Convert Types (6)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FLOOR</code></td>
+<td>床に変換</td>
+<td>To floor</td>
+</tr>
+<tr>
+<td><code>WALL</code></td>
+<td>壁に変換</td>
+<td>To wall</td>
+</tr>
+<tr>
+<td><code>INNER</code></td>
+<td>内壁に変換</td>
+<td>To inner wall</td>
+</tr>
+<tr>
+<td><code>OUTER</code></td>
+<td>外壁に変換</td>
+<td>To outer wall</td>
+</tr>
+<tr>
+<td><code>SOLID</code></td>
+<td>固い壁に変換</td>
+<td>To solid wall</td>
+</tr>
+<tr>
+<td><code>STREAM</code></td>
+<td>鉱脈/流れに変換</td>
+<td>To stream/vein</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<details>
+<summary>行動キー(変化条件) / Interaction Keys (13)</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>Token</th>
+<th>日本語</th>
+<th>English</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BASH</code></td>
+<td>体当たり後</td>
+<td>After bashing</td>
+</tr>
+<tr>
+<td><code>CLOSE</code></td>
+<td>閉じた後</td>
+<td>After closing</td>
+</tr>
+<tr>
+<td><code>OPEN</code></td>
+<td>開けた後</td>
+<td>After opening</td>
+</tr>
+<tr>
+<td><code>DISARM</code></td>
+<td>解除後</td>
+<td>After disarming</td>
+</tr>
+<tr>
+<td><code>SPIKE</code></td>
+<td>くさびを打った後</td>
+<td>After spiking</td>
+</tr>
+<tr>
+<td><code>DESTROYED</code></td>
+<td>破壊された後</td>
+<td>When destroyed</td>
+</tr>
+<tr>
+<td><code>HIT_TRAP</code></td>
+<td>罠発動後</td>
+<td>After trap triggers</td>
+</tr>
+<tr>
+<td><code>SECRET</code></td>
+<td>隠し状態(擬態元)</td>
+<td>Secret (hidden form)</td>
+</tr>
+<tr>
+<td><code>ENSECRET</code></td>
+<td>隠された時</td>
+<td>When re-hidden</td>
+</tr>
+<tr>
+<td><code>UNPERM</code></td>
+<td>永久解除時</td>
+<td>When made non-permanent</td>
+</tr>
+<tr>
+<td><code>SHAFT</code></td>
+<td>坑道化時</td>
+<td>As a shaft</td>
+</tr>
+<tr>
+<td><code>DROP_GOLD</code></td>
+<td>落とす財宝(ダイス)</td>
+<td>Gold dropped (dice)</td>
+</tr>
+<tr>
+<td><code>MAY_HAVE_GOLD</code></td>
+<td>財宝を含む可能性</td>
+<td>May contain gold</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<hr>
+<blockquote>
+<p>🤖 このページは <code>lib/edit/TerrainDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
+This page is auto-generated from <code>lib/edit/TerrainDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
+生成 / Generated: 2026-07-04 00:01 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
