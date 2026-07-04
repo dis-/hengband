@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>自然領域の呪文 / Nature Realm Spells · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-Critical.html">会心の一撃 / Critical</a></li>
+<li><a href="Analysis-Experience.html">経験値 / Experience</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数 / Blows</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>自然領域の呪文 / Nature Realm Spells</h1>
+<p>自然領域（Nature）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>Spellbooks and spells of the Nature realm.</p>
+<p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
+<h2>[野性の召喚] / [Call of the Wild]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>モンスター感知<br>Detect Creatures</td>
+<td>近くの全ての見えるモンスターを感知する。<br>Detects all monsters in your vicinity unless invisible.</td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>稲妻<br>Lightning</td>
+<td>電撃の短いビームを放つ。<br>Fires a short beam of lightning.</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>罠と扉感知<br>Detect Doors and Traps</td>
+<td>近くの全ての罠と扉を感知する。<br>Detects traps, doors, and stairs in your vicinity.</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>食糧生成<br>Produce Food</td>
+<td>食料を一つ作り出す。<br>Produces a Ration of Food.</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>日の光<br>Daylight</td>
+<td>光源が照らしている範囲か部屋全体を永久に明るくする。<br>Lights up nearby area and the inside of a room permanently.</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>動物習し<br>Animal Taming</td>
+<td>動物1体を魅了する。抵抗されると無効。<br>Attempts to charm an animal.</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>環境への耐性<br>Resist Environment</td>
+<td>一定時間、冷気、炎、電撃に対する耐性を得る。装備による耐性に累積する。<br>Gives resistance to fire, cold and electricity for a while. These resistances can be added to those from equipment for more powerful resistances.</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>傷と毒治療<br>Cure Wounds &amp; Poison</td>
+<td>怪我を全快させ、毒を体から完全に取り除き、体力を少し回復させる。<br>Heals all cuts and poisons. Heals HP a little.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[自然の秘術] / [Nature Mastery]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>岩石溶解<br>Stone to Mud</td>
+<td>壁を溶かして床にする。<br>Turns one rock square to mud.</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>アイス・ボルト<br>Frost Bolt</td>
+<td>冷気のボルトもしくはビームを放つ。<br>Fires a bolt or beam of cold.</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>自然の覚醒<br>Nature Awareness</td>
+<td>周辺の地形を感知し、近くの罠、扉、階段、全てのモンスターを感知する。<br>Maps nearby area. Detects all monsters, traps, doors and stairs.</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>ファイア・ボルト<br>Fire Bolt</td>
+<td>火炎のボルトもしくはビームを放つ。<br>Fires a bolt or beam of fire.</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>太陽光線<br>Ray of Sunlight</td>
+<td>光線を放つ。光りを嫌うモンスターに効果がある。<br>Fires a beam of light which damages light-sensitive monsters.</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>足かせ<br>Entangle</td>
+<td>視界内の全てのモンスターを減速させる。抵抗されると無効。<br>Attempts to slow all monsters in sight.</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>動物召喚<br>Summon Animal</td>
+<td>動物を1体召喚する。<br>Summons an animal.</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>薬草治療<br>Herbal Healing</td>
+<td>体力を大幅に回復させ、負傷、朦朧状態、毒から全快する。<br>Heals HP greatly. Completely cures cuts, poisons and being stunned.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[自然の恵み] / [Nature's Gifts]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>階段生成<br>Stair Building</td>
+<td>自分のいる位置に階段を作る。<br>Creates a staircase which goes down or up.</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>肌石化<br>Stone Skin</td>
+<td>一定時間、ACを上昇させる。<br>Gives a bonus to AC for a while.</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>真・耐性<br>Resistance True</td>
+<td>一定時間、酸、電撃、炎、冷気、毒に対する耐性を得る。装備による耐性に累積する。<br>Gives resistance to fire, cold, electricity, acid and poison for a while. These resistances can be added to those from equipment for more powerful resistances.</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>森林創造<br>Forest Creation</td>
+<td>周囲に木を作り出す。<br>Creates trees in all adjacent squares.</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>動物友和<br>Animal Friendship</td>
+<td>視界内の全ての動物を魅了する。抵抗されると無効。<br>Attempts to charm all animals in sight.</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>試金石<br>Stone Tell</td>
+<td>アイテムの持つ能力を完全に知る。<br><em>Identifies</em> an item.</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>石の壁<br>Wall of Stone</td>
+<td>自分の周囲に花崗岩の壁を作る。<br>Creates granite walls in all adjacent squares.</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>腐食防止<br>Protect from Corrosion</td>
+<td>アイテムを酸で傷つかないよう加工する。<br>Makes a piece of equipment acid-proof.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[自然の脅威] / [Nature's Wrath]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>地震<br>Earthquake</td>
+<td>周囲のダンジョンを揺らし、壁と床をランダムに入れ変える。<br>Shakes dungeon structure, and results in random swapping of floors and walls.</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>カマイタチ<br>Whirlwind</td>
+<td>全方向に向かって攻撃する。<br>Attacks all adjacent monsters.</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>ブリザード<br>Blizzard</td>
+<td>巨大な冷気の球を放つ。<br>Fires a huge ball of cold.</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>稲妻嵐<br>Lightning Storm</td>
+<td>巨大な電撃の球を放つ。<br>Fires a huge electric ball.</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>渦潮<br>Whirlpool</td>
+<td>巨大な水の球を放つ。<br>Fires a huge ball of water.</td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>陽光召喚<br>Call Sunlight</td>
+<td>自分を中心とした光の球を発生させる。さらに、その階全体を永久に照らし、ダンジョン内すべてのアイテムを感知する。<br>Generates ball of light centered on you. Maps and lights whole dungeon level. Knows all objects location.</td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>精霊の刃<br>Elemental Branding</td>
+<td>武器に炎か冷気の属性をつける。<br>Brands current weapon with fire or frost.</td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>自然の脅威<br>Nature's Wrath</td>
+<td>近くの全てのモンスターにダメージを与え、地震を起こし、自分を中心とした分解の球を発生させる。<br>Damages all monsters in sight. Makes quake. Generates disintegration ball centered on you.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<blockquote>
+<p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
+This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
+生成 / Generated: 2026-07-04 02:38 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

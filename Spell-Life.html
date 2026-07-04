@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>生命領域の呪文 / Life Realm Spells · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-Critical.html">会心の一撃 / Critical</a></li>
+<li><a href="Analysis-Experience.html">経験値 / Experience</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数 / Blows</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>生命領域の呪文 / Life Realm Spells</h1>
+<p>生命領域（Life）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>Spellbooks and spells of the Life realm.</p>
+<p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
+<h2>[一般祈祷] / [Book of Common Prayer]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>軽傷の治癒<br>Cure Light Wounds</td>
+<td>怪我と体力を少し回復させる。<br>Heals cuts and HP a little.</td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>祝福<br>Bless</td>
+<td>一定時間、命中率とACにボーナスを得る。<br>Gives a bonus to hit and AC for a few turns.</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>軽傷<br>Cause Light Wounds</td>
+<td>1体のモンスターに小ダメージを与える。抵抗されると無効。<br>Wounds a monster a little unless resisted.</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>光の召喚<br>Call Light</td>
+<td>光源が照らしている範囲か部屋全体を永久に明るくする。<br>Lights up nearby area and the inside of a room permanently.</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>罠 &amp; 隠し扉感知<br>Detect Doors &amp; Traps</td>
+<td>近くの全ての罠と扉と階段を感知する。<br>Detects traps, doors, and stairs in your vicinity.</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>重傷の治癒<br>Cure Medium Wounds</td>
+<td>怪我と体力を中程度回復させる。<br>Heals cuts and HP more.</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>解毒<br>Cure Poison</td>
+<td>体内の毒を取り除く。<br>Cures yourself of any poisons.</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>空腹充足<br>Satisfy Hunger</td>
+<td>満腹にする。<br>Satisfies hunger.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[上級祈祷] / [High Mass]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>解呪<br>Remove Curse</td>
+<td>アイテムにかかった弱い呪いを解除する。<br>Removes normal curses from equipped items.</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>重傷<br>Cause Medium Wounds</td>
+<td>1体のモンスターに中ダメージを与える。抵抗されると無効。<br>Wounds a monster unless resisted.</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>致命傷の治癒<br>Cure Critical Wounds</td>
+<td>体力を大幅に回復させ、負傷と朦朧状態も全快する。<br>Heals HP greatly. Also cures cuts and being stunned.</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>耐熱耐寒<br>Resist Heat and Cold</td>
+<td>一定時間、火炎と冷気に対する耐性を得る。装備による耐性に累積する。<br>Gives resistance to fire and cold. These resistances can be added to those from equipment for more powerful resistances</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>周辺感知<br>Sense Surroundings</td>
+<td>周辺の地形を感知する。<br>Maps nearby area.</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>パニック・アンデッド<br>Turn Undead</td>
+<td>視界内のアンデッドを恐怖させる。抵抗されると無効。<br>Attempts to scare undead monsters in sight.</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>体力回復<br>Healing</td>
+<td>極めて強力な回復呪文で、負傷と朦朧状態も全快する。<br>Is very powerful healing magic. Also completely cures cuts and being stunned.</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>結界の紋章<br>Rune of Protection</td>
+<td>自分のいる床の上に、モンスターが通り抜けたり召喚されたりすることができなくなるルーンを描く。<br>Sets a rune on the floor beneath you. If you are on a rune, monsters cannot attack you but can try to break the rune.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[一角獣の書] / [Book of the Unicorn]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td><em>解呪</em><br>Dispel Curse</td>
+<td>アイテムにかかった強力な呪いを解除する。<br>Removes normal and heavy curses from equipped items.</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>鑑識<br>Perception</td>
+<td>アイテムを識別する。<br>Identifies an item.</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>アンデッド退散<br>Dispel Undead</td>
+<td>視界内の全てのアンデッドにダメージを与える。<br>Damages all undead monsters in sight.</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>凪の刻<br>Day of the Dove</td>
+<td>視界内の全てのモンスターを魅了する。抵抗されると無効。<br>Attempts to charm all monsters in sight.</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>致命傷<br>Cause Critical Wounds</td>
+<td>1体のモンスターに大ダメージを与える。抵抗されると無効。<br>Wounds a monster critically unless resisted.</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>帰還の詔<br>Word of Recall</td>
+<td>地上にいるときはダンジョンの最深階へ、ダンジョンにいるときは地上へと移動する。<br>Recalls player from dungeon to town or from town to the deepest level of dungeon.</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>真実の祭壇<br>Alter Reality</td>
+<td>現在の階を再構成する。<br>Recreates current dungeon level.</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>真・結界<br>Warding True</td>
+<td>自分のいる床と周囲8マスの床の上に、モンスターが通り抜けたり召喚されたりすることができなくなるルーンを描く。<br>Creates runes in all adjacent squares and under you.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[聖杯の加護] / [Blessings of the Grail]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>不毛化<br>Sterilization</td>
+<td>この階の増殖するモンスターが増殖できなくなる。<br>Prevents any breeders on current level from breeding.</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>全感知<br>Detection</td>
+<td>近くの全てのモンスター、罠、扉、階段、財宝、そしてアイテムを感知する。<br>Detects all monsters, traps, doors, stairs, treasures and items in your vicinity.</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>アンデッド消滅<br>Annihilate Undead</td>
+<td>自分の周囲にいるアンデッドを現在の階から消し去る。抵抗されると無効。<br>Eliminates all nearby undead monsters, exhausting you. Powerful or unique monsters may be able to resist.</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>千里眼<br>Clairvoyance</td>
+<td>その階全体を永久に照らし、ダンジョン内すべてのアイテムを感知する。<br>Maps and lights whole dungeon level. Knows all objects location. And gives telepathy for a while.</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>全復活<br>Restoration</td>
+<td>すべてのステータスと経験値を回復する。<br>Restores all stats and experience.</td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td><em>体力回復</em><br>Healing True</td>
+<td>最強の治癒の魔法で、負傷と朦朧状態も全快する。<br>Is the greatest healing magic. Heals all HP, cuts and being stunned.</td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>聖なるビジョン<br>Holy Vision</td>
+<td>アイテムの持つ能力を完全に知る。<br><em>Identifies</em> an item.</td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>究極の耐性<br>Ultimate Resistance</td>
+<td>一定時間、あらゆる耐性を付け、ACと魔法防御能力を上昇させる。<br>Gives ultimate resistance, bonus to AC and speed.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<blockquote>
+<p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
+This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
+生成 / Generated: 2026-07-04 02:38 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

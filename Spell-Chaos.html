@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>カオス領域の呪文 / Chaos Realm Spells · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-Critical.html">会心の一撃 / Critical</a></li>
+<li><a href="Analysis-Experience.html">経験値 / Experience</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数 / Blows</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>カオス領域の呪文 / Chaos Realm Spells</h1>
+<p>カオス領域（Chaos）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>Spellbooks and spells of the Chaos realm.</p>
+<p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
+<h2>[カオスの徴] / [Sign of Chaos]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>マジック・ミサイル<br>Magic Missile</td>
+<td>弱い魔法の矢を放つ。<br>Fires a weak bolt of magic.</td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>トラップ/ドア破壊<br>Trap / Door Destruction</td>
+<td>隣接する罠と扉を破壊する。<br>Destroys all doors and traps in adjacent squares.</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>閃光<br>Flash of Light</td>
+<td>光源が照らしている範囲か部屋全体を永久に明るくする。<br>Lights up nearby area and the inside of a room permanently.</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>混乱の手<br>Touch of Confusion</td>
+<td>相手を混乱させる攻撃をできるようにする。<br>Attempts to confuse the next monster that you hit.</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>魔力炸裂<br>Mana Burst</td>
+<td>魔法の球を放つ。<br>Fires a ball of magic.</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>ファイア・ボルト<br>Fire Bolt</td>
+<td>炎のボルトもしくはビームを放つ。<br>Fires a bolt or beam of fire.</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>力の拳<br>Fist of Force</td>
+<td>ごく小さな分解の球を放つ。<br>Fires a tiny ball of disintegration.</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>テレポート<br>Teleport Self</td>
+<td>遠距離のテレポートをする。<br>Teleports you a long distance.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[カオス秘術] / [Chaos Mastery]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>ワンダー<br>Wonder</td>
+<td>モンスターにランダムな効果を与える。<br>Fires something with random effects.</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>カオス・ボルト<br>Chaos Bolt</td>
+<td>カオスのボルトもしくはビームを放つ。<br>Fires a bolt or ball of chaos.</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>ソニック・ブーム<br>Sonic Boom</td>
+<td>自分を中心とした轟音の球を発生させる。<br>Generates a ball of sound centered on you.</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>破滅の矢<br>Doom Bolt</td>
+<td>純粋な魔力のビームを放つ。<br>Fires a beam of pure mana.</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>ファイア・ボール<br>Fire Ball</td>
+<td>炎の球を放つ。<br>Fires a ball of fire.</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>テレポート・アウェイ<br>Teleport Other</td>
+<td>モンスターをテレポートさせるビームを放つ。抵抗されると無効。<br>Teleports all monsters on the line away unless resisted.</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>破壊の言葉<br>Word of Destruction</td>
+<td>周辺のアイテム、モンスター、地形を破壊する。<br>Destroys everything in nearby area.</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>ログルス発動<br>Invoke Logrus</td>
+<td>巨大なカオスの球を放つ。<br>Fires a huge ball of chaos.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[カオス魔導] / [Chaos Channels]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>他者変容<br>Polymorph Other</td>
+<td>モンスター1体を変身させる。抵抗されると無効。<br>Attempts to polymorph a monster.</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>連鎖稲妻<br>Chain Lightning</td>
+<td>全方向に対して電撃のビームを放つ。<br>Fires lightning beams in all directions.</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>魔力封入<br>Arcane Binding</td>
+<td>杖/魔法棒の充填回数を増やすか、充填中のロッドの充填時間を減らす。<br>Recharges staffs, wands or rods.</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>原子分解<br>Disintegrate</td>
+<td>巨大な分解の球を放つ。<br>Fires a huge ball of disintegration.</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>現実変容<br>Alter Reality</td>
+<td>現在の階を再構成する。<br>Recreates current dungeon level.</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>マジック・ロケット<br>Magic Rocket</td>
+<td>ロケットを発射する。<br>Fires a magic rocket.</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>混沌の刃<br>Chaos Branding</td>
+<td>武器にカオスの属性をつける。<br>Makes current weapon a Chaotic weapon.</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>悪魔召喚<br>Summon Demon</td>
+<td>悪魔を1体召喚する。<br>Summons a demon.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[ハルマゲドン大全] / [Armageddon Tome]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>重力光線<br>Beam of Gravity</td>
+<td>重力のビームを放つ。<br>Fires a beam of gravity.</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>流星群<br>Meteor Swarm</td>
+<td>自分の周辺に隕石を落とす。<br>Causes meteorites to fall down on nearby random locations.</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>焔の一撃<br>Flame Strike</td>
+<td>自分を中心とした超巨大な炎の球を発生させる。<br>Generates a huge ball of fire centered on you.</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>混沌召来<br>Call Chaos</td>
+<td>ランダムな属性の球やビームを発生させる。<br>Generates random kinds of balls or beams.</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>自己変容<br>Polymorph Self</td>
+<td>自分を変身させようとする。<br>Polymorphs yourself.</td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>魔力の嵐<br>Mana Storm</td>
+<td>非常に強力で巨大な純粋な魔力の球を放つ。<br>Fires an extremely powerful huge ball of pure mana.</td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>ログルスのブレス<br>Breathe Logrus</td>
+<td>非常に強力なカオスの球を放つ。<br>Fires an extremely powerful ball of chaos.</td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>虚無召来<br>Call the Void</td>
+<td>自分の周囲に向かって、ロケット、純粋な魔力の球、放射性廃棄物の球を放つ。ただし、壁に隣接して使用すると広範囲を破壊する。<br>Fires rockets, mana balls and nuclear waste balls in all directions if you are not adjacent to any walls. Otherwise <em>destroys</em> huge area.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<blockquote>
+<p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
+This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
+生成 / Generated: 2026-07-04 02:38 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>呪術領域の呪文 / Hex Realm Spells · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-Critical.html">会心の一撃 / Critical</a></li>
+<li><a href="Analysis-Experience.html">経験値 / Experience</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数 / Blows</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>呪術領域の呪文 / Hex Realm Spells</h1>
+<p>呪術領域（Hex）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>Spellbooks and spells of the Hex realm.</p>
+<p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
+<h2>[呪術入門] / [Handbook of Hex]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>邪なる祝福<br>Evily blessing</td>
+<td>祝福により攻撃精度と防御力が上がる。<br>Attempts to increase +to_hit of a weapon and AC</td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>軽傷の治癒<br>Cure light wounds</td>
+<td>HPや傷を少し回復させる。<br>Heals cuts and HP a little.</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>悪魔のオーラ<br>Demonic aura</td>
+<td>炎のオーラを身にまとい、回復速度が速くなる。<br>Gives fire aura and regeneration.</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>悪臭霧<br>Stinking mist</td>
+<td>視界内のモンスターに微弱量の毒のダメージを与える。<br>Deals a little poison damage to all monsters in your sight.</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>腕力強化<br>Extra might</td>
+<td>術者の腕力を上昇させる。<br>Attempts to increase your strength.</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>武器呪縛<br>Curse weapon</td>
+<td>装備している武器を呪う。<br>Curses your weapon.</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>邪悪感知<br>Evil detection</td>
+<td>周囲の邪悪なモンスターを感知する。<br>Detects evil monsters.</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>我慢<br>Patience</td>
+<td>数ターン攻撃を耐えた後、受けたダメージを地獄の業火として周囲に放出する。<br>Bursts hell fire strongly after enduring damage for a few turns.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[上級呪法] / [High Curse]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>氷の鎧<br>Armor of ice</td>
+<td>氷のオーラを身にまとい、防御力が上昇する。<br>Surrounds you with an icy aura and gives a bonus to AC.</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>重傷の治癒<br>Cure serious wounds</td>
+<td>体力や傷を多少回復させる。<br>Heals cuts and HP.</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>薬品吸入<br>Inhale potion</td>
+<td>呪文詠唱を中止することなく、薬の効果を得ることができる。<br>Quaffs a potion without canceling spell casting.</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>衰弱の霧<br>Hypodynamic mist</td>
+<td>視界内のモンスターに微弱量の衰弱属性のダメージを与える。<br>Deals a little life-draining damage to all monsters in your sight.</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>魔剣化<br>Swords to runeswords</td>
+<td>武器の攻撃力を上げる。切れ味を得、呪いに応じて与えるダメージが上昇し、善良なモンスターに対するダメージが2倍になる。<br>Gives vorpal ability to your weapon. Increases damage from your weapon acccording to curse of your weapon.</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>混乱の手<br>Touch of confusion</td>
+<td>攻撃した際モンスターを混乱させる。<br>Confuses a monster when you attack.</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>肉体強化<br>Building up</td>
+<td>術者の腕力、器用さ、耐久力を上昇させる。攻撃回数の上限を 1 増加させる。<br>Attempts to increases your strength, dexterity and constitusion.</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>反テレポート結界<br>Anti teleport barrier</td>
+<td>視界内のモンスターのテレポートを阻害するバリアを張る。<br>Obstructs all teleportations by monsters in your sight.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[怨恨呪縛] / [Curse and Spelling]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>衝撃のクローク<br>Cloak of shock</td>
+<td>電気のオーラを身にまとい、動きが速くなる。<br>Gives lightning aura and a bonus to speed.</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>致命傷の治癒<br>Cure critical wounds</td>
+<td>体力や傷を回復させる。<br>Heals cuts and HP greatly.</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>呪力封入<br>Recharging</td>
+<td>魔法の道具に魔力を再充填する。<br>Recharges a magic device.</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>死者復活<br>Animate Dead</td>
+<td>死体を蘇らせてペットにする。<br>Raises corpses and skeletons from dead.</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>防具呪縛<br>Curse armor</td>
+<td>装備している防具に呪いをかける。<br>Curse a piece of armour that you are wielding.</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>影のクローク<br>Cloak of shadow</td>
+<td>影のオーラを身にまとい、敵に影のダメージを与える。<br>Gives aura of shadow.</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>苦痛を魔力に<br>Pain to mana</td>
+<td>視界内のモンスターに精神ダメージ与え、魔力を吸い取る。<br>Deals psychic damage to all monsters in sight and drains some mana.</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>目には目を<br>Eye for an eye</td>
+<td>打撃や魔法で受けたダメージを、攻撃元のモンスターにも与える。<br>Returns same damage which you got to the monster which damaged you.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[禁呪法大全] / [Forbidden Cursebook]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>反増殖結界<br>Anti multiply barrier</td>
+<td>その階の増殖するモンスターの増殖を阻止する。<br>Obstructs all multiplying by monsters on entire floor.</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>全復活<br>Restoration</td>
+<td>経験値を徐々に復活し、減少した能力値を回復させる。<br>Restores experience and status.</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>呪力吸収<br>Drain curse power</td>
+<td>呪われた装備品の呪いを吸収して魔力を回復する。<br>Drains curse on your equipment and heals SP a little.</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>吸血の刃<br>Swords to vampires</td>
+<td>吸血属性で攻撃する。<br>Gives vampiric ability to your weapon.</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>朦朧の言葉<br>Word of stun</td>
+<td>視界内のモンスターを朦朧とさせる。<br>Stuns all monsters in your sight.</td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>影移動<br>Moving into shadow</td>
+<td>モンスターの隣のマスに瞬間移動する。<br>Teleports you close to a monster.</td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>反魔法結界<br>Anti magic barrier</td>
+<td>視界内のモンスターの魔法を阻害するバリアを張る。<br>Obstructs all magic spells of monsters in your sight.</td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>復讐の宣告<br>Revenge sentence</td>
+<td>数ターン後にそれまで受けたダメージに応じた威力の地獄の劫火の弾を放つ。<br>Fires a ball of hell fire to try avenging damage from a few turns.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<blockquote>
+<p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
+This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
+生成 / Generated: 2026-07-04 02:38 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>仙術領域の呪文 / Sorcery Realm Spells · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-Critical.html">会心の一撃 / Critical</a></li>
+<li><a href="Analysis-Experience.html">経験値 / Experience</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数 / Blows</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>仙術領域の呪文 / Sorcery Realm Spells</h1>
+<p>仙術領域（Sorcery）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>Spellbooks and spells of the Sorcery realm.</p>
+<p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
+<h2>[入門書] / [Beginner's Handbook]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>モンスター感知<br>Detect Monsters</td>
+<td>近くの全ての見えるモンスターを感知する。<br>Detects all monsters in your vicinity unless invisible.</td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>ショート・テレポート<br>Phase Door</td>
+<td>近距離のテレポートをする。<br>Teleports you a short distance.</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>罠と扉感知<br>Detect Doors and Traps</td>
+<td>近くの全ての扉と罠を感知する。<br>Detects traps, doors, and stairs in your vicinity.</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>ライト・エリア<br>Light Area</td>
+<td>光源が照らしている範囲か部屋全体を永久に明るくする。<br>Lights up nearby area and the inside of a room permanently.</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>パニック・モンスター<br>Confuse Monster</td>
+<td>モンスター1体を混乱させる。抵抗されると無効。<br>Attempts to confuse a monster.</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>テレポート<br>Teleport</td>
+<td>遠距離のテレポートをする。<br>Teleports you a long distance.</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>スリープ・モンスター<br>Sleep Monster</td>
+<td>モンスター1体を眠らせる。抵抗されると無効。<br>Attempts to put a monster to sleep.</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>魔力充填<br>Recharging</td>
+<td>杖/魔法棒の充填回数を増やすか、充填中のロッドの充填時間を減らす。<br>Recharges staffs, wands or rods.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[仙人の書] / [Master Sorcerer's Handbook]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>魔法の地図<br>Magic Mapping</td>
+<td>周辺の地形を感知する。<br>Maps nearby area.</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>鑑定<br>Identify</td>
+<td>アイテムを識別する。<br>Identifies an item.</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>スロウ・モンスター<br>Slow Monster</td>
+<td>モンスター1体を減速させる。抵抗されると無効。<br>Attempts to slow a monster.</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>周辺スリープ<br>Mass Sleep</td>
+<td>視界内の全てのモンスターを眠らせる。抵抗されると無効。<br>Attempts to put all monsters in sight to sleep.</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>テレポート・モンスター<br>Teleport Away</td>
+<td>モンスターをテレポートさせるビームを放つ。抵抗されると無効。<br>Teleports all monsters on the line away unless resisted.</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>スピード<br>Haste Self</td>
+<td>一定時間、加速する。<br>Hastes you for a while.</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>真・感知<br>Detection True</td>
+<td>近くの全てのモンスター、罠、扉、階段、財宝、そしてアイテムを感知する。<br>Detects all monsters, traps, doors, stairs, treasures and items in your vicinity.</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>真・鑑定<br>Identify True</td>
+<td>アイテムの持つ能力を完全に知る。<br><em>Identifies</em> an item.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[紋様仙術] / [Pattern Sorcery]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>物体と財宝感知<br>Detect items and Treasure</td>
+<td>近くの全てのアイテムと財宝を感知する。<br>Detects all treasures and items in your vicinity.</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>チャーム・モンスター<br>Charm Monster</td>
+<td>モンスター1体を魅了する。抵抗されると無効。<br>Attempts to charm a monster.</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>精神感知<br>Sense Minds</td>
+<td>一定時間、テレパシー能力を得る。<br>Gives telepathy for a while.</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>街移動<br>Teleport to town</td>
+<td>街へ移動する。地上にいるときしか使えない。<br>Instantly teleports you to a town which you choose. Can only be used outdoors.</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>自己分析<br>Self Knowledge</td>
+<td>現在の自分の状態を完全に知る。<br>Gives you useful info regarding your current resistances, the powers of your weapon and maximum limits of your stats.</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>テレポート・レベル<br>Teleport Level</td>
+<td>瞬時に上か下の階にテレポートする。<br>Instantly teleports you up or down a level.</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>帰還の呪文<br>Word of Recall</td>
+<td>地上にいるときはダンジョンの最深階へ、ダンジョンにいるときは地上へと移動する。<br>Recalls player from dungeon to town or from town to the deepest level of dungeon.</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>次元の扉<br>Dimension Door</td>
+<td>短距離内の指定した場所にテレポートする。<br>Teleports you to a given location.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[力の魔道書] / [Grimoire of Power]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>調査<br>Probing</td>
+<td>モンスターの属性、残り体力、最大体力、スピード、正体を知る。<br>Probes all monsters' alignment, HP, speed and their true character.</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>爆発のルーン<br>Explosive Rune</td>
+<td>自分のいる床の上に、モンスターが通ると爆発してダメージを与えるルーンを描く。<br>Sets a rune under you. The rune will explode when a monster moves on it.</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>念動力<br>Telekinesis</td>
+<td>アイテムを自分の足元へ移動させる。<br>Pulls a distant item close to you.</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>千里眼<br>Clairvoyance</td>
+<td>その階全体を永久に照らし、ダンジョン内すべてのアイテムを感知する。さらに、一定時間テレパシー能力を得る。<br>Maps and lights whole dungeon level. Knows all objects location. And gives telepathy for a while.</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>魅了の視線<br>Charm monsters</td>
+<td>視界内の全てのモンスターを魅了する。抵抗されると無効。<br>Attempts to charm all monsters in sight.</td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>錬金術<br>Alchemy</td>
+<td>アイテム1つをお金に変える。<br>Turns an item into 1/3 of its value in gold.</td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>怪物追放<br>Banishment</td>
+<td>視界内の全てのモンスターをテレポートさせる。抵抗されると無効。<br>Teleports all monsters in sight away unless resisted.</td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>無傷の球<br>Globe of Invulnerability</td>
+<td>一定時間、ダメージを受けなくなるバリアを張る。切れた瞬間に少しターンを消費するので注意。<br>Generates a barrier which completely protects you from almost all damage. Takes a few of your turns when the barrier breaks or duration time is exceeded.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<blockquote>
+<p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
+This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
+生成 / Generated: 2026-07-04 02:38 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>武芸領域の呪文 / Kendo (Hissatsu) Realm Spells · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-Critical.html">会心の一撃 / Critical</a></li>
+<li><a href="Analysis-Experience.html">経験値 / Experience</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数 / Blows</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>武芸領域の呪文 / Kendo (Hissatsu) Realm Spells</h1>
+<p>武芸領域（Kendo (Hissatsu)）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>Spellbooks and spells of the Kendo (Hissatsu) realm.</p>
+<p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
+<h2>[武芸諸譜] / [Bugei Shofu]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>飛飯綱<br>Tobi-Izuna</td>
+<td>2マス離れたところにいるモンスターを攻撃する。<br>Attacks a monster two squares away.</td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>五月雨斬り<br>3-Way Attack</td>
+<td>3方向に対して攻撃する。<br>Attacks in 3 directions at one time.</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>ブーメラン<br>Boomerang</td>
+<td>武器を手元に戻ってくるように投げる。戻ってこないこともある。<br>Throws current weapon. It'll return to your hand unless the action failed.</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>焔霊<br>Burning Strike</td>
+<td>火炎耐性のないモンスターに大ダメージを与える。<br>Attacks a monster with more damage unless it has resistance to fire.</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>殺気感知<br>Detect Ferocity</td>
+<td>近くの思考することができるモンスターを感知する。<br>Detects all monsters except the mindless in your vicinity.</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>みね打ち<br>Strike to Stun</td>
+<td>相手にダメージを与えないが、朦朧とさせる。<br>Attempts to stun a monster next to you.</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>カウンター<br>Counter</td>
+<td>相手に攻撃されたときに反撃する。反撃するたびにMPを消費。<br>Prepares to counterattack. When attacked by a monster, strikes back using SP each time.</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>払い抜け<br>Harainuke</td>
+<td>攻撃した後、反対側に抜ける。<br>In one action, attacks a monster with your weapons normally and then moves to the space beyond the monster if that space is not blocked.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[柳生武芸帳] / [Yagyuu Bugeichou]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>サーペンツタン<br>Serpent's Tongue</td>
+<td>毒耐性のないモンスターに大ダメージを与える。<br>Attacks a monster with more damage unless it has resistance to poison.</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>斬魔剣弐の太刀<br>Zammaken</td>
+<td>生命のない邪悪なモンスターに大ダメージを与えるが、他のモンスターには全く効果がない。<br>Attacks an evil unliving monster with great damage. Has no effect on other monsters.</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>裂風剣<br>Wind Blast</td>
+<td>攻撃した相手を後方へ吹き飛ばす。<br>Attacks an adjacent monster and blows it away.</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>刀匠の目利き<br>Judge</td>
+<td>武器・防具を1つ識別する。レベル45以上で武器・防具の能力を完全に知ることができる。<br>Identifies a weapon or armor. <em>Identifies</em> the item at level 45.</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>破岩斬<br>Rock Smash</td>
+<td>岩を壊し、岩石系のモンスターに大ダメージを与える。<br>Breaks rock or greatly damages a monster made of rocks.</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>乱れ雪月花<br>Midare-Setsugekka</td>
+<td>攻撃回数が増え、冷気耐性のないモンスターに大ダメージを与える。<br>Attacks a monster with an increased number of attacks and more damage unless it has resistance to cold.</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>急所突き<br>Spot Aiming</td>
+<td>モンスターを一撃で倒す攻撃を繰り出す。失敗すると1点しかダメージを与えられない。<br>Attempts to kill a monster instantly. If that fails, causes only 1HP of damage.</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>魔神斬り<br>Majingiri</td>
+<td>会心の一撃で攻撃する。攻撃がかわされやすい。<br>Attempts to attack with a critical hit, but this attack is easy to evade for a monster.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[五輪書] / [Gorinnosho]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>捨て身<br>Desperate Attack</td>
+<td>強力な攻撃を繰り出す。次のターンまでの間、食らうダメージが増える。<br>Attacks with all of your power, but all damage you take will be doubled for one turn.</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>雷撃鷲爪斬<br>Lightning Eagle</td>
+<td>電撃耐性のないモンスターに非常に大きいダメージを与える。<br>Attacks a monster with more damage unless it has resistance to electricity.</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>入身<br>Rush Attack</td>
+<td>素早く相手に近寄り攻撃する。<br>Steps close to a monster and attacks at the same time.</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>赤流渦<br>Bloody Maelstrom</td>
+<td>自分自身も傷を作りつつ、その傷が深いほど大きい威力で全方向の敵を攻撃できる。生きていないモンスターには効果がない。<br>Attacks all adjacent monsters with power corresponding to your cuts. Then increases your cuts. Has no effect on unliving monsters.</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>激震撃<br>Earthquake Blow</td>
+<td>地震を起こす。<br>Shakes dungeon structure, and results in random swapping of floors and walls.</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>地走り<br>Crack</td>
+<td>衝撃波のビームを放つ。<br>Fires a shock wave as a beam.</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>気迫の雄叫び<br>War Cry</td>
+<td>視界内の全モンスターに対して轟音の攻撃を行う。さらに、近くにいるモンスターを怒らせる。<br>Damages all monsters in sight with sound. Aggravates nearby monsters.</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>無双三段<br>Musou-Sandan</td>
+<td>強力な3段攻撃を繰り出す。<br>Attacks with three powerful strikes.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[北辰一刀流皆伝] / [Hokusin Ittouryuu Kaiden]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>吸血鬼の牙<br>Vampire's Fang</td>
+<td>攻撃した相手の体力を吸いとり、自分の体力を回復させる。生命を持たないモンスターには通じない。<br>Attacks with vampiric strikes which absorb HP from a monster and heal you. Has no effect on unliving monsters.</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>幻惑<br>Moon Dazzling</td>
+<td>視界内の起きている全モンスターに朦朧、混乱、眠りを与えようとする。<br>Attempts to stun, confuse and put to sleep all waking monsters.</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>百人斬り<br>Hundred Slaughter</td>
+<td>連続して入身でモンスターを攻撃する。攻撃するたびにMPを消費。MPがなくなるか、モンスターを倒せなかったら百人斬りは終了する。<br>Performs a series of rush attacks. The series continues as long as the attacked monster dies and you have sufficient SP.</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>天翔龍閃<br>Dragonic Flash</td>
+<td>視界内の場所を指定して、その場所と自分の間にいる全モンスターを攻撃し、その場所に移動する。<br>Runs toward given location while attacking all monsters on the path.</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>二重の剣撃<br>Twin Slash</td>
+<td>1ターンで2度攻撃を行う。<br>Attack twice in one turn.</td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>虎伏絶刀勢<br>Kofuku-Zettousei</td>
+<td>強力な攻撃を行い、近くの場所にも効果が及ぶ。<br>Performs a powerful attack which even affects nearby monsters.</td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>慶雲鬼忍剣<br>Keiun-Kininken</td>
+<td>自分もダメージをくらうが、相手に非常に大きなダメージを与える。アンデッドには特に効果がある。<br>Attacks a monster with extremely powerful damage, but you also take some damage. Hurts an undead monster greatly.</td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>切腹<br>Harakiri</td>
+<td>「武士道とは、死ぬことと見つけたり。」<br>'Bushido, the way of warriors, is found in death'</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<blockquote>
+<p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
+This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
+生成 / Generated: 2026-07-04 02:38 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>匠領域の呪文 / Craft Realm Spells · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-Critical.html">会心の一撃 / Critical</a></li>
+<li><a href="Analysis-Experience.html">経験値 / Experience</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数 / Blows</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>匠領域の呪文 / Craft Realm Spells</h1>
+<p>匠領域（Craft）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>Spellbooks and spells of the Craft realm.</p>
+<p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
+<h2>[新弟子用教本] / [Handbook for Pupils]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>赤外線視力<br>Infravision</td>
+<td>一定時間、赤外線視力が増強される。<br>Gives infravision for a while.</td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>回復力強化<br>Regeneration</td>
+<td>一定時間、回復力が増強される。<br>Gives regeneration ability for a while.</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>空腹充足<br>Satisfy Hunger</td>
+<td>満腹になる。<br>Satisfies hunger.</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>耐冷気<br>Resist Cold</td>
+<td>一定時間、冷気への耐性を得る。装備による耐性に累積する。<br>Gives resistance to cold. This resistance can be added to that from equipment for more powerful resistance.</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>耐火炎<br>Resist Fire</td>
+<td>一定時間、炎への耐性を得る。装備による耐性に累積する。<br>Gives resistance to fire. This resistance can be added to that from equipment for more powerful resistance.</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>士気高揚<br>Heroism</td>
+<td>一定時間、ヒーロー気分になる。<br>Removes fear. Gives a bonus to hit for a while. Heals you for 10 HP.</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>耐電撃<br>Resist Lightning</td>
+<td>一定時間、電撃への耐性を得る。装備による耐性に累積する。<br>Gives resistance to electricity. This resistance can be added to that from equipment for more powerful resistance.</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>耐酸<br>Resist Acid</td>
+<td>一定時間、酸への耐性を得る。装備による耐性に累積する。<br>Gives resistance to acid. This resistance can be added to that from equipment for more powerful resistance.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[有段者への道] / [Grade Holder's Book]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>透明視認<br>See Invisibility</td>
+<td>一定時間、透明なものが見えるようになる。<br>Gives see invisible for a while.</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>解呪<br>Remove Curse</td>
+<td>アイテムにかかった弱い呪いを解除する。<br>Removes normal curses from equipped items.</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>耐毒<br>Resist Poison</td>
+<td>一定時間、毒への耐性を得る。装備による耐性に累積する。<br>Gives resistance to poison. This resistance can be added to that from equipment for more powerful resistance.</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>狂戦士化<br>Berserk</td>
+<td>狂戦士化し、恐怖を除去する。<br>Gives a bonus to hit and HP, immunity to fear for a while. But decreases AC.</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>自己分析<br>Self Knowledge</td>
+<td>現在の自分の状態を完全に知る。<br>Gives you useful info regarding your current resistances, the powers of your weapon and maximum limits of your stats.</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>対邪悪結界<br>Protection from Evil</td>
+<td>邪悪なモンスターの攻撃を防ぐバリアを張る。<br>Gives aura which protect you from evil monsters' physical attack.</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>癒し<br>Cure</td>
+<td>毒、朦朧状態、負傷を全快させ、幻覚を直す。<br>Completely heals poisons, cuts, hallucination and being stunned.</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>魔法剣<br>Mana Branding</td>
+<td>一定時間、武器に冷気、炎、電撃、酸、毒のいずれかの属性をつける。武器を持たないと使えない。<br>Causes current weapon to temporarily do additional damage from cold, fire, lightning, acid or poison. You must be wielding one or more weapons.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[師範代の書] / [Note of Acting Master]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>テレパシー<br>Telepathy</td>
+<td>一定時間、テレパシー能力を得る。<br>Gives telepathy for a while.</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>肌石化<br>Stone Skin</td>
+<td>一定時間、ACを上昇させる。<br>Gives a bonus to AC for a while.</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>全耐性<br>Resistance</td>
+<td>一定時間、酸、電撃、炎、冷気、毒に対する耐性を得る。装備による耐性に累積する。<br>Gives resistance to fire, cold, electricity, acid and poison for a while. These resistances can be added to those from equipment for more powerful resistances.</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>スピード<br>Haste Self</td>
+<td>一定時間、加速する。<br>Hastes you for a while.</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>壁抜け<br>Walk through Wall</td>
+<td>一定時間、半物質化し壁を通り抜けられるようになる。<br>Gives ability to pass walls for a while.</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>盾磨き<br>Polish Shield</td>
+<td>盾に反射の属性をつける。<br>Makes a shield a shield of reflection.</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>ゴーレム製造<br>Create Golem</td>
+<td>1体のゴーレムを製造する。<br>Creates a golem.</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>魔法の鎧<br>Magical armor</td>
+<td>一定時間、魔法防御力とACが上がり、混乱と盲目の耐性、反射能力、麻痺知らず、浮遊を得る。<br>Gives resistance to magic, bonus to AC, resistance to confusion, blindness, reflection, free action and levitation for a while.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2>[悟りの書] / [Spiritual Enlightenment]</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No.</th>
+<th>呪文名 / Spell</th>
+<th>効果 / Effect</th>
+<th>詳細効果（ソース準拠）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>24</td>
+<td>装備無力化<br>Remove Enchantment</td>
+<td>武器・防具にかけられたあらゆる魔力を完全に解除する。<br>Completely removes all magics from any weapon or armor.</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>呪い粉砕<br>Remove All Curse</td>
+<td>アイテムにかかった強力な呪いを解除する。<br>Removes normal and heavy curses from equipped items.</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>完全なる知識<br>Knowledge True</td>
+<td>アイテムの持つ能力を完全に知る。<br><em>Identifies</em> an item.</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>武器強化<br>Enchant Weapon</td>
+<td>武器の命中率修正とダメージ修正を強化する。<br>Attempts to increase +to-hit, +to-dam of a weapon.</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>防具強化<br>Enchant Armor</td>
+<td>鎧の防御修正を強化する。<br>Attempts to increase +AC of an armor.</td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>武器属性付与<br>Brand Weapon</td>
+<td>武器にランダムに属性をつける。<br>Makes current weapon a random ego weapon.</td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>人間トランプ<br>Living Trump</td>
+<td>ランダムにテレポートする突然変異か、自分の意思でテレポートする突然変異が身につく。<br>Gives mutation which makes you teleport randomly or makes you able to teleport at will.</td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>属性への免疫<br>Immunity</td>
+<td>一定時間、冷気、炎、電撃、酸のいずれかに対する免疫を得る。<br>Gives an immunity to fire, cold, electricity or acid for a while.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<blockquote>
+<p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
+This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
+生成 / Generated: 2026-07-04 02:38 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
