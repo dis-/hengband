@@ -210,8 +210,69 @@
 </tbody>
 </table></div>
 <h3>元素魔法</h3>
-<p>元素魔法は b で閲覧し、m で使う。失率はWISで下がり、重い鎧で+5、ふさわしくない武器1本ごとに+5される。系統ごとに3属性を持ち、攻撃呪文は元素番号0/1/2のいずれかを参照する。氷の冷気はレベルに応じて氷に、闇の暗黒はレベルに応じて深淵に置き換わることがある。</p>
-<p>属性名は、炎が火炎・業火・プラズマ、氷が冷気・遅鈍・時間逆転、空が電撃・光・魔力、海が酸・水・分解、闇が暗黒・地獄・虚無、混沌が混乱・カオス・因果混乱、地が破片・フォース・隕石、瘴気が毒・吸血・劣化。</p>
+<p>元素魔法は <code>b</code> で閲覧し、<code>m</code> で使う。失率はWISで下がり、重い鎧で+5、ふさわしくない武器1本ごとに+5される。攻撃呪文は選んだ元素系統の**3属性（属性0/1/2）**のいずれかを参照する（下表の呪文一覧の「属性」列が対応）。</p>
+<p>系統ごとの属性名は次の通り（<code>src/mind/mind-elementalist.cpp</code>）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>元素系統</th>
+<th>属性0</th>
+<th>属性1</th>
+<th>属性2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>炎</td>
+<td>火炎</td>
+<td>業火</td>
+<td>プラズマ</td>
+</tr>
+<tr>
+<td>氷</td>
+<td>冷気</td>
+<td>遅鈍</td>
+<td>時間逆転</td>
+</tr>
+<tr>
+<td>空</td>
+<td>電撃</td>
+<td>光</td>
+<td>魔力</td>
+</tr>
+<tr>
+<td>海</td>
+<td>酸</td>
+<td>水</td>
+<td>分解</td>
+</tr>
+<tr>
+<td>闇</td>
+<td>暗黒</td>
+<td>地獄</td>
+<td>虚無</td>
+</tr>
+<tr>
+<td>混沌</td>
+<td>混乱</td>
+<td>カオス</td>
+<td>因果混乱</td>
+</tr>
+<tr>
+<td>地</td>
+<td>破片</td>
+<td>フォース</td>
+<td>隕石</td>
+</tr>
+<tr>
+<td>瘴気</td>
+<td>毒</td>
+<td>吸血</td>
+<td>劣化</td>
+</tr>
+</tbody>
+</table></div>
+<p>※置換: 氷系統の**冷気（属性0）はレベルに応じて「氷」<strong>に、闇系統の</strong>暗黒（属性0）はレベルに応じて「深淵」**に置き換わることがある。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -1067,7 +1128,7 @@
 <li>闇系統 → 暗黒耐性 → Lv30 地獄耐性</li>
 <li>カオス系統 → 混乱耐性 → Lv30 カオス耐性</li>
 <li>地系統 → 破片耐性 → Lv30 反射</li>
-<li>死系統 → 毒耐性 → Lv30 劣化耐性</li>
+<li>瘴気系統 → 毒耐性 → Lv30 劣化耐性</li>
 </ul>
 <h2>称号 / Titles</h2>
 <p>レベルに応じた称号（<code>(レベル−1)/5</code> で参照、約5レベルごとに変化）。</p>
@@ -1130,7 +1191,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 19:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:58 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
