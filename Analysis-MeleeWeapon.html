@@ -309,7 +309,7 @@ sides = 武器のダイス面数(o_ptr-&gt;damage_dice.sides)
 </thead>
 <tbody>
 <tr>
-<td>サムライの必殺技（mult_hissatsu）</td>
+<td>剣術家の必殺技（mult_hissatsu）</td>
 <td>技に応じた倍率へ引き上げ</td>
 </tr>
 <tr>
@@ -376,22 +376,22 @@ while one_in_(vorpal_chance):
 <td>-2</td>
 </tr>
 <tr>
-<td>バーサーカー</td>
+<td>狂戦士</td>
 <td><code>+lev/6</code>（片手/両手持ちで更に <code>+lev/6</code>）</td>
 </tr>
 <tr>
-<td>ソーサラー</td>
+<td>スペルマスター</td>
 <td>適さない武器で -200 等</td>
 </tr>
 <tr>
-<td>フォーストレーナー(格闘時)</td>
+<td>練気術師(格闘時)</td>
 <td><code>+(気)/5</code></td>
 </tr>
 </tbody>
 </table></div>
 <p>（このほか装備の to_d 合計などは別途 <code>to_d_misc</code> として集計され <code>to_d[hand]</code> に含まれる）</p>
 <h2>7. 剣術（必殺技）による補正</h2>
-<p><code>apply_damage_bonus</code> および <code>apply_damage_negative_effect</code> にて、サムライの発動中剣術（<code>mode</code>）に応じた補正が入る。</p>
+<p><code>apply_damage_bonus</code> および <code>apply_damage_negative_effect</code> にて、剣術家の発動中剣術（<code>mode</code>）に応じた補正が入る。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -466,7 +466,7 @@ while one_in_(vorpal_chance):
 </tr>
 </tbody>
 </table></div>
-<p>デスサイス、およびバーサーカーが1/2で発動する暴走時は、この処理に特別扱いのフラグ（<code>is_psy_spear</code>相当）が渡され、無敵貫通の扱いになる。</p>
+<p>デスサイス、および狂戦士が1/2で発動する暴走時は、この処理に特別扱いのフラグ（<code>is_psy_spear</code>相当）が渡され、無敵貫通の扱いになる。</p>
 <h2>まとめ（1打撃のダメージ式）</h2>
 <p>会心・ヴォーパル・剣術などの特殊要素を除いた基本形は次のようになる。</p>
 <pre><code>ダメージ = Dice::roll(武器ダイス) * min(mult, 150) / 10
@@ -477,7 +477,7 @@ while one_in_(vorpal_chance):
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-attack/player-attack.cpp</code>, <code>src/combat/slaying.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 03:44 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 04:05 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

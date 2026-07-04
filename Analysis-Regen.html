@@ -159,7 +159,7 @@
 </table></div>
 <p>すなわち満腹度が下がるほど回復率が落ち、飢餓状態（<code>food &lt; 100</code>）では回復率が 0 になる。</p>
 <h2>その他の状態補正（乗算・除算）</h2>
-<p>満腹度で決めた <code>regen_amount</code> に対して、以下の補正が順に適用される。パターン（The Pattern）上にいる場合は下記のうち「再生能力」以下の補正は適用されず、代わりに後述の回復不能フラグが立つ。</p>
+<p>満腹度で決めた <code>regen_amount</code> に対して、以下の補正が順に適用される。パターン（The Pattern）上にいる場合は下記のうち「急速回復」以下の補正は適用されず、代わりに後述の回復不能フラグが立つ。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -169,11 +169,11 @@
 </thead>
 <tbody>
 <tr>
-<td>「再生」能力あり（<code>regenerate</code>）</td>
+<td>「急速回復」能力あり（<code>regenerate</code>）</td>
 <td><code>regen_amount × 2</code></td>
 </tr>
 <tr>
-<td>修行僧の構え／侍の型を取っている（NONE 以外）</td>
+<td>修行僧の構え／剣術家の型を取っている（NONE 以外）</td>
 <td><code>regen_amount ÷ 2</code></td>
 </tr>
 <tr>
@@ -186,7 +186,7 @@
 </tr>
 </tbody>
 </table></div>
-<p>上記のうち「再生」「構え・型」「回復力低下」はパターン上にいない場合のみ適用される。探索・休息の×2はその後に別途適用される。</p>
+<p>上記のうち「急速回復」「構え・型」「回復力低下」はパターン上にいない場合のみ適用される。探索・休息の×2はその後に別途適用される。</p>
 <p>さらに最後に突然変異による補正が乗算される。</p>
 <pre><code>regen_amount = regen_amount × mutant_regenerate_mod / 100
 </code></pre>
@@ -216,7 +216,7 @@
 <p>HP回復は最終的に「現在HPが最大HP未満」かつ「<code>cave_no_regen</code> でない」場合にのみ <code>regenhp()</code> が呼ばれる。</p>
 <p>また <code>regenhp()</code> 内部でも次の場合は即座に return し、HP回復は行われない。</p>
 <ul>
-<li>**侍の型「光気陣」（<code>KOUKIJIN</code>）**を取っているとき</li>
+<li>**剣術家の型「降鬼」（<code>KOUKIJIN</code>）**を取っているとき</li>
 <li>**早駆け（<code>ACTION_HAYAGAKE</code>）**中のとき</li>
 </ul>
 <h2>HP回復量の計算式</h2>
@@ -234,7 +234,7 @@
 <ul>
 <li>練習モード（<code>ACTION_LEARN</code>）中</li>
 <li>早駆け（<code>ACTION_HAYAGAKE</code>）中</li>
-<li>侍の型「光気陣」（<code>KOUKIJIN</code>）中</li>
+<li>剣術家の型「降鬼」（<code>KOUKIJIN</code>）中</li>
 </ul>
 <p>まず実効的な回復レート <code>regen_rate</code> が次式で決まる。</p>
 <pre><code>regen_rate = regen_amount × 100 − upkeep_factor × PY_REGEN_NORMAL
@@ -257,7 +257,7 @@
 <ul>
 <li><strong>フロア上のモンスター</strong>は <code>regenerate_monsters()</code> により100ゲームターン毎に、<code>maxhp/100</code>（0なら1/2の確率で1）ずつ回復する。「再生」フラグ持ちは2倍。</li>
 <li><strong>ボール（捕獲）中のモンスター</strong>は <code>regenerate_captured_monsters()</code> により30ゲームターン毎に同様の割合で回復する。</li>
-<li>**魔道具喰い（マジックイーター）**は <code>regenmagic()</code> により、取り込んだ杖・魔法棒・ロッドのチャージが回復する。回復量は <code>regen_amount</code> と知能補正（<code>adj_mag_mana</code>）に比例する。</li>
+<li><strong>魔道具術師</strong>は <code>regenmagic()</code> により、取り込んだ杖・魔法棒・ロッドのチャージが回復する。回復量は <code>regen_amount</code> と知能補正（<code>adj_mag_mana</code>）に比例する。</li>
 </ul>
 <h2>回復速度に影響する主な要素まとめ</h2>
 <div class="tablewrap"><table class="sortable">
@@ -273,7 +273,7 @@
 <td>回復率が段階的に低下、飢餓で 0</td>
 </tr>
 <tr>
-<td>「再生」能力</td>
+<td>「急速回復」能力</td>
 <td>×2</td>
 </tr>
 <tr>
@@ -281,7 +281,7 @@
 <td>×2</td>
 </tr>
 <tr>
-<td>構え・型（僧/侍）</td>
+<td>構え・型（修行僧/剣術家）</td>
 <td>÷2</td>
 </tr>
 <tr>
@@ -301,7 +301,7 @@
 <td>回復しない（0）</td>
 </tr>
 <tr>
-<td>侍「光気陣」・早駆け</td>
+<td>剣術家「降鬼」・早駆け</td>
 <td>HP回復処理を行わない</td>
 </tr>
 </tbody>
@@ -309,7 +309,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/hpmp/hp-mp-processor.cpp</code>, <code>src/hpmp/hp-mp-regenerator.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 03:44 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 04:05 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

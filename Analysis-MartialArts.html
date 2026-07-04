@@ -83,7 +83,7 @@
 </aside><main class="content"><h1>近接素手攻撃</h1>
 <p><a href="Analysis.html">← 解析 / Analysis</a></p>
 <h2>概要</h2>
-<p>修行僧（モンク）・練気術師（フォーストレーナー）・狂戦士（バーサーカー）の3職業は、素手（メインハンドに武器を装備していない状態）で戦うと、通常のパンチではなく「マーシャルアーツ（武術）」による強力な打撃を繰り出す。本ページでは、この武術打撃の攻撃技テーブル・ダメージ計算・レベル依存の強化・付随効果を、現行ソースから解説する。</p>
+<p>修行僧・練気術師・狂戦士の3職業は、素手（メインハンドに武器を装備していない状態）で戦うと、通常のパンチではなく「マーシャルアーツ（武術）」による強力な打撃を繰り出す。本ページでは、この武術打撃の攻撃技テーブル・ダメージ計算・レベル依存の強化・付随効果を、現行ソースから解説する。</p>
 <p>素手攻撃が発動する条件は次の通り（<code>attack_classify()</code>）。</p>
 <ul>
 <li>職業が修行僧・練気術師・狂戦士のいずれかである</li>
@@ -252,7 +252,7 @@
 <pre><code>白虎の型 : レベル&lt;3 なら 1、それ以外は レベル/7 … ではなく レベル/3
 朱雀の型 : 常に 1
 玄武の型 : 常に 1
-上記以外(通常/青龍) : レベル&lt;7 なら 1、それ以外は レベル/7
+上記以外(通常/青竜) : レベル&lt;7 なら 1、それ以外は レベル/7
 </code></pre>
 <p>正確には白虎の型は <code>lev &lt; 3 ? 1 : lev / 3</code>、通常時は <code>lev &lt; 7 ? 1 : lev / 7</code> である（整数除算）。白虎の型は他の型より多くの試行回数を得られるため、強い技が出やすい。</p>
 <h3>各試行での抽選</h3>
@@ -372,7 +372,7 @@ pow = 5000  (忍者なら 4444)
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/mind/monk-attack.cpp</code>, <code>src/combat/martial-arts-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 03:44 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 04:05 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

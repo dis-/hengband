@@ -98,7 +98,7 @@
 <h2>攻撃を受ける前の回避処理（プレイヤー側）</h2>
 <p>打撃処理の冒頭で、プレイヤークラス・特技に応じた割り込み回避が行われる（<code>make_attack_normal()</code>）。</p>
 <ul>
-<li>侍の「居合」の型：メッセージを表示し <code>HISSATSU_IAI</code> で反撃。倒せば打撃は発生しない。</li>
+<li>剣術家の「居合」の型：メッセージを表示し <code>HISSATSU_IAI</code> で反撃。倒せば打撃は発生しない。</li>
 <li>忍者などの「変わり身（kawarimi）」：
 <ul>
 <li>攻撃開始前に <code>randint0(55) &lt; (プレイヤーレベル × 3 / 5 + 20)</code> の確率で発動判定し、成功すればテレポートして攻撃を回避。</li>
@@ -626,7 +626,7 @@ if (爆発攻撃 explode) ダメージ = 0   // 爆発はダイスによる基�
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/monster-attack/</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 03:44 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 04:05 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

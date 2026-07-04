@@ -167,7 +167,7 @@
 <p>ランダム付与時（<code>gain_mutation</code> に ID=0 を渡した場合）の抽選は <code>switch_gain_mutation()</code>（<code>src/mutation/gain-mutation-switcher.cpp</code>）で行われる。</p>
 <ul>
 <li>通常は <code>randint1(193)</code>（1〜193）で抽選する。</li>
-<li><strong>バーサーカー</strong>（PlayerClassType::BERSERKER）は <code>74 + randint1(119)</code>（75〜193）となり、発動型・ランダム発動型の前半を引かず、常時型の身体変異に偏る。</li>
+<li><strong>狂戦士</strong>（PlayerClassType::BERSERKER）は <code>74 + randint1(119)</code>（75〜193）となり、発動型・ランダム発動型の前半を引かず、常時型の身体変異に偏る。</li>
 <li>抽選値には各変異が複数個の連続する <code>case</code> を占めており、<code>case</code> 数が多い変異ほど出やすい（例：<code>SPIT_ACID</code> は case 1〜4 の4枠、多くの常時型は3枠）。</li>
 <li>一部には除外条件がある。<code>CHAOS_GIFT</code>（カオスパトロン獲得）はカオス戦士なら付与されず、<code>BAD_LUCK</code>（黒いオーラ）はラッキーな性格なら付与されない。</li>
 </ul>
@@ -432,14 +432,14 @@
 <ul>
 <li>突然変異は <code>player_ptr-&gt;muta</code> ビットフラグに保持され、<code>PlayerMutationType</code>（0〜95）の並びが「発動型／ランダム発動型／常時型」の3分類に対応する。</li>
 <li>主要な獲得契機はカオス攻撃被弾（耐性なしで 1/3）、自己変容の薬、ビーストマンのレベルアップ（1/5）、パトロンの褒美（1/6）。</li>
-<li>ランダム抽選は <code>randint1(193)</code>（バーサーカーは 75〜193）で、<code>case</code> 枠数が出現率に比例し、種族固有の上書きと相反変異の相殺が入る。</li>
+<li>ランダム抽選は <code>randint1(193)</code>（狂戦士は 75〜193）で、<code>case</code> 枠数が出現率に比例し、種族固有の上書きと相反変異の相殺が入る。</li>
 <li>変異を持つほど自然回復が低下する（1つ10%、下限10%）が、ビーストマンは10個まで無ペナルティ・以降5%、ラッキーな性格は1個分割引。</li>
 </ul>
 <p>（数値・確率はすべて上記ソースの現行実装から確認したもので、憶測は含まない。）</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/mutation/</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 03:44 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 04:05 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
