@@ -65,7 +65,7 @@
 </li>
 </ul>
 </aside><main class="content"><h1>暗黒領域の呪文 / Death Realm Spells</h1>
-<p>暗黒領域（Death）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>暗黒領域（Death）の呪文書と呪文一覧。「詳細効果」はゲームのソースコードから導出したレベル依存の効果値です（Lv=プレイヤーレベル）。</p>
 <p>Spellbooks and spells of the Death realm.</p>
 <p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
 <h2>[暗黒祈祷] / [Black Prayers]</h2>
@@ -83,49 +83,49 @@
 <td>0</td>
 <td>無生命感知<br>Detect Unlife</td>
 <td>近くの生命のないモンスターを感知する。<br>Detects all nonliving monsters in your vicinity.</td>
-<td></td>
+<td>半径30以内の生命を持たないもの（アンデッド等）を感知する。</td>
 </tr>
 <tr>
 <td>1</td>
 <td>呪殺弾<br>Malediction</td>
 <td>ごく小さな邪悪な力を持つボールを放つ。善良なモンスターには大きなダメージを与える。<br>Fires a tiny ball of evil power which hurts good monsters greatly.</td>
-<td></td>
+<td>地獄の火のボール（半径0＝単体）。ダメージ (3+(Lv-1)/5)d4。1/5で追加効果（恐怖・混乱・朦朧、ごく稀に即死級）。</td>
 </tr>
 <tr>
 <td>2</td>
 <td>邪悪感知<br>Detect Evil</td>
 <td>近くの邪悪なモンスターを感知する。<br>Detects all evil monsters in your vicinity.</td>
-<td></td>
+<td>半径30以内の邪悪なモンスターを感知する。</td>
 </tr>
 <tr>
 <td>3</td>
 <td>悪臭雲<br>Stinking Cloud</td>
 <td>毒の球を放つ。<br>Fires a ball of poison.</td>
-<td></td>
+<td>毒のボール。ダメージ 10+Lv/2、半径2。</td>
 </tr>
 <tr>
 <td>4</td>
 <td>黒い眠り<br>Black Sleep</td>
 <td>1体のモンスターを眠らせる。抵抗されると無効。<br>Attempts to put a monster to sleep.</td>
-<td></td>
+<td>対象1体を眠らせる。威力 Lv。</td>
 </tr>
 <tr>
 <td>5</td>
 <td>耐毒<br>Resist Poison</td>
 <td>一定時間、毒への耐性を得る。装備による耐性に累積する。<br>Gives resistance to poison. This resistance can be added to that from equipment for more powerful resistance.</td>
-<td></td>
+<td>一定時間、毒への耐性。期間 20+1d20 ターン。</td>
 </tr>
 <tr>
 <td>6</td>
 <td>恐慌<br>Horrify</td>
 <td>モンスター1体を恐怖させ、朦朧させる。抵抗されると無効。<br>Attempts to scare and stun a monster.</td>
-<td></td>
+<td>対象1体を恐怖させ、朦朧させる。威力 Lv。</td>
 </tr>
 <tr>
 <td>7</td>
 <td>アンデッド従属<br>Enslave Undead</td>
 <td>アンデッド1体を魅了する。抵抗されると無効。<br>Attempts to charm an undead monster.</td>
-<td></td>
+<td>対象のアンデッド1体を支配して使い魔にする。威力 Lv。</td>
 </tr>
 </tbody>
 </table></div>
@@ -144,49 +144,49 @@
 <td>8</td>
 <td>エントロピーの球<br>Orb of Entropy</td>
 <td>生命のある者のHPと最大HP双方にダメージを与える効果のある球を放つ。<br>Fires a ball which reduces both HP and MaxHP of living monsters.</td>
-<td></td>
+<td>生命力吸収のボール。ダメージ 3d6 + (Lv+Lv/2〈魔法職〉または Lv+Lv/4)。半径2（Lv30以上で3）。</td>
 </tr>
 <tr>
 <td>9</td>
 <td>地獄の矢<br>Nether Bolt</td>
 <td>地獄のボルトもしくはビームを放つ。<br>Fires a bolt or beam of nether.</td>
-<td></td>
+<td>地獄のボルト（またはビーム）。ダメージ (8+(Lv-5)/4)d8。</td>
 </tr>
 <tr>
 <td>10</td>
 <td>殺戮雲<br>Cloud kill</td>
 <td>自分を中心とした毒の球を発生させる。<br>Generates a ball of poison centered on you.</td>
-<td></td>
+<td>自分中心に毒のボール。ダメージ (30+Lv)×2、半径 Lv/10+2。</td>
 </tr>
 <tr>
 <td>11</td>
 <td>モンスター消滅<br>Genocide One</td>
 <td>モンスター1体を消し去る。経験値やアイテムは手に入らない。抵抗されると無効。<br>Attempts to eradicate one monster.</td>
-<td></td>
+<td>対象1体を抹殺する。威力 Lv+50。</td>
 </tr>
 <tr>
 <td>12</td>
 <td>毒の刃<br>Poison Branding</td>
 <td>武器に毒の属性をつける。<br>Makes current weapon poison branded.</td>
-<td></td>
+<td>武器に毒の属性を付与する。</td>
 </tr>
 <tr>
 <td>13</td>
 <td>吸血の矢<br>Vampiric Bolt</td>
 <td>ボルトによりモンスター1体から生命力を吸いとる。吸いとった生命力によって満腹度が上がる。<br>Fires a bolt which transfers HP from a monster to you. You will also gain nutritional sustenance from this.</td>
-<td></td>
+<td>生命力吸収のボルト。ダメージ Lv×2 + 1d(Lv×2)。与えたダメージ分だけHP回復＋満腹。</td>
 </tr>
 <tr>
 <td>14</td>
 <td>反魂の術<br>Animate dead</td>
 <td>周囲の死体や骨を生き返す。<br>Resurrects nearby corpses and skeletons. And makes them your pets.</td>
-<td></td>
+<td>周囲の死体・骨を蘇らせて使い魔にする。</td>
 </tr>
 <tr>
 <td>15</td>
 <td>抹殺<br>Genocide</td>
 <td>指定した文字のモンスターを現在の階から消し去る。抵抗されると無効。<br>Eliminates an entire class of monster, exhausting you. Powerful or unique monsters may resist.</td>
-<td></td>
+<td>指定した文字（シンボル）のモンスターを抹殺する。威力 Lv+50。</td>
 </tr>
 </tbody>
 </table></div>
@@ -205,49 +205,49 @@
 <td>16</td>
 <td>狂戦士化<br>Berserk</td>
 <td>狂戦士化し、恐怖を除去する。<br>Gives a bonus to hit and HP, immunity to fear for a while. But decreases AC.</td>
-<td></td>
+<td>狂戦士化して体力を回復する。期間 25+1d25 ターン。</td>
 </tr>
 <tr>
 <td>17</td>
 <td>悪霊召喚<br>Invoke Spirits</td>
 <td>ランダムで様々な効果が起こる。<br>Causes random effects.</td>
-<td></td>
+<td>死霊を呼び出しランダムな効果を起こす。</td>
 </tr>
 <tr>
 <td>18</td>
 <td>暗黒の矢<br>Dark Bolt</td>
 <td>暗黒のボルトもしくはビームを放つ。<br>Fires a bolt or beam of darkness.</td>
-<td></td>
+<td>暗黒のボルト（またはビーム）。ダメージ (4+(Lv-5)/4)d8。</td>
 </tr>
 <tr>
 <td>19</td>
 <td>狂乱戦士<br>Battle Frenzy</td>
 <td>狂戦士化し、恐怖を除去し、加速する。<br>Gives another bonus to hit and HP, immunity to fear for a while. Hastes you. But decreases AC.</td>
-<td></td>
+<td>狂戦士化（期間 25+1d25）と加速（期間 Lv/2 + 1d(20+Lv/2)）。</td>
 </tr>
 <tr>
 <td>20</td>
 <td>吸血の刃<br>Vampiric Branding</td>
 <td>武器に吸血の属性をつける。<br>Makes current weapon Vampiric.</td>
-<td></td>
+<td>武器に吸血の属性を付与する。</td>
 </tr>
 <tr>
 <td>21</td>
 <td>吸血の連矢<br>Vampiric Bolts</td>
 <td>3連射のボルトによりモンスター1体から生命力を吸いとる。吸いとった生命力によって体力が回復する。<br>Fires 3 bolts. Each of the bolts absorbs some HP from a monster and gives them to you.</td>
-<td></td>
+<td>生命力吸収のボルトを3連射。各ダメージ 100、与えた分HP回復。</td>
 </tr>
 <tr>
 <td>22</td>
 <td>死の言魂<br>Nether Wave</td>
 <td>視界内の生命のあるモンスターにダメージを与える。<br>Damages all living monsters in sight.</td>
-<td></td>
+<td>視界内の生命あるものに 1d(Lv×3) ダメージ。</td>
 </tr>
 <tr>
 <td>23</td>
 <td>暗黒の嵐<br>Darkness Storm</td>
 <td>巨大な暗黒の球を放つ。<br>Fires a huge ball of darkness.</td>
-<td></td>
+<td>暗黒のボール。ダメージ 100+Lv×2、半径4。</td>
 </tr>
 </tbody>
 </table></div>
@@ -266,49 +266,49 @@
 <td>24</td>
 <td>死の光線<br>Death Ray</td>
 <td>死の光線を放つ。<br>Fires a beam of death.</td>
-<td></td>
+<td>対象1体にデス・レイ（即死級）。威力 Lv。</td>
 </tr>
 <tr>
 <td>25</td>
 <td>死者召喚<br>Raise the Dead</td>
 <td>1体のアンデッドを召喚する。<br>Summons an undead monster.</td>
-<td></td>
+<td>アンデッドを召喚して使い魔にしようとする。威力 Lv×3/2。</td>
 </tr>
 <tr>
 <td>26</td>
 <td>死者の秘伝<br>Secrets of the Dead</td>
 <td>アイテムを1つ識別する。レベルが高いとアイテムの能力を完全に知ることができる。<br>Identifies or, at higher levels, <em>identifies</em> an item.</td>
-<td></td>
+<td>アイテムを鑑定する（Lvが高いほど＊鑑定＊になりやすい）。</td>
 </tr>
 <tr>
 <td>27</td>
 <td>吸血鬼変化<br>Polymorph Vampire</td>
 <td>一定時間、吸血鬼に変化する。変化している間は本来の種族の能力を失い、代わりに吸血鬼としての能力を得る。<br>Causes you to mimic a vampire for a while. You lose the abilities of your original race and get the abilities of a vampire for that time.</td>
-<td></td>
+<td>一定時間、吸血鬼に変身する。期間 (10+Lv/2) + 1d(10+Lv/2) ターン。</td>
 </tr>
 <tr>
 <td>28</td>
 <td>経験値復活<br>Restore Life</td>
 <td>失った経験値を回復する。<br>Restores lost experience.</td>
-<td></td>
+<td>失った経験値（レベル）を回復する。</td>
 </tr>
 <tr>
 <td>29</td>
 <td>周辺抹殺<br>Mass Genocide</td>
 <td>自分の周囲にいるモンスターを現在の階から消し去る。抵抗されると無効。<br>Eliminates all nearby monsters, exhausting you. Powerful or unique monsters may be able to resist.</td>
-<td></td>
+<td>周囲のモンスターを抹殺する。威力 Lv+50。</td>
 </tr>
 <tr>
 <td>30</td>
 <td>地獄の劫火<br>Hellfire</td>
 <td>邪悪な力を持つ宝珠を放つ。善良なモンスターには大きなダメージを与える。<br>Fires a powerful ball of evil power. Hurts good monsters greatly.</td>
-<td></td>
+<td>地獄の劫火のボール。ダメージ 666、半径3。反動で自分も 20+1d30 ダメージ。</td>
 </tr>
 <tr>
 <td>31</td>
 <td>幽体化<br>Wraithform</td>
 <td>一定時間、壁を通り抜けることができ受けるダメージが軽減される幽体の状態に変身する。<br>Causes you to be ghost-like for a while. That reduces the damage you take and allows you to pass through walls.</td>
-<td></td>
+<td>一定時間、幽体化する（壁抜け・物理ダメージ軽減）。期間 Lv/2 + 1d(Lv/2) ターン。</td>
 </tr>
 </tbody>
 </table></div>
@@ -316,7 +316,7 @@
 <blockquote>
 <p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
 This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
-生成 / Generated: 2026-07-04 03:12 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 03:21 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

@@ -65,7 +65,7 @@
 </li>
 </ul>
 </aside><main class="content"><h1>カオス領域の呪文 / Chaos Realm Spells</h1>
-<p>カオス領域（Chaos）の呪文書と呪文一覧。（このページの「詳細効果」は順次追記予定です。）</p>
+<p>カオス領域（Chaos）の呪文書と呪文一覧。「詳細効果」はゲームのソースコードから導出したレベル依存の効果値です（Lv=プレイヤーレベル）。</p>
 <p>Spellbooks and spells of the Chaos realm.</p>
 <p><a href="Spells.html">← 呪文領域 一覧 / All realms</a> · <a href="index.html">🏠 ホーム / Home</a></p>
 <h2>[カオスの徴] / [Sign of Chaos]</h2>
@@ -83,49 +83,49 @@
 <td>0</td>
 <td>マジック・ミサイル<br>Magic Missile</td>
 <td>弱い魔法の矢を放つ。<br>Fires a weak bolt of magic.</td>
-<td></td>
+<td>マジックミサイルのボルト（またはビーム）。ダメージ (3+(Lv-1)/5)d4。</td>
 </tr>
 <tr>
 <td>1</td>
 <td>トラップ/ドア破壊<br>Trap / Door Destruction</td>
 <td>隣接する罠と扉を破壊する。<br>Destroys all doors and traps in adjacent squares.</td>
-<td></td>
+<td>隣接する罠と扉を破壊する（半径1）。</td>
 </tr>
 <tr>
 <td>2</td>
 <td>閃光<br>Flash of Light</td>
 <td>光源が照らしている範囲か部屋全体を永久に明るくする。<br>Lights up nearby area and the inside of a room permanently.</td>
-<td></td>
+<td>周囲を照らす。照明半径 Lv/10+1。範囲内の敵に 2d(Lv/2) ダメージ。</td>
 </tr>
 <tr>
 <td>3</td>
 <td>混乱の手<br>Touch of Confusion</td>
 <td>相手を混乱させる攻撃をできるようにする。<br>Attempts to confuse the next monster that you hit.</td>
-<td></td>
+<td>次の近接攻撃に混乱効果を付与する。</td>
 </tr>
 <tr>
 <td>4</td>
 <td>魔力炸裂<br>Mana Burst</td>
 <td>魔法の球を放つ。<br>Fires a ball of magic.</td>
-<td></td>
+<td>魔力のボール。ダメージ 3d5 + (Lv+Lv/2〈魔法職〉または Lv+Lv/4)。半径2（Lv30以上で3）。</td>
 </tr>
 <tr>
 <td>5</td>
 <td>ファイア・ボルト<br>Fire Bolt</td>
 <td>炎のボルトもしくはビームを放つ。<br>Fires a bolt or beam of fire.</td>
-<td></td>
+<td>火炎のボルト（またはビーム）。ダメージ (8+(Lv-5)/4)d8。</td>
 </tr>
 <tr>
 <td>6</td>
 <td>力の拳<br>Fist of Force</td>
 <td>ごく小さな分解の球を放つ。<br>Fires a tiny ball of disintegration.</td>
-<td></td>
+<td>分解のボール（半径0＝単体）。ダメージ (8+(Lv-5)/4)d8。</td>
 </tr>
 <tr>
 <td>7</td>
 <td>テレポート<br>Teleport Self</td>
 <td>遠距離のテレポートをする。<br>Teleports you a long distance.</td>
-<td></td>
+<td>遠距離テレポート。移動距離 Lv×5。</td>
 </tr>
 </tbody>
 </table></div>
@@ -144,49 +144,49 @@
 <td>8</td>
 <td>ワンダー<br>Wonder</td>
 <td>モンスターにランダムな効果を与える。<br>Fires something with random effects.</td>
-<td></td>
+<td>ランダムな効果を発生させる。</td>
 </tr>
 <tr>
 <td>9</td>
 <td>カオス・ボルト<br>Chaos Bolt</td>
 <td>カオスのボルトもしくはビームを放つ。<br>Fires a bolt or ball of chaos.</td>
-<td></td>
+<td>カオスのボルト（またはビーム）。ダメージ (10+(Lv-5)/4)d8。</td>
 </tr>
 <tr>
 <td>10</td>
 <td>ソニック・ブーム<br>Sonic Boom</td>
 <td>自分を中心とした轟音の球を発生させる。<br>Generates a ball of sound centered on you.</td>
-<td></td>
+<td>自分中心に轟音のボール。ダメージ 60+Lv、半径 Lv/10+2。</td>
 </tr>
 <tr>
 <td>11</td>
 <td>破滅の矢<br>Doom Bolt</td>
 <td>純粋な魔力のビームを放つ。<br>Fires a beam of pure mana.</td>
-<td></td>
+<td>魔力のビーム。ダメージ (11+(Lv-5)/4)d8。</td>
 </tr>
 <tr>
 <td>12</td>
 <td>ファイア・ボール<br>Fire Ball</td>
 <td>炎の球を放つ。<br>Fires a ball of fire.</td>
-<td></td>
+<td>火炎のボール。ダメージ Lv+55、半径2。</td>
 </tr>
 <tr>
 <td>13</td>
 <td>テレポート・アウェイ<br>Teleport Other</td>
 <td>モンスターをテレポートさせるビームを放つ。抵抗されると無効。<br>Teleports all monsters on the line away unless resisted.</td>
-<td></td>
+<td>ビームで対象モンスターを遠くへテレポートさせる。威力 Lv。</td>
 </tr>
 <tr>
 <td>14</td>
 <td>破壊の言葉<br>Word of Destruction</td>
 <td>周辺のアイテム、モンスター、地形を破壊する。<br>Destroys everything in nearby area.</td>
-<td></td>
+<td>周囲一帯を破壊する。半径 12+1d4。</td>
 </tr>
 <tr>
 <td>15</td>
 <td>ログルス発動<br>Invoke Logrus</td>
 <td>巨大なカオスの球を放つ。<br>Fires a huge ball of chaos.</td>
-<td></td>
+<td>カオスのボール。ダメージ Lv×2+99、半径 Lv/5。</td>
 </tr>
 </tbody>
 </table></div>
@@ -205,49 +205,49 @@
 <td>16</td>
 <td>他者変容<br>Polymorph Other</td>
 <td>モンスター1体を変身させる。抵抗されると無効。<br>Attempts to polymorph a monster.</td>
-<td></td>
+<td>対象1体を別のモンスターに変身させる。威力 Lv。</td>
 </tr>
 <tr>
 <td>17</td>
 <td>連鎖稲妻<br>Chain Lightning</td>
 <td>全方向に対して電撃のビームを放つ。<br>Fires lightning beams in all directions.</td>
-<td></td>
+<td>全方向へ電撃のビーム。各ダメージ (5+Lv/10)d8。</td>
 </tr>
 <tr>
 <td>18</td>
 <td>魔力封入<br>Arcane Binding</td>
 <td>杖/魔法棒の充填回数を増やすか、充填中のロッドの充填時間を減らす。<br>Recharges staffs, wands or rods.</td>
-<td></td>
+<td>魔法棒・杖・ロッドに充填する。威力 90。</td>
 </tr>
 <tr>
 <td>19</td>
 <td>原子分解<br>Disintegrate</td>
 <td>巨大な分解の球を放つ。<br>Fires a huge ball of disintegration.</td>
-<td></td>
+<td>分解のボール。ダメージ Lv+70、半径 3+Lv/40。</td>
 </tr>
 <tr>
 <td>20</td>
 <td>現実変容<br>Alter Reality</td>
 <td>現在の階を再構成する。<br>Recreates current dungeon level.</td>
-<td></td>
+<td>現在の階を再生成する。発動まで 15+1d20 ターン。</td>
 </tr>
 <tr>
 <td>21</td>
 <td>マジック・ロケット<br>Magic Rocket</td>
 <td>ロケットを発射する。<br>Fires a magic rocket.</td>
-<td></td>
+<td>ロケットを発射する。ダメージ 120+Lv×2、半径2。</td>
 </tr>
 <tr>
 <td>22</td>
 <td>混沌の刃<br>Chaos Branding</td>
 <td>武器にカオスの属性をつける。<br>Makes current weapon a Chaotic weapon.</td>
-<td></td>
+<td>武器にカオスの属性を付与する。</td>
 </tr>
 <tr>
 <td>23</td>
 <td>悪魔召喚<br>Summon Demon</td>
 <td>悪魔を1体召喚する。<br>Summons a demon.</td>
-<td></td>
+<td>悪魔を召喚して使い魔にしようとする。威力 Lv×3/2。</td>
 </tr>
 </tbody>
 </table></div>
@@ -266,49 +266,49 @@
 <td>24</td>
 <td>重力光線<br>Beam of Gravity</td>
 <td>重力のビームを放つ。<br>Fires a beam of gravity.</td>
-<td></td>
+<td>重力のビーム。ダメージ (9+(Lv-5)/4)d8。</td>
 </tr>
 <tr>
 <td>25</td>
 <td>流星群<br>Meteor Swarm</td>
 <td>自分の周辺に隕石を落とす。<br>Causes meteorites to fall down on nearby random locations.</td>
-<td></td>
+<td>隕石を降らせる。1発ダメージ Lv×2、半径2。</td>
 </tr>
 <tr>
 <td>26</td>
 <td>焔の一撃<br>Flame Strike</td>
 <td>自分を中心とした超巨大な炎の球を発生させる。<br>Generates a huge ball of fire centered on you.</td>
-<td></td>
+<td>自分中心に火炎のボール。ダメージ 300+3×Lv、半径8。</td>
 </tr>
 <tr>
 <td>27</td>
 <td>混沌召来<br>Call Chaos</td>
 <td>ランダムな属性の球やビームを発生させる。<br>Generates random kinds of balls or beams.</td>
-<td></td>
+<td>無作為なカオスの効果を呼ぶ。ダメージ 150 または 250。</td>
 </tr>
 <tr>
 <td>28</td>
 <td>自己変容<br>Polymorph Self</td>
 <td>自分を変身させようとする。<br>Polymorphs yourself.</td>
-<td></td>
+<td>自分自身を変身させる（確認あり・危険）。</td>
 </tr>
 <tr>
 <td>29</td>
 <td>魔力の嵐<br>Mana Storm</td>
 <td>非常に強力で巨大な純粋な魔力の球を放つ。<br>Fires an extremely powerful huge ball of pure mana.</td>
-<td></td>
+<td>巨大な魔力のボール。ダメージ 300+Lv×4、半径4。</td>
 </tr>
 <tr>
 <td>30</td>
 <td>ログルスのブレス<br>Breathe Logrus</td>
 <td>非常に強力なカオスの球を放つ。<br>Fires an extremely powerful ball of chaos.</td>
-<td></td>
+<td>カオスのボール。ダメージ＝現在HP、半径2。</td>
 </tr>
 <tr>
 <td>31</td>
 <td>虚無召来<br>Call the Void</td>
 <td>自分の周囲に向かって、ロケット、純粋な魔力の球、放射性廃棄物の球を放つ。ただし、壁に隣接して使用すると広範囲を破壊する。<br>Fires rockets, mana balls and nuclear waste balls in all directions if you are not adjacent to any walls. Otherwise <em>destroys</em> huge area.</td>
-<td></td>
+<td>虚無を呼び出す。ダメージ 3×175（周囲が壁だと自分に跳ね返り危険）。</td>
 </tr>
 </tbody>
 </table></div>
@@ -316,7 +316,7 @@
 <blockquote>
 <p>🤖 このページは <code>lib/edit/SpellDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
 This page is auto-generated from <code>lib/edit/SpellDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
-生成 / Generated: 2026-07-04 03:12 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 03:21 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
