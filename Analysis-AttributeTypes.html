@@ -1,0 +1,1214 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AttributeType 一覧 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="Classes.html">🧑‍🚀 職業 / Classes</a></li>
+<li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
+<li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li>⚔️ 戦闘 / Combat
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></li>
+<li><a href="Analysis-ChaosEffect.html">カオス的効果</a></li>
+</ul>
+</li>
+<li>👹 モンスター / Monsters
+<ul>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収処理</a></li>
+</ul>
+</li>
+<li>🧙 キャラクター / Character
+<ul>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力が上昇時にどれだけ増えるか</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+<li><a href="Analysis-Android.html">アンドロイドのレベル</a></li>
+<li><a href="Analysis-Autoroller.html">オートローラー</a></li>
+<li><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></li>
+<li><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></li>
+<li><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></li>
+<li><a href="Analysis-Riding.html">騎乗時処理</a></li>
+</ul>
+</li>
+<li>🎒 アイテム / Items
+<ul>
+<li><a href="Analysis-ItemLevel.html">アイテムレベルが決まるルール</a></li>
+<li><a href="Analysis-WeaponRepair.html">折れた武器修復</a></li>
+</ul>
+</li>
+<li>⚙️ システム・その他 / System
+<ul>
+<li><a href="Analysis-Store.html">店舗</a></li>
+<li><a href="Analysis-Autopick.html">自動拾い</a></li>
+<li><a href="Analysis-Glass.html">ガラス地形</a></li>
+<li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
+<li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
+<li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>AttributeType 一覧</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<p><code>AttributeType</code> は投射・ブレス・ボルト・LOS効果などで使われる効果属性IDです。値は <code>src/effect/attribute-types.h</code>、対象別の処理先は <code>src/effect/effect-*-switcher.cpp</code>、地形・アイテムへの副作用は <code>effect-feature.cpp</code> / <code>effect-item.cpp</code>、描画色は <code>src/term/gameterm.cpp</code> に基づきます。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>ID</th>
+<th>属性 / AttributeType</th>
+<th>分類</th>
+<th>プレイヤー処理</th>
+<th>モンスター処理</th>
+<th>地形</th>
+<th>アイテム</th>
+<th>弾色</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><a href="Analysis-AttributeType-NONE.html">なし<br><code>AttributeType::NONE</code></a></td>
+<td>その他 / Other</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>1</td>
+<td><a href="Analysis-AttributeType-ELEC.html">電撃<br><code>AttributeType::ELEC</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_elements()</code></td>
+<td><code>effect_monster_elec()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x02</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="Analysis-AttributeType-POIS.html">毒<br><code>AttributeType::POIS</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_poison()</code></td>
+<td><code>effect_monster_pois()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x03</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="Analysis-AttributeType-ACID.html">酸<br><code>AttributeType::ACID</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_elements()</code></td>
+<td><code>effect_monster_acid()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x04</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="Analysis-AttributeType-COLD.html">冷気<br><code>AttributeType::COLD</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_elements()</code></td>
+<td><code>effect_monster_cold()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x01</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="Analysis-AttributeType-FIRE.html">火炎<br><code>AttributeType::FIRE</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_elements()</code></td>
+<td><code>effect_monster_fire()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x00</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="Analysis-AttributeType-PSY_SPEAR.html">光の剣<br><code>AttributeType::PSY_SPEAR</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_psy_spear()</code></td>
+<td><code>effect_monster_nothing()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x06</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="Analysis-AttributeType-MISSILE.html">魔力の矢<br><code>AttributeType::MISSILE</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_missile()</code></td>
+<td><code>effect_monster_nothing()</code></td>
+<td>-</td>
+<td>-</td>
+<td><code>0x0F</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="Analysis-AttributeType-DEBUG.html">デバッグ<br><code>AttributeType::DEBUG</code></a></td>
+<td>その他 / Other</td>
+<td>-</td>
+<td><code>effect_monster_nothing()</code></td>
+<td>-</td>
+<td>-</td>
+<td><code>0x0F</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><a href="Analysis-AttributeType-PLASMA.html">プラズマ<br><code>AttributeType::PLASMA</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_plasma()</code></td>
+<td><code>effect_monster_plasma()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x0B</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td><a href="Analysis-AttributeType-WATER.html">水<br><code>AttributeType::WATER</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_water()</code></td>
+<td><code>effect_monster_water()</code></td>
+<td>-</td>
+<td>-</td>
+<td><code>0x04</code></td>
+</tr>
+<tr>
+<td>15</td>
+<td><a href="Analysis-AttributeType-LITE.html">閃光<br><code>AttributeType::LITE</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_lite()</code></td>
+<td><code>effect_monster_lite()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x06</code></td>
+</tr>
+<tr>
+<td>16</td>
+<td><a href="Analysis-AttributeType-DARK.html">暗黒<br><code>AttributeType::DARK</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_dark()</code></td>
+<td><code>effect_monster_dark()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x07</code></td>
+</tr>
+<tr>
+<td>17</td>
+<td><a href="Analysis-AttributeType-LITE_WEAK.html">弱い閃光<br><code>AttributeType::LITE_WEAK</code></a></td>
+<td>ダメージ / Damage</td>
+<td>-</td>
+<td><code>effect_monster_lite_weak()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x06</code></td>
+</tr>
+<tr>
+<td>18</td>
+<td><a href="Analysis-AttributeType-DARK_WEAK.html">弱い暗黒<br><code>AttributeType::DARK_WEAK</code></a></td>
+<td>ダメージ / Damage</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>-</td>
+<td><code>0x07</code></td>
+</tr>
+<tr>
+<td>20</td>
+<td><a href="Analysis-AttributeType-SHARDS.html">破片<br><code>AttributeType::SHARDS</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_shards()</code></td>
+<td><code>effect_monster_shards()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x08</code></td>
+</tr>
+<tr>
+<td>21</td>
+<td><a href="Analysis-AttributeType-SOUND.html">轟音<br><code>AttributeType::SOUND</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_sound()</code></td>
+<td><code>effect_monster_sound()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x09</code></td>
+</tr>
+<tr>
+<td>22</td>
+<td><a href="Analysis-AttributeType-CONFUSION.html">混乱<br><code>AttributeType::CONFUSION</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_confusion()</code></td>
+<td><code>effect_monster_confusion()</code></td>
+<td>-</td>
+<td>-</td>
+<td><code>mh_attr(4)</code></td>
+</tr>
+<tr>
+<td>23</td>
+<td><a href="Analysis-AttributeType-FORCE.html">フォース<br><code>AttributeType::FORCE</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_force()</code></td>
+<td><code>effect_monster_force()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x09</code></td>
+</tr>
+<tr>
+<td>24</td>
+<td><a href="Analysis-AttributeType-INERTIAL.html">遅鈍<br><code>AttributeType::INERTIAL</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_inertial()</code></td>
+<td><code>effect_monster_inertial()</code></td>
+<td>-</td>
+<td>-</td>
+<td><code>0x09</code></td>
+</tr>
+<tr>
+<td>26</td>
+<td><a href="Analysis-AttributeType-MANA.html">魔力<br><code>AttributeType::MANA</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_mana()</code></td>
+<td><code>effect_monster_nothing()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x0E</code></td>
+</tr>
+<tr>
+<td>27</td>
+<td><a href="Analysis-AttributeType-METEOR.html">隕石<br><code>AttributeType::METEOR</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_meteor()</code></td>
+<td><code>effect_monster_meteor()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x00</code></td>
+</tr>
+<tr>
+<td>28</td>
+<td><a href="Analysis-AttributeType-ICE.html">極寒<br><code>AttributeType::ICE</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_icee()</code></td>
+<td><code>effect_monster_icee_bolt()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x01</code></td>
+</tr>
+<tr>
+<td>30</td>
+<td><a href="Analysis-AttributeType-CHAOS.html">カオス<br><code>AttributeType::CHAOS</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_chaos()</code></td>
+<td><code>effect_monster_chaos()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>mh_attr(15)</code></td>
+</tr>
+<tr>
+<td>31</td>
+<td><a href="Analysis-AttributeType-NETHER.html">地獄<br><code>AttributeType::NETHER</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_nether()</code></td>
+<td><code>effect_monster_nether()</code></td>
+<td>-</td>
+<td>-</td>
+<td><code>0x07</code></td>
+</tr>
+<tr>
+<td>32</td>
+<td><a href="Analysis-AttributeType-DISENCHANT.html">劣化<br><code>AttributeType::DISENCHANT</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_disenchant()</code></td>
+<td><code>effect_monster_disenchant()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x05</code></td>
+</tr>
+<tr>
+<td>33</td>
+<td><a href="Analysis-AttributeType-NEXUS.html">因果混乱<br><code>AttributeType::NEXUS</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_nexus()</code></td>
+<td><code>effect_monster_nexus()</code></td>
+<td>-</td>
+<td>-</td>
+<td><code>0x0C</code></td>
+</tr>
+<tr>
+<td>34</td>
+<td><a href="Analysis-AttributeType-TIME.html">時間逆転<br><code>AttributeType::TIME</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_time()</code></td>
+<td><code>effect_monster_time()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x09</code></td>
+</tr>
+<tr>
+<td>35</td>
+<td><a href="Analysis-AttributeType-GRAVITY.html">重力<br><code>AttributeType::GRAVITY</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_gravity()</code></td>
+<td><code>effect_monster_gravity()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x09</code></td>
+</tr>
+<tr>
+<td>40</td>
+<td><a href="Analysis-AttributeType-KILL_WALL.html">岩石溶解<br><code>AttributeType::KILL_WALL</code></a></td>
+<td>地形 / Feature</td>
+<td>-</td>
+<td><code>effect_monster_kill_wall()</code></td>
+<td>○</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>41</td>
+<td><a href="Analysis-AttributeType-KILL_DOOR.html">ドア破壊<br><code>AttributeType::KILL_DOOR</code></a></td>
+<td>地形 / Feature</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>○</td>
+<td>-</td>
+</tr>
+<tr>
+<td>42</td>
+<td><a href="Analysis-AttributeType-KILL_TRAP.html">トラップ破壊<br><code>AttributeType::KILL_TRAP</code></a></td>
+<td>地形 / Feature</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>○</td>
+<td>-</td>
+</tr>
+<tr>
+<td>45</td>
+<td><a href="Analysis-AttributeType-MAKE_WALL.html">壁生成<br><code>AttributeType::MAKE_WALL</code></a></td>
+<td>地形 / Feature</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>46</td>
+<td><a href="Analysis-AttributeType-MAKE_DOOR.html">ドア生成<br><code>AttributeType::MAKE_DOOR</code></a></td>
+<td>地形 / Feature</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>47</td>
+<td><a href="Analysis-AttributeType-MAKE_TRAP.html">トラップ生成<br><code>AttributeType::MAKE_TRAP</code></a></td>
+<td>地形 / Feature</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>48</td>
+<td><a href="Analysis-AttributeType-MAKE_TREE.html">森生成<br><code>AttributeType::MAKE_TREE</code></a></td>
+<td>地形 / Feature</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>51</td>
+<td><a href="Analysis-AttributeType-OLD_CLONE.html">クローン・モンスター<br><code>AttributeType::OLD_CLONE</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_old_clone()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>52</td>
+<td><a href="Analysis-AttributeType-OLD_POLY.html">チェンジ・モンスター<br><code>AttributeType::OLD_POLY</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_old_poly()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>53</td>
+<td><a href="Analysis-AttributeType-OLD_HEAL.html">回復モンスター<br><code>AttributeType::OLD_HEAL</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td><code>effect_player_old_heal()</code></td>
+<td><code>effect_monster_old_heal()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>54</td>
+<td><a href="Analysis-AttributeType-OLD_SPEED.html">スピード・モンスター<br><code>AttributeType::OLD_SPEED</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td><code>effect_player_old_speed()</code></td>
+<td><code>effect_monster_old_speed()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>55</td>
+<td><a href="Analysis-AttributeType-OLD_SLOW.html">スロウ・モンスター<br><code>AttributeType::OLD_SLOW</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td><code>effect_player_old_slow()</code></td>
+<td><code>effect_monster_old_slow()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>56</td>
+<td><a href="Analysis-AttributeType-OLD_CONF.html">パニック・モンスター<br><code>AttributeType::OLD_CONF</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_old_conf()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>57</td>
+<td><a href="Analysis-AttributeType-OLD_SLEEP.html">スリープ・モンスター<br><code>AttributeType::OLD_SLEEP</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td><code>effect_player_old_sleep()</code></td>
+<td><code>effect_monster_old_sleep()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>58</td>
+<td><a href="Analysis-AttributeType-HYPODYNAMIA.html">衰弱<br><code>AttributeType::HYPODYNAMIA</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_hypodynamia()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>61</td>
+<td><a href="Analysis-AttributeType-AWAY_UNDEAD.html">アンデッド・アウェイ<br><code>AttributeType::AWAY_UNDEAD</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_away_undead()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>62</td>
+<td><a href="Analysis-AttributeType-AWAY_EVIL.html">邪悪退散<br><code>AttributeType::AWAY_EVIL</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_away_evil()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>63</td>
+<td><a href="Analysis-AttributeType-AWAY_ALL.html">テレポート・アウェイ<br><code>AttributeType::AWAY_ALL</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_away_all()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>64</td>
+<td><a href="Analysis-AttributeType-TURN_UNDEAD.html">アンデッド恐怖<br><code>AttributeType::TURN_UNDEAD</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_turn_undead()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>65</td>
+<td><a href="Analysis-AttributeType-TURN_EVIL.html">邪悪恐怖<br><code>AttributeType::TURN_EVIL</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_turn_evil()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>66</td>
+<td><a href="Analysis-AttributeType-TURN_ALL.html">モンスター恐怖<br><code>AttributeType::TURN_ALL</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_turn_all()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>67</td>
+<td><a href="Analysis-AttributeType-DISP_UNDEAD.html">アンデッド退散<br><code>AttributeType::DISP_UNDEAD</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_disp_undead()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>68</td>
+<td><a href="Analysis-AttributeType-DISP_EVIL.html">邪悪退散ダメージ<br><code>AttributeType::DISP_EVIL</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_disp_evil()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>69</td>
+<td><a href="Analysis-AttributeType-DISP_ALL.html">全モンスター退散<br><code>AttributeType::DISP_ALL</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_disp_all()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>70</td>
+<td><a href="Analysis-AttributeType-DISP_DEMON.html">悪魔退散<br><code>AttributeType::DISP_DEMON</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_disp_demon()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>71</td>
+<td><a href="Analysis-AttributeType-DISP_LIVING.html">生命退散<br><code>AttributeType::DISP_LIVING</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_disp_living()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>72</td>
+<td><a href="Analysis-AttributeType-ROCKET.html">ロケット<br><code>AttributeType::ROCKET</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_rocket()</code></td>
+<td><code>effect_monster_rocket()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x0F</code></td>
+</tr>
+<tr>
+<td>73</td>
+<td><a href="Analysis-AttributeType-NUKE.html">放射性廃棄物<br><code>AttributeType::NUKE</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_nuke()</code></td>
+<td><code>effect_monster_nuke()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>mh_attr(2)</code></td>
+</tr>
+<tr>
+<td>74</td>
+<td><a href="Analysis-AttributeType-MAKE_RUNE_PROTECTION.html">守りのルーン生成<br><code>AttributeType::MAKE_RUNE_PROTECTION</code></a></td>
+<td>地形 / Feature</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>75</td>
+<td><a href="Analysis-AttributeType-STASIS.html">モンスター拘束<br><code>AttributeType::STASIS</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_stasis()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>76</td>
+<td><a href="Analysis-AttributeType-STONE_WALL.html">壁生成<br><code>AttributeType::STONE_WALL</code></a></td>
+<td>地形 / Feature</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>77</td>
+<td><a href="Analysis-AttributeType-DEATH_RAY.html">死の光線<br><code>AttributeType::DEATH_RAY</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td><code>effect_player_death_ray()</code></td>
+<td><code>effect_monster_death_ray()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x07</code></td>
+</tr>
+<tr>
+<td>78</td>
+<td><a href="Analysis-AttributeType-STUN.html">朦朧<br><code>AttributeType::STUN</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_stun()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>79</td>
+<td><a href="Analysis-AttributeType-HOLY_FIRE.html">聖なる炎<br><code>AttributeType::HOLY_FIRE</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_holy_fire()</code></td>
+<td><code>effect_monster_holy_fire()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x00</code></td>
+</tr>
+<tr>
+<td>80</td>
+<td><a href="Analysis-AttributeType-HELL_FIRE.html">地獄の劫火<br><code>AttributeType::HELL_FIRE</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_hell_fire()</code></td>
+<td><code>effect_monster_hell_fire()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x00</code></td>
+</tr>
+<tr>
+<td>81</td>
+<td><a href="Analysis-AttributeType-DISINTEGRATE.html">分解<br><code>AttributeType::DISINTEGRATE</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_disintegration()</code></td>
+<td><code>effect_monster_disintegration()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x05</code></td>
+</tr>
+<tr>
+<td>82</td>
+<td><a href="Analysis-AttributeType-CHARM.html">モンスター魅了<br><code>AttributeType::CHARM</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_charm()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>83</td>
+<td><a href="Analysis-AttributeType-CONTROL_UNDEAD.html">アンデッド支配<br><code>AttributeType::CONTROL_UNDEAD</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_control_undead()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>84</td>
+<td><a href="Analysis-AttributeType-CONTROL_ANIMAL.html">動物支配<br><code>AttributeType::CONTROL_ANIMAL</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_control_animal()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>85</td>
+<td><a href="Analysis-AttributeType-PSI.html">精神攻撃<br><code>AttributeType::PSI</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td>-</td>
+<td><code>effect_monster_psi()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x09</code></td>
+</tr>
+<tr>
+<td>86</td>
+<td><a href="Analysis-AttributeType-PSI_DRAIN.html">精神吸収<br><code>AttributeType::PSI_DRAIN</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td>-</td>
+<td><code>effect_monster_psi_drain()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x09</code></td>
+</tr>
+<tr>
+<td>87</td>
+<td><a href="Analysis-AttributeType-TELEKINESIS.html">念動力<br><code>AttributeType::TELEKINESIS</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td>-</td>
+<td><code>effect_monster_telekinesis()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x09</code></td>
+</tr>
+<tr>
+<td>88</td>
+<td><a href="Analysis-AttributeType-JAM_DOOR.html">施錠<br><code>AttributeType::JAM_DOOR</code></a></td>
+<td>地形 / Feature</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>89</td>
+<td><a href="Analysis-AttributeType-DOMINATION.html">精神支配<br><code>AttributeType::DOMINATION</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_domination()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x09</code></td>
+</tr>
+<tr>
+<td>90</td>
+<td><a href="Analysis-AttributeType-DISP_GOOD.html">善良退散<br><code>AttributeType::DISP_GOOD</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_disp_good()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>91</td>
+<td><a href="Analysis-AttributeType-DRAIN_MANA.html">魔力吸収<br><code>AttributeType::DRAIN_MANA</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td><code>effect_player_drain_mana()</code></td>
+<td><code>effect_monster_drain_mana()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x09</code></td>
+</tr>
+<tr>
+<td>92</td>
+<td><a href="Analysis-AttributeType-MIND_BLAST.html">精神攻撃<br><code>AttributeType::MIND_BLAST</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td><code>effect_player_mind_blast()</code></td>
+<td><code>effect_monster_mind_blast()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x09</code></td>
+</tr>
+<tr>
+<td>93</td>
+<td><a href="Analysis-AttributeType-BRAIN_SMASH.html">脳攻撃<br><code>AttributeType::BRAIN_SMASH</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td><code>effect_player_brain_smash()</code></td>
+<td><code>effect_monster_brain_smash()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x09</code></td>
+</tr>
+<tr>
+<td>94</td>
+<td><a href="Analysis-AttributeType-CAUSE_1.html">軽傷の呪い<br><code>AttributeType::CAUSE_1</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td><code>effect_player_curse_1()</code></td>
+<td><code>effect_monster_curse_1()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x0E</code></td>
+</tr>
+<tr>
+<td>95</td>
+<td><a href="Analysis-AttributeType-CAUSE_2.html">重傷の呪い<br><code>AttributeType::CAUSE_2</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td><code>effect_player_curse_2()</code></td>
+<td><code>effect_monster_curse_2()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x0E</code></td>
+</tr>
+<tr>
+<td>96</td>
+<td><a href="Analysis-AttributeType-CAUSE_3.html">致命傷の呪い<br><code>AttributeType::CAUSE_3</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td><code>effect_player_curse_3()</code></td>
+<td><code>effect_monster_curse_3()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x0E</code></td>
+</tr>
+<tr>
+<td>97</td>
+<td><a href="Analysis-AttributeType-CAUSE_4.html">秘孔を突く<br><code>AttributeType::CAUSE_4</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td><code>effect_player_curse_4()</code></td>
+<td><code>effect_monster_curse_4()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x0E</code></td>
+</tr>
+<tr>
+<td>98</td>
+<td><a href="Analysis-AttributeType-HAND_DOOM.html">破滅の手<br><code>AttributeType::HAND_DOOM</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td><code>effect_player_hand_doom()</code></td>
+<td><code>effect_monster_hand_doom()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x07</code></td>
+</tr>
+<tr>
+<td>99</td>
+<td><a href="Analysis-AttributeType-CAPTURE.html">捕獲<br><code>AttributeType::CAPTURE</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_capture()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x0E</code></td>
+</tr>
+<tr>
+<td>100</td>
+<td><a href="Analysis-AttributeType-ANIM_DEAD.html">死者復活<br><code>AttributeType::ANIM_DEAD</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>-</td>
+</tr>
+<tr>
+<td>101</td>
+<td><a href="Analysis-AttributeType-CHARM_LIVING.html">生命魅了<br><code>AttributeType::CHARM_LIVING</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_charm_living()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>102</td>
+<td><a href="Analysis-AttributeType-IDENTIFY.html">鑑定<br><code>AttributeType::IDENTIFY</code></a></td>
+<td>その他 / Other</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>○</td>
+<td><code>0x01</code></td>
+</tr>
+<tr>
+<td>103</td>
+<td><a href="Analysis-AttributeType-ATTACK.html">白兵攻撃<br><code>AttributeType::ATTACK</code></a></td>
+<td>内部処理 / Internal</td>
+<td>-</td>
+<td><code>do_cmd_attack()</code></td>
+<td>○</td>
+<td>-</td>
+<td><code>0x0F</code></td>
+</tr>
+<tr>
+<td>104</td>
+<td><a href="Analysis-AttributeType-ENGETSU.html">円月<br><code>AttributeType::ENGETSU</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_engetsu()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>105</td>
+<td><a href="Analysis-AttributeType-GENOCIDE.html">抹殺<br><code>AttributeType::GENOCIDE</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_genocide()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>106</td>
+<td><a href="Analysis-AttributeType-PHOTO.html">撮影<br><code>AttributeType::PHOTO</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_photo()</code></td>
+<td>-</td>
+<td>-</td>
+<td><code>0x06</code></td>
+</tr>
+<tr>
+<td>107</td>
+<td><a href="Analysis-AttributeType-CONTROL_DEMON.html">悪魔支配<br><code>AttributeType::CONTROL_DEMON</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_control_demon()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>108</td>
+<td><a href="Analysis-AttributeType-LAVA_FLOW.html">溶岩流<br><code>AttributeType::LAVA_FLOW</code></a></td>
+<td>地形 / Feature</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>109</td>
+<td><a href="Analysis-AttributeType-BLOOD_CURSE.html">血の呪い<br><code>AttributeType::BLOOD_CURSE</code></a></td>
+<td>精神・呪い / Mind or curse</td>
+<td>-</td>
+<td><code>effect_monster_nothing()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>110</td>
+<td><a href="Analysis-AttributeType-SEEKER.html">シーカーレイ<br><code>AttributeType::SEEKER</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_mana()</code></td>
+<td><code>effect_monster_nothing()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x0E</code></td>
+</tr>
+<tr>
+<td>111</td>
+<td><a href="Analysis-AttributeType-SUPER_RAY.html">スーパーレイ<br><code>AttributeType::SUPER_RAY</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_mana()</code></td>
+<td><code>effect_monster_nothing()</code></td>
+<td>○</td>
+<td>○</td>
+<td><code>0x0E</code></td>
+</tr>
+<tr>
+<td>112</td>
+<td><a href="Analysis-AttributeType-STAR_HEAL.html">星の癒し<br><code>AttributeType::STAR_HEAL</code></a></td>
+<td>その他 / Other</td>
+<td>-</td>
+<td><code>effect_monster_star_heal()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>113</td>
+<td><a href="Analysis-AttributeType-WATER_FLOW.html">流水<br><code>AttributeType::WATER_FLOW</code></a></td>
+<td>地形 / Feature</td>
+<td>-</td>
+<td>-</td>
+<td>○</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>114</td>
+<td><a href="Analysis-AttributeType-CRUSADE.html">聖戦<br><code>AttributeType::CRUSADE</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_crusade()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>115</td>
+<td><a href="Analysis-AttributeType-STASIS_EVIL.html">邪悪拘束<br><code>AttributeType::STASIS_EVIL</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_stasis()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>116</td>
+<td><a href="Analysis-AttributeType-WOUNDS.html">創傷<br><code>AttributeType::WOUNDS</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_wounds()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>117</td>
+<td><a href="Analysis-AttributeType-E_GENOCIDE.html">元素抹殺<br><code>AttributeType::E_GENOCIDE</code></a></td>
+<td>モンスター制御 / Monster utility</td>
+<td>-</td>
+<td><code>effect_monster_elemental_genocide()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>118</td>
+<td><a href="Analysis-AttributeType-VOID_MAGIC.html">虚無<br><code>AttributeType::VOID_MAGIC</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_void()</code></td>
+<td><code>effect_monster_void()</code></td>
+<td>○</td>
+<td>○</td>
+<td>-</td>
+</tr>
+<tr>
+<td>119</td>
+<td><a href="Analysis-AttributeType-ABYSS.html">深淵<br><code>AttributeType::ABYSS</code></a></td>
+<td>ダメージ / Damage</td>
+<td><code>effect_player_abyss()</code></td>
+<td><code>effect_monster_abyss()</code></td>
+<td>○</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>120</td>
+<td><a href="Analysis-AttributeType-HUNGRY.html">空腹<br><code>AttributeType::HUNGRY</code></a></td>
+<td>その他 / Other</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>121</td>
+<td><a href="Analysis-AttributeType-PLAYER_SHOOT.html">プレイヤー射撃<br><code>AttributeType::PLAYER_SHOOT</code></a></td>
+<td>内部処理 / Internal</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>122</td>
+<td><a href="Analysis-AttributeType-PLAYER_MELEE.html">プレイヤー近接<br><code>AttributeType::PLAYER_MELEE</code></a></td>
+<td>内部処理 / Internal</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>123</td>
+<td><a href="Analysis-AttributeType-MONSTER_SHOOT.html">モンスター射撃<br><code>AttributeType::MONSTER_SHOOT</code></a></td>
+<td>内部処理 / Internal</td>
+<td><code>effect_player_arrow()</code></td>
+<td><code>effect_monster_nothing()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>124</td>
+<td><a href="Analysis-AttributeType-MONSTER_MELEE.html">モンスター近接<br><code>AttributeType::MONSTER_MELEE</code></a></td>
+<td>内部処理 / Internal</td>
+<td><code>effect_player_missile()</code></td>
+<td><code>effect_monster_nothing()</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
