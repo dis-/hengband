@@ -198,10 +198,44 @@
 <h2>プレイヤーへの効果</h2>
 <p><code>effect_player_void</code> による処理。目が見えない場合「何かに身体が引っ張りこまれる！」、そうでなければ「周辺の空間が歪んだ。」と表示される。</p>
 <p>分身状態でなく、浮遊も反テレポートも無い場合、減速を <code>randint0(4) + 4</code> 追加する。</p>
-<p>ダメージは補正される。</p>
-<pre><code>dam = dam * calc_void_damage_rate() / 100
+<h3>ダメージ倍率（<code>calc_void_damage_rate</code>）</h3>
+<p>最終ダメージは <code>dam × per ÷ 100</code>（<code>per</code> は百分率倍率、100 が等倍）。<strong>虚無には専用の耐性が存在せず</strong>、次の3条件のいずれか1つだけが <code>per</code> を変える（上から優先、else-if 連鎖）。該当が無ければ <code>per = 100</code>（等倍）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th><code>per</code></th>
+<th>実効倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>壁抜け（<code>pass_wall</code>、幽体化等）</td>
+<td><code>per × 3 ÷ 2</code></td>
+<td>1.5倍（<strong>増加</strong>）</td>
+</tr>
+<tr>
+<td>反テレポート（<code>anti_tele</code>）</td>
+<td><code>per × 400 ÷ randrate(4,7)</code></td>
+<td><strong>約0.36〜0.50倍</strong>（軽減）</td>
+</tr>
+<tr>
+<td>浮遊（<code>levitation</code>）</td>
+<td><code>per × 2 ÷ 3</code></td>
+<td>約0.67倍（軽減）</td>
+</tr>
+<tr>
+<td>いずれも無し</td>
+<td><code>per = 100</code></td>
+<td>等倍</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>randrate(4, 7, mode)</code> は乱数モードで <code>(1d4 + 7) × 100 = 800〜1100</code> を返すため、反テレポート時は</p>
+<pre><code>per = 100 × 400 / ((1d4 + 7) × 100) = 400 / (1d4 + 7)   ≒ 36〜50（平均 randrate=950 で約42）
 </code></pre>
-<p>浮遊していない、または 1/13 の確率で、冷気によるインベントリ破壊（威力 2）が発生する。</p>
+<p>となり、ダメージは概ね <strong>36〜50%（平均約42%）</strong> に軽減される。幽体化などで壁抜け状態のときだけ逆に1.5倍に増える点に注意。</p>
+<p>ダメージ適用後、浮遊していない、または 1/13 の確率で、冷気によるインベントリ破壊（威力 2）が発生する。</p>
 <h2>アイテムへの効果</h2>
 <p><code>affect_item</code> の <code>VOID_MAGIC</code> 処理により、アイテムは「消滅してしまった！」と表示され破壊される（固定・ランダムアーティファクトを除く）。</p>
 <h2>地形への効果</h2>
@@ -209,7 +243,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 13:21 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 13:29 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

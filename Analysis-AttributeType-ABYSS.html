@@ -198,9 +198,39 @@
 <pre><code>do_conf または do_fear = (10 + 1d15 + r) / (r + 1)
 </code></pre>
 <h2>プレイヤーへの効果</h2>
-<p><code>effect_player_abyss</code> による処理。目が見えない場合「身体が沈み込む気がする！」、そうでなければ「深淵があなたを誘い込んでいる！」と表示される。ダメージは補正される。</p>
-<pre><code>dam = dam * calc_abyss_damage_rate() / 100
+<p><code>effect_player_abyss</code> による処理。目が見えない場合「身体が沈み込む気がする！」、そうでなければ「深淵があなたを誘い込んでいる！」と表示される。</p>
+<h3>ダメージ倍率（<code>calc_abyss_damage_rate</code>）</h3>
+<p>最終ダメージは <code>dam × per ÷ 100</code>。深淵は暗黒系のため <strong>暗黒耐性が唯一の軽減手段</strong>。次のいずれか1つだけが <code>per</code> を変える（上から優先、else-if 連鎖）。該当が無ければ <code>per = 100</code>（等倍）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th><code>per</code></th>
+<th>実効倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>暗黒耐性（<code>resist_dark</code>）</td>
+<td><code>per × 400 ÷ randrate(4,7)</code></td>
+<td><strong>約0.36〜0.50倍</strong>（軽減）</td>
+</tr>
+<tr>
+<td>浮遊なし かつ 反テレポート（<code>anti_tele</code>）</td>
+<td><code>per × 5 ÷ 4</code></td>
+<td>1.25倍（<strong>増加</strong>）</td>
+</tr>
+<tr>
+<td>いずれも無し</td>
+<td><code>per = 100</code></td>
+<td>等倍</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>randrate(4, 7, mode)</code> は乱数モードで <code>(1d4 + 7) × 100 = 800〜1100</code> を返すため、暗黒耐性時は</p>
+<pre><code>per = 100 × 400 / ((1d4 + 7) × 100) = 400 / (1d4 + 7)   ≒ 36〜50（平均約42）
 </code></pre>
+<p>となり、ダメージは概ね <strong>36〜50%（平均約42%）</strong> に軽減される。暗黒耐性が無く、かつ浮遊しないまま反テレポート状態のときは逆に1.25倍に増える。</p>
 <p>分身状態の場合はここで終了する。分身状態でなければ:</p>
 <ul>
 <li>浮遊していない場合、減速を <code>randint0(4) + 4</code> 追加。</li>
@@ -220,7 +250,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/effect/attribute-types.h</code>, <code>src/effect/effect-player-switcher.cpp</code>, <code>src/effect/effect-monster-switcher.cpp</code>, <code>src/effect/effect-feature.cpp</code>, <code>src/effect/effect-item.cpp</code>, <code>src/term/gameterm.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 13:21 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 13:29 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
