@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>火炎耐性（TR_RES_FIRE） · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a><a href="Resistances.html">🛡️ 耐性</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+<li><a href="Classes.html">🧑‍🚀 職業 / Classes</a></li>
+<li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
+<li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+</ul>
+<h3><a href="Analysis.html">🔬 解析 / Analysis</a></h3>
+<ul>
+<li>⚔️ 戦闘 / Combat
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></li>
+<li><a href="Analysis-ChaosEffect.html">カオス的効果</a></li>
+</ul>
+</li>
+<li>👹 モンスター / Monsters
+<ul>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収処理</a></li>
+</ul>
+</li>
+<li>🧙 キャラクター / Character
+<ul>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力が上昇時にどれだけ増えるか</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-Stun.html">朦朧処理</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+<li><a href="Analysis-Android.html">アンドロイドのレベル</a></li>
+<li><a href="Analysis-Autoroller.html">オートローラー</a></li>
+<li><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></li>
+<li><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></li>
+<li><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></li>
+<li><a href="Analysis-Riding.html">騎乗時処理</a></li>
+</ul>
+</li>
+<li>🎒 アイテム / Items
+<ul>
+<li><a href="Analysis-ItemLevel.html">アイテムレベルが決まるルール</a></li>
+<li><a href="Analysis-WeaponRepair.html">折れた武器修復</a></li>
+</ul>
+</li>
+<li>⚙️ システム・その他 / System
+<ul>
+<li><a href="Score.html">スコアの算出方法 / Scoring</a></li>
+<li><a href="Analysis-Store.html">店舗</a></li>
+<li><a href="Analysis-Autopick.html">自動拾い</a></li>
+<li><a href="Analysis-Glass.html">ガラス地形</a></li>
+<li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
+<li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
+<li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
+</ul>
+</li>
+</ul>
+<h3><a href="Resistances.html">🛡️ プレイヤー耐性 / Resistances</a></h3>
+<ul>
+<li><a href="Resistances.html">🔥 元素耐性</a></li>
+<li><a href="Resistances.html">🌀 上位・状態異常耐性</a></li>
+<li><a href="Resistances.html">🛡️ 免疫</a> ・ <a href="Resistances.html">⚠️ 弱点</a></li>
+<li><a href="Resistances.html">💪 能力値維持</a> ・ <a href="Resistances.html">✨ 防御能力</a></li>
+</ul>
+</aside><main class="content"><h1>火炎耐性（<code>TR_RES_FIRE</code>）</h1>
+<p><a href="Resistances.html">← プレイヤー耐性一覧 / Resistances</a></p>
+<h2>火炎耐性の効果</h2>
+<p>プレイヤーが受ける火炎属性ダメージは、<code>fire_dam()</code> で火炎免疫を先に判定し、免疫がある場合は <code>0</code> になる。免疫がなく、基本ダメージが正の場合、<code>calc_fire_damage_rate()</code> の倍率を掛けて <code>100</code> で割る。</p>
+<pre><code class="language-text">実ダメージ = 基本ダメージ * calc_fire_damage_rate(player_ptr) / 100
+</code></pre>
+<p><code>TR_RES_FIRE</code> は <code>get_player_flags()</code> で <code>has_resist_fire()</code> に対応する。<code>has_resist_fire()</code> は <code>TR_RES_FIRE</code> の通常耐性に加えて、究極耐性 <code>ult_res</code> と火炎免疫 <code>has_immune_fire()</code> も火炎耐性ありとして扱う。</p>
+<h2>ダメージ倍率</h2>
+<p><code>calc_fire_damage_rate()</code> は <code>per = 100</code> から開始し、火炎弱点、通常耐性、一時耐性の順に整数演算で倍率を変える。戻り値は百分率で、<code>100</code> が等倍。</p>
+<pre><code class="language-text">per = 100
+
+火炎弱点ごと:
+  変異による弱点なら per = per * 2
+  それ以外の弱点なら per = per + per / 3
+
+通常火炎耐性があれば per = (per + 2) / 3
+一時火炎耐性があれば per = (per + 2) / 3
+</code></pre>
+<p>通常火炎耐性だけなら <code>100</code> から <code>34</code> になり、約 <code>1/3</code> ダメージになる。</p>
+<pre><code class="language-text">(100 + 2) / 3 = 34
+</code></pre>
+<p>一時火炎耐性だけでも同じく <code>34</code> になる。通常火炎耐性と一時火炎耐性が両方ある場合は、同じ処理が2回かかり <code>12</code> になる。</p>
+<pre><code class="language-text">通常耐性あり: (100 + 2) / 3 = 34
+一時耐性あり: (34 + 2) / 3 = 12
+</code></pre>
+<h2>一時火炎耐性</h2>
+<p>一時火炎耐性は <code>is_oppose_fire()</code> で判定される。確認できた成立条件は次の通り。</p>
+<ul>
+<li><code>oppose_fire != 0</code></li>
+<li>耐性の歌 <code>MUSIC_RESIST</code> を歌っている</li>
+<li>侍の無想の構え</li>
+<li>悪魔変化中</li>
+<li>バルログでレベルが <code>44</code> より大きい</li>
+</ul>
+<p><code>set_oppose_fire()</code> で設定される時限値は <code>0</code> から <code>10000</code> に丸められる。バルログでレベルが <code>44</code> より大きい場合、または悪魔変化中の場合は、設定値が <code>1</code> になる。</p>
+<h2>火炎免疫</h2>
+<p><code>fire_dam()</code> は <code>has_immune_fire()</code> が真なら、<code>calc_fire_damage_rate()</code> の計算前に <code>0</code> を返す。したがって火炎免疫中のHPダメージ倍率は実質 <code>0%</code>。</p>
+<pre><code class="language-text">has_immune_fire(player_ptr) が真 -&gt; 火炎ダメージ 0
+</code></pre>
+<p><code>has_immune_fire()</code> は <code>TR_IM_FIRE</code> と、元素免疫 <code>ele_immune</code> 中かつ <code>DEFENSE_FIRE</code> が立っている場合で成立する。</p>
+<h2>火炎弱点</h2>
+<p>火炎弱点は <code>has_vuln_fire()</code> で判定され、<code>TR_VUL_FIRE</code> と変異 <code>VULN_ELEM</code> が確認できる。<code>calc_fire_damage_rate()</code> では弱点の原因ビットごとに倍率を増やす。</p>
+<p>変異 <code>VULN_ELEM</code> による弱点は <code>2</code> 倍になる。</p>
+<pre><code class="language-text">per = per * 2
+</code></pre>
+<p>それ以外の火炎弱点は <code>per / 3</code> を加える。</p>
+<pre><code class="language-text">per = per + per / 3
+</code></pre>
+<p>弱点計算は耐性計算より先に行われる。例えば変異による火炎弱点と通常火炎耐性が同時にある場合、確認できる計算は次の通り。</p>
+<pre><code class="language-text">弱点: per = 100 * 2 = 200
+通常耐性: per = (200 + 2) / 3 = 67
+</code></pre>
+<p>変異以外の火炎弱点と通常火炎耐性が同時にある場合は次の通り。</p>
+<pre><code class="language-text">弱点: per = 100 + 100 / 3 = 133
+通常耐性: per = (133 + 2) / 3 = 45
+</code></pre>
+<h2>付随効果</h2>
+<p><code>fire_dam()</code> では、通常火炎耐性または一時火炎耐性がある場合、火炎による腕力低下判定は行われない。両方がある場合、火炎による所持品破壊処理も行われない。どちらか一方だけの場合は、所持品破壊処理は呼ばれる。</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-damage.cpp</code>, <code>src/player/player-status-resist.cpp</code>, <code>src/player/player-status-flags.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 09:53 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

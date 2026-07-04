@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>賢さ維持（TR_SUST_WIS） · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a><a href="Resistances.html">🛡️ 耐性</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+<li><a href="Classes.html">🧑‍🚀 職業 / Classes</a></li>
+<li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
+<li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+</ul>
+<h3><a href="Analysis.html">🔬 解析 / Analysis</a></h3>
+<ul>
+<li>⚔️ 戦闘 / Combat
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></li>
+<li><a href="Analysis-ChaosEffect.html">カオス的効果</a></li>
+</ul>
+</li>
+<li>👹 モンスター / Monsters
+<ul>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収処理</a></li>
+</ul>
+</li>
+<li>🧙 キャラクター / Character
+<ul>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力が上昇時にどれだけ増えるか</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-Stun.html">朦朧処理</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+<li><a href="Analysis-Android.html">アンドロイドのレベル</a></li>
+<li><a href="Analysis-Autoroller.html">オートローラー</a></li>
+<li><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></li>
+<li><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></li>
+<li><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></li>
+<li><a href="Analysis-Riding.html">騎乗時処理</a></li>
+</ul>
+</li>
+<li>🎒 アイテム / Items
+<ul>
+<li><a href="Analysis-ItemLevel.html">アイテムレベルが決まるルール</a></li>
+<li><a href="Analysis-WeaponRepair.html">折れた武器修復</a></li>
+</ul>
+</li>
+<li>⚙️ システム・その他 / System
+<ul>
+<li><a href="Score.html">スコアの算出方法 / Scoring</a></li>
+<li><a href="Analysis-Store.html">店舗</a></li>
+<li><a href="Analysis-Autopick.html">自動拾い</a></li>
+<li><a href="Analysis-Glass.html">ガラス地形</a></li>
+<li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
+<li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
+<li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
+</ul>
+</li>
+</ul>
+<h3><a href="Resistances.html">🛡️ プレイヤー耐性 / Resistances</a></h3>
+<ul>
+<li><a href="Resistances.html">🔥 元素耐性</a></li>
+<li><a href="Resistances.html">🌀 上位・状態異常耐性</a></li>
+<li><a href="Resistances.html">🛡️ 免疫</a> ・ <a href="Resistances.html">⚠️ 弱点</a></li>
+<li><a href="Resistances.html">💪 能力値維持</a> ・ <a href="Resistances.html">✨ 防御能力</a></li>
+</ul>
+</aside><main class="content"><h1>賢さ維持（<code>TR_SUST_WIS</code>）</h1>
+<p><a href="Resistances.html">← プレイヤー耐性一覧 / Resistances</a></p>
+<h2>概要</h2>
+<p>賢さ維持（TR_SUST_WIS）は、<code>do_dec_stat(player_ptr, ${stat})</code> による賢さ低下を防ぐ能力です。<code>dec_stat(player_ptr, stat, amount, permanent)</code> を直接呼ぶ処理は、この維持判定を通りません。</p>
+<h2>効果</h2>
+<p><code>${func}(player_ptr)</code> は <code>common_cause_flags(player_ptr, ${flag})</code> を返し、<code>player_ptr-&gt;ult_res</code> があれば <code>FLAG_CAUSE_MAGIC_TIME_EFFECT</code> も追加します。</p>
+<pre><code class="language-cpp">BIT_FLAGS result = common_cause_flags(player_ptr, ${flag});
+if (player_ptr-&gt;ult_res) {
+    result |= FLAG_CAUSE_MAGIC_TIME_EFFECT;
+}
+return result;
+</code></pre>
+<p><code>do_dec_stat</code> は能力値ごとに対応する維持を確認し、維持が有効なら通常は <code>dec_stat</code> を呼ばずに終了します。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>処理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>${func}(player_ptr)</code> が真、かつ `(!ironman_nightmare</td>
+<td></td>
+</tr>
+<tr>
+<td>上記条件を満たさない</td>
+<td><code>dec_stat(player_ptr, ${stat}, 10, (ironman_nightmare &amp;&amp; !randint0(13)))</code> を実行</td>
+</tr>
+</tbody>
+</table></div>
+<h2>一時耐性・補足</h2>
+<p><code>ironman_nightmare</code> 中は <code>randint0(13)</code> が 0 の場合だけ維持をすり抜け、<code>permanent</code> 引数を真にして <code>dec_stat</code> されます。<code>dec_stat</code> 側の現在値低下は、18 以下では <code>amount &gt; 90</code>、<code>amount &gt; 50</code>、<code>amount &gt; 20</code> の各条件で追加減少した後さらに 1 減少し、18 超では乱数を含む <code>loss</code> を引きます。</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-damage.cpp</code>, <code>src/player/player-status-resist.cpp</code>, <code>src/player/player-status-flags.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 09:53 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
