@@ -61,6 +61,22 @@
 <li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
 <li><a href="Analysis-Mutation.html">突然変異</a></li>
 <li><a href="Analysis-Curse.html">呪い</a></li>
+<li><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></li>
+<li><a href="Analysis-ChaosEffect.html">カオス的効果</a></li>
+<li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収</a></li>
+<li><a href="Analysis-Android.html">アンドロイドのレベル</a></li>
+<li><a href="Analysis-Autoroller.html">オートローラー</a></li>
+<li><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></li>
+<li><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></li>
+<li><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></li>
+<li><a href="Analysis-Riding.html">騎乗時処理</a></li>
+<li><a href="Analysis-ItemLevel.html">アイテムレベル</a></li>
+<li><a href="Analysis-WeaponRepair.html">折れた武器修復</a></li>
+<li><a href="Analysis-Store.html">店舗</a></li>
+<li><a href="Analysis-Autopick.html">自動拾い</a></li>
+<li><a href="Analysis-Glass.html">ガラス地形</a></li>
+<li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
+<li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
 </ul>
 </li>
 </ul>
@@ -95,6 +111,14 @@
 <td><a href="Analysis-Blows.html">攻撃回数</a></td>
 <td>近接の攻撃回数（num_blow）の決定ルール</td>
 </tr>
+<tr>
+<td><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></td>
+<td>武器の魔術属性(TR_BRAND_MAGIC)のランダム発動効果</td>
+</tr>
+<tr>
+<td><a href="Analysis-ChaosEffect.html">カオス的効果</a></td>
+<td>カオスブランド武器が起こすランダム効果</td>
+</tr>
 </tbody>
 </table></div>
 <h2>👹 モンスター / Monsters</h2>
@@ -121,6 +145,10 @@
 <tr>
 <td><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></td>
 <td>死亡時のドロップ・召喚・クエスト処理</td>
+</tr>
+<tr>
+<td><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収処理</a></td>
+<td>敵打撃による杖・魔法棒・MPの吸収</td>
 </tr>
 </tbody>
 </table></div>
@@ -173,13 +201,87 @@
 <td><a href="Analysis-Curse.html">呪い</a></td>
 <td>装備の呪いの種類と効果</td>
 </tr>
+<tr>
+<td><a href="Analysis-Android.html">アンドロイドのレベル</a></td>
+<td>経験値でなく装備の価値で決まるレベル</td>
+</tr>
+<tr>
+<td><a href="Analysis-Autoroller.html">オートローラー</a></td>
+<td>能力値のダイスと自動振り直しの仕組み</td>
+</tr>
+<tr>
+<td><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></td>
+<td>カオスの守護悪魔が与える報酬・懲罰</td>
+</tr>
+<tr>
+<td><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></td>
+<td>死の領域などの詠唱失敗時の副作用</td>
+</tr>
+<tr>
+<td><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></td>
+<td>装備重量・籠手による最大MP減少</td>
+</tr>
+<tr>
+<td><a href="Analysis-Riding.html">騎乗時処理</a></td>
+<td>騎乗の速度・落馬判定・戦闘への影響</td>
+</tr>
 </tbody>
 </table></div>
-<p>※ 旧 Wiki の全項目を順次移植中です。関連: <a href="Score.html">スコアの算出方法</a> ・ <a href="Ironman.html">鉄人オプション</a>。</p>
+<h2>🎒 アイテム / Items</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="Analysis-ItemLevel.html">アイテムレベルが決まるルール</a></td>
+<td>アイテムの抽選深度と強化度を決める生成レベル</td>
+</tr>
+<tr>
+<td><a href="Analysis-WeaponRepair.html">折れた武器修復</a></td>
+<td>折れた武器・アーティファクトの修復サービス</td>
+</tr>
+</tbody>
+</table></div>
+<h2>⚙️ システム・その他 / System</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="Analysis-Store.html">店舗</a></td>
+<td>店の在庫更新と売買価格の計算</td>
+</tr>
+<tr>
+<td><a href="Analysis-Autopick.html">自動拾い</a></td>
+<td>自動拾い設定の書式とマッチング判定</td>
+</tr>
+<tr>
+<td><a href="Analysis-Glass.html">ガラス地形</a></td>
+<td>ガラス地形の性質（視線・破壊・通過）</td>
+</tr>
+<tr>
+<td><a href="Analysis-AncientGrudge.html">太古の怨念</a></td>
+<td>TY_CURSE が起こす凶悪なランダム効果</td>
+</tr>
+<tr>
+<td><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></td>
+<td>デバッグ用ウィザードコマンド一覧</td>
+</tr>
+</tbody>
+</table></div>
+<p>※ 旧 Wiki「解析」の全項目を移植し、現行ソースで再検証・再導出済みです。関連: <a href="Score.html">スコアの算出方法</a> ・ <a href="Ironman.html">鉄人オプション</a>。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>mars.kmc.gr.jp/~dis/heng_wiki</code> 解析/* を現行ソースで再検証）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 03:28 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 03:32 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>アイテムレベルが決まるルール · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力の上昇量</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+<li><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></li>
+<li><a href="Analysis-ChaosEffect.html">カオス的効果</a></li>
+<li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収</a></li>
+<li><a href="Analysis-Android.html">アンドロイドのレベル</a></li>
+<li><a href="Analysis-Autoroller.html">オートローラー</a></li>
+<li><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></li>
+<li><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></li>
+<li><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></li>
+<li><a href="Analysis-Riding.html">騎乗時処理</a></li>
+<li><a href="Analysis-ItemLevel.html">アイテムレベル</a></li>
+<li><a href="Analysis-WeaponRepair.html">折れた武器修復</a></li>
+<li><a href="Analysis-Store.html">店舗</a></li>
+<li><a href="Analysis-Autopick.html">自動拾い</a></li>
+<li><a href="Analysis-Glass.html">ガラス地形</a></li>
+<li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
+<li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>アイテムレベルが決まるルール</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>変愚蛮怒におけるアイテムの「レベル」は、生成の全過程で二重の意味を持ちます。</p>
+<ul>
+<li><strong>ベースアイテムの生成レベル</strong>: どの種類のアイテム（＝ベースアイテム）が抽選されるかを決める深度。これがいわゆる「アイテムレベル」で、深い階ほど高レベルなアイテム種別が出やすくなります。</li>
+<li><strong>強化レベル (magic level)</strong>: 抽選されたアイテムに与えられる魔法的強化の基準となる深度。上質 (good) / 高級品 (great) の判定、エゴ・アーティファクト化、ボーナス値の大きさに効きます。</li>
+</ul>
+<p>両者の起点となるのがフロアの生成レベル <code>object_level</code> です。本稿では <code>object_level</code> がどのように決まり、それがアイテムの「抽選」と「強化」にどう波及するかを、ソースで確認できた範囲で説明します。</p>
+<h2>フロアの生成レベル (base_level / object_level)</h2>
+<p>フロアには基準となる生成レベル <code>base_level</code> と、そこから一時的に変更されるアイテム用の <code>object_level</code> があります。</p>
+<ul>
+<li><code>base_level</code>: 各種生成レベルの参照元となる基本値。通常のダンジョン階では <code>dun_level</code>（現在の階層）が設定されます。</li>
+<li><code>object_level</code>: アイテム生成時に実際に参照されるレベル。既定では <code>base_level</code> と等しく、特定の状況（特別部屋・宝箱・モンスタードロップなど）で一時的に加算・上書きされます。</li>
+</ul>
+<p>通常のフロア生成では次のように設定されます。</p>
+<pre><code>base_level   = dun_level
+object_level = base_level
+</code></pre>
+<p>クエスト階では、そのクエストに設定されたレベルが <code>base_level</code> として使われます。</p>
+<pre><code>base_level   = quest.level
+object_level = base_level
+</code></pre>
+<h2>object_level を一時変更する状況</h2>
+<p><code>object_level</code> は生成コンテキストに応じて一時的に変更され、処理が終わると <code>base_level</code> へ戻されます。ソースで確認できた変更値は次の通りです。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>状況</th>
+<th>object_level の値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>通常</td>
+<td><code>base_level</code>（＝多くの場合 <code>dun_level</code>）</td>
+</tr>
+<tr>
+<td>特別部屋の財宝配置（最上質枠）</td>
+<td><code>base_level + 20</code></td>
+</tr>
+<tr>
+<td>特別部屋の財宝配置（上質枠）</td>
+<td><code>base_level + 10</code></td>
+</tr>
+<tr>
+<td>特別部屋の財宝配置（通常枠）</td>
+<td><code>base_level + 7</code></td>
+</tr>
+<tr>
+<td>ヴォルト等の配置</td>
+<td><code>base_level + 20</code> / <code>base_level + 12</code> / <code>base_level + 7</code>（配置種別による）</td>
+</tr>
+<tr>
+<td>モンスターのドロップ</td>
+<td><code>(dun_level + モンスターのレベル) / 2</code></td>
+</tr>
+<tr>
+<td>宝箱（一般）</td>
+<td><code>abs(chest.pval) + 10</code></td>
+</tr>
+<tr>
+<td>宝箱（缶詰＝KANDUME）</td>
+<td>宝箱の <code>chest_level</code>（さらに強化モード <code>AM_GREAT</code> が付与）</td>
+</tr>
+</tbody>
+</table></div>
+<p>モンスタードロップの生成レベルは、階層とモンスター自身のレベルの平均です。</p>
+<pre><code>object_level = (dun_level + monster.level) / 2
+</code></pre>
+<p>これにより、浅い階でも強いモンスターを倒せば相応に高レベルなアイテムが出うる一方、深い階の弱いモンスターのドロップは階層より低いレベルになります。</p>
+<h2>生成モードによる基準レベルの底上げ (good / great)</h2>
+<p><code>make_object()</code> は、良質アイテムを狙う生成モード <code>AM_GOOD</code> / <code>AM_GREAT</code> に応じて、抽選に渡す基準レベル（コード上の <code>base</code>）を <code>object_level</code> から底上げします。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>モード</th>
+<th>抽選に渡す基準レベル <code>base</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>通常</td>
+<td><code>object_level</code></td>
+</tr>
+<tr>
+<td><code>AM_GOOD</code></td>
+<td><code>object_level + 10</code></td>
+</tr>
+<tr>
+<td><code>AM_GREAT</code>（ランダムクエスト討伐対象レベル <code>rq_mon_level</code> あり）</td>
+<td><code>rq_mon_level + 10 + randint1(10)</code></td>
+</tr>
+<tr>
+<td><code>AM_GREAT</code>（<code>rq_mon_level</code> なし）</td>
+<td><code>object_level + 15</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>randint1(10)</code> は 1〜10 の一様乱数です。</p>
+<p>なお強化モード指定とは別に、<code>make_object()</code> は一定確率で「その場限りのアーティファクト (instant artifact)」の生成を試みます。その試行確率は次の通りです。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>モード</th>
+<th>instant artifact 試行確率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AM_GOOD</code> あり</td>
+<td><code>one_in_(10)</code>（1/10）</td>
+</tr>
+<tr>
+<td>それ以外</td>
+<td><code>one_in_(1000)</code>（1/1000）</td>
+</tr>
+</tbody>
+</table></div>
+<h2>ベースアイテムの抽選（アイテムレベル本体）</h2>
+<p>底上げされた基準レベル <code>base</code> は <code>select_baseitem_id(base, mode)</code> に渡され、ここでベースアイテムの種類が抽選されます。この関数の中で、アイテムレベルに関する重要な処理が二つ行われます。</p>
+<h3>1. レベルのクランプと深度ブースト</h3>
+<p>まず基準レベルは最大深度で頭打ちにされます。<code>MAX_DEPTH</code> は 128 なので、上限は 127 です。</p>
+<pre><code>if (level &gt; MAX_DEPTH - 1) level = MAX_DEPTH - 1
+</code></pre>
+<p>次に、初心者向けフラグ (<code>BEGINNER</code>) の付いていないダンジョンでは、一定確率でレベルが大きく引き上げられます。ブーストの発生確率は定数 <code>CHANCE_BASEITEM_LEVEL_BOOST = 10</code> により <code>one_in_(10)</code>（1/10）です。</p>
+<pre><code>発生条件: level &gt; 0 かつ ダンジョンが BEGINNER でない
+確率:     one_in_(10)  (= 1/10)
+ブースト時:
+    level = 1 + (level * MAX_DEPTH / randint1(MAX_DEPTH))
+          = 1 + (level * 128 / randint1(128))
+</code></pre>
+<p><code>randint1(128)</code> は 1〜128 の一様乱数です。分母が小さい値を引くとレベルは大きく跳ね上がり、まれに本来の階層より遥かに高レベルなベースアイテムが出現します（いわゆる「out-of-depth」なアイテム）。分母が 128（最大）のときはブースト後もほぼ元のレベルのままです。</p>
+<h3>2. 抽選テーブルの構築と複数回抽選</h3>
+<p>ブースト後のレベルで抽選テーブルが構築されます。ベースアイテムは種別ごとに複数の「割り当てエントリ（レベルと出現確率の対）」を持ち、<code>make_table()</code> は <strong>エントリのレベルが基準 <code>level</code> 以下のものだけ</strong> を候補に含めます。</p>
+<pre><code>候補条件: entry.level &lt;= level
+</code></pre>
+<p>抽選は複数回引かれ、そのうち <strong>最もレベルの高いエントリ</strong> が採用されます。抽選回数は次の確率で決まります。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>抽選回数</th>
+<th>確率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 回</td>
+<td>40 %（乱数 p が 60 以上）</td>
+</tr>
+<tr>
+<td>2 回</td>
+<td>50 %（10 ≤ p &lt; 60）</td>
+</tr>
+<tr>
+<td>3 回</td>
+<td>10 %（p &lt; 10）</td>
+</tr>
+</tbody>
+</table></div>
+<pre><code>p = randint0(100)
+count = 1
+if (p &lt; 60) count++   // 60% で +1
+if (p &lt; 10) count++   // 10% で さらに +1
+</code></pre>
+<p>複数回引いて最高レベルを採る仕組みのため、基準レベルが高いほど高レベルなベースアイテムが選ばれやすくなります。この「複数回引いて最高レベルを採る」処理がアイテムレベルの実効的な深度依存性を強めています。</p>
+<h2>アイテムの強化（magic level と good/great 判定）</h2>
+<p>抽選で種類が決まったアイテムは <code>ItemMagicApplier</code> により魔法的な強化を受けます。ここで参照される基準レベル <code>lev</code> は、<code>make_object()</code> から渡される <strong><code>object_level</code>（good/great の底上げ前の値）</strong> です。</p>
+<pre><code>ItemMagicApplier の基準レベル lev = object_level
+</code></pre>
+<p><code>lev</code> に対しては次の補正が入ります。</p>
+<ul>
+<li>性格がマンチキン (<code>PERSONALITY_MUNCHKIN</code>) の場合: <code>lev += randint0(player.lev / 2 + 10)</code></li>
+<li>上限クランプ: <code>lev</code> が <code>MAX_DEPTH - 1</code>（＝127）を超える場合は 127 に制限。</li>
+</ul>
+<h3>上質・高級品の確率</h3>
+<p>上質 (good) と高級品 (great) の生成確率 [%] は <code>lev</code> を基準に算出されます。</p>
+<pre><code>chance_good  = lev + 10                     (ダンジョンの obj_good で上限クランプ)
+chance_great = chance_good * 2 / 3          (ダンジョンの obj_great で上限クランプ)
+</code></pre>
+<p>さらに幸運・不運による補正が入ります。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>chance_good</th>
+<th>chance_great</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>幸運 (good luck)</td>
+<td>+5</td>
+<td>+2</td>
+</tr>
+<tr>
+<td>突然変異による不運 (BAD_LUCK)</td>
+<td>-5</td>
+<td>-2</td>
+</tr>
+</tbody>
+</table></div>
+<p>（高級品確率の <code>obj_great</code> 上限クランプは、マンチキン性格の場合は適用されません。）</p>
+<h3>強化パワーの決定</h3>
+<p>これらの確率を用いて強化パワー <code>power</code> が決まります。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>判定</th>
+<th>power</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AM_GOOD</code> 指定、または <code>chance_good</code> に当選</td>
+<td>1（さらに <code>AM_GREAT</code> 指定か <code>chance_great</code> 当選で 2、加えて <code>AM_SPECIAL</code> で 3）</td>
+</tr>
+<tr>
+<td>上記に非該当だが <code>chance_good</code> に当選</td>
+<td>-1（さらに <code>chance_great</code> 当選で -2）</td>
+</tr>
+<tr>
+<td>いずれでもない</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>AM_CURSED</code> が指定された場合は、正の <code>power</code> は符号反転、非正の <code>power</code> はさらに 1 減算されます。</p>
+<ul>
+<li><code>power &gt;= 2</code>（＝ great 相当）以上のとき、アイテムは上質枠として扱われ、アーティファクト化の試行が発生しうる。</li>
+<li><code>power &lt;= -2</code> は劣悪（呪われた粗悪品）方向の強化。</li>
+</ul>
+<h3>アーティファクト化の試行回数</h3>
+<p>強化パワーとモードからアーティファクト（ランダムアーティファクト）生成の試行回数 <code>rolls</code> が決まります。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>rolls</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>power &gt;= 2</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>AM_GREAT</code> または <code>AM_SPECIAL</code></td>
+<td>4（上書き）</td>
+</tr>
+<tr>
+<td><code>AM_NO_FIXED_ART</code> 指定、または既に固定アーティファクト</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+<p>アーティファクト化の試行は <strong>地下（ダンジョン内）でのみ</strong> 行われます。各試行では現在の階層 <code>dun_level</code> を基準に判定されます。</p>
+<pre><code>o_ptr-&gt;try_become_artifact(dun_level)
+</code></pre>
+<p>幸運持ちの場合は、失敗しても <code>one_in_(77)</code>（1/77）で追加の再試行が発生します。</p>
+<h3>ボーナス値の大きさ (m_bonus)</h3>
+<p>命中・ダメージ・AC などのボーナス値の大きさも <code>lev</code> に依存します。共通ルーチン <code>m_bonus(max, level)</code> は、レベルが上がるほど平均値が <code>max</code> に近づく分布を返します。</p>
+<pre><code>level は MAX_DEPTH - 1 (=127) で上限クランプ
+bonus = (max * level) / MAX_DEPTH
+      = (max * level) / 128
+（端数 (max*level) % 128 の確率で bonus を +1）
+標準偏差 stand = max / 4 として randnor(bonus, stand) を返す
+（0 未満は 0、max 超は max にクランプ）
+</code></pre>
+<p>つまり <code>level</code> が 128 に近いほどボーナスの期待値が最大値に近づき、浅い階では小さなボーナスに偏ります。</p>
+<h2>全体の流れ（まとめ）</h2>
+<p>アイテム生成におけるレベルの流れは次のように整理できます。</p>
+<pre><code>dun_level (現在の階層)
+   ↓
+base_level  = dun_level（クエスト階では quest.level）
+   ↓
+object_level = base_level（特別部屋・宝箱・モンスタードロップ等で一時変更）
+   ├─ [抽選側] make_object で good/great 補正 → base
+   │      通常 : object_level
+   │      GOOD : object_level + 10
+   │      GREAT: object_level + 15（ランダムクエストなら rq_mon_level + 10 + 1d10）
+   │        ↓ select_baseitem_id(base)
+   │        ├ 1/10 で深度ブースト level = 1 + level*128/randint1(128)
+   │        └ 1〜3 回抽選し最高レベルのベースアイテムを採用
+   │
+   └─ [強化側] ItemMagicApplier の lev = object_level（補正前）
+          ├ chance_good = lev + 10（上限 obj_good）
+          ├ chance_great = chance_good * 2/3（上限 obj_great）
+          ├ power / rolls を決定 → エゴ・アーティファクト化
+          └ m_bonus(max, lev) でボーナス値を決定
+</code></pre>
+<p>抽選側は good/great による大きな底上げと深度ブーストを受けるため、モードや運次第で階層を大きく超えたベースアイテムが出うる一方、強化側は底上げ前の <code>object_level</code> を基準にするため、強化の平均的な質は素直に現在の階層深度を反映します。</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/floor/floor-object.cpp</code>, <code>src/object-enchant/item-magic-applier.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 03:32 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
