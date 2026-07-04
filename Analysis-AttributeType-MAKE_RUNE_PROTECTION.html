@@ -25,11 +25,15 @@
 <li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
 <li><a href="Spells.html">✨ 呪文 / Spells</a></li>
 <li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
 <li><a href="Classes.html">🧑‍🚀 職業 / Classes</a></li>
 <li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
 <li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
 <li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
 <li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
 <li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
 <ul>
 <li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
@@ -40,10 +44,8 @@
 <li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
 </ul>
 </li>
-</ul>
-<h3><a href="Analysis.html">🔬 解析 / Analysis</a></h3>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
 <ul>
-<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
 <li>⚔️ 戦闘 / Combat
 <ul>
 <li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
@@ -102,6 +104,8 @@
 </ul>
 </li>
 </ul>
+</li>
+</ul>
 </aside><main class="content"><h1>守りのルーン生成 / AttributeType::MAKE_RUNE_PROTECTION</h1>
 <p><a href="Analysis-AttributeTypes.html">← AttributeType 一覧</a></p>
 <div class="tablewrap"><table class="sortable">
@@ -146,26 +150,6 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<p>この AttributeType はプレイヤー対象の分岐を持たず、既定分岐でダメージ 0 として扱われます。</p>
-<h2>モンスター処理詳細</h2>
-<p>この AttributeType はモンスター対象の明示分岐を持たず、既定分岐で skipped として扱われます。</p>
-<h2>地形処理詳細</h2>
-<p><code>affect_feature()</code> の <code>AttributeType::MAKE_RUNE_PROTECTION</code> 分岐です。実装: <code>src/effect/effect-feature.cpp</code></p>
-<h3>分岐本体</h3>
-<ul>
-<li><code>if (!grid.is_clean() || grid.has_monster() || player_ptr-&gt;is_located_at(pos)) {</code></li>
-<li><code>break;</code></li>
-<li><code>grid.info |= CAVE_OBJECT;</code></li>
-<li><code>grid.set_terrain_id(TerrainTag::RUNE_PROTECTION, TerrainKind::MIMIC);</code></li>
-<li><code>note_spot(player_ptr, pos);</code></li>
-<li><code>lite_spot(player_ptr, pos);</code></li>
-<li><code>break;</code></li>
-</ul>
-<h2>アイテム処理詳細</h2>
-<p>この AttributeType は <code>affect_item()</code> 内で アイテム への明示処理を持ちません。</p>
-<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>

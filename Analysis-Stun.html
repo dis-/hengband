@@ -25,11 +25,15 @@
 <li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
 <li><a href="Spells.html">✨ 呪文 / Spells</a></li>
 <li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
 <li><a href="Classes.html">🧑‍🚀 職業 / Classes</a></li>
 <li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
 <li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
 <li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
 <li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
 <li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
 <ul>
 <li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
@@ -40,10 +44,8 @@
 <li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
 </ul>
 </li>
-</ul>
-<h3><a href="Analysis.html">🔬 解析 / Analysis</a></h3>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
 <ul>
-<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
 <li>⚔️ 戦闘 / Combat
 <ul>
 <li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
@@ -99,6 +101,8 @@
 <li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
 <li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
 <li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -320,6 +324,105 @@
 </tbody>
 </table></div>
 <p>減少は <code>BadStatusSetter::mod_stun(-adjust)</code> 経由で行われるため、0 未満にはならず、ランクが下がると再計算・再描画が発生します。値が 0 になった時は「やっと朦朧状態から回復した。」のメッセージが表示されます。</p>
+<h3>行動による解除</h3>
+<p>薬を飲む、杖・ロッドを使う、一部の呪文を唱えるなどの行動でもプレイヤーの朦朧値は回復します。下表の効果は自然回復のように少しずつ減らすのではなく、<code>BadStatusSetter::set_stun(0)</code>、<code>cure_critical_wounds()</code>、<code>true_healing()</code>、<code>life_stream()</code> などを経由して朦朧値を 0 に戻します。宿屋の休息だけは <code>effects()-&gt;stun().reset()</code> で直接 0 にします。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>分類</th>
+<th>行動・効果</th>
+<th>内部処理</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>薬</td>
+<td>癒し、致命傷の治癒、体力回復、*体力回復*、生命</td>
+<td><code>true_healing()</code> / <code>cure_critical_wounds()</code> / <code>life_stream()</code></td>
+<td>軽傷の治癒、重傷の治癒は朦朧を治さない</td>
+</tr>
+<tr>
+<td>ロッド</td>
+<td>癒し、体力回復</td>
+<td><code>true_healing()</code> / <code>cure_critical_wounds()</code></td>
+<td>復活のロッドは能力値・経験値回復で、朦朧は対象外</td>
+</tr>
+<tr>
+<td>杖</td>
+<td>癒し、体力回復、聖浄</td>
+<td><code>true_healing()</code> / <code>cure_critical_wounds()</code> / <code>cleansing_nova()</code></td>
+<td>賢者の杖は朦朧を治さない</td>
+</tr>
+<tr>
+<td>施設</td>
+<td>建物の治療サービス、宿屋の休息</td>
+<td><code>cure_critical_wounds(200)</code> / <code>stun().reset()</code></td>
+<td>宿屋は HP/SP も全快する</td>
+</tr>
+<tr>
+<td>生命領域</td>
+<td>致命傷の治癒、体力回復、*体力回復*</td>
+<td><code>cure_critical_wounds()</code></td>
+<td>生命領域の復活は能力値・経験値回復で、朦朧は対象外</td>
+</tr>
+<tr>
+<td>自然領域</td>
+<td>薬草治療</td>
+<td><code>cure_critical_wounds(500)</code></td>
+<td>傷と毒治療は朦朧を治さない</td>
+</tr>
+<tr>
+<td>匠領域</td>
+<td>癒し</td>
+<td><code>true_healing(0)</code></td>
+<td>HP 回復なしで状態異常だけを治す</td>
+</tr>
+<tr>
+<td>破邪領域</td>
+<td>身体浄化、聖なる御言葉</td>
+<td><code>set_stun(0)</code></td>
+<td>聖なる御言葉は HP 100 回復、恐怖・毒・切り傷も治す</td>
+</tr>
+<tr>
+<td>呪術</td>
+<td>致命傷の治癒</td>
+<td><code>cure_critical_wounds(4d10)</code></td>
+<td>継続中の毎ターン処理でも朦朧を治す</td>
+</tr>
+<tr>
+<td>歌</td>
+<td>ヤヴァンナの助け</td>
+<td><code>set_stun(0)</code></td>
+<td>継続中の毎ターン処理で HP 15d10 回復、切り傷も治す</td>
+</tr>
+<tr>
+<td>超能力者</td>
+<td>アドレナリン・ドーピング</td>
+<td><code>set_stun(0)</code></td>
+<td>恐怖も解除し、英雄気分・加速などを得る</td>
+</tr>
+<tr>
+<td>青魔法・ものまね</td>
+<td>モンスター能力「体力回復」</td>
+<td><code>set_stun(0)</code></td>
+<td>青魔法は HP を <code>Lv*4</code>、ものまねは <code>Lv*6</code> 回復し、切り傷も治す</td>
+</tr>
+<tr>
+<td>発動</td>
+<td>一部のアーティファクト発動（天国の歌、体力回復700、体力回復1000、癒し）</td>
+<td><code>cure_critical_wounds()</code> / <code>true_healing()</code></td>
+<td>発動タイプは <code>CHOIR_SINGS</code>、<code>CURE_700</code>、<code>CURE_1000</code>、<code>CURING</code></td>
+</tr>
+<tr>
+<td>地形</td>
+<td>パターン終端</td>
+<td><code>cure_critical_wounds(1000)</code></td>
+<td>体力回復、能力値・経験値回復などと同時に朦朧を治す</td>
+</tr>
+</tbody>
+</table></div>
+<p>なお、朦朧が重い時はアイテム使用側の事前判定で行動自体に失敗することがあります。その場合は効果処理まで進まないため、上記の薬・杖・ロッドでも朦朧は回復しません。</p>
 <h2>モンスターの朦朧 / Monster stun</h2>
 <h3>状態値と設定</h3>
 <p>モンスターの朦朧は <code>mtimed[MonsterTimedEffect::STUN]</code> に保存され、<code>set_monster_stunned()</code> で 0-200 に丸められます。値が 0 から正になると処理リストへ登録され、0 に戻ると処理リストから外れます。</p>
@@ -420,7 +523,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/timed-effect/player-stun.cpp</code>, <code>src/status/bad-status-setter.cpp</code>, <code>src/core/magic-effects-timeout-reducer.cpp</code>, <code>src/monster/monster-status.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 07:52 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 08:09 UTC · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

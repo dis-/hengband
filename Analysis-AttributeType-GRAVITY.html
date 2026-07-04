@@ -25,11 +25,15 @@
 <li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
 <li><a href="Spells.html">✨ 呪文 / Spells</a></li>
 <li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+<h3>📘 解説 / Guides</h3>
+<ul>
 <li><a href="Classes.html">🧑‍🚀 職業 / Classes</a></li>
 <li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
 <li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
 <li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
 <li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
 <li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
 <ul>
 <li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
@@ -40,10 +44,8 @@
 <li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
 </ul>
 </li>
-</ul>
-<h3><a href="Analysis.html">🔬 解析 / Analysis</a></h3>
+<li><a href="Analysis.html">🔬 解析 / Analysis</a>
 <ul>
-<li><a href="Score.html">🧮 スコアの算出方法 / Scoring</a></li>
 <li>⚔️ 戦闘 / Combat
 <ul>
 <li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
@@ -102,6 +104,8 @@
 </ul>
 </li>
 </ul>
+</li>
+</ul>
 </aside><main class="content"><h1>重力 / AttributeType::GRAVITY</h1>
 <p><a href="Analysis-AttributeTypes.html">← AttributeType 一覧</a></p>
 <div class="tablewrap"><table class="sortable">
@@ -146,56 +150,6 @@
 </tr>
 </tbody>
 </table></div>
-<!-- attribute-detail:start -->
-<h2>プレイヤー処理詳細</h2>
-<p><code>switch_effects_player()</code> の <code>AttributeType::GRAVITY</code> 分岐は <code>effect_player_gravity()</code> を実行します。</p>
-<h3>分岐本体</h3>
-<ul>
-<li><code>effect_player_gravity(player_ptr, ep_ptr);</code></li>
-<li><code>return;</code></li>
-</ul>
-<h3><code>effect_player_gravity()</code></h3>
-<p>実装: <code>src/effect/effect-player-resist-hurt.cpp</code></p>
-<ul>
-<li><code>if (!check_multishadow(player_ptr)) {</code></li>
-<li><code>if (!player_ptr-&gt;levitation) {</code></li>
-<li><code>(void)bss.mod_deceleration(randint0(4) + 4, false);</code></li>
-<li><code>if (!(has_resist_sound(player_ptr) || player_ptr-&gt;levitation)) {</code></li>
-<li><code>(void)bss.mod_stun(plus_stun);</code></li>
-<li><code>ep_ptr-&gt;dam = ep_ptr-&gt;dam * calc_gravity_damage_rate(player_ptr, CALC_RAND) / 100;</code></li>
-<li><code>if (!player_ptr-&gt;levitation || one_in_(13)) {</code></li>
-<li><code>inventory_damage(player_ptr, BreakerCold(), 2);</code></li>
-<li><code>ep_ptr-&gt;get_damage = take_hit(player_ptr, DAMAGE_ATTACK, ep_ptr-&gt;dam, ep_ptr-&gt;killer);</code></li>
-</ul>
-<h2>モンスター処理詳細</h2>
-<p><code>switch_effects_monster()</code> の <code>AttributeType::GRAVITY</code> 分岐は <code>effect_monster_gravity()</code> を実行します。</p>
-<h3>分岐本体</h3>
-<ul>
-<li><code>return effect_monster_gravity(player_ptr, em_ptr);</code></li>
-</ul>
-<h3><code>effect_monster_gravity()</code></h3>
-<p>実装: <code>src/effect/effect-monster-resist-hurt.cpp</code></p>
-<ul>
-<li><code>em_ptr-&gt;do_dist = effect_monster_gravity_resist_teleport(player_ptr, em_ptr) ? 0 : 10;</code></li>
-<li><code>em_ptr-&gt;do_dist = 0;</code></li>
-<li><code>if (em_ptr-&gt;monrace-&gt;resistance_flags.has(MonsterResistanceType::RESIST_GRAVITY)) {</code></li>
-<li><code>em_ptr-&gt;note = _(&quot;には耐性がある！&quot;, &quot; resists!&quot;);</code></li>
-<li><code>em_ptr-&gt;dam *= 3;</code></li>
-<li><code>em_ptr-&gt;dam /= randint1(6) + 6;</code></li>
-<li><code>em_ptr-&gt;do_dist = 0;</code></li>
-<li><code>em_ptr-&gt;monrace-&gt;r_resistance_flags.set(MonsterResistanceType::RESIST_GRAVITY);</code></li>
-<li><code>em_ptr-&gt;note = _(&quot;には効果がなかった。&quot;, &quot; is unaffected!&quot;);</code></li>
-</ul>
-<h2>地形処理詳細</h2>
-<p><code>affect_feature()</code> の <code>AttributeType::GRAVITY</code> 分岐です。実装: <code>src/effect/effect-feature.cpp</code></p>
-<h3>分岐本体</h3>
-<ul>
-<li><code>message = _(&quot;粉砕された&quot;, &quot;was crushed.&quot;);</code></li>
-<li><code>break;</code></li>
-</ul>
-<h2>アイテム処理詳細</h2>
-<p>この AttributeType は <code>affect_item()</code> 内で アイテム への明示処理を持ちません。</p>
-<!-- attribute-detail:end -->
 <h2>処理の読み方</h2>
 <ul>
 <li>プレイヤーが効果を受ける場合は <code>switch_effects_player()</code> の分岐が使われます。</li>
