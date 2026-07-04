@@ -138,7 +138,7 @@
 <td style="text-align:right">1</td>
 <td style="text-align:right">0</td>
 <td>INT</td>
-<td style="text-align:right">0%</td>
+<td style="text-align:right">0</td>
 <td>現在の階に設置した鏡を全て割る。各鏡を中心に半径2、破片属性ダメージ <code>Lv / 2 + 5</code> のボールが発生する。</td>
 </tr>
 <tr>
@@ -146,7 +146,7 @@
 <td style="text-align:right">30</td>
 <td style="text-align:right">0</td>
 <td>INT</td>
-<td style="text-align:right">20%</td>
+<td style="text-align:right">20</td>
 <td>鏡上でのみMPを <code>5 + Lv * Lv / 100</code> 回復する。</td>
 </tr>
 </tbody>
@@ -168,147 +168,147 @@
 <td>真見の鏡</td>
 <td style="text-align:right">1</td>
 <td style="text-align:right">1</td>
-<td style="text-align:right">15%</td>
+<td style="text-align:right">15</td>
 <td>鏡上なら判定レベル+4。判定レベル5超で通常モンスター感知、19超で透明モンスター感知、29超でレベルターンのテレパシー、39超で地形感知。鏡上でなくLv5未満なら集中できない。</td>
 </tr>
 <tr>
 <td>鏡生成</td>
 <td style="text-align:right">1</td>
 <td style="text-align:right">2</td>
-<td style="text-align:right">40%</td>
+<td style="text-align:right">40</td>
 <td>足元に鏡を作る。現在階の鏡が <code>4 + レベル / 10</code> 枚以上なら追加できない。足元の床上にアイテムがあると失敗する。</td>
 </tr>
 <tr>
 <td>光のしずく</td>
 <td style="text-align:right">2</td>
 <td style="text-align:right">2</td>
-<td style="text-align:right">20%</td>
+<td style="text-align:right">20</td>
 <td>閃光属性の矢。ダメージ <code>(3 + (レベル - 1) / 5)d4</code>。Lv10超かつ鏡上ならビーム、そうでなければボルト。</td>
 </tr>
 <tr>
 <td>歪んだ鏡</td>
 <td style="text-align:right">3</td>
 <td style="text-align:right">2</td>
-<td style="text-align:right">20%</td>
+<td style="text-align:right">20</td>
 <td>距離10のテレポート。</td>
 </tr>
 <tr>
 <td>閃光鏡</td>
 <td style="text-align:right">5</td>
 <td style="text-align:right">3</td>
-<td style="text-align:right">35%</td>
+<td style="text-align:right">35</td>
 <td>周辺または部屋を照らす。ダメージ <code>2d(レベル / 2)</code>、半径 <code>レベル / 10 + 1</code>。</td>
 </tr>
 <tr>
 <td>彷える鏡</td>
 <td style="text-align:right">6</td>
 <td style="text-align:right">5</td>
-<td style="text-align:right">35%</td>
+<td style="text-align:right">35</td>
 <td>距離 <code>レベル * 5</code> のテレポート。</td>
 </tr>
 <tr>
 <td>微塵隠れ</td>
 <td style="text-align:right">10</td>
 <td style="text-align:right">5</td>
-<td style="text-align:right">30%</td>
+<td style="text-align:right">30</td>
 <td><code>20 + 1d20</code> ターン、鏡のオーラを得る。近接反撃に破片ダメージを与え、鏡上で攻撃を受けると短距離テレポートする。</td>
 </tr>
 <tr>
 <td>追放の鏡</td>
 <td style="text-align:right">12</td>
 <td style="text-align:right">12</td>
-<td style="text-align:right">30%</td>
+<td style="text-align:right">30</td>
 <td>指定方向へ威力レベルの全テレポート属性ビーム。抵抗されると無効。</td>
 </tr>
 <tr>
 <td>鏡砕き</td>
 <td style="text-align:right">15</td>
 <td style="text-align:right">15</td>
-<td style="text-align:right">30%</td>
+<td style="text-align:right">30</td>
 <td>指定方向へ破片属性ボール。ダメージ <code>(8 + (レベル - 5) / 4)d8</code>、半径はLv20以下で0、Lv21以上で <code>(レベル - 20) / 8 + 1</code>。</td>
 </tr>
 <tr>
 <td>催眠鏡</td>
 <td style="text-align:right">19</td>
 <td style="text-align:right">13</td>
-<td style="text-align:right">30%</td>
+<td style="text-align:right">30</td>
 <td>現在階の各鏡を中心に半径2、威力レベルの睡眠属性を発生させる。ダメージなし。</td>
 </tr>
 <tr>
 <td>シーカーレイ</td>
 <td style="text-align:right">23</td>
 <td style="text-align:right">18</td>
-<td style="text-align:right">50%</td>
+<td style="text-align:right">50</td>
 <td>指定方向へ魔力のビーム。ダメージ <code>(11 + (レベル - 5) / 4)d8</code>。鏡に当たると鏡を破壊し、別の鏡または近傍へ反射する。</td>
 </tr>
 <tr>
 <td>鏡の封印</td>
 <td style="text-align:right">25</td>
 <td style="text-align:right">20</td>
-<td style="text-align:right">40%</td>
+<td style="text-align:right">40</td>
 <td>鏡上のモンスターへ威力 <code>レベル * 4 + 100</code> の抹殺属性を与える。対象が残っていなければその鏡を消す。</td>
 </tr>
 <tr>
 <td>水鏡の盾</td>
 <td style="text-align:right">27</td>
 <td style="text-align:right">30</td>
-<td style="text-align:right">60%</td>
+<td style="text-align:right">60</td>
 <td><code>20 + 1d20</code> ターンのシールド。Lv32超で反射、Lv40超で魔法防御も得る。</td>
 </tr>
 <tr>
 <td>スーパーレイ</td>
 <td style="text-align:right">29</td>
 <td style="text-align:right">30</td>
-<td style="text-align:right">60%</td>
+<td style="text-align:right">60</td>
 <td>指定方向へ強力な魔力ビーム。ダメージ <code>150 + 1d(2 * レベル)</code>。鏡に当たると鏡を破壊し、そこから8方向へ同じダメージのビームを放つ。</td>
 </tr>
 <tr>
 <td>幻惑の光</td>
 <td style="text-align:right">31</td>
 <td style="text-align:right">35</td>
-<td style="text-align:right">60%</td>
+<td style="text-align:right">60</td>
 <td>視界内のモンスターを減速させ、朦朧・混乱・恐慌・停止を与える。減速威力はレベル、朦朧威力は鏡上で <code>レベル * 8</code>、鏡上でなければ <code>レベル * 6</code>、混乱・恐慌・停止は鏡上で <code>レベル * 4</code>、鏡上でなければ <code>レベル * 3</code>。</td>
 </tr>
 <tr>
 <td>鏡の国</td>
 <td style="text-align:right">33</td>
 <td style="text-align:right">50</td>
-<td style="text-align:right">80%</td>
+<td style="text-align:right">80</td>
 <td>鏡上でのみ、<code>15 + 1d0..20</code> ターン後に現在階を作り変える。鏡上でなければ場所がわからず失敗する。</td>
 </tr>
 <tr>
 <td>鏡抜け</td>
 <td style="text-align:right">36</td>
 <td style="text-align:right">30</td>
-<td style="text-align:right">80%</td>
+<td style="text-align:right">80</td>
 <td>指定した短距離地点へ鏡世界を通って移動する。失敗時は「鏡の世界をうまく通れなかった！」となる。</td>
 </tr>
 <tr>
 <td>帰還の鏡</td>
 <td style="text-align:right">38</td>
 <td style="text-align:right">40</td>
-<td style="text-align:right">70%</td>
+<td style="text-align:right">70</td>
 <td><code>15 + 1d0..20</code> ターン後に地上とダンジョン最深階を往復する。</td>
 </tr>
 <tr>
 <td>影分身</td>
 <td style="text-align:right">40</td>
 <td style="text-align:right">50</td>
-<td style="text-align:right">55%</td>
+<td style="text-align:right">55</td>
 <td><code>6 + 1d6</code> ターン、全ての攻撃を2分の1で無効化する影分身を得る。</td>
 </tr>
 <tr>
 <td>封魔結界</td>
 <td style="text-align:right">43</td>
 <td style="text-align:right">55</td>
-<td style="text-align:right">70%</td>
+<td style="text-align:right">70</td>
 <td>視界内・射線内・最大射程内の鏡2枚とプレイヤーを頂点とする三角形内に魔力属性ダメージ <code>レベル * 11 + 5</code>。地形・アイテム・モンスターに作用し、7分の1で鏡が1枚壊れる。</td>
 </tr>
 <tr>
 <td>ラフノールの鏡</td>
 <td style="text-align:right">46</td>
 <td style="text-align:right">70</td>
-<td style="text-align:right">75%</td>
+<td style="text-align:right">75</td>
 <td><code>4 + 1d4</code> ターン無敵化する。</td>
 </tr>
 </tbody>
@@ -532,7 +532,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 20:25 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 21:09 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

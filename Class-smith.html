@@ -118,7 +118,7 @@
 <h2>概要</h2>
 <p>鍛冶師は武器や防具を自分で強化することができます。特殊効果を持つ武器や防具から特殊効果の元となるエッセンスを取り出し、別の武器や防具にエッセンスを付加することによってその特殊効果を付加できます。ある程度の戦闘能力も持ちますが、魔法は一切使用できず、隠密や魔法防御の技能も低くなります。</p>
 <h2>固有システム・特殊能力</h2>
-<p>鍛冶師は職業能力として「目利き」を得る。最低レベル5、消費15、判定能力値は知能、難度20%で、武器・矢弾・防具を鑑定する。</p>
+<p>鍛冶師は職業能力として「目利き」を得る。最低レベル5、消費15、判定能力値は知能、難度20で、武器・矢弾・防具を鑑定する。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -136,7 +136,7 @@
 <td style="text-align:right">5</td>
 <td style="text-align:right">15</td>
 <td>知能</td>
-<td style="text-align:right">20%</td>
+<td style="text-align:right">20</td>
 <td>武器・矢弾・防具を鑑定する。</td>
 </tr>
 </tbody>
@@ -875,6 +875,465 @@
 <h2>抽出できるエッセンス一覧</h2>
 <p>エッセンス抽出は、魔法のかかった武器・防具・矢弾を「無効化」し、その装備が持っていた能力を下記のエッセンスとして取り出す。取り出せるエッセンスは次の<strong>全 71 種</strong>（<code>src/smith/smith-tables.cpp</code> の名称テーブル）。上の付加効果は、これらのエッセンスを消費して実現される。</p>
 <p><code>腕力</code> ・ <code>知能</code> ・ <code>賢さ</code> ・ <code>器用さ</code> ・ <code>耐久力</code> ・ <code>魅力</code> ・ <code>能力維持</code> ・ <code>魔力支配</code> ・ <code>隠密</code> ・ <code>探索</code> ・ <code>赤外線視力</code> ・ <code>採掘</code> ・ <code>スピード</code> ・ <code>追加攻撃</code> ・ <code>カオス攻撃</code> ・ <code>吸血攻撃</code> ・ <code>地震</code> ・ <code>毒殺</code> ・ <code>溶解</code> ・ <code>電撃</code> ・ <code>焼棄</code> ・ <code>凍結</code> ・ <code>魔術</code> ・ <code>免疫</code> ・ <code>反射</code> ・ <code>耐酸</code> ・ <code>耐電撃</code> ・ <code>耐火炎</code> ・ <code>耐冷気</code> ・ <code>耐毒</code> ・ <code>耐恐怖</code> ・ <code>耐閃光</code> ・ <code>耐暗黒</code> ・ <code>耐盲目</code> ・ <code>耐混乱</code> ・ <code>耐轟音</code> ・ <code>耐破片</code> ・ <code>耐地獄</code> ・ <code>耐因果混乱</code> ・ <code>耐カオス</code> ・ <code>耐劣化</code> ・ <code>耐水</code> ・ <code>耐時間逆転</code> ・ <code>耐呪力</code> ・ <code>経験値維持</code> ・ <code>麻痺知らず</code> ・ <code>警告</code> ・ <code>浮遊</code> ・ <code>可視透明</code> ・ <code>テレパシー</code> ・ <code>遅消化</code> ・ <code>急速回復</code> ・ <code>テレポート</code> ・ <code>反魔法</code> ・ <code>永久光源</code> ・ <code>反テレポ</code> ・ <code>邪悪倍打</code> ・ <code>動物倍打</code> ・ <code>不死倍打</code> ・ <code>悪魔倍打</code> ・ <code>オーク倍打</code> ・ <code>トロル倍打</code> ・ <code>巨人倍打</code> ・ <code>竜倍打</code> ・ <code>人間倍打</code> ・ <code>善良倍打</code> ・ <code>二刀流</code> ・ <code>射撃強化</code> ・ <code>ユニーク</code> ・ <code>攻撃</code> ・ <code>防御</code></p>
+<h2>エッセンス抽出量（能力別）</h2>
+<p>どの装備能力（フラグ）から何のエッセンスがどれだけ取れるかの明細（<code>essence_drain_info_table</code>）。<strong>量は基準値</strong>で、実際の抽出量は次のように決まる: <strong>能力値・加速など pval を持つ能力は「量 × その pval」</strong>、スレイ・耐性・発動などの二値フラグは「量 × 1」。命中・ダメージ・打撃ダイスの増加分は <code>攻撃</code> を、AC・AC修正の増加分は <code>防御</code> を、増加1につき10ぶん得る。免疫は1つにつき <code>免疫</code> を100得る。最後に個数を掛け、呪い・マイナス効果の係数（<code>dec/4</code>）を掛け、矢弾はさらに1/10される。フラグが無い/抽出量0の能力（<code>TR_IGNORE_*</code>・発動・呪い等）はエッセンスにならない。</p>
+<details>
+<summary>抽出量の明細（全 111 能力）</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>装備の能力（フラグ）</th>
+<th>得られるエッセンス（基準量）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>酸免疫（<code>TR_IM_ACID</code>）</td>
+<td>免疫 ×100</td>
+</tr>
+<tr>
+<td>電撃免疫（<code>TR_IM_ELEC</code>）</td>
+<td>免疫 ×100</td>
+</tr>
+<tr>
+<td>火炎免疫（<code>TR_IM_FIRE</code>）</td>
+<td>免疫 ×100</td>
+</tr>
+<tr>
+<td>冷気免疫（<code>TR_IM_COLD</code>）</td>
+<td>免疫 ×100</td>
+</tr>
+<tr>
+<td><code>TR_LITE_3</code></td>
+<td>永久光源 ×30</td>
+</tr>
+<tr>
+<td>ユニークESP（<code>TR_ESP_UNIQUE</code>）</td>
+<td>ユニーク ×20</td>
+</tr>
+<tr>
+<td><code>TR_LITE_2</code></td>
+<td>永久光源 ×20</td>
+</tr>
+<tr>
+<td>オーク倍打（<code>TR_SLAY_ORC</code>）</td>
+<td>オーク倍打 ×10</td>
+</tr>
+<tr>
+<td>オーク倍倍打（<code>TR_KILL_ORC</code>）</td>
+<td>オーク倍打 ×10</td>
+</tr>
+<tr>
+<td>オークESP（<code>TR_ESP_ORC</code>）</td>
+<td>オーク倍打 ×10</td>
+</tr>
+<tr>
+<td>カオス攻撃（<code>TR_CHAOTIC</code>）</td>
+<td>カオス攻撃 ×10</td>
+</tr>
+<tr>
+<td>スピード（<code>TR_SPEED</code>）</td>
+<td>スピード ×10</td>
+</tr>
+<tr>
+<td>テレパシー（<code>TR_TELEPATHY</code>）</td>
+<td>テレパシー ×10</td>
+</tr>
+<tr>
+<td>テレポート（<code>TR_TELEPORT</code>）</td>
+<td>テレポート ×10</td>
+</tr>
+<tr>
+<td>トロル倍打（<code>TR_SLAY_TROLL</code>）</td>
+<td>トロル倍打 ×10</td>
+</tr>
+<tr>
+<td>トロル倍倍打（<code>TR_KILL_TROLL</code>）</td>
+<td>トロル倍打 ×10</td>
+</tr>
+<tr>
+<td>トロルESP（<code>TR_ESP_TROLL</code>）</td>
+<td>トロル倍打 ×10</td>
+</tr>
+<tr>
+<td>悪魔倍打（<code>TR_SLAY_DEMON</code>）</td>
+<td>悪魔倍打 ×10</td>
+</tr>
+<tr>
+<td>悪魔倍倍打（<code>TR_KILL_DEMON</code>）</td>
+<td>悪魔倍打 ×10</td>
+</tr>
+<tr>
+<td>悪魔ESP（<code>TR_ESP_DEMON</code>）</td>
+<td>悪魔倍打 ×10</td>
+</tr>
+<tr>
+<td>隠密（<code>TR_STEALTH</code>）</td>
+<td>隠密 ×10</td>
+</tr>
+<tr>
+<td>永久光源（<code>TR_LITE_1</code>）</td>
+<td>永久光源 ×10</td>
+</tr>
+<tr>
+<td>可視透明（<code>TR_SEE_INVIS</code>）</td>
+<td>可視透明 ×10</td>
+</tr>
+<tr>
+<td>器用さ（<code>TR_DEX</code>）</td>
+<td>器用さ ×10</td>
+</tr>
+<tr>
+<td>吸血攻撃（<code>TR_VAMPIRIC</code>）</td>
+<td>吸血攻撃 ×10</td>
+</tr>
+<tr>
+<td>急速回復（<code>TR_REGEN</code>）</td>
+<td>急速回復 ×10</td>
+</tr>
+<tr>
+<td>巨人倍打（<code>TR_SLAY_GIANT</code>）</td>
+<td>巨人倍打 ×10</td>
+</tr>
+<tr>
+<td>巨人倍倍打（<code>TR_KILL_GIANT</code>）</td>
+<td>巨人倍打 ×10</td>
+</tr>
+<tr>
+<td>巨人ESP（<code>TR_ESP_GIANT</code>）</td>
+<td>巨人倍打 ×10</td>
+</tr>
+<tr>
+<td>経験値維持（<code>TR_HOLD_EXP</code>）</td>
+<td>経験値維持 ×10</td>
+</tr>
+<tr>
+<td>警告（<code>TR_WARNING</code>）</td>
+<td>警告 ×10</td>
+</tr>
+<tr>
+<td>賢さ（<code>TR_WIS</code>）</td>
+<td>賢さ ×10</td>
+</tr>
+<tr>
+<td>採掘（<code>TR_TUNNEL</code>）</td>
+<td>採掘 ×10</td>
+</tr>
+<tr>
+<td>射撃倍率強化（<code>TR_XTRA_MIGHT</code>）</td>
+<td>射撃強化 ×10</td>
+</tr>
+<tr>
+<td>射撃速度強化（<code>TR_XTRA_SHOTS</code>）</td>
+<td>射撃強化 ×10</td>
+</tr>
+<tr>
+<td>邪悪倍打（<code>TR_SLAY_EVIL</code>）</td>
+<td>邪悪倍打 ×10</td>
+</tr>
+<tr>
+<td><code>TR_KILL_EVIL</code></td>
+<td>邪悪倍打 ×10</td>
+</tr>
+<tr>
+<td><code>TR_ESP_EVIL</code></td>
+<td>邪悪倍打 ×10</td>
+</tr>
+<tr>
+<td>焼棄（<code>TR_BRAND_FIRE</code>）</td>
+<td>焼棄 ×10</td>
+</tr>
+<tr>
+<td>火炎オーラ（<code>TR_SH_FIRE</code>）</td>
+<td>焼棄・耐火炎 各×10</td>
+</tr>
+<tr>
+<td><code>TR_SELF_FIRE</code></td>
+<td>焼棄・耐火炎 各×10</td>
+</tr>
+<tr>
+<td>人間倍打（<code>TR_SLAY_HUMAN</code>）</td>
+<td>人間倍打 ×10</td>
+</tr>
+<tr>
+<td>人間倍倍打（<code>TR_KILL_HUMAN</code>）</td>
+<td>人間倍打 ×10</td>
+</tr>
+<tr>
+<td>人間ESP（<code>TR_ESP_HUMAN</code>）</td>
+<td>人間倍打 ×10</td>
+</tr>
+<tr>
+<td>赤外線視力（<code>TR_INFRA</code>）</td>
+<td>赤外線視力 ×10</td>
+</tr>
+<tr>
+<td>善良倍打（<code>TR_SLAY_GOOD</code>）</td>
+<td>善良倍打 ×10</td>
+</tr>
+<tr>
+<td>善良倍倍打（<code>TR_KILL_GOOD</code>）</td>
+<td>善良倍打 ×10</td>
+</tr>
+<tr>
+<td>善良ESP（<code>TR_ESP_GOOD</code>）</td>
+<td>善良倍打 ×10</td>
+</tr>
+<tr>
+<td>耐カオス（<code>TR_RES_CHAOS</code>）</td>
+<td>耐カオス ×10</td>
+</tr>
+<tr>
+<td>耐暗黒（<code>TR_RES_DARK</code>）</td>
+<td>耐暗黒 ×10</td>
+</tr>
+<tr>
+<td>耐因果混乱（<code>TR_RES_NEXUS</code>）</td>
+<td>耐因果混乱 ×10</td>
+</tr>
+<tr>
+<td>耐火炎（<code>TR_RES_FIRE</code>）</td>
+<td>耐火炎 ×10</td>
+</tr>
+<tr>
+<td>耐久力（<code>TR_CON</code>）</td>
+<td>耐久力 ×10</td>
+</tr>
+<tr>
+<td>耐恐怖（<code>TR_RES_FEAR</code>）</td>
+<td>耐恐怖 ×10</td>
+</tr>
+<tr>
+<td>耐轟音（<code>TR_RES_SOUND</code>）</td>
+<td>耐轟音 ×10</td>
+</tr>
+<tr>
+<td>耐混乱（<code>TR_RES_CONF</code>）</td>
+<td>耐混乱 ×10</td>
+</tr>
+<tr>
+<td>耐酸（<code>TR_RES_ACID</code>）</td>
+<td>耐酸 ×10</td>
+</tr>
+<tr>
+<td>耐時間逆転（<code>TR_RES_TIME</code>）</td>
+<td>耐時間逆転 ×10</td>
+</tr>
+<tr>
+<td>耐呪力（<code>TR_RES_CURSE</code>）</td>
+<td>耐呪力 ×10</td>
+</tr>
+<tr>
+<td>耐水（<code>TR_RES_WATER</code>）</td>
+<td>耐水 ×10</td>
+</tr>
+<tr>
+<td>耐閃光（<code>TR_RES_LITE</code>）</td>
+<td>耐閃光 ×10</td>
+</tr>
+<tr>
+<td>耐地獄（<code>TR_RES_NETHER</code>）</td>
+<td>耐地獄 ×10</td>
+</tr>
+<tr>
+<td>耐電撃（<code>TR_RES_ELEC</code>）</td>
+<td>耐電撃 ×10</td>
+</tr>
+<tr>
+<td>耐毒（<code>TR_RES_POIS</code>）</td>
+<td>耐毒 ×10</td>
+</tr>
+<tr>
+<td>耐破片（<code>TR_RES_SHARDS</code>）</td>
+<td>耐破片 ×10</td>
+</tr>
+<tr>
+<td>耐盲目（<code>TR_RES_BLIND</code>）</td>
+<td>耐盲目 ×10</td>
+</tr>
+<tr>
+<td>耐冷気（<code>TR_RES_COLD</code>）</td>
+<td>耐冷気 ×10</td>
+</tr>
+<tr>
+<td>耐劣化（<code>TR_RES_DISEN</code>）</td>
+<td>耐劣化 ×10</td>
+</tr>
+<tr>
+<td>探索（<code>TR_SEARCH</code>）</td>
+<td>探索 ×10</td>
+</tr>
+<tr>
+<td>知能（<code>TR_INT</code>）</td>
+<td>知能 ×10</td>
+</tr>
+<tr>
+<td><code>TR_DEC_MANA</code></td>
+<td>知能 ×10</td>
+</tr>
+<tr>
+<td>地震攻撃（<code>TR_EARTHQUAKE</code>）</td>
+<td>地震 ×10</td>
+</tr>
+<tr>
+<td>遅消化（<code>TR_SLOW_DIGEST</code>）</td>
+<td>遅消化 ×10</td>
+</tr>
+<tr>
+<td>追加攻撃（<code>TR_BLOWS</code>）</td>
+<td>追加攻撃 ×10</td>
+</tr>
+<tr>
+<td>電撃（<code>TR_BRAND_ELEC</code>）</td>
+<td>電撃 ×10</td>
+</tr>
+<tr>
+<td>電撃オーラ（<code>TR_SH_ELEC</code>）</td>
+<td>電撃・耐電撃 各×10</td>
+</tr>
+<tr>
+<td><code>TR_SELF_ELEC</code></td>
+<td>電撃・耐電撃 各×10</td>
+</tr>
+<tr>
+<td>凍結（<code>TR_BRAND_COLD</code>）</td>
+<td>凍結 ×10</td>
+</tr>
+<tr>
+<td>冷気オーラ（<code>TR_SH_COLD</code>）</td>
+<td>凍結・耐冷気 各×10</td>
+</tr>
+<tr>
+<td><code>TR_SELF_COLD</code></td>
+<td>凍結・耐冷気 各×10</td>
+</tr>
+<tr>
+<td>動物倍打（<code>TR_SLAY_ANIMAL</code>）</td>
+<td>動物倍打 ×10</td>
+</tr>
+<tr>
+<td>動物倍倍打（<code>TR_KILL_ANIMAL</code>）</td>
+<td>動物倍打 ×10</td>
+</tr>
+<tr>
+<td>動物ESP（<code>TR_ESP_ANIMAL</code>）</td>
+<td>動物倍打 ×10</td>
+</tr>
+<tr>
+<td>毒殺（<code>TR_BRAND_POIS</code>）</td>
+<td>毒殺 ×10</td>
+</tr>
+<tr>
+<td>源氏の小手（<code>TR_EASY2_WEAPON</code>）</td>
+<td>二刀流 ×10</td>
+</tr>
+<tr>
+<td>腕力維持（<code>TR_SUST_STR</code>）</td>
+<td>能力維持 ×10</td>
+</tr>
+<tr>
+<td>知能維持（<code>TR_SUST_INT</code>）</td>
+<td>能力維持 ×10</td>
+</tr>
+<tr>
+<td>賢さ維持（<code>TR_SUST_WIS</code>）</td>
+<td>能力維持 ×10</td>
+</tr>
+<tr>
+<td>器用さ維持（<code>TR_SUST_DEX</code>）</td>
+<td>能力維持 ×10</td>
+</tr>
+<tr>
+<td>耐久力維持（<code>TR_SUST_CON</code>）</td>
+<td>能力維持 ×10</td>
+</tr>
+<tr>
+<td>魅力維持（<code>TR_SUST_CHR</code>）</td>
+<td>能力維持 ×10</td>
+</tr>
+<tr>
+<td>反テレポート（<code>TR_NO_TELE</code>）</td>
+<td>反テレポ ×10</td>
+</tr>
+<tr>
+<td>反射（<code>TR_REFLECT</code>）</td>
+<td>反射 ×10</td>
+</tr>
+<tr>
+<td>反魔法（<code>TR_NO_MAGIC</code>）</td>
+<td>反魔法 ×10</td>
+</tr>
+<tr>
+<td>不死倍打（<code>TR_SLAY_UNDEAD</code>）</td>
+<td>不死倍打 ×10</td>
+</tr>
+<tr>
+<td>不死倍倍打（<code>TR_KILL_UNDEAD</code>）</td>
+<td>不死倍打 ×10</td>
+</tr>
+<tr>
+<td>不死ESP（<code>TR_ESP_UNDEAD</code>）</td>
+<td>不死倍打 ×10</td>
+</tr>
+<tr>
+<td>浮遊（<code>TR_LEVITATION</code>）</td>
+<td>浮遊 ×10</td>
+</tr>
+<tr>
+<td><code>TR_EASY_SPELL</code></td>
+<td>魔術 ×10</td>
+</tr>
+<tr>
+<td>魔術属性攻撃（<code>TR_BRAND_MAGIC</code>）</td>
+<td>魔術 ×10</td>
+</tr>
+<tr>
+<td>魔力支配（<code>TR_MAGIC_MASTERY</code>）</td>
+<td>魔力支配 ×10</td>
+</tr>
+<tr>
+<td>麻痺知らず（<code>TR_FREE_ACT</code>）</td>
+<td>麻痺知らず ×10</td>
+</tr>
+<tr>
+<td>魅力（<code>TR_CHR</code>）</td>
+<td>魅力 ×10</td>
+</tr>
+<tr>
+<td>溶解（<code>TR_BRAND_ACID</code>）</td>
+<td>溶解 ×10</td>
+</tr>
+<tr>
+<td>竜倍打（<code>TR_SLAY_DRAGON</code>）</td>
+<td>竜倍打 ×10</td>
+</tr>
+<tr>
+<td>竜倍倍打（<code>TR_KILL_DRAGON</code>）</td>
+<td>竜倍打 ×10</td>
+</tr>
+<tr>
+<td>竜ESP（<code>TR_ESP_DRAGON</code>）</td>
+<td>竜倍打 ×10</td>
+</tr>
+<tr>
+<td>腕力（<code>TR_STR</code>）</td>
+<td>腕力 ×10</td>
+</tr>
+<tr>
+<td><code>TR_FORCE_WEAPON</code></td>
+<td>知能・賢さ 各×5</td>
+</tr>
+<tr>
+<td>切れ味（<code>TR_VORPAL</code>）</td>
+<td>毒殺・溶解・電撃・焼棄・凍結 各×5</td>
+</tr>
+<tr>
+<td><code>TR_SUPPORTIVE</code></td>
+<td>二刀流 ×5</td>
+</tr>
+</tbody>
+</table></div>
+</details>
 <h2>基礎スペック</h2>
 <div class="tablewrap"><table class="sortable">
 <thead>
@@ -1085,7 +1544,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 20:48 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 21:09 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

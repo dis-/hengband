@@ -136,7 +136,7 @@
 <td style="text-align:right">15</td>
 <td style="text-align:right">0</td>
 <td>WIS</td>
-<td style="text-align:right">10%</td>
+<td style="text-align:right">10</td>
 <td>精神を集中してMPを少し回復する。回復量は <code>3 + Lv / 20</code>。</td>
 </tr>
 </tbody>
@@ -158,98 +158,98 @@
 <td>霊視</td>
 <td style="text-align:right">1</td>
 <td style="text-align:right">1</td>
-<td style="text-align:right">15%</td>
+<td style="text-align:right">15</td>
 <td>近くの見えるモンスター感知。Lv5で罠/扉、Lv15で透明なモンスター、Lv20で地形、Lv30で <code>detect_all</code>、Lv45で階全体を永久照明。Lv25-39は一時テレパシー</td>
 </tr>
 <tr>
 <td>神経攻撃</td>
 <td style="text-align:right">2</td>
 <td style="text-align:right">1</td>
-<td style="text-align:right">20%</td>
+<td style="text-align:right">20</td>
 <td>PSI属性のビームまたは半径0の球。ダメージは <code>Dice::roll(3 + ((Lv - 1) / 4), 3 + Lv / 15)</code></td>
 </tr>
 <tr>
 <td>次元の瞬き</td>
 <td style="text-align:right">3</td>
 <td style="text-align:right">2</td>
-<td style="text-align:right">25%</td>
+<td style="text-align:right">25</td>
 <td>距離10のテレポート</td>
 </tr>
 <tr>
 <td>虚空の幻影</td>
 <td style="text-align:right">7</td>
 <td style="text-align:right">6</td>
-<td style="text-align:right">35%</td>
+<td style="text-align:right">35</td>
 <td>距離 <code>Lv * 5</code> のテレポート</td>
 </tr>
 <tr>
 <td>精神支配</td>
 <td style="text-align:right">9</td>
 <td style="text-align:right">7</td>
-<td style="text-align:right">50%</td>
+<td style="text-align:right">50</td>
 <td>Lv30未満はDOMINATION属性の半径0球、威力Lv。Lv30以上は視界内のモンスター魅了、威力 <code>Lv * 2</code></td>
 </tr>
 <tr>
 <td>念動衝撃弾</td>
 <td style="text-align:right">11</td>
 <td style="text-align:right">7</td>
-<td style="text-align:right">30%</td>
+<td style="text-align:right">30</td>
 <td>TELEKINESIS属性の球。ダメージ <code>Dice::roll(8 + ((Lv - 5) / 4), 8)</code>、Lv21以上で半径 <code>(Lv - 20) / 8 + 1</code></td>
 </tr>
 <tr>
 <td>鎧化</td>
 <td style="text-align:right">13</td>
 <td style="text-align:right">12</td>
-<td style="text-align:right">50%</td>
+<td style="text-align:right">50</td>
 <td><code>Lv</code>ターンのAC上昇。Lv15で酸、Lv20で炎、Lv25で冷気、Lv30で電撃、Lv35で毒の一時耐性</td>
 </tr>
 <tr>
 <td>サイコメトリー</td>
 <td style="text-align:right">15</td>
 <td style="text-align:right">12</td>
-<td style="text-align:right">60%</td>
+<td style="text-align:right">60</td>
 <td>Lv25未満はアイテムの雰囲気を知る。Lv25以上は鑑定</td>
 </tr>
 <tr>
 <td>精神波動</td>
 <td style="text-align:right">18</td>
 <td style="text-align:right">10</td>
-<td style="text-align:right">45%</td>
+<td style="text-align:right">45</td>
 <td>Lv25未満は自分中心のPSI球、半径 <code>2 + Lv / 10</code>、威力 <code>Lv * 3</code>。Lv25以上は視界内へ精神攻撃</td>
 </tr>
 <tr>
 <td>アドレナリン・ドーピング</td>
 <td style="text-align:right">23</td>
 <td style="text-align:right">15</td>
-<td style="text-align:right">50%</td>
+<td style="text-align:right">50</td>
 <td>恐怖と朦朧を解除。加速またはヒーロー状態でなければHPをLv回復。<code>10 + d((Lv * 3) / 2)</code>ターンのヒーロー化と加速</td>
 </tr>
 <tr>
 <td>テレキネシス</td>
 <td style="text-align:right">26</td>
 <td style="text-align:right">28</td>
-<td style="text-align:right">60%</td>
+<td style="text-align:right">60</td>
 <td>指定方向のアイテムを射程 <code>Lv * 15</code> で足元へ引き寄せる</td>
 </tr>
 <tr>
 <td>サイキック・ドレイン</td>
 <td style="text-align:right">28</td>
 <td style="text-align:right">10</td>
-<td style="text-align:right">40%</td>
+<td style="text-align:right">40</td>
 <td>PSI_DRAIN属性の半径0球。ダメージ <code>Dice::roll(Lv / 2, 6)</code>。命中時は0-1.5ターン分の行動消費が追加される</td>
 </tr>
 <tr>
 <td>光の剣</td>
 <td style="text-align:right">35</td>
 <td style="text-align:right">35</td>
-<td style="text-align:right">75%</td>
+<td style="text-align:right">75</td>
 <td>PSY_SPEAR属性のビーム。ダメージ <code>d(Lv * 3) + Lv * 3</code></td>
 </tr>
 <tr>
 <td>完全な世界</td>
 <td style="text-align:right">45</td>
 <td style="text-align:right">150</td>
-<td style="text-align:right">85%</td>
+<td style="text-align:right">85</td>
 <td>時を止める（<code>time_walk</code>）。停止中は <code>energy_need</code> が <code>1000 + (現在MP + 50) × TURNS_PER_TICK / 10</code> 減少する。TURNS_PER_TICK=10 なので実質 <code>1050 + 現在MP</code>、標準速度で約 <code>(1050 + 現在MP) / 100</code> ≒ <strong>10〜十数プレイヤーターン</strong>行動できる（現在MPが多いほど長い）</td>
 </tr>
 </tbody>
@@ -1037,7 +1037,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 20:48 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 21:09 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
