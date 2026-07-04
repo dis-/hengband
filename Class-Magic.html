@@ -7,7 +7,7 @@
 <header class="site-header">
 <a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
 <div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
-<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a><a href="Resistances.html">🛡️ 耐性</a><a href="Mutations.html">🧬 変異</a></nav>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
 </header>
 <div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
 <ul>
@@ -101,19 +101,16 @@
 <li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
 </ul>
 </li>
-</ul>
-<h3><a href="Resistances.html">🛡️ プレイヤー耐性 / Resistances</a></h3>
+<li>🛡️ <a href="Resistances.html">プレイヤー耐性一覧 / Resistances</a>
 <ul>
-<li><a href="Resistances.html">🔥 元素耐性</a></li>
-<li><a href="Resistances.html">🌀 上位・状態異常耐性</a></li>
-<li><a href="Resistances.html">🛡️ 免疫</a> ・ <a href="Resistances.html">⚠️ 弱点</a></li>
-<li><a href="Resistances.html">💪 能力値維持</a> ・ <a href="Resistances.html">✨ 防御能力</a></li>
+<li><a href="Resistances.html">元素耐性</a> ・ <a href="Resistances.html">上位・状態異常</a> ・ <a href="Resistances.html">免疫</a> ・ <a href="Resistances.html">弱点</a> ・ <a href="Resistances.html">能力値維持</a> ・ <a href="Resistances.html">防御能力</a></li>
 </ul>
-<h3><a href="Mutations.html">🧬 突然変異一覧 / Mutations</a></h3>
+</li>
+<li>🧬 <a href="Mutations.html">突然変異一覧 / Mutations</a>
 <ul>
-<li><a href="Mutations-Activatable.html">発動型</a></li>
-<li><a href="Mutations-Random.html">ランダム発動型</a></li>
-<li><a href="Mutations-Constant.html">常時型</a></li>
+<li><a href="Mutations-Activatable.html">発動型</a> ・ <a href="Mutations-Random.html">ランダム発動型</a> ・ <a href="Mutations-Constant.html">常時型</a></li>
+</ul>
+</li>
 </ul>
 </aside><main class="content"><h1>クラス別魔法 / Class Magic</h1>
 <p>このデータは各**職業(クラス)<strong>の魔法能力を定義します。上位レベルでは、職業ごとに呪文書のタイプ(<code>spell_type</code>)、詠唱に使う能力値(<code>magic_status</code>)、籠手によるMPペナルティの有無、失敗率下限5%の有無、呪文の訓練可否、最初に呪文を使えるレベル、装備重量によるMP減少が始まる閾値を持ちます。下位レベルでは、その職業が扱える各</strong>領域(realm)**ごとに、個々の呪文の習得可能レベル・消費MP・難易度(失敗率計算に使用)・初回詠唱成功時の経験値レートが並びます。戦士系など魔法を持たない職業は <code>spell_type</code> が <code>NONE</code> で <code>realms</code> が空です。習得可能な領域・呪文の実際のラインナップは職業選択時に決まる各領域の組み合わせに依存します。</p>
@@ -777,7 +774,7 @@
 <blockquote>
 <p>🤖 このページは <code>lib/edit/ClassMagicDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
 This page is auto-generated from <code>lib/edit/ClassMagicDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
-生成 / Generated: 2026-07-04 13:37 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 13:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

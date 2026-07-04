@@ -7,7 +7,7 @@
 <header class="site-header">
 <a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
 <div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
-<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a><a href="Resistances.html">🛡️ 耐性</a><a href="Mutations.html">🧬 変異</a></nav>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
 </header>
 <div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
 <ul>
@@ -101,19 +101,16 @@
 <li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
 </ul>
 </li>
-</ul>
-<h3><a href="Resistances.html">🛡️ プレイヤー耐性 / Resistances</a></h3>
+<li>🛡️ <a href="Resistances.html">プレイヤー耐性一覧 / Resistances</a>
 <ul>
-<li><a href="Resistances.html">🔥 元素耐性</a></li>
-<li><a href="Resistances.html">🌀 上位・状態異常耐性</a></li>
-<li><a href="Resistances.html">🛡️ 免疫</a> ・ <a href="Resistances.html">⚠️ 弱点</a></li>
-<li><a href="Resistances.html">💪 能力値維持</a> ・ <a href="Resistances.html">✨ 防御能力</a></li>
+<li><a href="Resistances.html">元素耐性</a> ・ <a href="Resistances.html">上位・状態異常</a> ・ <a href="Resistances.html">免疫</a> ・ <a href="Resistances.html">弱点</a> ・ <a href="Resistances.html">能力値維持</a> ・ <a href="Resistances.html">防御能力</a></li>
 </ul>
-<h3><a href="Mutations.html">🧬 突然変異一覧 / Mutations</a></h3>
+</li>
+<li>🧬 <a href="Mutations.html">突然変異一覧 / Mutations</a>
 <ul>
-<li><a href="Mutations-Activatable.html">発動型</a></li>
-<li><a href="Mutations-Random.html">ランダム発動型</a></li>
-<li><a href="Mutations-Constant.html">常時型</a></li>
+<li><a href="Mutations-Activatable.html">発動型</a> ・ <a href="Mutations-Random.html">ランダム発動型</a> ・ <a href="Mutations-Constant.html">常時型</a></li>
+</ul>
+</li>
 </ul>
 </aside><main class="content"><h1>変愚蛮怒 データ仕様 Wiki / Hengband Data Reference</h1>
 <p>変愚蛮怒 (Hengband) のゲームデータ (<code>lib/edit/*.jsonc</code>) から自動生成した、日英併記のリファレンスです。</p>
@@ -142,15 +139,17 @@
 <li><a href="Ironman-Shops.html">店を使用しない</a> ・ <a href="Ironman-SmallestFloor.html">最小フロア</a> ・ <a href="Ironman-ForceArenaFloor.html">アリーナフロア強制</a> ・ <a href="Ironman-Rooms.html">常に特殊な部屋</a> ・ <a href="Nightmare.html">悪夢モード</a> ・ <a href="Ironman-Downward.html">帰還・上り階段なし</a></li>
 </ul>
 </li>
-<li>🔬 <strong><a href="Analysis.html">解析 / Analysis</a></strong> — ソースコードから再導出したゲーム内部仕様の解説（戦闘・モンスター・キャラクター）</li>
-<li>🛡️ <strong><a href="Resistances.html">プレイヤー耐性一覧 / Resistances</a></strong> — 各耐性・免疫・弱点・能力値維持・防御能力の具体的効果</li>
-<li>🧬 <strong><a href="Mutations.html">突然変異一覧 / Mutations</a></strong> — 発動型・ランダム発動型・常時型の全96種を種類別に分類</li>
+<li>🔬 <strong><a href="Analysis.html">解析 / Analysis</a></strong> — ソースコードから再導出したゲーム内部仕様の解説（戦闘・モンスター・キャラクター・システム）
+<ul>
+<li>🗂️ 逆引き・一覧: <a href="Analysis-AttributeTypes.html">AttributeType 一覧</a> ・ <a href="Resistances.html">🛡️ プレイヤー耐性一覧</a> ・ <a href="Mutations.html">🧬 突然変異一覧</a></li>
+</ul>
+</li>
 </ul>
 <hr>
 <blockquote>
 <p>🤖 全ページ自動生成。手動編集しないでください（<code>tools/generate-wiki.mjs</code> で再生成）。
 All pages auto-generated — do not edit by hand (regenerate via <code>tools/generate-wiki.mjs</code>).
-生成 / Generated: 2026-07-04 13:37 UTC · hengband <code>5ebae9734b</code></p>
+生成 / Generated: 2026-07-04 13:44 UTC · hengband <code>5ebae9734b</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
