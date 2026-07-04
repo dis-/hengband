@@ -118,7 +118,7 @@
 <h2>概要</h2>
 <p>魔法戦士はその名称が意味する通りの職業であり、戦士とメイジの資質をあわせ持ちます。彼らの同業者であるレンジャーが自然の魔法と生き抜くためのスキルに特化している一方、本当の魔法剣士はどちらの世界でも一番になろうとしています。戦士としては普通のメイジとは比べ物にならないほど優れています。しかし、実際には魔法でも戦闘でも専門の職業には及ばず、戦士とメイジの中間に位置するような職業です。魔法に必要な能力値は知能です。</p>
 <h2>固有システム・特殊能力</h2>
-<p>魔法戦士は戦士とメイジの資質をあわせ持つ職業。呪文の詳細は <a href="Class-Magic-warrior-mage.html">クラス別魔法: 魔法戦士</a> を参照。</p>
+<p>魔法戦士は戦士とメイジの資質をあわせ持つ職業。<strong>第一領域は秘術に固定</strong>され（<code>realm1_choices</code> が秘術のみ、<code>src/player/player-realm.cpp</code>）、その上で第二領域を10領域から任意に1つ選べる。呪文の詳細は <a href="Class-Magic-warrior-mage.html">クラス別魔法: 魔法戦士</a> を参照。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -859,6 +859,7 @@
 <ul>
 <li>魔法種別 / Magic type: 仙術/Sorcery</li>
 <li>詠唱能力値 / Spellcasting stat: 知能/Intelligence</li>
+<li>使用できる魔法領域: <strong>最大2つ</strong>（第一領域は必須、第二領域は任意で追加）</li>
 <li>第一領域 / First realm: 秘術/Arcane（固定）</li>
 <li>第二領域 / Second realm: 生命/Life, 自然/Nature, カオス/Chaos, 暗黒/Death, トランプ/Trump, 秘術/Arcane, 仙術/Sorcery, 匠/Craft, 悪魔/Daemon, 破邪/Crusade（この中から任意で1つを追加選択）</li>
 <li>習得可能な呪文の詳細は <strong><a href="Class-Magic-warrior-mage.html">クラス別魔法: 魔法戦士</a></strong> を参照。</li>
@@ -924,7 +925,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:42 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 18:49 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

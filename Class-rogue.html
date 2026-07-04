@@ -143,7 +143,35 @@
 </tbody>
 </table></div>
 <h2>戦闘・装備上の特徴</h2>
-<p>盗賊の固有能力は、近接攻撃そのものの威力を増やすのではなく、攻撃後の位置取りを変える。「ヒット＆アウェイ」は攻撃と離脱を同じ能力で扱うため、隣接状態を維持したくない相手への戦闘手段になる。</p>
+<p>盗賊は「ヒット＆アウェイ」で攻撃後に離脱できるほか、次のような盗賊固有の戦闘補正を持つ。</p>
+<h3>軽量武器への攻撃回数ボーナス</h3>
+<p>装備武器の重量が 50（5.0 ポンド）未満で、かつ器用さの内部値が 30 以上のとき、その手の打撃回数が <strong>+1</strong> される（<code>player-status.cpp</code> の <code>num_blow</code> 計算）。軽い武器を選ぶほど手数で有利になる。</p>
+<h3>不意打ち</h3>
+<p>近接武器を装備しているとき、相手の状態に応じてダメージ倍率がかかる（<code>process_surprise_attack</code> / <code>calc_surprise_attack_damage</code>）。忍者と共通の処理だが、盗賊では次の2種が発生する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>相手の状態</th>
+<th>効果</th>
+<th>ダメージ倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>眠っていて視認できる</td>
+<td>急所攻撃（backstab）</td>
+<td>×(3 + レベル/20)（Lv50 で最大 ×5）</td>
+</tr>
+<tr>
+<td>逃げていて視認できる</td>
+<td>追い打ち（stab_fleeing）</td>
+<td>×1.5</td>
+</tr>
+</tbody>
+</table></div>
+<p>（忍者専用の「奇襲」（surprise_attack）は、忍者の隠密状態を要するため盗賊では発生しない。）</p>
+<h3>スリングへのボーナス</h3>
+<p>射撃の矢弾が弾（スリング用、<code>SHOT</code>）のとき、射撃回数の内部倍率に <strong>+レベル×4</strong> の盗賊専用加算が入る（<code>player-status.cpp</code>）。盗賊はスリングを撃つと手数が大きく伸びる。</p>
 <p>技能や装備による一般的な判定は職業ページの自動生成項目と <a href="Analysis-Skills.html">技能</a> を参照する。</p>
 <h2>基礎スペック</h2>
 <div class="tablewrap"><table class="sortable">
@@ -852,6 +880,7 @@
 <ul>
 <li>魔法種別 / Magic type: 仙術/Sorcery</li>
 <li>詠唱能力値 / Spellcasting stat: 知能/Intelligence</li>
+<li>使用できる魔法領域: <strong>1つ</strong></li>
 <li>選択可能領域 / Realm: 仙術/Sorcery, 暗黒/Death, トランプ/Trump, 秘術/Arcane, 匠/Craft（この中から1つを選択）</li>
 <li>習得可能な呪文の詳細は <strong><a href="Class-Magic-rogue.html">クラス別魔法: 盗賊</a></strong> を参照。</li>
 </ul>
@@ -916,7 +945,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:42 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 18:49 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

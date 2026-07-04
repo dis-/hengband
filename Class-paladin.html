@@ -118,12 +118,12 @@
 <h2>概要</h2>
 <p>パラディンは戦士とプリーストを合わせた職業です。パラディンはとてもよい戦士ですが、遠距離武器を扱うのは得意ではありません。パラディンには多くの能力が欠けています。隠密行動, 知覚, 探索, そして魔法道具使用が苦手ですが、その神との提携によって魔法防御はそこそこです。魔法に必要な能力値は賢さです。</p>
 <h2>固有システム・特殊能力</h2>
-<p>パラディンの <code>U</code> コマンド能力は第一領域の属性で分岐する。呪文の詳細は <a href="Class-Magic-paladin.html">クラス別魔法: パラディン</a> を参照。</p>
+<p>パラディンの<strong>第一領域は破邪または暗黒のみ</strong>から選択する（<code>realm1_choices</code>、<code>src/player/player-realm.cpp</code>）。第二領域は持たない。<code>U</code> コマンド能力はこの第一領域が善良な属性（＝破邪）か否かで分岐するため、実質的に破邪か暗黒かで決まる。呪文の詳細は <a href="Class-Magic-paladin.html">クラス別魔法: パラディン</a> を参照。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
-<th>条件</th>
-<th style="text-align:right">能力</th>
+<th>第一領域</th>
+<th>能力</th>
 <th style="text-align:right">最低Lv</th>
 <th style="text-align:right">消費</th>
 <th>能力値</th>
@@ -133,8 +133,8 @@
 </thead>
 <tbody>
 <tr>
-<td>第一領域が生命または破邪</td>
-<td style="text-align:right">ホーリー・ランス</td>
+<td>破邪（善良な属性）</td>
+<td>ホーリー・ランス</td>
 <td style="text-align:right">30</td>
 <td style="text-align:right">30</td>
 <td>賢さ</td>
@@ -142,8 +142,8 @@
 <td>ダメージ レベル×3 の聖なる炎のビームを放つ。</td>
 </tr>
 <tr>
-<td>第一領域が生命・破邪以外</td>
-<td style="text-align:right">ヘル・ランス</td>
+<td>暗黒</td>
+<td>ヘル・ランス</td>
 <td style="text-align:right">30</td>
 <td style="text-align:right">30</td>
 <td>賢さ</td>
@@ -863,6 +863,7 @@
 <ul>
 <li>魔法種別 / Magic type: 生命/Life</li>
 <li>詠唱能力値 / Spellcasting stat: 賢さ/Wisdom</li>
+<li>使用できる魔法領域: <strong>1つ</strong></li>
 <li>選択可能領域 / Realm: 破邪/Crusade, 暗黒/Death（この中から1つを選択）</li>
 <li>習得可能な呪文の詳細は <strong><a href="Class-Magic-paladin.html">クラス別魔法: パラディン</a></strong> を参照。</li>
 </ul>
@@ -927,7 +928,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:42 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 18:49 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

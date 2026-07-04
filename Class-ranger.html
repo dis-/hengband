@@ -119,13 +119,28 @@
 <p>レンジャーは戦士とメイジを合わせたような職業で、身の回りの自然と特別な関係を作り上げています。彼はより戦士であり、弓のような遠距離武器を巧く使える職業です。レンジャーはよい隠密行動、よい知覚、よい探索、よい魔法防御を持ち、魔法の道具の使用にも長けています。魔法に必要な能力値は知能です。</p>
 <h2>固有システム・特殊能力</h2>
 <p>レンジャーは自然界と特別な関係を持つ職業で、呪文の詳細は <a href="Class-Magic-ranger.html">クラス別魔法: レンジャー</a> を参照。</p>
-<pre><code>Uコマンド: モンスター調査
-最低Lv: 15
-消費: 20
-能力値: 知能
-失敗率: 12%
-効果: モンスターの属性、残り体力、最大体力、スピード、正体を知る。
-</code></pre>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>能力</th>
+<th style="text-align:right">最低Lv</th>
+<th style="text-align:right">消費</th>
+<th>能力値</th>
+<th style="text-align:right">失敗率</th>
+<th>効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>モンスター調査</td>
+<td style="text-align:right">15</td>
+<td style="text-align:right">20</td>
+<td>知能</td>
+<td style="text-align:right">12%</td>
+<td>モンスターの属性、残り体力、最大体力、スピード、正体を知る。</td>
+</tr>
+</tbody>
+</table></div>
 <h2>戦闘・装備上の特徴</h2>
 <p>弓のような遠距離武器を巧く使える職業として扱われる。矢を射る場合、射撃回数計算に <code>レベル×4</code> のレンジャー専用加算が入る。</p>
 <p>開始装備にもショート・ボウと通常の矢が追加される。</p>
@@ -837,6 +852,7 @@
 <ul>
 <li>魔法種別 / Magic type: 仙術/Sorcery</li>
 <li>詠唱能力値 / Spellcasting stat: 知能/Intelligence</li>
+<li>使用できる魔法領域: <strong>最大2つ</strong>（第一領域は必須、第二領域は任意で追加）</li>
 <li>第一領域 / First realm: 自然/Nature（固定）</li>
 <li>第二領域 / Second realm: 仙術/Sorcery, カオス/Chaos, 暗黒/Death, トランプ/Trump, 秘術/Arcane, 悪魔/Daemon（この中から任意で1つを追加選択）</li>
 <li>習得可能な呪文の詳細は <strong><a href="Class-Magic-ranger.html">クラス別魔法: レンジャー</a></strong> を参照。</li>
@@ -902,7 +918,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:42 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 18:49 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

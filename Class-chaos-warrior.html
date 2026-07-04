@@ -119,13 +119,28 @@
 <p>混沌の戦士は恐るべきカオスの魔王の使いとして恐れられる存在です。混沌の戦士はパトロンとなる悪魔を持ち、レベルが上がる度に報酬を得ることがあります。彼は治療してくれたり、こちらを変化させたり、能力値を上げてくれるかもしれませんし、回りに怪物達を出現させたり、能力値や装備を奪うかも知れません。もしくは単にこちらを無視するだけかもしれません。カオスの魔王は無秩序で予測のつかない存在です。報酬の種類はパトロンとなる悪魔と偶然に依存します（違う悪魔は異なる報酬を与えます）。魔法に必要な能力値は知能です。</p>
 <h2>固有システム・特殊能力</h2>
 <p>混沌の戦士はパトロンとなる悪魔を持ち、レベルが上がる度に報酬を得ることがある。報酬は治療、変化、能力値上昇、怪物の出現、能力値や装備への被害、無視などを含み、種類はパトロンと偶然に依存する。詳細は <a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a> を参照。</p>
-<pre><code>Uコマンド: 幻惑の光
-最低Lv: 40
-消費: 50
-能力値: 知能
-失敗率: 25%
-効果: 周辺のモンスターを威力 レベル×4 で減速・朦朧・混乱・恐怖・睡眠させようとする。抵抗されると無効。
-</code></pre>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>能力</th>
+<th style="text-align:right">最低Lv</th>
+<th style="text-align:right">消費</th>
+<th>能力値</th>
+<th style="text-align:right">失敗率</th>
+<th>効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>幻惑の光</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">50</td>
+<td>知能</td>
+<td style="text-align:right">25%</td>
+<td>周辺のモンスターを威力 レベル×4 で減速・朦朧・混乱・恐怖・睡眠させようとする。抵抗されると無効。</td>
+</tr>
+</tbody>
+</table></div>
 <p>レベル30以上でカオス耐性、レベル40以上で恐怖耐性を得る。</p>
 <h2>戦闘・装備上の特徴</h2>
 <p>戦闘能力を持つ魔法職で、呪文の詳細は <a href="Class-Magic-chaos-warrior.html">クラス別魔法: 混沌の戦士</a> を参照。</p>
@@ -837,6 +852,7 @@
 <ul>
 <li>魔法種別 / Magic type: 仙術/Sorcery</li>
 <li>詠唱能力値 / Spellcasting stat: 知能/Intelligence</li>
+<li>使用できる魔法領域: <strong>1つ</strong></li>
 <li>選択可能領域 / Realm: カオス/Chaos, 悪魔/Daemon（この中から1つを選択）</li>
 <li>習得可能な呪文の詳細は <strong><a href="Class-Magic-chaos-warrior.html">クラス別魔法: 混沌の戦士</a></strong> を参照。</li>
 </ul>
@@ -901,7 +917,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:42 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 18:49 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
