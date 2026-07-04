@@ -107,6 +107,7 @@
 </ul>
 </aside><main class="content"><h1>性格 / Personalities</h1>
 <p>性格は出生時に選ぶ補正で、能力値、技能、HP補正、性別制限、一部の恒久能力に影響します。数値は <code>src/player/player-personality.cpp</code>、説明文は <code>src/birth/birth-explanations-table.cpp</code> に基づきます。</p>
+<h2>能力値・基本補正</h2>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -117,6 +118,161 @@
 <th>器用 / DEX</th>
 <th>耐久 / CON</th>
 <th>魅力 / CHR</th>
+<th>HP補正</th>
+<th>性別制限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ふつう<br>Ordinary</td>
+<td>+0</td>
+<td>+0</td>
+<td>+0</td>
+<td>+0</td>
+<td>+0</td>
+<td>+0</td>
+<td>+0</td>
+<td>制限なし / Any</td>
+</tr>
+<tr>
+<td>ちからじまん<br>Mighty</td>
+<td>+2</td>
+<td>-2</td>
+<td>-1</td>
+<td>+0</td>
+<td>+1</td>
+<td>+0</td>
+<td>+1</td>
+<td>制限なし / Any</td>
+</tr>
+<tr>
+<td>きれもの<br>Shrewd</td>
+<td>-2</td>
+<td>+2</td>
+<td>+0</td>
+<td>+1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>制限なし / Any</td>
+</tr>
+<tr>
+<td>しあわせもの<br>Pious</td>
+<td>+0</td>
+<td>-1</td>
+<td>+2</td>
+<td>-1</td>
+<td>+0</td>
+<td>+1</td>
+<td>+0</td>
+<td>制限なし / Any</td>
+</tr>
+<tr>
+<td>すばしっこい<br>Nimble</td>
+<td>-1</td>
+<td>+1</td>
+<td>-1</td>
+<td>+2</td>
+<td>-1</td>
+<td>-1</td>
+<td>+0</td>
+<td>制限なし / Any</td>
+</tr>
+<tr>
+<td>いのちしらず<br>Fearless</td>
+<td>+2</td>
+<td>+1</td>
+<td>+1</td>
+<td>-1</td>
+<td>-1</td>
+<td>+0</td>
+<td>-1</td>
+<td>制限なし / Any</td>
+</tr>
+<tr>
+<td>コンバット<br>Combat</td>
+<td>+1</td>
+<td>-1</td>
+<td>-2</td>
+<td>+2</td>
+<td>+0</td>
+<td>+1</td>
+<td>+0</td>
+<td>制限なし / Any</td>
+</tr>
+<tr>
+<td>なまけもの<br>Lazy</td>
+<td>-2</td>
+<td>-2</td>
+<td>-2</td>
+<td>-2</td>
+<td>-2</td>
+<td>-2</td>
+<td>-1</td>
+<td>制限なし / Any</td>
+</tr>
+<tr>
+<td>セクシーギャル<br>Sexy</td>
+<td>+1</td>
+<td>+1</td>
+<td>+1</td>
+<td>+1</td>
+<td>+1</td>
+<td>+3</td>
+<td>+0</td>
+<td>女性のみ / Female only</td>
+</tr>
+<tr>
+<td>ラッキーマン<br>Lucky</td>
+<td>-2</td>
+<td>-2</td>
+<td>-2</td>
+<td>-2</td>
+<td>-2</td>
+<td>+2</td>
+<td>+0</td>
+<td>男性のみ / Male only</td>
+</tr>
+<tr>
+<td>がまんづよい<br>Patient</td>
+<td>-1</td>
+<td>-1</td>
+<td>+1</td>
+<td>-2</td>
+<td>+2</td>
+<td>+0</td>
+<td>+1</td>
+<td>制限なし / Any</td>
+</tr>
+<tr>
+<td>いかさま<br>Munchkin</td>
+<td>+10</td>
+<td>+10</td>
+<td>+10</td>
+<td>+10</td>
+<td>+10</td>
+<td>+10</td>
+<td>+15</td>
+<td>制限なし / Any</td>
+</tr>
+<tr>
+<td>チャージマン<br>Chargeman</td>
+<td>+2</td>
+<td>-2</td>
+<td>-2</td>
+<td>+0</td>
+<td>+1</td>
+<td>-2</td>
+<td>-1</td>
+<td>制限なし / Any</td>
+</tr>
+</tbody>
+</table></div>
+<h2>技能補正</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>性格 / Personality</th>
 <th>解除 / Disarm</th>
 <th>魔道具 / Device</th>
 <th>魔防 / Save</th>
@@ -125,9 +281,6 @@
 <th>知覚 / Perception</th>
 <th>打撃 / Melee</th>
 <th>射撃 / Shooting</th>
-<th>HP補正</th>
-<th>性別制限</th>
-<th>説明</th>
 </tr>
 </thead>
 <tbody>
@@ -141,24 +294,9 @@
 <td>+0</td>
 <td>+0</td>
 <td>+0</td>
-<td>+0</td>
-<td>+0</td>
-<td>+0</td>
-<td>+0</td>
-<td>+0</td>
-<td>+0</td>
-<td>+0</td>
-<td>制限なし / Any</td>
-<td>ふつうは、特に特筆するべき部分がない性格です。あらゆる技能を平均的にこなします。</td>
 </tr>
 <tr>
 <td>ちからじまん<br>Mighty</td>
-<td>+2</td>
-<td>-2</td>
-<td>-1</td>
-<td>+0</td>
-<td>+1</td>
-<td>+0</td>
 <td>-5</td>
 <td>-5</td>
 <td>-3</td>
@@ -167,18 +305,9 @@
 <td>-2</td>
 <td>+10</td>
 <td>+0</td>
-<td>+1</td>
-<td>制限なし / Any</td>
-<td>ちからじまんは、肉体的な能力や技能が上昇します。しかし、魔法に関係する能力や技能は劣り、戦士よりのステータスを持ちます。</td>
 </tr>
 <tr>
 <td>きれもの<br>Shrewd</td>
-<td>-2</td>
-<td>+2</td>
-<td>+0</td>
-<td>+1</td>
-<td>-1</td>
-<td>-1</td>
 <td>+3</td>
 <td>+8</td>
 <td>+2</td>
@@ -187,18 +316,9 @@
 <td>+5</td>
 <td>-8</td>
 <td>-5</td>
-<td>-1</td>
-<td>制限なし / Any</td>
-<td>きれものは、肉体的な能力は下がりますが、知能や魔法に関係する技能は上昇し、メイジよりのステータスを持ちます。</td>
 </tr>
 <tr>
 <td>しあわせもの<br>Pious</td>
-<td>+0</td>
-<td>-1</td>
-<td>+2</td>
-<td>-1</td>
-<td>+0</td>
-<td>+1</td>
 <td>-5</td>
 <td>+2</td>
 <td>+4</td>
@@ -207,18 +327,9 @@
 <td>-2</td>
 <td>-3</td>
 <td>-6</td>
-<td>+0</td>
-<td>制限なし / Any</td>
-<td>しあわせものは、神を信仰する能力が高くなります。肉体的には平均的な能力を持ち、プリーストに近いステータスとなります。</td>
 </tr>
 <tr>
 <td>すばしっこい<br>Nimble</td>
-<td>-1</td>
-<td>+1</td>
-<td>-1</td>
-<td>+2</td>
-<td>-1</td>
-<td>-1</td>
 <td>+7</td>
 <td>+2</td>
 <td>-1</td>
@@ -227,18 +338,9 @@
 <td>+5</td>
 <td>+0</td>
 <td>+10</td>
-<td>+0</td>
-<td>制限なし / Any</td>
-<td>すばしっこいは、どのスキルも比較的うまくこなしますが、肉体的な能力は低くなります。</td>
 </tr>
 <tr>
 <td>いのちしらず<br>Fearless</td>
-<td>+2</td>
-<td>+1</td>
-<td>+1</td>
-<td>-1</td>
-<td>-1</td>
-<td>+0</td>
 <td>-5</td>
 <td>+5</td>
 <td>-2</td>
@@ -247,18 +349,9 @@
 <td>-2</td>
 <td>+10</td>
 <td>+10</td>
-<td>-1</td>
-<td>制限なし / Any</td>
-<td>いのちしらずは、戦闘力、魔法能力の両方が上昇しますが、魔法防御、ＨＰといった能力は悪くなります。</td>
 </tr>
 <tr>
 <td>コンバット<br>Combat</td>
-<td>+1</td>
-<td>-1</td>
-<td>-2</td>
-<td>+2</td>
-<td>+0</td>
-<td>+1</td>
 <td>-2</td>
 <td>-3</td>
 <td>-3</td>
@@ -267,18 +360,9 @@
 <td>+2</td>
 <td>+5</td>
 <td>+5</td>
-<td>+0</td>
-<td>制限なし / Any</td>
-<td>好きな食べ物は焼きビーフン。抑えてはいるが、冒険心旺盛な一匹狼。正義感、勇気とも平均以上だがカッとしやすい所もある。計画的人生より行き当たりばったりの人生を選んでしまうタイプで、異性の扱いは苦手。</td>
 </tr>
 <tr>
 <td>なまけもの<br>Lazy</td>
-<td>-2</td>
-<td>-2</td>
-<td>-2</td>
-<td>-2</td>
-<td>-2</td>
-<td>-2</td>
 <td>-5</td>
 <td>-5</td>
 <td>-3</td>
@@ -287,18 +371,9 @@
 <td>-2</td>
 <td>-8</td>
 <td>-8</td>
-<td>-1</td>
-<td>制限なし / Any</td>
-<td>なまけものは、あらゆるスキルが低く、何をやってもうまくいきません。</td>
 </tr>
 <tr>
 <td>セクシーギャル<br>Sexy</td>
-<td>+1</td>
-<td>+1</td>
-<td>+1</td>
-<td>+1</td>
-<td>+1</td>
-<td>+3</td>
 <td>+10</td>
 <td>+5</td>
 <td>+3</td>
@@ -307,18 +382,9 @@
 <td>+2</td>
 <td>+10</td>
 <td>+10</td>
-<td>+0</td>
-<td>女性のみ / Female only</td>
-<td>セクシーギャルは、あらゆるスキルをうまくこなすことができます。しかし、その人をなめた性格は全てのモンスターを怒らせることになるでしょう。この性格は女性しか選ぶことができません。</td>
 </tr>
 <tr>
 <td>ラッキーマン<br>Lucky</td>
-<td>-2</td>
-<td>-2</td>
-<td>-2</td>
-<td>-2</td>
-<td>-2</td>
-<td>+2</td>
 <td>+10</td>
 <td>+7</td>
 <td>+3</td>
@@ -327,18 +393,9 @@
 <td>+8</td>
 <td>+15</td>
 <td>+15</td>
-<td>+0</td>
-<td>男性のみ / Male only</td>
-<td>ラッキーマンは、能力値はなまけものに匹敵するくらい低いにもかかわらず、どんなことをしてもなぜかうまくいってしまいます。この性格は男性しか選ぶことができません。</td>
 </tr>
 <tr>
 <td>がまんづよい<br>Patient</td>
-<td>-1</td>
-<td>-1</td>
-<td>+1</td>
-<td>-2</td>
-<td>+2</td>
-<td>+0</td>
 <td>-5</td>
 <td>-3</td>
 <td>+3</td>
@@ -347,18 +404,9 @@
 <td>-3</td>
 <td>-6</td>
 <td>-6</td>
-<td>+1</td>
-<td>制限なし / Any</td>
-<td>がまんづよいは、じっくりと物事にとりくむ慎重な性格で、他の性格に比べて高い耐久力を得ることができます。しかし、自分から行動するのは苦手で、多くの技能は低くなってしまいます。</td>
 </tr>
 <tr>
 <td>いかさま<br>Munchkin</td>
-<td>+10</td>
-<td>+10</td>
-<td>+10</td>
-<td>+10</td>
-<td>+10</td>
-<td>+10</td>
 <td>+20</td>
 <td>+40</td>
 <td>+30</td>
@@ -367,18 +415,9 @@
 <td>+40</td>
 <td>+80</td>
 <td>+80</td>
-<td>+15</td>
-<td>制限なし / Any</td>
-<td>いかさまは、初心者の練習用の性格です。あらゆる能力が高くなっています。この性格を使えば勝利者になることは容易ですが、勝利しても全く自慢になりません。</td>
 </tr>
 <tr>
 <td>チャージマン<br>Chargeman</td>
-<td>+2</td>
-<td>-2</td>
-<td>-2</td>
-<td>+0</td>
-<td>+1</td>
-<td>-2</td>
 <td>-7</td>
 <td>+7</td>
 <td>-5</td>
@@ -387,8 +426,68 @@
 <td>-4</td>
 <td>+15</td>
 <td>+20</td>
-<td>-1</td>
-<td>制限なし / Any</td>
+</tr>
+</tbody>
+</table></div>
+<h2>説明</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>性格 / Personality</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ふつう<br>Ordinary</td>
+<td>ふつうは、特に特筆するべき部分がない性格です。あらゆる技能を平均的にこなします。</td>
+</tr>
+<tr>
+<td>ちからじまん<br>Mighty</td>
+<td>ちからじまんは、肉体的な能力や技能が上昇します。しかし、魔法に関係する能力や技能は劣り、戦士よりのステータスを持ちます。</td>
+</tr>
+<tr>
+<td>きれもの<br>Shrewd</td>
+<td>きれものは、肉体的な能力は下がりますが、知能や魔法に関係する技能は上昇し、メイジよりのステータスを持ちます。</td>
+</tr>
+<tr>
+<td>しあわせもの<br>Pious</td>
+<td>しあわせものは、神を信仰する能力が高くなります。肉体的には平均的な能力を持ち、プリーストに近いステータスとなります。</td>
+</tr>
+<tr>
+<td>すばしっこい<br>Nimble</td>
+<td>すばしっこいは、どのスキルも比較的うまくこなしますが、肉体的な能力は低くなります。</td>
+</tr>
+<tr>
+<td>いのちしらず<br>Fearless</td>
+<td>いのちしらずは、戦闘力、魔法能力の両方が上昇しますが、魔法防御、ＨＰといった能力は悪くなります。</td>
+</tr>
+<tr>
+<td>コンバット<br>Combat</td>
+<td>好きな食べ物は焼きビーフン。抑えてはいるが、冒険心旺盛な一匹狼。正義感、勇気とも平均以上だがカッとしやすい所もある。計画的人生より行き当たりばったりの人生を選んでしまうタイプで、異性の扱いは苦手。</td>
+</tr>
+<tr>
+<td>なまけもの<br>Lazy</td>
+<td>なまけものは、あらゆるスキルが低く、何をやってもうまくいきません。</td>
+</tr>
+<tr>
+<td>セクシーギャル<br>Sexy</td>
+<td>セクシーギャルは、あらゆるスキルをうまくこなすことができます。しかし、その人をなめた性格は全てのモンスターを怒らせることになるでしょう。この性格は女性しか選ぶことができません。</td>
+</tr>
+<tr>
+<td>ラッキーマン<br>Lucky</td>
+<td>ラッキーマンは、能力値はなまけものに匹敵するくらい低いにもかかわらず、どんなことをしてもなぜかうまくいってしまいます。この性格は男性しか選ぶことができません。</td>
+</tr>
+<tr>
+<td>がまんづよい<br>Patient</td>
+<td>がまんづよいは、じっくりと物事にとりくむ慎重な性格で、他の性格に比べて高い耐久力を得ることができます。しかし、自分から行動するのは苦手で、多くの技能は低くなってしまいます。</td>
+</tr>
+<tr>
+<td>いかさま<br>Munchkin</td>
+<td>いかさまは、初心者の練習用の性格です。あらゆる能力が高くなっています。この性格を使えば勝利者になることは容易ですが、勝利しても全く自慢になりません。</td>
+</tr>
+<tr>
+<td>チャージマン<br>Chargeman</td>
 <td>チャージマンは「こんなところ」に連れて行かれても仕方のない可愛そうなお友達なんＤＡ。腕っ節やタフさはマンモス並みに強いのだけれど知能面はまるで駄目なのが分かるだろう？この性格は最初から気が狂っているので、混乱したり幻覚を見る心配がないのです。</td>
 </tr>
 </tbody>
@@ -404,7 +503,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-personality.cpp</code>, <code>src/birth/birth-explanations-table.cpp</code>, <code>src/player/permanent-resistances.cpp</code>, <code>src/player/player-status-flags.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 05:30 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 05:42 UTC · hengband <code>5ebae9734</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
