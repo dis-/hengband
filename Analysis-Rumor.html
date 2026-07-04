@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>噂 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="モンスター名で検索 / search…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+<li><a href="Classes.html">🧑‍🚀 職業 / Classes</a></li>
+<li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
+<li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+</ul>
+<h3><a href="Analysis.html">🔬 解析 / Analysis</a></h3>
+<ul>
+<li>⚔️ 戦闘 / Combat
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></li>
+<li><a href="Analysis-ChaosEffect.html">カオス的効果</a></li>
+</ul>
+</li>
+<li>👹 モンスター / Monsters
+<ul>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収処理</a></li>
+</ul>
+</li>
+<li>🧙 キャラクター / Character
+<ul>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力が上昇時にどれだけ増えるか</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-Stun.html">朦朧処理</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+<li><a href="Analysis-Android.html">アンドロイドのレベル</a></li>
+<li><a href="Analysis-Autoroller.html">オートローラー</a></li>
+<li><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></li>
+<li><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></li>
+<li><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></li>
+<li><a href="Analysis-Riding.html">騎乗時処理</a></li>
+</ul>
+</li>
+<li>🎒 アイテム / Items
+<ul>
+<li><a href="Analysis-ItemLevel.html">アイテムレベルが決まるルール</a></li>
+<li><a href="Analysis-WeaponRepair.html">折れた武器修復</a></li>
+</ul>
+</li>
+<li>⚙️ システム・その他 / System
+<ul>
+<li><a href="Score.html">スコアの算出方法 / Scoring</a></li>
+<li><a href="Analysis-Store.html">店舗</a></li>
+<li><a href="Analysis-Autopick.html">自動拾い</a></li>
+<li><a href="Analysis-Glass.html">ガラス地形</a></li>
+<li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
+<li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
+<li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
+</ul>
+</li>
+<li>🛡️ <a href="Resistances.html">プレイヤー耐性一覧 / Resistances</a>
+<ul>
+<li><a href="Resistances.html">元素耐性</a> ・ <a href="Resistances.html">上位・状態異常</a> ・ <a href="Resistances.html">免疫</a> ・ <a href="Resistances.html">弱点</a> ・ <a href="Resistances.html">能力値維持</a> ・ <a href="Resistances.html">防御能力</a></li>
+</ul>
+</li>
+<li>🧬 <a href="Mutations.html">突然変異一覧 / Mutations</a>
+<ul>
+<li><a href="Mutations-Activatable.html">発動型</a> ・ <a href="Mutations-Random.html">ランダム発動型</a> ・ <a href="Mutations-Constant.html">常時型</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>噂</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>「噂」は宿屋や店主から聞ける短い情報で、多くは単なるフレーバーだが、種類によっては<strong>街への行き方・ダンジョンへの帰還・モンスターやアーティファクトの知識</strong>を実際に解禁するという副次効果を持つ。本項では噂の<strong>種類（RumorType）・階級（RumorRarity）・取得方法・効果</strong>を、ソースコードから再導出してまとめる。</p>
+<p>主な実装は <code>src/rumor/</code>（噂の定義・テーブル・選択）、<code>src/store/rumor.cpp</code>（噂の表示と副次効果）、<code>src/store/say-comments.cpp</code>（店主のささやき）、<code>src/cmd-building/cmd-inn.cpp</code>（宿屋）、<code>src/object-use/read/scroll-read-executor.cpp</code>（噂の巻物）にある。噂の雑談文の本体は <code>lib/file/rumors_j.txt</code>（英語版は <code>rumors.txt</code>）から読み込まれる。</p>
+<h2>階級（レアリティ）</h2>
+<p>噂は3つの階級に分かれる。<code>RumorRarity</code> の数値がそのまま<strong>出やすさの重み</strong>であり、低が最も出やすく高が最も出にくい。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>階級</th>
+<th>内部値（=重み）</th>
+<th>含まれる種類</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>低（LOW）</td>
+<td>3</td>
+<td>雑談</td>
+</tr>
+<tr>
+<td>中（MEDIUM）</td>
+<td>2</td>
+<td>街・浅いダンジョン・通常モンスター・浅いアーティファクト</td>
+</tr>
+<tr>
+<td>高（HIGH）</td>
+<td>1</td>
+<td>深いダンジョン・ユニークモンスター・深いアーティファクト</td>
+</tr>
+</tbody>
+</table></div>
+<h2>種類（RumorType）</h2>
+<p>種類は次の8種で定義される（<code>src/rumor/rumor-definition.h</code>）。ダンジョンとアーティファクトは、深さの閾値 <code>DEPTH_THRESHOLD = 30</code> を境に「浅い（中階級）／深い（高階級）」へ振り分けられる。モンスターはユニーク（またはナズグル）かどうかで振り分けられる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>種類</th>
+<th>階級</th>
+<th>収録対象</th>
+<th>例文テンプレート</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GOSSIP（雑談）</td>
+<td>低</td>
+<td><code>rumors_j.txt</code> の各行</td>
+<td>ファイルの文言そのもの</td>
+</tr>
+<tr>
+<td>TOWN（街）</td>
+<td>中</td>
+<td>有効な街（<code>SECRET_TOWN</code> を除く）</td>
+<td>「{Name}という街に行ったことはあるかい？」</td>
+</tr>
+<tr>
+<td>SHALLOW_DUNGEON（浅いダンジョン）</td>
+<td>中</td>
+<td><code>0 &lt; mindepth ≤ 30</code> のダンジョン</td>
+<td>「{Name}の場所はココだ： -続く-」</td>
+</tr>
+<tr>
+<td>NORMAL_MONSTER（通常モンスター）</td>
+<td>中</td>
+<td>ユニーク・ナズグルでないモンスター</td>
+<td>「{Name}というモンスターがいるらしい。」</td>
+</tr>
+<tr>
+<td>SHALLOW_ARTIFACT（浅いアーティファクト）</td>
+<td>中</td>
+<td><code>level ≤ 30</code> の固定アーティファクト</td>
+<td>「{Name}というお宝が地下浅くにあるそうだ。」</td>
+</tr>
+<tr>
+<td>DEEP_DUNGEON（深いダンジョン）</td>
+<td>高</td>
+<td><code>mindepth &gt; 30</code> のダンジョン</td>
+<td>「{Name}の場所はココだ： -続く-」</td>
+</tr>
+<tr>
+<td>UNIQUE_MONSTER（ユニークモンスター）</td>
+<td>高</td>
+<td>ユニークまたはナズグルのモンスター</td>
+<td>「{Name}という特別なモンスターがいるらしい。」</td>
+</tr>
+<tr>
+<td>DEEP_ARTIFACT（深いアーティファクト）</td>
+<td>高</td>
+<td><code>level &gt; 30</code> の固定アーティファクト</td>
+<td>「{Name}というお宝が地下深くにあるそうだ。」</td>
+</tr>
+</tbody>
+</table></div>
+<p>雑談以外の噂は、対象（街ID・ダンジョンID・モンスターID・アーティファクトID）と結びついており、<code>{Name}</code> にその名前が埋め込まれた文章が生成される。テーブルはゲーム初期化時に一度だけ構築される（<code>RumorService::retouch</code>）。</p>
+<h2>取得方法</h2>
+<p>噂を得る手段は3つあり、それぞれ階級の決まり方が異なる。</p>
+<h3>1. 宿屋「噂を聞く」</h3>
+<p>宿屋の「噂を聞く」（Listen for rumors）を選ぶ。町データ上のコストは <strong>10金</strong>（<code>B:0:A:2:噂を聞く:10:10:u:19:0</code>）。<code>inn_comm</code> は支払額でレアリティを決める。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>支払額</th>
+<th>選ばれる階級</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100金以上</td>
+<td>高</td>
+</tr>
+<tr>
+<td>10金以上100金未満</td>
+<td>中</td>
+</tr>
+<tr>
+<td>1〜9金</td>
+<td>低（デッドコード）</td>
+</tr>
+</tbody>
+</table></div>
+<p>現状メニューのコストは10金固定のため、宿屋からは常に<strong>中階級</strong>の噂が得られる。100金以上を要求する宿屋メニューは存在せず、9金以下のメニューも無い（コメントにも「V3.2.0.4時点で1〜9$を取られる宿屋の噂はなく、デッドコード」と明記されている）。</p>
+<h3>2. 店主のささやき</h3>
+<p>店で売買が成立したとき、<strong>1/8 の確率</strong>で店主が噂をささやく（<code>store_owner_says_comment</code>）。階級は取引額で決まる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>取引額</th>
+<th>選ばれる階級</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2500金以上</td>
+<td>高</td>
+</tr>
+<tr>
+<td>50金以上2500金未満</td>
+<td>中</td>
+</tr>
+<tr>
+<td>50金未満</td>
+<td>低</td>
+</tr>
+</tbody>
+</table></div>
+<p>高価な取引ほど高階級の噂（＝ユニークやアーティファクトの知識）が出やすい。</p>
+<h3>3. 噂の巻物</h3>
+<p>「噂の巻物」を読むと、階級を指定せず<strong>重み付きランダム</strong>で1つ選ばれる（<code>select_random_rumor</code>）。テーブルには全ての噂が登録され、各噂の重みはその階級の数値（低=3・中=2・高=1）である。したがって1件あたりでは低階級ほど出やすいが、実際の出現率は各種類の登録件数（ユニークモンスターや固定アーティファクトは多数ある）にも左右される。</p>
+<h2>階級内での選択</h2>
+<p>同じ階級の中でも、どの種類・どの対象が選ばれるかは階級ごとに異なる（<code>src/rumor/rumor-list.cpp</code>）。</p>
+<ul>
+<li><strong>低</strong>：雑談の中から等確率で1つ。</li>
+<li><strong>中</strong>：まず <code>randint0(4)</code> で「街／浅いダンジョン／通常モンスター／浅いアーティファクト」を<strong>各1/4</strong>で選び、その種類の中から等確率で1つ。</li>
+<li><strong>高</strong>：深いダンジョン・ユニークモンスター・深いアーティファクトを<strong>全てまとめて</strong>、件数に比例した等確率で1つ選ぶ（種類ごとの均等ではなく、対象1件ごとの均等）。</li>
+</ul>
+<h3>選択時のフィルタ</h3>
+<p><code>pick_rumor</code> は選んだ噂が次の条件に当たる場合、選び直す（<code>src/rumor/rumor-service.cpp</code>）。</p>
+<ul>
+<li><strong>街の噂</strong>：<code>lite_town</code>（小規模な街）または <code>vanilla_town</code>（元祖の街）オプションが有効なら、街の噂は選ばれない。</li>
+<li><strong>天界・地獄の深いダンジョン</strong>：サーペント撃破（<code>total_winner</code>）前は、<code>HEAVEN</code> および <code>HELL</code> の深いダンジョンの噂は選ばれない。</li>
+</ul>
+<h2>効果</h2>
+<p>噂を表示する <code>display_selected_rumor</code>（<code>src/store/rumor.cpp</code>）は、種類に応じて文章を表示した上で、対象が「未取得」であれば知識・解禁の副次効果を与える。既に取得済みの場合は文章のみ（ダンジョンのみ「既に知っている」旨を表示）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>種類</th>
+<th>副次効果（対象が未取得のとき）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>雑談</td>
+<td>なし（文章のみ）</td>
+</tr>
+<tr>
+<td>街</td>
+<td>その街を訪問済みに設定（<code>set_visited</code>）。「{街}への行き方が分かった。」→ 以後その街へ移動できる</td>
+</tr>
+<tr>
+<td>ダンジョン（浅い／深い）</td>
+<td>そのダンジョンの最大到達階を <code>mindepth</code> に設定（<code>set_max_level</code>）。「{ダンジョン}に帰還できるようになった。」→ 未入場でも帰還（リコール）で行けるようになる</td>
+</tr>
+<tr>
+<td>モンスター（通常／ユニーク）</td>
+<td>そのモンスターの目撃数を加算（<code>increment_seen_count</code>）。「{モンスター}の名前を書き留めた。」→ モンスターの思い出（知識）に登録される</td>
+</tr>
+<tr>
+<td>アーティファクト（浅い／深い）</td>
+<td>その固定アーティファクトを既知に設定（<code>set_known</code>）。「{アイテム}の名前を書き留めた。」→ アーティファクトの知識に登録される</td>
+</tr>
+</tbody>
+</table></div>
+<p>つまり噂は単なる情報ではなく、<strong>街の解禁・ダンジョンへの帰還手段の獲得・モンスター/アーティファクト知識の充足</strong>という実利を伴う。とりわけ「深いダンジョンの噂」は、まだ足を踏み入れていないダンジョンへ帰還で直接向かえるようにする点で有用である。</p>
+<h2>まとめ</h2>
+<ul>
+<li>噂は階級（低・中・高、重み 3:2:1）と8種類（雑談／街／ダンジョン浅・深／モンスター通常・ユニーク／アーティファクト浅・深）に分類される。深さは <code>DEPTH_THRESHOLD = 30</code> が境界。</li>
+<li>取得方法は**宿屋（10金で必ず中階級）／店主のささやき（売買時1/8、取引額で階級決定）／噂の巻物（重み付きランダム）**の3つ。</li>
+<li>効果は雑談を除き、街の行き方・ダンジョンへの帰還・モンスターやアーティファクトの知識を解禁する。</li>
+</ul>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/rumor/</code>, <code>src/store/rumor.cpp</code>, <code>src/store/say-comments.cpp</code>, <code>src/cmd-building/cmd-inn.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 13:53 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
