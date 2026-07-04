@@ -152,7 +152,6 @@
 </tr>
 </tbody>
 </table></div>
-<p>レベル40以上では職業能力として恐怖耐性を得る。</p>
 <h2>戦闘・装備上の特徴</h2>
 <p>戦士とプリーストを合わせた職業で、近接戦闘を主軸にしつつ祈りを使う。遠距離武器は得意ではない。</p>
 <p>防具重量によるMPペナルティでは、武器重量の 1/5 を加味する。超過した場合のMP低下は <code>最大MP * 超過重量 / 1200</code> で、同じ呪文職の中では重装備への影響が比較的緩い。詳しくは <a href="Analysis-ArmorManaPenalty.html">防具重量によるMPペナルティ</a> を参照。</p>
@@ -867,6 +866,11 @@
 <li>選択可能領域 / Realm: 破邪/Crusade, 暗黒/Death（この中から1つを選択）</li>
 <li>習得可能な呪文の詳細は <strong><a href="Class-Magic-paladin.html">クラス別魔法: パラディン</a></strong> を参照。</li>
 </ul>
+<h2>職業固有の耐性・能力</h2>
+<p>レベルに応じて職業から<strong>恒常的に</strong>付与される耐性・能力（<code>src/player-base/player-class.cpp</code> の <code>tr_flags</code>）。装備や一時効果とは別に、条件を満たす限り常に有効。</p>
+<ul>
+<li>Lv40〜: 恐怖耐性</li>
+</ul>
 <h2>称号 / Titles</h2>
 <p>レベルに応じた称号（<code>(レベル−1)/5</code> で参照、約5レベルごとに変化）。</p>
 <div class="tablewrap"><table class="sortable">
@@ -928,7 +932,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:49 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

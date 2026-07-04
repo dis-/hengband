@@ -118,9 +118,9 @@
 <h2>概要</h2>
 <p>鏡使いは、魔力の込められた鏡を作り出して、それを触媒として攻撃を行なうことができる鏡魔法を使います。鏡使いは鏡の上で実力を発揮し、鏡の上では素早いテレポートが可能となります。魔法の鏡は、レベルによって一度に制御できる数が制限されます。鏡魔法に必要な能力は知能です。</p>
 <h2>固有システム・特殊能力</h2>
-<p>鏡使いは魔力の込められた鏡を作り出し、それを触媒として攻撃を行なう鏡魔法を使う（<code>mind-mirror-master.cpp</code>）。鏡の上では実力を発揮し、素早いテレポートが可能となる。魔法の鏡は、レベルによって一度に制御できる数が制限される。鏡魔法は領域魔法ではないため、専用の呪文一覧ページは持たない。</p>
+<p>鏡使いは魔力の込められた鏡を作り出し、それを触媒として攻撃を行なう鏡魔法を使う。鏡魔法は領域魔法ではないため、専用の呪文一覧ページは持たない。</p>
 <p>レベル1から「鏡割り」を使える。消費は0、判定能力値はINT、失敗率は0%。現在の階に設置した鏡を全て割り、割られた鏡はなくなり、破片属性のボールが発生する。</p>
-<p>レベル30から「静水」を使える。消費は0、判定能力値はINT、失敗率は20%。MPを回復する能力で、回復量のMANAは <code>5 + Lv * Lv / 100</code> で計算される。</p>
+<p>レベル30から「静水」を使える。消費は0、判定能力値はINT、失敗率は20%。MPを回復する能力で、回復量のMANAは 5 + Lv * Lv / 100 で計算される。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -147,12 +147,146 @@
 <td style="text-align:right">0</td>
 <td>INT</td>
 <td style="text-align:right">20%</td>
-<td>MPを回復する。MANAは <code>5 + Lv * Lv / 100</code>。</td>
+<td>MPを回復する。MANAは 5 + Lv * Lv / 100。</td>
+</tr>
+</tbody>
+</table></div>
+<h3>鏡魔法一覧</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>名称</th>
+<th style="text-align:right">解禁Lv</th>
+<th style="text-align:right">消費MP</th>
+<th style="text-align:right">失率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>真見の鏡</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">15%</td>
+</tr>
+<tr>
+<td>鏡生成</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">40%</td>
+</tr>
+<tr>
+<td>光のしずく</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">20%</td>
+</tr>
+<tr>
+<td>歪んだ鏡</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">20%</td>
+</tr>
+<tr>
+<td>閃光鏡</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">35%</td>
+</tr>
+<tr>
+<td>彷える鏡</td>
+<td style="text-align:right">6</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">35%</td>
+</tr>
+<tr>
+<td>微塵隠れ</td>
+<td style="text-align:right">10</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">30%</td>
+</tr>
+<tr>
+<td>追放の鏡</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">30%</td>
+</tr>
+<tr>
+<td>鏡砕き</td>
+<td style="text-align:right">15</td>
+<td style="text-align:right">15</td>
+<td style="text-align:right">30%</td>
+</tr>
+<tr>
+<td>催眠鏡</td>
+<td style="text-align:right">19</td>
+<td style="text-align:right">13</td>
+<td style="text-align:right">30%</td>
+</tr>
+<tr>
+<td>シーカーレイ</td>
+<td style="text-align:right">23</td>
+<td style="text-align:right">18</td>
+<td style="text-align:right">50%</td>
+</tr>
+<tr>
+<td>鏡の封印</td>
+<td style="text-align:right">25</td>
+<td style="text-align:right">20</td>
+<td style="text-align:right">40%</td>
+</tr>
+<tr>
+<td>水鏡の盾</td>
+<td style="text-align:right">27</td>
+<td style="text-align:right">30</td>
+<td style="text-align:right">60%</td>
+</tr>
+<tr>
+<td>スーパーレイ</td>
+<td style="text-align:right">29</td>
+<td style="text-align:right">30</td>
+<td style="text-align:right">60%</td>
+</tr>
+<tr>
+<td>幻惑の光</td>
+<td style="text-align:right">31</td>
+<td style="text-align:right">35</td>
+<td style="text-align:right">60%</td>
+</tr>
+<tr>
+<td>鏡の国</td>
+<td style="text-align:right">33</td>
+<td style="text-align:right">50</td>
+<td style="text-align:right">80%</td>
+</tr>
+<tr>
+<td>鏡抜け</td>
+<td style="text-align:right">36</td>
+<td style="text-align:right">30</td>
+<td style="text-align:right">80%</td>
+</tr>
+<tr>
+<td>帰還の鏡</td>
+<td style="text-align:right">38</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">70%</td>
+</tr>
+<tr>
+<td>影分身</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">50</td>
+<td style="text-align:right">55%</td>
+</tr>
+<tr>
+<td>封魔結界</td>
+<td style="text-align:right">43</td>
+<td style="text-align:right">55</td>
+<td style="text-align:right">70%</td>
 </tr>
 </tbody>
 </table></div>
 <h2>戦闘・装備上の特徴</h2>
-<p>鏡使いの戦闘は、通常の打撃補正ではなく鏡を介した専用システムに特徴がある。「鏡割り」は現在階に設置した鏡をまとめて処理するため、個別の対象指定ではなく階の鏡配置が効果に関わる。</p>
+<p>「鏡生成」は床に鏡を設置する。現在階の鏡の数が 4 + Lv / 10 以上だと「これ以上鏡は制御できない！」となり、追加できない。鏡の上では「真見の鏡」の判定レベルが+4され、「光のしずく」はLv10超かつ鏡上ならボルトではなくビームになる。「幻惑の光」は鏡上なら朦朧・混乱・恐慌・停止の効力が Lv * 4、鏡上でなければ Lv * 3 になる。</p>
+<p>鏡を要求する魔法もある。「鏡の国」は鏡上でないと場所がわからず失敗する。「封魔結界」は視界内・射線内の鏡を2枚選び、プレイヤー位置と合わせた三角形の範囲に魔力属性 Lv * 11 + 5 を通す。条件を満たす鏡を選べないと失敗し、7分の1で鏡が壊れる。「鏡抜け」は鏡世界を通って移動する。</p>
 <p>反魔法バリア中は「鏡魔法」が邪魔される。装備重量によるMPへの影響は職業別の固有能力ではないため、詳細は <a href="Analysis-ArmorManaPenalty.html">鎧によるMPペナルティ</a> を参照する。</p>
 <h2>基礎スペック</h2>
 <div class="tablewrap"><table class="sortable">
@@ -303,6 +437,11 @@
 <li>詠唱能力値 / Spellcasting stat: 知能/Intelligence</li>
 <li>魔法領域は選択しません（固有の技術体系または魔法なし。詳細は上記「概要」を参照）。</li>
 </ul>
+<h2>職業固有の耐性・能力</h2>
+<p>レベルに応じて職業から<strong>恒常的に</strong>付与される耐性・能力（<code>src/player-base/player-class.cpp</code> の <code>tr_flags</code>）。装備や一時効果とは別に、条件を満たす限り常に有効。</p>
+<ul>
+<li>Lv40〜: 反射</li>
+</ul>
 <h2>称号 / Titles</h2>
 <p>レベルに応じた称号（<code>(レベル−1)/5</code> で参照、約5レベルごとに変化）。</p>
 <div class="tablewrap"><table class="sortable">
@@ -364,7 +503,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:31 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

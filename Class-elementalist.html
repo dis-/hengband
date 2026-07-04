@@ -118,9 +118,10 @@
 <h2>概要</h2>
 <p>元素使いはエレメンタルの力を駆使して戦う魔法使いです。扱える属性は限られますが、その力を十二分に引き出すことができます。魔法に必要な能力は賢さです。</p>
 <h2>固有システム・特殊能力</h2>
-<p>元素使いはエレメンタルの力を駆使して戦う魔法使いで、出生時に選ぶ元素系統により習得する呪文のタイプが決まる（<code>mind-elementalist.cpp</code>）。扱える属性は限られるが、その力を引き出す職業として扱われる。元素魔法は領域魔法ではないため、専用の呪文一覧ページは持たない。</p>
-<p>レベル15から「明鏡止水」を使える。消費は0、判定能力値はWIS、失敗率は10%。MPを回復する能力で、回復量のMANAは <code>3 + Lv / 20</code> で計算される。</p>
-<p>元素系統ごとに、追加のレイシャル特殊能力も変わる。</p>
+<p>元素使いはエレメンタルの力を駆使して戦う魔法使いで、出生時に選ぶ元素系統により習得する呪文の属性が決まる。元素魔法は領域魔法ではないため、専用の呪文一覧ページは持たない。</p>
+<p>元素使いの「明鏡止水」、元素攻撃、元素系統別の力はいずれも職業由来の職業能力（クラスパワー）であり、種族由来の種族能力ではない。U コマンドは種族由来の能力と職業由来の能力をまとめて表示するだけで、元素使いの能力そのものは職業能力として扱う。</p>
+<p>レベル15から「明鏡止水」を使える。消費は0、判定能力値はWIS、失敗率は10%。MPを回復する能力で、回復量のMANAは 3 + Lv / 20 で計算される。</p>
+<p>元素系統ごとに、追加の職業能力も変わる。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -150,7 +151,7 @@
 <td style="text-align:right">15</td>
 <td>WIS</td>
 <td style="text-align:right">25%</td>
-<td>視界内の全てのモンスターを眠らせる。抵抗されると無効。POWERは <code>20 + Lv * 3 / 2</code>。</td>
+<td>視界内の全てのモンスターを眠らせる。抵抗されると無効。POWERは 20 + Lv * 3 / 2。</td>
 </tr>
 <tr>
 <td>空</td>
@@ -174,10 +175,10 @@
 <td>闇</td>
 <td>闇の扉</td>
 <td style="text-align:right">5</td>
-<td style="text-align:right"><code>5 + Lv / 7</code></td>
+<td style="text-align:right">5 + Lv / 7</td>
 <td>WIS</td>
 <td style="text-align:right">20%</td>
-<td>半径は <code>15 + Lv / 2</code>。</td>
+<td>半径は 15 + Lv / 2。</td>
 </tr>
 <tr>
 <td>混沌</td>
@@ -208,8 +209,143 @@
 </tr>
 </tbody>
 </table></div>
+<h3>元素魔法</h3>
+<p>元素魔法は b で閲覧し、m で使う。失率はWISで下がり、重い鎧で+5、ふさわしくない武器1本ごとに+5される。系統ごとに3属性を持ち、攻撃呪文は元素番号0/1/2のいずれかを参照する。氷の冷気はレベルに応じて氷に、闇の暗黒はレベルに応じて深淵に置き換わることがある。</p>
+<p>属性名は、炎が火炎・業火・プラズマ、氷が冷気・遅鈍・時間逆転、空が電撃・光・魔力、海が酸・水・分解、闇が暗黒・地獄・虚無、混沌が混乱・カオス・因果混乱、地が破片・フォース・隕石、瘴気が毒・吸血・劣化。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>魔法</th>
+<th style="text-align:right">解禁Lv</th>
+<th style="text-align:right">消費MP</th>
+<th style="text-align:right">失率</th>
+<th>効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%sの矢</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">15%</td>
+<td>弱い矢。ダメージ 3 + (Lv - 1) / 5 d4、属性0。</td>
+</tr>
+<tr>
+<td>モンスター感知</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">20%</td>
+<td>通常モンスターと透明モンスターを感知する。</td>
+</tr>
+<tr>
+<td>擬似鑑定</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">50%</td>
+<td>アイテムの雰囲気を知る。</td>
+</tr>
+<tr>
+<td>傷の治癒</td>
+<td style="text-align:right">6</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">35%</td>
+<td>HPを2d8回復し、切り傷を10減らす。</td>
+</tr>
+<tr>
+<td>%sの矢</td>
+<td style="text-align:right">8</td>
+<td style="text-align:right">6</td>
+<td style="text-align:right">35%</td>
+<td>矢またはビーム。ダメージ 8 + (Lv - 5) / 4 d8、属性1。</td>
+</tr>
+<tr>
+<td>魔法感知</td>
+<td style="text-align:right">10</td>
+<td style="text-align:right">8</td>
+<td style="text-align:right">60%</td>
+<td>近くの魔法のアイテムを感知する。</td>
+</tr>
+<tr>
+<td>%s放射</td>
+<td style="text-align:right">15</td>
+<td style="text-align:right">10</td>
+<td style="text-align:right">55%</td>
+<td>射程4、半径1。ダメージ 50 + Lv * 2、属性2。</td>
+</tr>
+<tr>
+<td>%sの球</td>
+<td style="text-align:right">18</td>
+<td style="text-align:right">13</td>
+<td style="text-align:right">65%</td>
+<td>半径2。ダメージ 55 + Lv、属性0。</td>
+</tr>
+<tr>
+<td>%sのブレス</td>
+<td style="text-align:right">21</td>
+<td style="text-align:right">20</td>
+<td style="text-align:right">70%</td>
+<td>半径3。ダメージは現在HP/2、上限150、属性1。</td>
+</tr>
+<tr>
+<td>モンスター消滅</td>
+<td style="text-align:right">24</td>
+<td style="text-align:right">20</td>
+<td style="text-align:right">75%</td>
+<td>効力 50 + Lv。</td>
+</tr>
+<tr>
+<td>%sの矢</td>
+<td style="text-align:right">25</td>
+<td style="text-align:right">15</td>
+<td style="text-align:right">60%</td>
+<td>矢またはビーム。ダメージ 12 + (Lv - 5) / 4 d8、属性2。</td>
+</tr>
+<tr>
+<td>元素の波動</td>
+<td style="text-align:right">28</td>
+<td style="text-align:right">30</td>
+<td style="text-align:right">75%</td>
+<td>視界内全体。ダメージ 50 + d(Lv * 3)、属性0。</td>
+</tr>
+<tr>
+<td>%sの球</td>
+<td style="text-align:right">28</td>
+<td style="text-align:right">22</td>
+<td style="text-align:right">75%</td>
+<td>半径3。ダメージ 75 + Lv * 3 / 2、属性1。</td>
+</tr>
+<tr>
+<td>精気乱射</td>
+<td style="text-align:right">33</td>
+<td style="text-align:right">35</td>
+<td style="text-align:right">75%</td>
+<td>ランダム位置へ4d3本。各 6 + Lv / 8 d7、属性0。</td>
+</tr>
+<tr>
+<td>%sの嵐</td>
+<td style="text-align:right">35</td>
+<td style="text-align:right">30</td>
+<td style="text-align:right">75%</td>
+<td>半径4。ダメージ 115 + Lv * 5 / 2、属性1。</td>
+</tr>
+<tr>
+<td>%sのブレス</td>
+<td style="text-align:right">42</td>
+<td style="text-align:right">48</td>
+<td style="text-align:right">75%</td>
+<td>半径3。ダメージは現在HPの2/3、属性0。</td>
+</tr>
+<tr>
+<td>%sの嵐</td>
+<td style="text-align:right">45</td>
+<td style="text-align:right">60</td>
+<td style="text-align:right">80%</td>
+<td>半径5。ダメージ 300 + Lv * 5、属性2。</td>
+</tr>
+</tbody>
+</table></div>
 <h2>戦闘・装備上の特徴</h2>
-<p>元素使い固有の戦闘要素は、通常の武器攻撃ではなく元素魔法と属性別のクラスパワーにある。元素魔法は <code>G</code> コマンドで学習する必要がなく、<code>b</code> で元素魔法を閲覧し、<code>m</code> で元素魔法を使う処理に分岐する。</p>
+<p>元素使い固有の戦闘要素は、通常の武器攻撃ではなく元素魔法と属性別の職業能力にある。元素魔法は G コマンドで学習する必要がなく、選んだ元素系統の属性名が %s に入る。</p>
 <p>反魔法バリア中は「元素魔法」が邪魔される。装備重量によるMPへの影響は職業別の固有能力ではないため、詳細は <a href="Analysis-ArmorManaPenalty.html">鎧によるMPペナルティ</a> を参照する。</p>
 <h2>基礎スペック</h2>
 <div class="tablewrap"><table class="sortable">
@@ -920,6 +1056,19 @@
 <li>詠唱能力値 / Spellcasting stat: 賢さ/Wisdom</li>
 <li>魔法領域は選択しません（固有の技術体系または魔法なし。詳細は上記「概要」を参照）。</li>
 </ul>
+<h2>職業固有の耐性・能力</h2>
+<p>レベルに応じて職業から<strong>恒常的に</strong>付与される耐性・能力（<code>src/player-base/player-class.cpp</code> の <code>tr_flags</code>）。装備や一時効果とは別に、条件を満たす限り常に有効。</p>
+<ul>
+<li>選択した元素系統に応じて耐性・免疫を得る（Lv1で耐性、Lv30で免疫または上位耐性）:</li>
+<li>炎系統 → 火炎耐性 → Lv30 火炎免疫</li>
+<li>氷系統 → 冷気耐性 → Lv30 冷気免疫</li>
+<li>空系統 → 電撃耐性 → Lv30 電撃免疫</li>
+<li>海系統 → 酸耐性 → Lv30 酸免疫</li>
+<li>闇系統 → 暗黒耐性 → Lv30 地獄耐性</li>
+<li>カオス系統 → 混乱耐性 → Lv30 カオス耐性</li>
+<li>地系統 → 破片耐性 → Lv30 反射</li>
+<li>死系統 → 毒耐性 → Lv30 劣化耐性</li>
+</ul>
 <h2>称号 / Titles</h2>
 <p>レベルに応じた称号（<code>(レベル−1)/5</code> で参照、約5レベルごとに変化）。</p>
 <div class="tablewrap"><table class="sortable">
@@ -981,7 +1130,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:31 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

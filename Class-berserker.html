@@ -860,6 +860,12 @@
 <li>詠唱能力値 / Spellcasting stat: 腕力/Strength</li>
 <li>魔法領域は選択しません（固有の技術体系または魔法なし。詳細は上記「概要」を参照）。</li>
 </ul>
+<h2>職業固有の耐性・能力</h2>
+<p>レベルに応じて職業から<strong>恒常的に</strong>付与される耐性・能力（<code>src/player-base/player-class.cpp</code> の <code>tr_flags</code>）。装備や一時効果とは別に、条件を満たす限り常に有効。</p>
+<ul>
+<li>常時: 腕力・器用さ・耐久の維持、急速回復、麻痺知らず、加速</li>
+<li>Lv40〜: 反射</li>
+</ul>
 <h2>称号 / Titles</h2>
 <p>レベルに応じた称号（<code>(レベル−1)/5</code> で参照、約5レベルごとに変化）。</p>
 <div class="tablewrap"><table class="sortable">
@@ -921,7 +927,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:31 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

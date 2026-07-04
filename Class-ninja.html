@@ -118,7 +118,7 @@
 <h2>概要</h2>
 <p>忍者は暗闇に潜む恐るべき暗殺者であり、光源を持たずに行動し、相手の不意をつき一撃で息の根を止めます。また、相手を惑わすための忍術も身につけます。罠やドアを見つける能力に優れ、罠の解除や鍵開けに熟達しています。軽装を好み、重い鎧や武器を装備すると著しく動きが制限され、また、盾を装備しようとはしません。軽装ならば、レベルが上がるにつれより速くより静かに行動できます。さらに忍者は恐怖せず、成長すれば毒がほとんど効かなくなり、透明なものを見ることができるようになります。忍術に必要な能力は器用さです。</p>
 <h2>固有システム・特殊能力</h2>
-<p>忍者は忍術系の能力と高速移動を扱う職業で、固有能力として <code>速駆け</code> を持つ。</p>
+<p>忍者は忍術系の能力と高速移動を扱う職業で、職業能力として「速駆け」を持つ。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -141,12 +141,141 @@
 </tr>
 </tbody>
 </table></div>
-<p>忍者の忍術は <code>mind-ninja.cpp</code> に定義され、光源を持たない状態や隠密行動と組み合わせて使う（領域魔法ではないため専用の呪文一覧ページは持たない）。</p>
+<p>「速駆け」は ACTION_HAYAGAKE をON/OFFする。現在地が投射不能地形、または浮遊なしで深い地形にいる場合は「ここでは素早く動けない。」となる。忍者は暗い場所へ移動すると超隠密 s_stealth になり、明るい場所へ出ると解除される。s_stealth 中は後述の奇襲が発生し得る。</p>
+<h3>忍術一覧</h3>
+<p>忍術はMPではなくHPを消費する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>名称</th>
+<th style="text-align:right">解禁Lv</th>
+<th style="text-align:right">消費HP</th>
+<th style="text-align:right">失率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>暗闇生成</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">20%</td>
+</tr>
+<tr>
+<td>周辺調査</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">25%</td>
+</tr>
+<tr>
+<td>葉隠れ</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">25%</td>
+</tr>
+<tr>
+<td>変わり身</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">30%</td>
+</tr>
+<tr>
+<td>高飛び</td>
+<td style="text-align:right">7</td>
+<td style="text-align:right">8</td>
+<td style="text-align:right">35%</td>
+</tr>
+<tr>
+<td>一撃離脱</td>
+<td style="text-align:right">8</td>
+<td style="text-align:right">10</td>
+<td style="text-align:right">35%</td>
+</tr>
+<tr>
+<td>金縛り</td>
+<td style="text-align:right">10</td>
+<td style="text-align:right">10</td>
+<td style="text-align:right">40%</td>
+</tr>
+<tr>
+<td>古の口伝</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">70%</td>
+</tr>
+<tr>
+<td>浮雲</td>
+<td style="text-align:right">15</td>
+<td style="text-align:right">10</td>
+<td style="text-align:right">50%</td>
+</tr>
+<tr>
+<td>火遁</td>
+<td style="text-align:right">17</td>
+<td style="text-align:right">12</td>
+<td style="text-align:right">45%</td>
+</tr>
+<tr>
+<td>入身</td>
+<td style="text-align:right">18</td>
+<td style="text-align:right">20</td>
+<td style="text-align:right">40%</td>
+</tr>
+<tr>
+<td>八方手裏剣</td>
+<td style="text-align:right">20</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">50%</td>
+</tr>
+<tr>
+<td>鎖鎌</td>
+<td style="text-align:right">22</td>
+<td style="text-align:right">15</td>
+<td style="text-align:right">55%</td>
+</tr>
+<tr>
+<td>煙玉</td>
+<td style="text-align:right">25</td>
+<td style="text-align:right">32</td>
+<td style="text-align:right">60%</td>
+</tr>
+<tr>
+<td>転身</td>
+<td style="text-align:right">28</td>
+<td style="text-align:right">32</td>
+<td style="text-align:right">60%</td>
+</tr>
+<tr>
+<td>爆発の紋章</td>
+<td style="text-align:right">30</td>
+<td style="text-align:right">30</td>
+<td style="text-align:right">70%</td>
+</tr>
+<tr>
+<td>土遁</td>
+<td style="text-align:right">32</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">40%</td>
+</tr>
+<tr>
+<td>霧隠れ</td>
+<td style="text-align:right">34</td>
+<td style="text-align:right">35</td>
+<td style="text-align:right">50%</td>
+</tr>
+<tr>
+<td>煉獄火炎</td>
+<td style="text-align:right">38</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">60%</td>
+</tr>
+</tbody>
+</table></div>
 <h2>戦闘・装備上の特徴</h2>
-<p>忍者は隠密性と移動を重視する職業で、<code>速駆け</code> によって移動性能を高められる一方、自然HP回復不可という制約を受ける。</p>
-<p>忍者は通常の打撃回数計算で筋力側の指数が1下がる。また、忍者に適さない武器を使う場合、打撃回数は半減する。</p>
-<p>武器を持たないか、装備中の武器で攻撃できる状態なら、ACに <code>Lv / 2 + 5</code> の職業補正を得る。装備品のダメージ修正は、正の値なら半分に丸められる。</p>
-<p>重い防具を装備している場合は「装備が重くてバランスを取れない。」という状態通知が出る。技能面の一般的な解析は <a href="Analysis-Skills.html">技能</a> を参照。</p>
+<p>忍者の恒常速度は、軽装かつ両手が攻撃可能なら+3され、クラッコン・妖精・いかさま以外で他の加速源がなければさらに Lv / 10 される。重い防具では逆に -Lv / 10 され、「装備が重くてバランスを取れない。」という状態通知が出る。</p>
+<p>不意打ちは近接武器を装備し、その手の武器がふさわしくない装備でない時だけ判定される。眠っていて見えている敵には急所攻撃が発生し、ダメージは 3 + Lv / 20 倍。逃げていて見えている敵には追い打ちが発生し、ダメージは1.5倍。忍者はさらに s_stealth 中、隠密とレベルからの判定に成功し、相手が全耐性でなければ奇襲になり、ダメージは (5 + Lv * 2 / 25) / 2 倍になる。急所攻撃または奇襲中は、全耐性でない相手への命中判定が成功扱いになる。</p>
+<p>投擲では、盗賊と忍者は投げたターンの消費が 100 - Lv になる。忍者がくさび、または「投げやすい」剣を投げる場合は手裏剣扱いになり、命中値が2倍になる。「八方手裏剣」は所持中のくさびを最大8回投げる。</p>
+<p>忍者は軽い武器を好む。装備武器の熟練上限が初心者より高く、かつ反対側の手に盾を装備していない場合だけ、忍者にふさわしい武器として扱われる。それ以外の近接武器は「今の装備はどうも自分にふさわしくない気がする。」となり、打撃回数が半減し、Lv25の麻痺知らずも得られない。盾を持つと反対側の手の武器もふさわしくない扱いになる。</p>
+<p>武器を持たないか、装備中の武器で攻撃できる状態なら、ACに Lv / 2 + 5 の職業補正を得る。装備品のダメージ修正は、正の値なら半分に丸められる。通常の打撃回数計算では筋力側の指数が1下がる。技能面の一般的な解析は <a href="Analysis-Skills.html">技能</a> を参照。</p>
 <h2>基礎スペック</h2>
 <div class="tablewrap"><table class="sortable">
 <thead>
@@ -856,6 +985,15 @@
 <li>詠唱能力値 / Spellcasting stat: 器用さ/Dexterity</li>
 <li>魔法領域は選択しません（固有の技術体系または魔法なし。詳細は上記「概要」を参照）。</li>
 </ul>
+<h2>職業固有の耐性・能力</h2>
+<p>レベルに応じて職業から<strong>恒常的に</strong>付与される耐性・能力（<code>src/player-base/player-class.cpp</code> の <code>tr_flags</code>）。装備や一時効果とは別に、条件を満たす限り常に有効。</p>
+<ul>
+<li>常時: 遅消化、恐怖耐性、暗視（夜目・光源なしでも周囲が見える）</li>
+<li>軽装時: 忍者の加速（レベルに応じて増加）。重い鎧を着ると別途加速が付くが軽快さは失われる</li>
+<li>Lv20〜: 毒耐性</li>
+<li>Lv25〜: 麻痺知らず（両手ともふさわしい武器の時）、器用さ維持</li>
+<li>Lv30〜: 透明視認</li>
+</ul>
 <h2>称号 / Titles</h2>
 <p>レベルに応じた称号（<code>(レベル−1)/5</code> で参照、約5レベルごとに変化）。</p>
 <div class="tablewrap"><table class="sortable">
@@ -917,7 +1055,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:31 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

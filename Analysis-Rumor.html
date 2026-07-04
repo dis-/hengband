@@ -212,7 +212,7 @@
 <h2>取得方法</h2>
 <p>噂を得る手段は3つあり、それぞれ階級の決まり方が異なる。</p>
 <h3>1. 宿屋「噂を聞く」</h3>
-<p>宿屋の「噂を聞く」（Listen for rumors）を選ぶ。町データ上のコストは <strong>10金</strong>（<code>B:0:A:2:噂を聞く:10:10:u:19:0</code>）。<code>inn_comm</code> は支払額でレアリティを決める。</p>
+<p>宿屋の「噂を聞く」（Listen for rumors）を選ぶ。<code>inn_comm</code> は支払額でレアリティを決める。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -235,7 +235,7 @@
 </tr>
 </tbody>
 </table></div>
-<p>現状メニューのコストは10金固定のため、宿屋からは常に<strong>中階級</strong>の噂が得られる。100金以上を要求する宿屋メニューは存在せず、9金以下のメニューも無い（コメントにも「V3.2.0.4時点で1〜9$を取られる宿屋の噂はなく、デッドコード」と明記されている）。</p>
+<p><strong>宿屋メニューのコストは町によって異なる。</strong> 大半の町（アウトポスト・テルモラ・モリバント・アングウィル）は <strong>10金</strong>（<code>B:...:噂を聞く:10:10:u:19:0</code> → <strong>中階級</strong>）だが、<strong>ズル（Zul）の宿屋は 100金</strong>（<code>05_Zul.txt</code> の <code>B:4:A:2:噂を聞く:100:100:u:19:0</code> → <strong>高階級</strong>）である。したがって高階級の噂は<strong>ズルの宿屋で確実に聞ける</strong>。1〜9金（低階級）を取るメニューはどの町にも無く、その分岐はデッドコード（コメントにも「V3.2.0.4時点で1〜9$を取られる宿屋の噂はなく、デッドコード」と明記）。</p>
 <h3>2. 店主のささやき</h3>
 <p>店で売買が成立したとき、<strong>1/8 の確率</strong>で店主が噂をささやく（<code>store_owner_says_comment</code>）。階級は取引額で決まる。</p>
 <div class="tablewrap"><table class="sortable">
@@ -312,13 +312,13 @@
 <h2>まとめ</h2>
 <ul>
 <li>噂は階級（低・中・高、重み 3:2:1）と8種類（雑談／街／ダンジョン浅・深／モンスター通常・ユニーク／アーティファクト浅・深）に分類される。深さは <code>DEPTH_THRESHOLD = 30</code> が境界。</li>
-<li>取得方法は**宿屋（10金で必ず中階級）／店主のささやき（売買時1/8、取引額で階級決定）／噂の巻物（重み付きランダム）**の3つ。</li>
+<li>取得方法は**宿屋（多くの町は10金＝中階級、ズルは100金＝高階級）／店主のささやき（売買時1/8、取引額で階級決定）／噂の巻物（重み付きランダム）**の3つ。</li>
 <li>効果は雑談を除き、街の行き方・ダンジョンへの帰還・モンスターやアーティファクトの知識を解禁する。</li>
 </ul>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/rumor/</code>, <code>src/store/rumor.cpp</code>, <code>src/store/say-comments.cpp</code>, <code>src/cmd-building/cmd-inn.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 15:28 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
