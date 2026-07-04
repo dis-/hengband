@@ -172,6 +172,15 @@ if (go_blind) BadStatusSetter(player_ptr).mod_blindness(randint1(5) + 2);
 </tr>
 </tbody>
 </table></div>
+<h2>深淵（ABYSS）ダメージへの軽減</h2>
+<p>暗黒耐性は、深淵属性（<code>AttributeType::ABYSS</code>）ダメージの<strong>唯一の軽減手段</strong>でもある。<code>calc_abyss_damage_rate()</code> は <code>has_resist_dark()</code> が真のとき、暗黒と同じ式で倍率を下げる。</p>
+<pre><code>per = 100;
+if (has_resist_dark(player_ptr)) {
+    per *= 400;
+    per /= randrate(4, 7, mode);
+}
+</code></pre>
+<p>すなわち深淵ダメージも <code>400 / (1d4 + 7)</code> ≒ 36〜50%（平均約42%）に軽減される。暗黒耐性が無い場合、深淵には他に軽減手段が無い（浮遊なし＋反テレポートではむしろ1.25倍に増える）。詳細は <a href="Analysis-AttributeType-ABYSS.html">深淵 / ABYSS</a> を参照。</p>
 <h2>一時耐性・補足</h2>
 <p>has_resist_dark() は通常耐性に加えて TR_IM_DARK、ult_res、tim_res_dark、tim_imm_dark を耐性要因に含める。</p>
 <pre><code>result = common_cause_flags(player_ptr, TR_RES_DARK) | common_cause_flags(player_ptr, TR_IM_DARK);
@@ -183,7 +192,7 @@ if (player_ptr-&gt;ult_res || player_ptr-&gt;tim_res_dark || player_ptr-&gt;tim_
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-damage.cpp</code>, <code>src/player/player-status-resist.cpp</code>, <code>src/player/player-status-flags.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 13:29 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 13:37 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

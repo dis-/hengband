@@ -221,12 +221,18 @@ if levitation:
     damage = damage / 5
 damage = damage / 100 + evaluate_percent(damage % 100)
 </code></pre>
+<h3>虚無・深淵ダメージへの影響</h3>
+<p>浮遊は属性ダメージの倍率計算にも関与する。</p>
+<ul>
+<li><strong>虚無（<code>VOID_MAGIC</code>）</strong>: <code>calc_void_damage_rate()</code> で、壁抜けも反テレポートも無い場合に限り <code>per = per * 2 / 3</code>（約67%）に軽減される。詳細は <a href="Analysis-AttributeType-VOID_MAGIC.html">虚無 / VOID_MAGIC</a>。</li>
+<li><strong>深淵（<code>ABYSS</code>）</strong>: <code>calc_abyss_damage_rate()</code> の 1.25倍増加は「浮遊なし かつ 反テレポート」が条件のため、浮遊しているとこの増加を受けない（ただし軽減もしない）。詳細は <a href="Analysis-AttributeType-ABYSS.html">深淵 / ABYSS</a>。</li>
+</ul>
 <h2>補足</h2>
 <p><code>CAN_FLY</code> 地形は、浮遊があれば通行可能になる。逆に、移動処理では <code>MOVE</code> を持たず <code>CAN_FLY</code> を持つ地形に対し、浮遊していない場合は「空を飛ばないと行けない」として移動を止める。</p>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-damage.cpp</code>, <code>src/player/player-status-resist.cpp</code>, <code>src/player/player-status-flags.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 13:29 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 13:37 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
