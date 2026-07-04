@@ -14,8 +14,8 @@ a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
 .results a:hover,.results a.active{background:var(--head)}
 .results .en{color:var(--muted);font-size:.85em}.results .tag{margin-left:auto;color:var(--muted);font-size:.75em}
 .topnav{display:flex;gap:14px;flex-wrap:wrap;font-size:14px}
-.layout{display:flex;gap:28px;max-width:1280px;margin:0 auto;padding:22px 20px}
-.sidebar{flex:0 0 210px;font-size:14px;position:sticky;top:70px;align-self:flex-start;max-height:calc(100vh - 90px);overflow:auto}
+.layout{display:flex;gap:20px;max-width:1760px;margin:0 auto;padding:22px 20px}
+.sidebar{flex:0 0 188px;font-size:13.5px;position:sticky;top:70px;align-self:flex-start;max-height:calc(100vh - 90px);overflow:auto}
 .sidebar h3{font-size:13px;text-transform:uppercase;color:var(--muted);letter-spacing:.04em}
 .sidebar ul{list-style:none;padding-left:0;margin:.3em 0}.sidebar ul ul{padding-left:14px}
 .sidebar li{margin:.15em 0}
@@ -23,8 +23,8 @@ a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
 .content h1{margin-top:0;border-bottom:1px solid var(--line);padding-bottom:.3em}
 .content h2{border-bottom:1px solid var(--line);padding-bottom:.25em;margin-top:1.4em}
 .tablewrap{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:8px}
-table{border-collapse:collapse;font-size:14px;width:100%}
-th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+table{border-collapse:collapse;font-size:13px;width:100%}
+th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:4px 8px;text-align:left;vertical-align:top}
 tr td:last-child,tr th:last-child{border-right:0}tbody tr:last-child td{border-bottom:0}
 thead th{background:var(--head);cursor:pointer;user-select:none;white-space:nowrap}
 thead th:hover{color:var(--link)}
@@ -35,4 +35,9 @@ blockquote{border-left:4px solid var(--line);margin:10px 0;padding:2px 14px;colo
 details{margin:10px 0;border:1px solid var(--line);border-radius:8px;padding:6px 12px}
 summary{cursor:pointer;font-weight:600}
 code{background:var(--head);padding:1px 5px;border-radius:5px;font-size:.9em}
+/* On narrower windows the left sidebar is auto-hidden so wide data tables get the
+   full content width (navigation stays in the top header bar), and tables tighten
+   (smaller font + padding) to minimise horizontal scrolling. */
+@media(max-width:1400px){.sidebar{display:none}}
+@media(max-width:1250px){table{font-size:12px}.content th,.content td{padding:3px 6px}}
 @media(max-width:820px){.layout{flex-direction:column;gap:14px}.sidebar{position:static;flex-basis:auto;max-height:none}}
