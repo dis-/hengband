@@ -200,6 +200,64 @@
 </tr>
 </tbody>
 </table></div>
+<h2>ゲーム画面の「魔法道具」表示との対応</h2>
+<p>キャラクター情報画面（<code>C</code> コマンド）右下の技能欄に表示される <strong>「魔法道具」の数値が、そのまま <code>skill_dev</code></strong> である。例えば <code>魔法道具 : 63-超越</code> なら <code>skill_dev = 63</code>。したがって画面の値を読めば、判定式へそのまま代入できる。</p>
+<ul>
+<li>数値部分（<code>63-</code> の <code>63</code>）は、オプション <strong>「技能値等に実値を並記する」（<code>show_actual_value</code>、既定ON）</strong> が有効なときだけ <code>%3d-</code> 形式で並記される。OFF のときは段位ラベルのみ表示。</li>
+<li>段位ラベル（悪い〜伝説的）は <code>likert(skill_dev, 6)</code>（<code>src/view/status-first-page.cpp</code>）が <code>skill_dev ÷ 6</code>（整数除算）で決める。魔法道具欄の除数は <strong>6</strong>。</li>
+<li>表示値は装備の魔法道具支配・知力・狂戦士化状態（is_shero）を反映済み。ただし <strong>混乱の 1/2 補正は使用時の判定にのみ掛かり、この画面表示には反映されない</strong>。値が負なら「最低」と表示される。</li>
+</ul>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th><code>skill_dev</code> の範囲</th>
+<th>段位ラベル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0未満</td>
+<td>最低</td>
+</tr>
+<tr>
+<td>0〜11</td>
+<td>悪い</td>
+</tr>
+<tr>
+<td>12〜17</td>
+<td>劣る</td>
+</tr>
+<tr>
+<td>18〜29</td>
+<td>普通</td>
+</tr>
+<tr>
+<td>30〜35</td>
+<td>良い</td>
+</tr>
+<tr>
+<td>36〜41</td>
+<td>大変良い</td>
+</tr>
+<tr>
+<td>42〜53</td>
+<td>卓越</td>
+</tr>
+<tr>
+<td>54〜83</td>
+<td>超越</td>
+</tr>
+<tr>
+<td>84〜107</td>
+<td>英雄的</td>
+</tr>
+<tr>
+<td>108以上</td>
+<td>伝説的[N]（N = ((skill_dev ÷ 6 − 17) × 5) ÷ 2）</td>
+</tr>
+</tbody>
+</table></div>
+<p>例の <code>skill_dev = 63</code> は <code>63 ÷ 6 = 10</code> で「超越」。この値でレベル30の魔法棒（<code>item_level = 30</code>）を使うなら、<code>chance = 63 − 30 = 33</code>、成功率 ≈ <code>1 − 2/33 ≈ 93.9%</code> となる。</p>
 <h2>魔法棒・杖（Wand / Staff）</h2>
 <p>魔法棒（<code>zapwand-execution.cpp</code>）と杖（<code>use-execution.cpp</code>）は同一の判定式を使う。</p>
 <pre><code>item_level = 基本アイテムレベル
@@ -315,8 +373,8 @@ if (chance &lt; 3)  chance = 3
 <p>判定に失敗しても行動turn（100エネルギー）は消費され、成功時は <code>(item_level + レベル/2) / レベル</code> の経験値が入る。</p>
 <hr>
 <blockquote>
-<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/object-use/zapwand-execution.cpp</code>, <code>src/object-use/use-execution.cpp</code>, <code>src/object-use/zaprod-execution.cpp</code>, <code>src/player/player-status.cpp</code>（calc_device_ability）, <code>src/system/gamevalue.h</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 23:14 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/object-use/zapwand-execution.cpp</code>, <code>src/object-use/use-execution.cpp</code>, <code>src/object-use/zaprod-execution.cpp</code>, <code>src/player/player-status.cpp</code>（calc_device_ability）, <code>src/view/status-first-page.cpp</code>（likert）, <code>src/system/gamevalue.h</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-04 23:50 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
