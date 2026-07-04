@@ -45,4 +45,28 @@ for(var k=0;k<tables.length;k++)(function(tb){
     });
   })(ths[c],c);
 })(tables[k]);
+function setupSidebarTree(){
+  var current=(location.pathname.split('/').pop()||'index.html')+location.hash;
+  var pathOnly=current.split('#')[0];
+  var groups=document.querySelectorAll('.sidebar li');
+  for(var i=0;i<groups.length;i++){
+    var li=groups[i], sub=null, topLink=null;
+    for(var c=0;c<li.children.length;c++){
+      if(li.children[c].tagName==='A')topLink=li.children[c];
+      if(li.children[c].tagName==='UL'){sub=li.children[c];break;}
+    }
+    if(!sub)continue;
+    var href=topLink?topLink.getAttribute('href')||'':'';
+    if(!(href.endsWith('Ironman.html')||href.endsWith('Analysis.html')))continue;
+    var details=document.createElement('details'),summary=document.createElement('summary');
+    details.className='side-group';
+    while(li.firstChild&&li.firstChild!==sub)summary.appendChild(li.firstChild);
+    details.appendChild(summary);
+    details.appendChild(sub);
+    li.appendChild(details);
+    var active=sub.querySelector('a[href="'+pathOnly+'"],a[href="'+current+'"]')||summary.querySelector('a[href="'+pathOnly+'"],a[href="'+current+'"]');
+    if(active)details.open=true;
+  }
+}
+setupSidebarTree();
 })();
