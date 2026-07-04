@@ -149,11 +149,69 @@
 </tr>
 </tbody>
 </table></div>
-<p>修行僧の型は <code>stances-table.cpp</code> に定義される。使用できる型は玄武、白虎、青竜、朱雀で、<code>構える</code> から切り替える。</p>
+<p>修行僧の型は <code>stances-table.cpp</code> の <code>monk_stances</code> に定義される。使用できる型は玄武、白虎、青竜、朱雀で、<code>構える</code> から切り替える。混乱中は選択できず、素手でなくなると型は解除される。</p>
+<h3>型（構え）の詳細</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>型</th>
+<th style="text-align:right">解禁Lv</th>
+<th>性格</th>
+<th>AC</th>
+<th>打撃回数</th>
+<th>命中/ダメージ</th>
+<th>速度</th>
+<th>その他</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>玄武</td>
+<td style="text-align:right">25</td>
+<td>防御型</td>
+<td><code>Lv * Lv / 50</code> 加算</td>
+<td>素手打撃回数-2、修行僧かつLv43以上はさらに-1。0未満にはならない</td>
+<td>技選択回数は1回。表示用平均ダメージは玄武/朱雀用テーブル</td>
+<td>なし</td>
+<td>CON+3、DEX-2、INT-1、WIS-1。反射を得る</td>
+</tr>
+<tr>
+<td>白虎</td>
+<td style="text-align:right">30</td>
+<td>攻撃型</td>
+<td>-40</td>
+<td>直接補正なし</td>
+<td>技選択回数が <code>Lv / 3</code>（Lv3未満は1）になり、強い技を選びやすい。表示用平均ダメージは白虎用テーブル</td>
+<td>なし</td>
+<td>STR+2、DEX+2、CON-3</td>
+</tr>
+<tr>
+<td>青竜</td>
+<td style="text-align:right">35</td>
+<td>機動・耐性型</td>
+<td>-50</td>
+<td>直接補正なし</td>
+<td>直接補正なし</td>
+<td>なし</td>
+<td>酸・電撃・火炎・冷気・毒耐性、火炎・電撃・冷気オーラ、浮遊を得る</td>
+</tr>
+<tr>
+<td>朱雀</td>
+<td style="text-align:right">40</td>
+<td>回避・速度型</td>
+<td>直接補正なし</td>
+<td>素手打撃回数を半減</td>
+<td>技選択回数は1回。素手の攻撃重量が8から4になり、格闘ダメージ <code>-Lv/6</code>、格闘命中 <code>-Lv/3</code>。表示用平均ダメージは玄武/朱雀用テーブル</td>
+<td>+10</td>
+<td>STR-2、DEX+2、CON-2、INT+1、WIS+1。浮遊を得る</td>
+</tr>
+</tbody>
+</table></div>
+<p>素手打撃そのものの計算式は <a href="Analysis-MartialArts.html">近接素手攻撃</a> を参照。</p>
 <h2>戦闘・装備上の特徴</h2>
 <p>素手打撃は <code>empty_hands</code> を条件にしたマーシャルアーツモードで処理される。マーシャルアーツは修行僧、練気術師、狂戦士が対象だが、修行僧は型と組み合わせて扱う点が固有の軸になる。</p>
 <p>重い防具を装備している場合、素手打撃の打撃回数は半減する。重装備になると「装備が重くてバランスを取れない。」という状態通知も出る。</p>
-<p>玄武はACを増やすかわりに素手打撃回数を減らす。白虎と青竜はACを下げる。朱雀は素手打撃回数を半減する。</p>
+<p>玄武はAC・反射・CONを得るかわりに手数を落とす。白虎はACとCONを削って強い素手技を引きやすくする。青竜はACを下げるかわりに耐性・オーラ・浮遊を得る。朱雀は手数と命中/ダメージを落として速度と浮遊を得る。</p>
 <p>関連する戦闘技能の一般的な見方は <a href="Analysis-Skills.html">技能</a> を参照。</p>
 <h2>基礎スペック</h2>
 <div class="tablewrap"><table class="sortable">
@@ -927,7 +985,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 18:49 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 19:04 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
