@@ -122,7 +122,7 @@
 <pre><code class="language-cpp">per = 100;
 if (has_resist_pois(player_ptr)) per = (per + 2) / 3;
 if (is_oppose_pois(player_ptr)) per = (per + 2) / 3;
-dam = dam * per / 100;
+dam = dam \* per / 100;
 </code></pre>
 <div class="tablewrap"><table class="sortable">
 <thead>
@@ -167,8 +167,8 @@ dam = dam * per / 100;
 </tbody>
 </table></div>
 <p>病気打撃 calc_blow_disease() は毒属性ダメージ倍率とは別に、毒耐性と一時毒耐性をそれぞれ乱数式で軽減する。</p>
-<pre><code class="language-cpp">if (has_resist_pois(player_ptr)) damage = damage * (randint1(4) + 4) / 9;
-if (is_oppose_pois(player_ptr)) damage = damage * (randint1(4) + 4) / 9;
+<pre><code class="language-cpp">if (has_resist_pois(player_ptr)) damage = damage \* (randint1(4) + 4) / 9;
+if (is_oppose_pois(player_ptr)) damage = damage \* (randint1(4) + 4) / 9;
 
 if (!(has_resist_pois(player_ptr) || is_oppose_pois(player_ptr)))
     BadStatusSetter(player_ptr).mod_poison(randint1(monap_ptr-&gt;rlev) + 5);
@@ -177,8 +177,8 @@ disease_possibility = randint1(100) &gt; calc_nuke_damage_rate(player_ptr);
 </code></pre>
 <p>calc_nuke_damage_rate() は通常毒耐性・一時毒耐性ごとに次の式を適用する。</p>
 <pre><code class="language-cpp">per = 100;
-if (has_resist_pois(player_ptr)) per = (2 * per + 2) / 5;
-if (is_oppose_pois(player_ptr)) per = (2 * per + 2) / 5;
+if (has_resist_pois(player_ptr)) per = (2 \* per + 2) / 5;
+if (is_oppose_pois(player_ptr)) per = (2 \* per + 2) / 5;
 </code></pre>
 <h2>一時耐性・補足</h2>
 <p>has_resist_pois() は TR_RES_POIS の共通原因に加え、player_ptr-&gt;ult_res を耐性原因として返す。酸・電撃・冷気と異なり、確認範囲では免疫を耐性原因へ足す処理はない。</p>
@@ -208,7 +208,7 @@ if (is_oppose_pois(player_ptr)) per = (2 * per + 2) / 5;
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-damage.cpp</code>, <code>src/player/player-status-resist.cpp</code>, <code>src/player/player-status-flags.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 15:28 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 20:48 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

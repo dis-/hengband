@@ -122,14 +122,14 @@
 <pre><code>per = 100;
 if (has_immune_lite(player_ptr)) return 0;
 if (race.tr_flags().has(TR_VUL_LITE)) {
-    if (race.life() == PlayerRaceLifeType::UNDEAD) per *= 2;
-    else per = per * 4 / 3;
+    if (race.life() == PlayerRaceLifeType::UNDEAD) per \*= 2;
+    else per = per \* 4 / 3;
 }
 if (has_resist_lite(player_ptr)) {
-    per *= 400;
+    per \*= 400;
     per /= randrate(4, 7, mode);
 }
-if (player_ptr-&gt;wraith_form) per *= 2;
+if (player_ptr-&gt;wraith_form) per \*= 2;
 </code></pre>
 <p>CALC_RAND の randrate(4, 7, mode) は randint1(4) * 100 + 7 * 100。耐性ありの倍率は per * 400 / (800..1100) になる。</p>
 <div class="tablewrap"><table class="sortable">
@@ -196,7 +196,7 @@ if (player_ptr-&gt;ult_res || player_ptr-&gt;tim_res_lite || player_ptr-&gt;mimi
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-damage.cpp</code>, <code>src/player/player-status-resist.cpp</code>, <code>src/player/player-status-flags.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 15:28 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 20:48 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

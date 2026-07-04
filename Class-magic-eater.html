@@ -126,7 +126,7 @@
 <th style="text-align:right">最低Lv</th>
 <th style="text-align:right">消費</th>
 <th>能力値</th>
-<th style="text-align:right">失敗率</th>
+<th style="text-align:right">難度</th>
 <th>効果</th>
 </tr>
 </thead>
@@ -163,28 +163,231 @@
 <tr>
 <td>杖</td>
 <td style="text-align:right">同一種類ごとに最大99、種類配列は <code>EATER_ITEM_GROUP_SIZE=256</code></td>
-<td><code>EATER_CHARGE=0x10000</code> を1回分として管理する。発動で1回分減り、自然回復で <code>count * EATER_CHARGE</code> まで戻る。</td>
+<td><code>EATER_CHARGE=0x10000</code> を1回分として管理する。発動で1回分減り、自然回復で <code>count×EATER_CHARGE</code> まで戻る。</td>
 </tr>
 <tr>
 <td>魔法棒</td>
 <td style="text-align:right">同一種類ごとに最大99、種類配列は <code>EATER_ITEM_GROUP_SIZE=256</code></td>
-<td>杖と同じく <code>EATER_CHARGE=0x10000</code> を1回分として管理する。発動で1回分減り、自然回復で <code>count * EATER_CHARGE</code> まで戻る。</td>
+<td>杖と同じく <code>EATER_CHARGE=0x10000</code> を1回分として管理する。発動で1回分減り、自然回復で <code>count×EATER_CHARGE</code> まで戻る。</td>
 </tr>
 <tr>
 <td>ロッド</td>
 <td style="text-align:right">同一種類ごとに最大99本、種類配列は <code>EATER_ITEM_GROUP_SIZE=256</code></td>
-<td>回数ではなく残り充填時間を <code>EATER_ROD_CHARGE=0x10</code> 単位で管理する。発動すると <code>pval * EATER_ROD_CHARGE</code> だけ充填時間が増え、自然回復で0へ減る。</td>
+<td>回数ではなく残り充填時間を <code>EATER_ROD_CHARGE=0x10</code> 単位で管理する。発動すると <code>pval×EATER_ROD_CHARGE</code> だけ充填時間が増え、自然回復で0へ減る。</td>
 </tr>
 </tbody>
 </table></div>
 <ul>
 <li>杖は取り込んだ杖の <code>pval</code> を基準に使用回数上限が増える。同じ種類を追加で取り込む場合、増加量は乱数を含めておよそ1/3から2/3になり、最低1は増える。</li>
 <li>魔法棒はスタック内の残り <code>pval</code> を本数で分けながら取り込み、同じ種類を追加で取り込む場合は杖と同じ補正を受ける。</li>
-<li>ロッドは取り込んだ本数ぶん <code>count</code> が増える。使用可能判定は <code>charge &lt;= pval * (count - 1) * EATER_ROD_CHARGE</code> で、一覧では <code>charge</code> から充填中の本数を表示する。</li>
-<li>魔道具術師のチャージ自然回復は通常のMP回復処理とは別に行われる。休息中は回復量が2倍になり、再生があればさらに2倍になる。杖・魔法棒は <code>regen_amount * (30 + INT補正) * (count + 13) / (30 * 8)</code> ずつ増え、ロッドは <code>regen_amount * (30 + INT補正) * (count + 10) * EATER_ROD_CHARGE / (30 * 16 * PY_REGEN_NORMAL)</code> ずつ残り充填時間が減る。</li>
-<li>発動失敗率は道具のレベルを基準にする。ロッドは <code>baseitem.level * 5 / 6 - 5</code>、杖・魔法棒は <code>baseitem.level</code> を使い、初期値は <code>level * 4 / 5 + 20</code>。INTによる魔法能力補正で下がり、プレイヤーレベルが <code>level / 2</code> を超える分だけさらに <code>3 * (Lv - level / 2)</code> 下がる。最低失敗率、朦朧ペナルティ、通常の魔法失敗率補正も適用され、上限は95%。</li>
+<li>ロッドは取り込んだ本数ぶん <code>count</code> が増える。使用可能判定は <code>charge &lt;= pval×(count - 1)×EATER_ROD_CHARGE</code> で、一覧では <code>charge</code> から充填中の本数を表示する。</li>
+<li>魔道具術師のチャージ自然回復は通常のMP回復処理とは別に行われる。休息中は回復量が2倍になり、再生があればさらに2倍になる。杖・魔法棒は <code>regen_amount×(30 + INT補正)×(count + 13)/(30×8)</code> ずつ増え、ロッドは <code>regen_amount×(30 + INT補正)×(count + 10)×EATER_ROD_CHARGE/(30×16×PY_REGEN_NORMAL)</code> ずつ残り充填時間が減る。</li>
+<li>発動失敗率は道具のレベルを基準にする。ロッドは <code>baseitem.level×5/6-5</code>、杖・魔法棒は <code>baseitem.level</code> を使い、初期値は <code>level×4/5+20</code>。INTによる魔法能力補正で下がり、プレイヤーレベルが <code>level / 2</code> を超える分だけさらに <code>3×(Lv - level/2)</code> 下がる。最低失敗率、朦朧ペナルティ、通常の魔法失敗率補正も適用され、上限は95%。</li>
 <li><code>強力発動</code> はLv10から使え、消費MPは <code>10+(Lv-10)/2</code>。発動処理へ強力発動フラグを渡し、取り込んだ道具を威力を高めて使用する。</li>
 </ul>
+<h3>強力発動の効果</h3>
+<p><code>強力発動</code> は杖・魔法棒・ロッドの発動処理へ <code>powerful=true</code> を渡す。ソース上の共通変化は次の通り。</p>
+<ul>
+<li>魔法棒・ロッド・杖の実効レベル <code>lev</code> は通常時 <code>player_ptr-&gt;lev</code>、強力発動時 <code>player_ptr-&gt;lev×2</code>。この <code>lev</code> を使う睡眠・減速・恐怖・変化・ボルト・ボール・ロケット等は威力や抵抗判定が伸びる。</li>
+<li>魔法棒・ロッドのボール半径 <code>rad</code> は通常時2、強力発動時3。</li>
+<li>ロッド・杖の検知半径 <code>detect_rad</code> は通常時 <code>DETECT_RAD_DEFAULT</code>、強力発動時 <code>DETECT_RAD_DEFAULT×3/2</code>。地図作成は通常時 <code>DETECT_RAD_MAP</code>、強力発動時 <code>DETECT_RAD_MAP×3/2</code>。</li>
+</ul>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>デバイス種別</th>
+<th>通常時</th>
+<th>強力発動時</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>魔法棒: 回復モンスター</td>
+<td>回復量 <code>10d10</code></td>
+<td>回復量 <code>20d10</code></td>
+</tr>
+<tr>
+<td>魔法棒: テレポート・アウェイ</td>
+<td>距離 <code>MAX_PLAYER_SIGHT×5</code></td>
+<td>距離 <code>MAX_PLAYER_SIGHT×8</code></td>
+</tr>
+<tr>
+<td>魔法棒: トラップ解除</td>
+<td>指定方向の罠解除</td>
+<td>指定方向の罠解除に加え、接触範囲の罠解除</td>
+</tr>
+<tr>
+<td>魔法棒: トラップ/ドア破壊</td>
+<td>指定方向のドア破壊</td>
+<td>指定方向のドア破壊に加え、接触範囲のドア破壊</td>
+</tr>
+<tr>
+<td>魔法棒: 岩石溶解</td>
+<td>ダメージ <code>20+1d30</code></td>
+<td>ダメージ <code>40+1d60</code></td>
+</tr>
+<tr>
+<td>魔法棒: 光</td>
+<td>光線ダメージ <code>6d8</code></td>
+<td>光線ダメージ <code>12d8</code></td>
+</tr>
+<tr>
+<td>魔法棒: ドラゴンの火炎</td>
+<td>ブレス威力200、半径3</td>
+<td>ブレス威力300、半径3</td>
+</tr>
+<tr>
+<td>魔法棒: ドラゴンの冷気</td>
+<td>ブレス威力180、半径3</td>
+<td>ブレス威力270、半径3</td>
+</tr>
+<tr>
+<td>魔法棒: ドラゴン・ブレス</td>
+<td>酸240/電撃210/火炎240/冷気210/毒180から選択</td>
+<td>選択後の威力を3/2倍。酸360/電撃315/火炎360/冷気315/毒270</td>
+</tr>
+<tr>
+<td>ロッド: 鑑定</td>
+<td>通常鑑定 <code>ident_spell</code></td>
+<td>完全鑑定 <code>identify_fully</code></td>
+</tr>
+<tr>
+<td>ロッド: イルミネーション</td>
+<td>照明ダメージ <code>2d8</code>、半径2</td>
+<td>照明ダメージ <code>2d8</code>、半径4</td>
+</tr>
+<tr>
+<td>ロッド: 周辺感知</td>
+<td>地図範囲 <code>DETECT_RAD_MAP</code></td>
+<td>地図範囲 <code>DETECT_RAD_MAP×3/2</code></td>
+</tr>
+<tr>
+<td>ロッド: 全感知/罠感知/ドア階段感知</td>
+<td>検知半径 <code>DETECT_RAD_DEFAULT</code></td>
+<td>検知半径 <code>DETECT_RAD_DEFAULT×3/2</code></td>
+</tr>
+<tr>
+<td>ロッド: 体力回復</td>
+<td>回復量500</td>
+<td>回復量750</td>
+</tr>
+<tr>
+<td>ロッド: スピード</td>
+<td>加速期間 <code>1d30+15</code></td>
+<td>加速期間 <code>1d30+30</code></td>
+</tr>
+<tr>
+<td>ロッド: 害虫駆除</td>
+<td>全モンスターへ4ダメージ</td>
+<td>全モンスターへ8ダメージ</td>
+</tr>
+<tr>
+<td>ロッド: テレポート・アウェイ</td>
+<td>距離 <code>MAX_PLAYER_SIGHT×5</code></td>
+<td>距離 <code>MAX_PLAYER_SIGHT×8</code></td>
+</tr>
+<tr>
+<td>ロッド: トラップ解除</td>
+<td>指定方向の罠解除</td>
+<td>指定方向の罠解除に加え、接触範囲の罠解除</td>
+</tr>
+<tr>
+<td>ロッド: 光</td>
+<td>光線ダメージ <code>6d8</code></td>
+<td>光線ダメージ <code>12d8</code></td>
+</tr>
+<tr>
+<td>ロッド: 岩石溶解</td>
+<td>ダメージ <code>20+1d30</code></td>
+<td>ダメージ <code>40+1d60</code></td>
+</tr>
+<tr>
+<td>杖: 暗闇</td>
+<td>暗闇半径3</td>
+<td>暗闇半径6</td>
+</tr>
+<tr>
+<td>杖: 召喚</td>
+<td>召喚回数 <code>1d4</code></td>
+<td>召喚回数 <code>1d8</code></td>
+</tr>
+<tr>
+<td>杖: テレポート</td>
+<td>距離100</td>
+<td>距離150</td>
+</tr>
+<tr>
+<td>杖: 鑑定</td>
+<td>通常鑑定 <code>ident_spell</code></td>
+<td>完全鑑定 <code>identify_fully</code></td>
+</tr>
+<tr>
+<td>杖: 解呪</td>
+<td>通常解呪 <code>remove_curse</code></td>
+<td>全解呪 <code>remove_all_curse</code></td>
+</tr>
+<tr>
+<td>杖: 光</td>
+<td>照明ダメージ <code>2d8</code>、半径2</td>
+<td>照明ダメージ <code>2d8</code>、半径4</td>
+</tr>
+<tr>
+<td>杖: 周辺感知</td>
+<td>地図範囲 <code>DETECT_RAD_MAP</code></td>
+<td>地図範囲 <code>DETECT_RAD_MAP×3/2</code></td>
+</tr>
+<tr>
+<td>杖: 財宝感知/アイテム感知/罠感知/ドア階段感知/邪悪存在感知</td>
+<td>検知半径 <code>DETECT_RAD_DEFAULT</code></td>
+<td>検知半径 <code>DETECT_RAD_DEFAULT×3/2</code></td>
+</tr>
+<tr>
+<td>杖: 軽傷の治癒</td>
+<td>回復量 <code>2d8</code></td>
+<td>回復量 <code>4d8</code></td>
+</tr>
+<tr>
+<td>杖: 体力回復</td>
+<td>回復量300</td>
+<td>回復量500</td>
+</tr>
+<tr>
+<td>杖: スピード</td>
+<td>加速期間 <code>1d30+15</code></td>
+<td>加速期間 <code>1d30+30</code></td>
+</tr>
+<tr>
+<td>杖: 邪悪存在退散</td>
+<td>邪悪退散ダメージ80</td>
+<td>邪悪退散ダメージ120</td>
+</tr>
+<tr>
+<td>杖: 力</td>
+<td>全モンスターへ150ダメージ</td>
+<td>全モンスターへ225ダメージ</td>
+</tr>
+<tr>
+<td>杖: 聖浄</td>
+<td>邪悪退散ダメージ150、保護 <code>1d25+3×Lv</code>、HP50回復等</td>
+<td>邪悪退散ダメージ225、保護 <code>1d25+3×Lv</code>、HP50回復等</td>
+</tr>
+<tr>
+<td>杖: 地震</td>
+<td>半径10</td>
+<td>半径15</td>
+</tr>
+<tr>
+<td>杖: 破壊</td>
+<td>半径 <code>13+0..4</code></td>
+<td>半径 <code>18+0..4</code></td>
+</tr>
+<tr>
+<td>杖: 魔力の嵐</td>
+<td>半径5、ダメージ <code>(1d200+300)×2</code></td>
+<td>半径7、ダメージ <code>(1d200+500)×2</code></td>
+</tr>
+</tbody>
+</table></div>
 <h2>戦闘・装備上の特徴</h2>
 <p>このページでは能力値補正・技能補正・習熟度上限・称号・魔法種別は扱わない。</p>
 <p>魔道具術師の戦闘上の特徴は、手持ちの魔法道具を消費物として使うだけでなく、「魔力の取り込み」によって職業固有のリソースへ変換し、「強力発動」で威力を高めて発動できる点にある。</p>
@@ -959,7 +1162,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 19:24 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 20:48 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

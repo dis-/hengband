@@ -121,7 +121,7 @@
 <p>ダメージ倍率は calc_disenchant_damage_rate() の per で計算され、最終ダメージは dam * per / 100 になる。</p>
 <pre><code>per = 100;
 if (has_resist_disen(player_ptr)) {
-    per *= 600;
+    per \*= 600;
     per /= randrate(4, 7, mode);
 }
 </code></pre>
@@ -141,7 +141,7 @@ if (has_resist_disen(player_ptr)) {
 </tbody>
 </table></div>
 <p>劣化属性の副次効果は effect_player_disenchant() で処理される。</p>
-<pre><code>ep_ptr-&gt;dam = ep_ptr-&gt;dam * calc_disenchant_damage_rate(player_ptr, CALC_RAND) / 100;
+<pre><code>ep_ptr-&gt;dam = ep_ptr-&gt;dam \* calc_disenchant_damage_rate(player_ptr, CALC_RAND) / 100;
 if (!has_resist_disen(player_ptr) &amp;&amp; !check_multishadow(player_ptr)) {
     apply_disenchant(player_ptr, 0);
 }
@@ -172,7 +172,7 @@ if (player_ptr-&gt;ult_res) result |= FLAG_CAUSE_MAGIC_TIME_EFFECT;
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-damage.cpp</code>, <code>src/player/player-status-resist.cpp</code>, <code>src/player/player-status-flags.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 15:28 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 20:48 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

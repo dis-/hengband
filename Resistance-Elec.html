@@ -124,13 +124,13 @@ if (has_immune_elec(player_ptr)) return 0;
 
 for each flag in has_vuln_elec(player_ptr):
     if flag == FLAG_CAUSE_MUTATION:
-        per *= 2;
+        per \*= 2;
     else:
         per += per / 3;
 
 if (has_resist_elec(player_ptr)) per = (per + 2) / 3;
 if (is_oppose_elec(player_ptr)) per = (per + 2) / 3;
-dam = dam * per / 100;
+dam = dam \* per / 100;
 </code></pre>
 <div class="tablewrap"><table class="sortable">
 <thead>
@@ -195,7 +195,7 @@ dam = dam * per / 100;
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-damage.cpp</code>, <code>src/player/player-status-resist.cpp</code>, <code>src/player/player-status-flags.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 15:28 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 20:48 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

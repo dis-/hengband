@@ -1010,7 +1010,7 @@
 <p>レベルに応じて職業から<strong>恒常的に</strong>付与される耐性・能力（<code>src/player-base/player-class.cpp</code> の <code>tr_flags</code>）。装備や一時効果とは別に、条件を満たす限り常に有効。</p>
 <ul>
 <li>常時: 遅消化、恐怖耐性、暗視（夜目・光源なしでも周囲が見える）</li>
-<li>軽装時: 忍者の加速（レベルに応じて増加）。重い鎧を着ると別途加速が付くが軽快さは失われる</li>
+<li>軽装時（両手が空くか攻撃可能）: 加速 <strong>+3</strong>、さらに他の加速源が無ければ <strong>+レベル/10</strong>。逆に重い鎧を着ると加速 <strong>−レベル/10</strong> のペナルティ</li>
 <li>Lv20〜: 毒耐性</li>
 <li>Lv25〜: 麻痺知らず（両手ともふさわしい武器の時）、器用さ維持</li>
 <li>Lv30〜: 透明視認</li>
@@ -1076,7 +1076,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 20:25 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 20:48 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

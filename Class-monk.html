@@ -126,7 +126,7 @@
 <th style="text-align:right">最低Lv</th>
 <th style="text-align:right">消費</th>
 <th>能力値</th>
-<th style="text-align:right">失敗率</th>
+<th style="text-align:right">難度</th>
 <th>効果</th>
 </tr>
 </thead>
@@ -927,7 +927,7 @@
 <h2>職業固有の耐性・能力</h2>
 <p>レベルに応じて職業から<strong>恒常的に</strong>付与される耐性・能力（<code>src/player-base/player-class.cpp</code> の <code>tr_flags</code>）。装備や一時効果とは別に、条件を満たす限り常に有効。</p>
 <ul>
-<li>Lv10〜: 加速（重い鎧を装備していない時）</li>
+<li>Lv10〜: 加速 <strong>+レベル/10</strong>（重い鎧を装備しておらず、他に加速源が無い時）</li>
 <li>Lv25〜: 麻痺知らず（重い鎧を装備していない時）</li>
 </ul>
 <h2>称号 / Titles</h2>
@@ -991,7 +991,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 19:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 20:48 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

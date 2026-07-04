@@ -126,7 +126,7 @@
 <th style="text-align:right">最低Lv</th>
 <th style="text-align:right">消費</th>
 <th>能力値</th>
-<th style="text-align:right">失敗率</th>
+<th style="text-align:right">難度</th>
 <th>効果</th>
 </tr>
 </thead>
@@ -149,7 +149,7 @@
 <th>名称</th>
 <th style="text-align:right">解禁Lv</th>
 <th style="text-align:right">消費MP</th>
-<th style="text-align:right">失敗率</th>
+<th style="text-align:right">難度</th>
 <th>効果</th>
 </tr>
 </thead>
@@ -250,7 +250,7 @@
 <td style="text-align:right">45</td>
 <td style="text-align:right">150</td>
 <td style="text-align:right">85%</td>
-<td><code>time_walk</code> を発動する</td>
+<td>時を止める（<code>time_walk</code>）。停止中は <code>energy_need</code> が <code>1000 + (現在MP + 50) × TURNS_PER_TICK / 10</code> 減少する。TURNS_PER_TICK=10 なので実質 <code>1050 + 現在MP</code>、標準速度で約 <code>(1050 + 現在MP) / 100</code> ≒ <strong>10〜十数プレイヤーターン</strong>行動できる（現在MPが多いほど長い）</td>
 </tr>
 </tbody>
 </table></div>
@@ -1037,7 +1037,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 19:44 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-04 20:48 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
