@@ -190,6 +190,7 @@
 <thead>
 <tr>
 <th>記号</th>
+<th>表示</th>
 <th>モンスター</th>
 <th>体数</th>
 </tr>
@@ -197,66 +198,79 @@
 <tbody>
 <tr>
 <td><code>S</code></td>
+<td>G（Violet）</td>
 <td><a href="Monster-665-shadow-demon.html">シャドウ・デーモン / Shadow demon</a></td>
 <td>9</td>
 </tr>
 <tr>
 <td><code>I</code></td>
+<td>p（Dark Gray）</td>
 <td><a href="Monster-571-ipsissimus.html">イプシシマス / Ipsissimus</a></td>
 <td>3</td>
 </tr>
 <tr>
 <td><code>m</code></td>
+<td>j（Brown）</td>
 <td><a href="Monster-202-undead-mass.html">死体の塊 / Undead mass</a></td>
 <td>2</td>
 </tr>
 <tr>
 <td><code>Q</code></td>
+<td>Q（Violet）</td>
 <td><a href="Monster-480-nexus-quylthulg.html">ネクサス・クイルスルグ / Nexus quylthulg</a></td>
 <td>2</td>
 </tr>
 <tr>
 <td><code>C</code></td>
+<td>G（Light Green）</td>
 <td><a href="Monster-508-spectre.html">スペクター / Spectre</a></td>
 <td>2</td>
 </tr>
 <tr>
 <td><code>&gt;</code></td>
+<td>&gt;（Light Gray）</td>
 <td><a href="Monster-439-stairway-to-hell.html">地獄への階段 / Stairway to hell</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>t</code></td>
+<td>R（White）</td>
 <td><a href="Monster-466-skeletal-tyrannosaurus.html">骸骨ティラノサウルス / Skeletal tyrannosaurus</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>?</code></td>
+<td>?（Red）</td>
 <td><a href="Monster-557-raal-s-tome-of-destruction.html">ラアルの破壊集大成 / Raal's Tome of Destruction</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>V</code></td>
+<td>V（Blue）</td>
 <td><a href="Monster-623-vampire-lord.html">バンパイア・ロード / Vampire lord</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>G</code></td>
+<td>G（Orange）</td>
 <td><a href="Monster-690-dreadmaster.html">ドリードマスター / Dreadmaster</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>T</code></td>
+<td>R（Light Green）</td>
 <td><a href="Monster-705-spectral-tyrannosaurus.html">幽体ティラノサウルス / Spectral tyrannosaurus</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>Z</code></td>
+<td>Z（Gray）</td>
 <td><a href="Monster-739-hound-of-tindalos.html">ティンダロスの猟犬 / Hound of Tindalos</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>j</code></td>
+<td>s（Yellow）</td>
 <td><a href="Monster-748-hand-druj.html">手のドルジ / Hand druj</a></td>
 <td>1</td>
 </tr>
@@ -264,6 +278,8 @@
 </table></div>
 <h2>地形・マップ / Map</h2>
 <p>初期位置と固定配置。記号の意味は下の凡例を参照。</p>
+<img src="images/quest-map-25.svg" alt="quest map">
+<details><summary>ASCIIマップ</summary>
 <pre><code>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 X..D!..D^^^m^^m^^^D...........X
 X..X.t.X^^^^^^^^^^X...........X
@@ -280,49 +296,60 @@ X..X..!..XSSSX.!.XXX^...G..^XXX
 X&lt;.XC...CXSSSX.V.X!D^^^^^^^^D&gt;X
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 </code></pre>
+</details>
 <p><strong>地形の凡例</strong></p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
 <th>記号</th>
+<th>表示</th>
 <th>地形 / 内容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>X</code></td>
+<td>#（Light Brown）</td>
 <td>永久岩の壁</td>
 </tr>
 <tr>
 <td><code>.</code></td>
+<td>.（White）</td>
 <td>床</td>
 </tr>
 <tr>
 <td><code>D</code></td>
+<td>+（Light Brown）</td>
 <td>ドア</td>
 </tr>
 <tr>
 <td><code>!</code></td>
+<td>.（White）</td>
 <td>床（ランダムアイテム）</td>
 </tr>
 <tr>
 <td><code>^</code></td>
+<td>.（White）</td>
 <td>床</td>
 </tr>
 <tr>
 <td><code>=</code></td>
+<td>~（Blue）</td>
 <td>深い水</td>
 </tr>
 <tr>
 <td><code>s</code></td>
+<td>.（White）</td>
 <td>床</td>
 </tr>
 <tr>
 <td><code>#</code></td>
+<td>#（White）</td>
 <td>花崗岩の壁</td>
 </tr>
 <tr>
 <td><code>&lt;</code></td>
+<td>&lt;（White）</td>
 <td>上り階段</td>
 </tr>
 </tbody>
@@ -330,7 +357,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/quests/*.txt</code>, <code>lib/edit/QuestPreferences.txt</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-05 07:14 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-05 07:41 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

@@ -190,6 +190,7 @@
 <thead>
 <tr>
 <th>記号</th>
+<th>表示</th>
 <th>モンスター</th>
 <th>体数</th>
 </tr>
@@ -197,66 +198,79 @@
 <tbody>
 <tr>
 <td><code>g</code></td>
+<td>S（Gray）</td>
 <td><a href="Monster-175-giant-spider.html">大蜘蛛 / Giant spider</a></td>
 <td>6</td>
 </tr>
 <tr>
 <td><code>l</code></td>
+<td>~（Light Blue）</td>
 <td><a href="Monster-885-shallow-puddle.html">浅い水たまり / Shallow puddle</a></td>
 <td>5</td>
 </tr>
 <tr>
 <td><code>a</code></td>
+<td>r（Light Gray）</td>
 <td><a href="Monster-86-giant-white-rat.html">巨大白ネズミ / Giant white rat</a></td>
 <td>3</td>
 </tr>
 <tr>
 <td><code>b</code></td>
+<td>j（Brown）</td>
 <td><a href="Monster-202-undead-mass.html">死体の塊 / Undead mass</a></td>
 <td>3</td>
 </tr>
 <tr>
 <td><code>d</code></td>
+<td>l（Violet）</td>
 <td><a href="Monster-918-devilfish.html">チョウチンアンコウ / Devilfish</a></td>
 <td>2</td>
 </tr>
 <tr>
 <td><code>k</code></td>
+<td>~（Blue）</td>
 <td><a href="Monster-944-deep-puddle.html">深い水たまり / Deep puddle</a></td>
 <td>2</td>
 </tr>
 <tr>
 <td><code>i</code></td>
+<td>c（Light Green）</td>
 <td><a href="Monster-42-metallic-green-centipede.html">銀緑ムカデ / Metallic green centipede</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>c</code></td>
+<td>w（Light Brown）</td>
 <td><a href="Monster-120-giant-slug.html">巨大ナメクジ / Giant slug</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>h</code></td>
+<td>u（Brown）</td>
 <td><a href="Monster-153-gremlin.html">グレムリン / Gremlin</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>j</code></td>
+<td>w（Dark Gray）</td>
 <td><a href="Monster-213-nether-worm-mass.html">冥界イモムシの大群 / Nether worm mass</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>f</code></td>
+<td>i（Blue）</td>
 <td><a href="Monster-252-blue-icky-thing.html">青ベトベト / Blue icky thing</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>e</code></td>
+<td>r（Dark Gray）</td>
 <td><a href="Monster-270-wererat.html">ワーラット / Wererat</a></td>
 <td>1</td>
 </tr>
 <tr>
 <td><code>m</code></td>
+<td>R（White）</td>
 <td><a href="Monster-1044-white-crocodile.html">白ワニ / White crocodile</a></td>
 <td>1</td>
 </tr>
@@ -264,6 +278,8 @@
 </table></div>
 <h2>地形・マップ / Map</h2>
 <p>初期位置と固定配置。記号の意味は下の凡例を参照。</p>
+<img src="images/quest-map-2.svg" alt="quest map">
+<details><summary>ASCIIマップ</summary>
 <pre><code>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 Xa..&lt;.............%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%X
 XVlVVVlVVVVVVVVVV.........%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%X
@@ -289,37 +305,45 @@ X%%%%%%%%%%VVVVVVVVVVV%%%%%%%%%%%%%%%%%%%%%%%%%%%%gggggg......VVVVV.X
 X%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.......X
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 </code></pre>
+</details>
 <p><strong>地形の凡例</strong></p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
 <th>記号</th>
+<th>表示</th>
 <th>地形 / 内容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>X</code></td>
+<td>#（Light Brown）</td>
 <td>永久岩の壁</td>
 </tr>
 <tr>
 <td><code>.</code></td>
+<td>.（White）</td>
 <td>床</td>
 </tr>
 <tr>
 <td><code>&lt;</code></td>
+<td>&lt;（White）</td>
 <td>上り階段</td>
 </tr>
 <tr>
 <td><code>%</code></td>
+<td>#（White）</td>
 <td>花崗岩の壁</td>
 </tr>
 <tr>
 <td><code>V</code></td>
+<td>~（Light Blue）</td>
 <td>浅い水の流れ</td>
 </tr>
 <tr>
 <td><code>W</code></td>
+<td>~（Blue）</td>
 <td>深い水</td>
 </tr>
 </tbody>
@@ -327,7 +351,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/quests/*.txt</code>, <code>lib/edit/QuestPreferences.txt</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-05 07:07 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-05 07:41 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
