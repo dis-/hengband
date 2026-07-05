@@ -130,7 +130,7 @@
 <ul>
 <li><strong>受注箇所</strong>: 街の依頼建物に入ると、その建物が担当する未受注クエストを1件だけ提示する（<code>castle_quest</code>、<code>src/market/building-quest.cpp</code>）。受けると状態が受託（TAKEN）になる。<strong>辺境の町・モリバント・ズルには受注建物が複数あり、建物ごとに別々のクエスト連鎖を持つ</strong>（下表では受注箇所①②…に分けて表示）。</li>
 <li><strong>受注順</strong>: 各受注建物は <strong>前のクエストを達成（報酬受取）すると次のクエストを提示</strong> する連鎖形式。下表の「前提」がその直前のクエスト。深い町は荒野を旅して到達する必要がある。</li>
-<li><strong>報酬</strong>: クエスト達成後、依頼建物の前に報酬アイテムが出現する。下表の「報酬」は達成時ブロックの床タイル（<code>object</code>＝ベースアイテム / <code>artifact</code>＝固定アーティファクト、★印）から取得。一部は職業・領域により変わる（「ほか職業別あり」）。</li>
+<li><strong>報酬</strong>: クエスト達成後、依頼建物の前に報酬アイテムが出現する。下表の「報酬」は達成時ブロックの床タイル（<code>object</code>＝ベースアイテム / <code>artifact</code>＝固定アーティファクト、★印）から取得。<strong>職業により異なる場合は各クエストの個別ページで全職業分を列挙</strong>（例: 古い城は17通り）。</li>
 <li><strong>クエスト入口</strong>: 受託すると、その町にクエスト入口（<code>QUEST_ENTER</code>）が出現し、そこから専用フロアへ入る。ワーグ（No.14）だけは入口が <strong>イークの洞穴</strong> にある。</li>
 <li><strong>ダンジョンの守護者</strong>: オベロン（99階）とサーペント（100階）はゲーム開始時に自動受託され、鉄獄の固定階で戦う（<code>init_dungeon_quests</code>、<code>src/birth/game-play-initializer.cpp</code>）。</li>
 <li><strong>町構成</strong>: 以下は通常荒野（<code>$WILDERNESS NORMAL</code>）の配置。荒野なし（lite）では全クエストが辺境の町に集約され、鉄獄のみ（vanilla）ではクエストが発生しない。</li>
@@ -236,7 +236,7 @@
 <td>5</td>
 <td>エリア内の全モンスターを撃破</td>
 <td>—（最初）</td>
-<td>ロング・ソード（ほか職業別あり）</td>
+<td>ロング・ソード／職業別 6種（下記・個別ページに全列挙）</td>
 </tr>
 <tr>
 <td>14</td>
@@ -333,7 +333,7 @@
 <td>50</td>
 <td>エリア内の全モンスターを撃破</td>
 <td>33: クローン地獄</td>
-<td>★『クリスドゥリアン』 / 'Crisdurian'（ほか職業別あり）</td>
+<td>★『クリスドゥリアン』 / 'Crisdurian'／職業別 20種（下記・個別ページに全列挙）</td>
 </tr>
 </tbody>
 </table></div>
@@ -385,7 +385,7 @@
 <td>40</td>
 <td>全エリアの全モンスターを撃破</td>
 <td>4: 宝物庫</td>
-<td>耐毒（ほか職業別あり）</td>
+<td>耐毒／職業別 1種（下記・個別ページに全列挙）</td>
 </tr>
 <tr>
 <td>16</td>
@@ -686,7 +686,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/quests/*.txt</code>, <code>lib/edit/towns/*.txt</code>, <code>src/market/building-quest.cpp</code>, <code>src/system/dungeon/quest-definition.h</code>, <code>src/floor/fixed-map-generator.cpp</code>, <code>src/dungeon/quest.cpp</code>, <code>src/birth/game-play-initializer.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-05 02:28 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-05 07:07 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
