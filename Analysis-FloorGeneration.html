@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>フロア生成 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="ページ・モンスター名で検索 / search pages…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+</ul>
+<h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Classes.html">🧑‍🚀 職業 / Classes</a>
+<ul>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+</li>
+<li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Quests.html">📜 クエスト / Quests</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+</ul>
+<h3><a href="Analysis.html">🔬 解析 / Analysis</a></h3>
+<ul>
+<li>⚔️ 戦闘 / Combat
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></li>
+<li><a href="Analysis-ChaosEffect.html">カオス的効果</a></li>
+</ul>
+</li>
+<li>👹 モンスター / Monsters
+<ul>
+<li><a href="Analysis-MonsterGen.html">モンスター生成</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収処理</a></li>
+</ul>
+</li>
+<li>🧙 キャラクター / Character
+<ul>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-HitPoints.html">最大HP（ヒットポイント）</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力が上昇時にどれだけ増えるか</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-Stun.html">朦朧処理</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+<li><a href="Analysis-Android.html">アンドロイドのレベル</a></li>
+<li><a href="Analysis-Autoroller.html">オートローラー</a></li>
+<li><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></li>
+<li><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></li>
+<li><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></li>
+<li><a href="Analysis-Riding.html">騎乗時処理</a></li>
+</ul>
+</li>
+<li>🎒 アイテム / Items
+<ul>
+<li><a href="Analysis-ItemLevel.html">アイテムレベルが決まるルール</a></li>
+<li><a href="Analysis-DeviceUse.html">魔法道具使用成功率</a></li>
+<li><a href="Analysis-EatMagic.html">魔力喰い</a></li>
+<li><a href="Analysis-WeaponRepair.html">折れた武器修復</a></li>
+</ul>
+</li>
+<li>⚙️ システム・その他 / System
+<ul>
+<li><a href="Score.html">スコアの算出方法 / Scoring</a></li>
+<li><a href="Analysis-FloorGeneration.html">フロア生成</a></li>
+<li><a href="Analysis-Store.html">店舗</a></li>
+<li><a href="Analysis-Rumor.html">噂</a></li>
+<li><a href="Analysis-Autopick.html">自動拾い</a></li>
+<li><a href="Analysis-Glass.html">ガラス地形</a></li>
+<li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
+<li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
+<li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
+</ul>
+</li>
+<li>🛡️ <a href="Resistances.html">プレイヤー耐性一覧 / Resistances</a>
+<ul>
+<li><a href="Resistances.html">元素耐性</a> ・ <a href="Resistances.html">上位・状態異常</a> ・ <a href="Resistances.html">免疫</a> ・ <a href="Resistances.html">弱点</a> ・ <a href="Resistances.html">能力値維持</a> ・ <a href="Resistances.html">防御能力</a></li>
+</ul>
+</li>
+<li>🧬 <a href="Mutations.html">突然変異一覧 / Mutations</a>
+<ul>
+<li><a href="Mutations-Activatable.html">発動型</a> ・ <a href="Mutations-Random.html">ランダム発動型</a> ・ <a href="Mutations-Constant.html">常時型</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>フロア生成</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>ダンジョンの各フロアは <strong>入るたびに新規生成</strong> される（保存フロアを除く）。生成の入口は <code>generate_floor()</code>（<code>src/floor/floor-generator.cpp</code>）で、フロアの状況に応じて生成ルートを振り分ける。通常のダンジョン階は <code>cave_gen()</code>（<code>src/floor/cave-generator.cpp</code>）が担当する。</p>
+<p>生成は <strong>失敗したらやり直す</strong>（<code>generate_floor</code> のループ）。失敗要因は、部屋・トンネル・階段・プレイヤー配置などの生成失敗、アイテム/モンスターが多すぎる、フロアが連結でない、など。成功するまで最大で繰り返す。</p>
+<h2>フロアの種類と生成ルート</h2>
+<p><code>generate_floor()</code> は次の順で判定し、最初に一致したルートで生成する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>ルート</th>
+<th>生成関数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>闘技場（挑戦）に入場中</td>
+<td>挑戦闘技場</td>
+<td><code>generate_challenge_arena</code></td>
+</tr>
+<tr>
+<td>モンスター闘技場（賭博）中</td>
+<td>賭博闘技場</td>
+<td><code>generate_gambling_arena</code></td>
+</tr>
+<tr>
+<td>固定クエスト中</td>
+<td>固定マップ</td>
+<td><code>generate_fixed_floor</code>（<code>parse_fixed_map</code>）</td>
+</tr>
+<tr>
+<td>地上（荒野）</td>
+<td>荒野マップ</td>
+<td><code>wilderness_gen</code> / <code>wilderness_gen_small</code></td>
+</tr>
+<tr>
+<td>上記以外（＝ダンジョン内）</td>
+<td>ランダムなダンジョン階</td>
+<td><code>cave_gen</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>以降は主に <strong>通常のダンジョン階（<code>cave_gen</code>）</strong> を解説する。特殊フロアは末尾にまとめる。</p>
+<h2>フロアサイズ</h2>
+<p><code>FloorType::decide_floor_size()</code> がフロアの縦横を決める。フロアは <strong>1画面（縦 <code>SCREEN_HGT</code>=22 × 横 <code>SCREEN_WID</code>=66）を1ブロック</strong> とし、縦横それぞれ 1〜3 ブロックの組み合わせで構成される（最大 3×3 = 66×198 マス）。</p>
+<ul>
+<li>通常は <code>select_floor_size()</code> でランダムに選ぶ。</li>
+<li>ダンジョンの <strong>SMALL/LARGE/SMALLEST/LARGEST フラグ</strong> で選択範囲が制限される（小さめ／大きめに寄る）。</li>
+<li><strong>BEGINNER ダンジョン</strong>は最大サイズを除外し、中サイズ以下を2回抽選して <strong>大きい方</strong> を採用する。</li>
+<li>ゲームオプション <strong>最小フロア（<code>ironman_smallest_floor</code>）</strong> で常に最小サイズ、<strong>常に小さいフロア（<code>always_small_floor</code>）</strong> で中サイズ以下になる。</li>
+</ul>
+<p>フロアが小さいほど、後述の部屋数・モンスター数は比例して減る。</p>
+<h2>全体の生成手順（cave_gen）</h2>
+<p>通常ダンジョン階は概ね次の順で作られる。</p>
+<ol>
+<li><strong>アリーナ（空）レベル判定</strong>: <code>ironman_force_arena_floor</code>、または ARENA ダンジョンで <code>allow_arena_floor</code> かつ <code>1/24</code> を引くと、<strong>部屋のない広間フロア</strong> になる。</li>
+<li><strong>洞窟・湖・破壊フロア</strong>の抽選（<code>gen_caverns_and_lakes</code>、下記）。</li>
+<li><strong>フロア本体の生成</strong>（<code>switch_making_floor</code>）: MAZE ダンジョンなら <strong>迷路</strong>（<code>build_maze_vault</code>）、それ以外は <strong>部屋＋トンネル</strong>（<code>make_one_floor</code>）。</li>
+<li><strong>水流・溶岩流</strong>（<code>make_aqua_streams</code>）。</li>
+<li><strong>外周の永久壁</strong>（<code>make_perm_walls</code>）。</li>
+<li><strong>地形の生成時変化</strong>（<code>apply_terrain_generation_changes</code>、確率で地形を別種へ置換）。</li>
+<li><strong>プレイヤー配置・クエストモンスター配置</strong>（<code>check_place_necessary_objects</code>）。</li>
+<li><strong>モンスター・アイテム・トラップ・がれきの配置</strong>（下記）。</li>
+<li><strong>フロアの主（ガーディアン）配置</strong>（<code>alloc_guardian</code>）。</li>
+<li><strong>明かり判定</strong>（<code>decide_grid_glowing</code>、広間/暗黒設定に応じて全面発光）。</li>
+</ol>
+<h2>洞窟・湖・破壊フロア（gen_caverns_and_lakes）</h2>
+<p>フロア全体に及ぶ大地形の抽選。</p>
+<ul>
+<li><strong>破壊フロア（destroyed）</strong>: <code>dun_level &gt; 30</code> かつ <code>1/36</code> かつ <code>allow_smallest_floor</code> かつダンジョンに DESTROY フラグがあると発生。地形が抉れた荒廃フロアになり、洞窟型の湖も作られる。</li>
+<li><strong>湖（lake）</strong>: <code>1/24</code> かつ広間/破壊でなく、ダンジョンに湖系フラグ（溶岩/水/がれき/樹木）があると発生。種類は階と保有フラグで決まる。
+<ul>
+<li>溶岩の湖・溶岩ヴォールト: <code>dun_level &gt; 80</code></li>
+<li>水の湖・水ヴォールト: <code>dun_level &gt; 50</code></li>
+<li>洞窟の湖・土ヴォールト: <code>dun_level &gt; 35</code></li>
+<li>大気ヴォールト（樹木）: <code>dun_level &gt; 5</code></li>
+</ul>
+</li>
+<li><strong>洞窟（cavern）</strong>: <code>dun_level &gt; 20</code> かつ CAVERN フラグ、湖・破壊なし、そして <code>randint1(1000) &lt; dun_level</code>（深いほど出やすい）で発生。フロアの一部が自然洞窟状になる。</li>
+</ul>
+<h2>部屋生成（generate_rooms）</h2>
+<p>MAZE 以外・NO_ROOM 以外のダンジョンは、複数の部屋を並べてトンネルでつなぐ。</p>
+<p><strong>生成する部屋数の目安</strong></p>
+<pre><code>面積比 area = 100 × (フロア面積 / 最大面積)     （最大フロアで100）
+基本部屋数 dun_rooms = 40 × area / 100
+</code></pre>
+<p>各部屋型の生成枠は、<code>room_info_normal</code> テーブルの <strong>階層帯別の重み</strong> で抽選する。階層帯 <code>level_index = min(10, round(dun_level/10))</code>（10階ごと）。大きな部屋（NEST/PIT/小ヴォールト/トラップPIT/ガラス/アーケード）は枠を2つ、最大の部屋（大ヴォールト/ランダムヴォールト）は枠を3つ消費する。</p>
+<p><strong>生成順</strong> は難しい（大きい）部屋から（<code>room_build_order</code>）: 大ヴォールト → アーケード → ランダムヴォールト → 小ヴォールト → トラップPIT → PIT → NEST → … → 一般部屋。</p>
+<p><strong>制限・分岐</strong></p>
+<ul>
+<li><strong>PIT/NEST/トラップPIT は合計2部屋まで</strong>（<code>crowded</code> が2に達すると以降の枠を0にする）。アーケードは1フロア1つまで。</li>
+<li><strong><code>ironman_rooms</code> オプション</strong>（＋BEGINNER/CHAMELEON/SMALLEST いずれも無い）なら <strong>大ヴォールトのみ</strong> 生成。</li>
+<li><strong>NO_VAULT</strong> フラグ: 小/大/ランダムヴォールトを除外。</li>
+<li><strong>BEGINNER</strong>: FIXED（固定部屋）を除外。</li>
+<li><strong>NO_CAVE</strong>: フラクタル洞窟枠を一般部屋へ、納骨堂/円形枠を内壁部屋へ移す。逆に <strong>CAVE</strong>: 一般部屋枠をフラクタル洞窟へ移す。</li>
+<li><strong>GLASS_ROOM / ARCADE</strong> フラグが無いと、それぞれガラス部屋・アーケードは生成されない。</li>
+<li>生成された部屋が <strong>2未満なら生成失敗</strong> としてやり直す。</li>
+<li><strong>NO_ROOM</strong> ダンジョンは部屋を作らず、トンネル用の点だけを撒く（<code>make_only_tunnel_points</code>）。</li>
+</ul>
+<h3>部屋タイプ一覧</h3>
+<p><code>room_info_normal</code> に定義された最小出現階（<code>min_level</code>）とタイプ。名称は内部分類（<code>RoomType</code>）に対応する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>部屋型</th>
+<th>最小階</th>
+<th>概要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一般部屋 (NORMAL)</td>
+<td>0</td>
+<td>長方形の基本部屋</td>
+</tr>
+<tr>
+<td>重複部屋 (OVERLAP)</td>
+<td>1</td>
+<td>2つの長方形が重なった部屋</td>
+</tr>
+<tr>
+<td>十字部屋 (CROSS)</td>
+<td>3</td>
+<td>十字型・T字型の部屋</td>
+</tr>
+<tr>
+<td>内壁部屋 (INNER_FEAT)</td>
+<td>3</td>
+<td>内部に壁や柱・小部屋を持つ部屋</td>
+</tr>
+<tr>
+<td>モンスターNEST</td>
+<td>10</td>
+<td>同種傾向のモンスターが密集する巣</td>
+</tr>
+<tr>
+<td>モンスターPIT</td>
+<td>10</td>
+<td>強敵が整列して詰まった巣</td>
+</tr>
+<tr>
+<td>小ヴォールト (LESSER_VAULT)</td>
+<td>10</td>
+<td>固定レイアウトの宝物庫（小）</td>
+</tr>
+<tr>
+<td>大ヴォールト (GREATER_VAULT)</td>
+<td>20</td>
+<td>固定レイアウトの宝物庫（大・高難度）</td>
+</tr>
+<tr>
+<td>フラクタル洞窟 (FRACAVE)</td>
+<td>10</td>
+<td>自然洞窟状の不定形空間</td>
+</tr>
+<tr>
+<td>ランダムヴォールト (RANDOM_VAULT)</td>
+<td>10</td>
+<td>自動生成される変則ヴォールト</td>
+</tr>
+<tr>
+<td>円形/楕円部屋 (OVAL)</td>
+<td>3</td>
+<td>円・楕円状の部屋</td>
+</tr>
+<tr>
+<td>納骨堂 (CRYPT)</td>
+<td>10</td>
+<td>十字/円のアンデッド向き部屋</td>
+</tr>
+<tr>
+<td>トラップPIT (TRAP_PIT)</td>
+<td>20</td>
+<td>罠で固めたPIT</td>
+</tr>
+<tr>
+<td>トラップ部屋 (TRAP)</td>
+<td>20</td>
+<td>罠が集中する部屋</td>
+</tr>
+<tr>
+<td>ガラス部屋 (GLASS)</td>
+<td>40</td>
+<td>ガラス地形の部屋（GLASS_ROOM ダンジョンのみ）</td>
+</tr>
+<tr>
+<td>アーケード (ARCADE)</td>
+<td>1</td>
+<td>店舗が並ぶ区画（ARCADE ダンジョンのみ）</td>
+</tr>
+<tr>
+<td>固定部屋 (FIXED)</td>
+<td>1</td>
+<td>データ定義の固定小部屋</td>
+</tr>
+</tbody>
+</table></div>
+<p>※ NEST/PIT に出るモンスターの選ばれ方は <a href="Analysis-MonsterGen.html">モンスター生成</a> を参照。</p>
+<h2>トンネル・ドア</h2>
+<p>部屋の中心（<code>centers</code>）どうしをトンネルでつなぐ（<code>make_centers</code>）。</p>
+<ul>
+<li><code>randint1(dun_level) &gt; ダンジョンの tunnel_percent</code> を満たすと <strong>直線的なトンネル</strong>（<code>build_tunnel2</code>）、そうでなければ <strong>曲がりくねったトンネル</strong>（<code>build_tunnel</code>）を掘る。</li>
+<li>トンネルが壁を貫く箇所には、<code>dun_tun_pen</code>（トンネル貫通時のドア率）の確率で <strong>ドア</strong> を置く（NO_DOORS ダンジョンを除く）。</li>
+<li><strong>トンネル接続に2回失敗するとフロアごと生成やり直し</strong>。</li>
+<li>部屋の入口付近には別途ドアを試行配置する（<code>make_doors</code>）。</li>
+</ul>
+<h2>階段</h2>
+<p><code>alloc_stairs</code> で階段を配置する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>種別</th>
+<th>通常フロア</th>
+<th>迷路フロア</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>下り階段</td>
+<td><code>rand_range(3,4)</code> 個</td>
+<td><code>rand_range(2,3)</code> 個</td>
+</tr>
+<tr>
+<td>上り階段</td>
+<td><code>rand_range(1,2)</code> 個</td>
+<td>1 個</td>
+</tr>
+</tbody>
+</table></div>
+<p>配置に失敗すると生成やり直し。</p>
+<h2>水流・永久壁・地形変化</h2>
+<ul>
+<li><strong>水流/溶岩流（streamer）</strong>: 湖が無い場合、ダンジョン定義の <code>streams</code> に従って鉱脈状の流れを引く（<code>make_aqua_streams</code>）。</li>
+<li><strong>外周の永久壁</strong>: フロアの縁を永久壁で囲う（<code>make_perm_walls</code>）。<code>bound_walls_perm</code> オプションで見た目が変わる。</li>
+<li><strong>地形の生成時変化</strong>: 各マスの地形は <code>generation_changes</code>（確率テーブル）に従って別の地形へ置換されうる（<code>apply_terrain_generation_changes</code>）。</li>
+</ul>
+<h2>プレイヤー・クエストモンスター配置</h2>
+<ul>
+<li><code>new_player_spot</code> が <strong>プレイヤーの開始位置</strong> を選ぶ（失敗すると生成やり直し）。</li>
+<li>クエスト階なら <code>place_quest_monsters</code> で <strong>クエスト対象モンスター</strong> を配置する（失敗するとやり直し）。</li>
+</ul>
+<h2>モンスター・アイテム・トラップ配置</h2>
+<p>配置数の基準 <code>alloc_object_num</code> は階に比例する。</p>
+<pre><code>alloc_object_num = dun_level / 3       （2〜10 にクランプ）
+</code></pre>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>対象</th>
+<th>個数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>モンスター</td>
+<td>ダンジョンの <code>min_monster_count_on_floor</code>（小フロアは面積比で減少）＋ <code>randint1(8)</code> ＋ アイテム基準数</td>
+</tr>
+<tr>
+<td>トラップ</td>
+<td><code>randint1(alloc_object_num)</code></td>
+</tr>
+<tr>
+<td>がれき（通路）</td>
+<td><code>randint1(alloc_object_num)</code>（NO_CAVE ダンジョンは無し）</td>
+</tr>
+<tr>
+<td>アイテム（部屋内）</td>
+<td><code>randnor(9, 3)</code></td>
+</tr>
+<tr>
+<td>アイテム（全域）</td>
+<td><code>randnor(3, 3)</code></td>
+</tr>
+<tr>
+<td>金貨（全域）</td>
+<td><code>randnor(3, 3)</code></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>モンスターは <code>alloc_monster()</code> で配置され、その <strong>選抜・OOD（格上）化・グループ/睡眠</strong> の仕組みは <a href="Analysis-MonsterGen.html">モンスター生成</a> を参照。</li>
+<li>ダンジョン初到達で階が1より深い場合、部屋内アイテムのみ <strong>生成レベル1</strong>（弱いアイテム）になる。</li>
+<li>最後に <strong>フロアの主（<code>final_guardian</code>）</strong> を配置する（未討伐なら最深部へ）。</li>
+</ul>
+<h2>連結性チェックと生成やり直し</h2>
+<p>生成後、<code>generate_floor</code> のループでフロアの妥当性を検証する。</p>
+<ul>
+<li><strong>アイテムが多すぎる/モンスターが多すぎる</strong> 場合はやり直し。</li>
+<li>ダンジョン階では、<strong>永久壁で分断された孤立領域</strong> が無いか連結性を判定する（<code>floor_is_connected</code>、8近傍での深さ優先探索）。分断されていると狂戦士など一部プレイに支障が出るため <strong>再生成</strong> する（一定回数試して駄目なら諦める）。地上・荒野・クエストでは連結性判定は行わない。</li>
+</ul>
+<h2>フロアの雰囲気（レベルフィーリング）</h2>
+<p>生成されたフロアの危険度・宝の豊かさは <strong>雰囲気（feeling）0〜10</strong> で表される（<code>get_dungeon_feeling</code>、<code>src/floor/floor-events.cpp</code>）。数値が小さいほど「特別」なフロア。</p>
+<p><strong>評価値（rating）の加点</strong>（非線形補正 <code>rating_boost(x) = x² + 50x</code> を各要素ごとに適用）</p>
+<ul>
+<li><strong>モンスター</strong>: ユニークは <code>level+10 &gt; dun_level</code> のとき <code>(level+10−dun_level)×2×10</code>、通常モンスターは <code>level &gt; dun_level</code> のとき <code>(level−dun_level)×10</code>。群れ（HAS_FRIENDS 等）で微加点。</li>
+<li><strong>アイテム</strong>: エゴは <code>エゴのrating×10</code>、固定/ランダムアーティファクトは基本 <code>+100</code>（価値10000/50000/100000超で段階加点）。ドラゴン鎧 <code>+300</code>、加速の指輪 <code>+250</code>、君主/賢者/ドラゴン装備なども加点。生成レベルが階より高いアイテムも加点。</li>
+<li>保存モード（<code>preserve_mode</code>）でない場合、<strong>未取得のアーティファクトが床にあると即座に雰囲気1</strong>。</li>
+</ul>
+<p><strong>雰囲気の判定</strong>（rating を <code>rating_boost</code> 換算した閾値で区分）</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>rating &gt;</th>
+<th>雰囲気</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boost(1000)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>boost(800)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>boost(600)</td>
+<td>4</td>
+</tr>
+<tr>
+<td>boost(400)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>boost(300)</td>
+<td>6</td>
+</tr>
+<tr>
+<td>boost(200)</td>
+<td>7</td>
+</tr>
+<tr>
+<td>boost(100)</td>
+<td>8</td>
+</tr>
+<tr>
+<td>boost(0)</td>
+<td>9</td>
+</tr>
+<tr>
+<td>（それ以下）</td>
+<td>10</td>
+</tr>
+</tbody>
+</table></div>
+<p>雰囲気は入床直後には分からず、<code>delay = max(10, 150 − 探索技能) × (150 − dun_level) × TURNS_PER_TICK / 100</code> ターン留まると判明する（探索技能が高く深い階ほど早い）。</p>
+<h2>特殊フロア</h2>
+<ul>
+<li><strong>挑戦闘技場</strong>（<code>build_arena</code>）: 21×65 程度の固定リングを作り、対戦相手のユニークを1体配置する。</li>
+<li><strong>モンスター闘技場（賭博）</strong>（<code>build_battle</code>）: 観戦用のガラス壁付きリングを作り、<code>NUM_GLADIATORS</code> 体の闘士を友好的に配置する。</li>
+<li><strong>固定クエスト</strong>（<code>generate_fixed_floor</code>）: フロアを永久壁で埋めてから、クエスト定義の固定マップ（<code>parse_fixed_map</code>）を展開する。階層は各クエストの <code>level</code>。</li>
+<li><strong>荒野</strong>（<code>wilderness_gen</code>）: 地上の広域マップ。ダンジョン入口・町・遭遇などを配置する。</li>
+</ul>
+<h2>まとめ</h2>
+<ul>
+<li>通常のダンジョン階は <strong>フロアサイズ決定 → 大地形（洞窟/湖/破壊）→ 部屋＋トンネル → 階段 → 水流/永久壁 → プレイヤー/クエスト → モンスター/アイテム/罠 → 主 → 明かり</strong> の順に作られる。</li>
+<li>各要素は <strong>階（<code>dun_level</code>）とダンジョンフラグ・ゲームオプション</strong> に強く依存し、深いほど大きな部屋・洞窟・湖・強いモンスターが出やすくなる。</li>
+<li>生成に失敗したり、フロアが連結でない/物が多すぎる場合は <strong>やり直す</strong>。</li>
+<li>生成結果の危険度・財宝は <strong>雰囲気（0〜10）</strong> に反映され、一定時間の滞在で判明する。</li>
+</ul>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/floor/floor-generator.cpp</code>, <code>src/floor/cave-generator.cpp</code>, <code>src/room/room-generator.cpp</code>, <code>src/grid/feature-generator.cpp</code>, <code>src/floor/floor-events.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-05 16:17 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
