@@ -128,8 +128,9 @@
 <p><a href="index.html">🏠 ホーム / Home</a></p>
 <h2>受注の仕組み / How quests are taken</h2>
 <ul>
-<li><strong>受注箇所</strong>: 街の依頼建物（<code>BUILDING_1</code>＝領主の館など）に入ると、その町の未受注クエストを1件だけ提示する（<code>castle_quest</code>、<code>src/market/building-quest.cpp</code>）。受けると状態が受託（TAKEN）になる。</li>
-<li><strong>受注順</strong>: 各町の依頼建物は <strong>前のクエストを達成（報酬受取）すると次のクエストを提示</strong> する連鎖形式。下表の「前提クエスト」がその直前のクエスト。深い町は荒野を旅して到達する必要がある。</li>
+<li><strong>受注箇所</strong>: 街の依頼建物に入ると、その建物が担当する未受注クエストを1件だけ提示する（<code>castle_quest</code>、<code>src/market/building-quest.cpp</code>）。受けると状態が受託（TAKEN）になる。<strong>辺境の町・モリバント・ズルには受注建物が複数あり、建物ごとに別々のクエスト連鎖を持つ</strong>（下表では受注箇所①②…に分けて表示）。</li>
+<li><strong>受注順</strong>: 各受注建物は <strong>前のクエストを達成（報酬受取）すると次のクエストを提示</strong> する連鎖形式。下表の「前提」がその直前のクエスト。深い町は荒野を旅して到達する必要がある。</li>
+<li><strong>報酬</strong>: クエスト達成後、依頼建物の前に報酬アイテムが出現する。下表の「報酬」は達成時ブロックの床タイル（<code>object</code>＝ベースアイテム / <code>artifact</code>＝固定アーティファクト、★印）から取得。一部は職業・領域により変わる（「ほか職業別あり」）。</li>
 <li><strong>クエスト入口</strong>: 受託すると、その町にクエスト入口（<code>QUEST_ENTER</code>）が出現し、そこから専用フロアへ入る。ワーグ（No.14）だけは入口が <strong>イークの洞穴</strong> にある。</li>
 <li><strong>ダンジョンの守護者</strong>: オベロン（99階）とサーペント（100階）はゲーム開始時に自動受託され、鉄獄の固定階で戦う（<code>init_dungeon_quests</code>、<code>src/birth/game-play-initializer.cpp</code>）。</li>
 <li><strong>町構成</strong>: 以下は通常荒野（<code>$WILDERNESS NORMAL</code>）の配置。荒野なし（lite）では全クエストが辺境の町に集約され、鉄獄のみ（vanilla）ではクエストが発生しない。</li>
@@ -211,8 +212,10 @@
 </tbody>
 </table></div>
 <h2>町ごとの固定クエスト / Town quests</h2>
-<p>「対象Lv」はクエストフロアの危険度（相当階）。「目標」の ×N は必要撃破数。表の並びが受注順。</p>
-<h3>辺境の町（アウトポスト）（10件）</h3>
+<p>「対象Lv」はクエストフロアの危険度（相当階）。「目標」の ×N は必要撃破数。表の並びが受注順。すべて <code>PRESET</code>（街の固定マップ）／<code>ONCE</code>（一度きり）。受注建物が複数ある町は受注箇所①②…で分割。</p>
+<h3>辺境の町（アウトポスト）（10件 / 受注箇所 2 か所）</h3>
+<p>この町には独立した受注建物が <strong>2 か所</strong> あり、それぞれ別のクエスト連鎖を持つ（建物ごとに前のクエスト達成で次を提示）。</p>
+<h4>受注箇所①（依頼建物 <code>BUILDING_1</code>・5件）</h4>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -221,8 +224,8 @@
 <th>種別</th>
 <th>対象Lv</th>
 <th>目標</th>
-<th>前提クエスト</th>
-<th>フラグ</th>
+<th>前提</th>
+<th>報酬</th>
 </tr>
 </thead>
 <tbody>
@@ -232,8 +235,8 @@
 <td>全滅</td>
 <td>5</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>—（最初）</td>
+<td>ロング・ソード（ほか職業別あり）</td>
 </tr>
 <tr>
 <td>14</td>
@@ -242,7 +245,7 @@
 <td>5</td>
 <td><a href="Monster-257-warg.html">ワーグ / Warg</a> ×16</td>
 <td>1: 盗賊の隠れ家</td>
-<td>-</td>
+<td>ライト・クロスボウ</td>
 </tr>
 <tr>
 <td>18</td>
@@ -251,7 +254,7 @@
 <td>35</td>
 <td>フロアから脱出</td>
 <td>1: 盗賊の隠れ家</td>
-<td>PRESET / ONCE</td>
+<td>経験</td>
 </tr>
 <tr>
 <td>25</td>
@@ -260,16 +263,7 @@
 <td>48</td>
 <td>エリア内の全モンスターを撃破</td>
 <td>18: 湖の洞窟</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>27</td>
-<td>古い城<br>The Old Castle</td>
-<td>全滅</td>
-<td>50</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>テレパシー</td>
 </tr>
 <tr>
 <td>28</td>
@@ -278,7 +272,32 @@
 <td>70</td>
 <td><a href="Monster-776-archlich.html">アーチリッチ / Archlich</a> ×5</td>
 <td>25: 幽霊屋敷</td>
-<td>PRESET / ONCE</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<h4>受注箇所②（依頼建物 <code>BUILDING_0</code>・5件）</h4>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No</th>
+<th>クエスト / Quest</th>
+<th>種別</th>
+<th>対象Lv</th>
+<th>目標</th>
+<th>前提</th>
+<th>報酬</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>34</td>
+<td>もの言えぬ証人<br>Dump Witness</td>
+<td>全滅</td>
+<td>5</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>—（最初）</td>
+<td>警告</td>
 </tr>
 <tr>
 <td>31</td>
@@ -286,8 +305,8 @@
 <td>全滅</td>
 <td>22</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>34: もの言えぬ証人</td>
+<td>耐混乱</td>
 </tr>
 <tr>
 <td>32</td>
@@ -295,8 +314,8 @@
 <td>全滅</td>
 <td>25</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>31: 柳じじい</td>
+<td>★ガラドリエルの / of Galadriel</td>
 </tr>
 <tr>
 <td>33</td>
@@ -304,17 +323,17 @@
 <td>全滅</td>
 <td>45</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>32: ダークエルフの王</td>
+<td>★シヴァの化身の / of Shiva's Avatar</td>
 </tr>
 <tr>
-<td>34</td>
-<td>もの言えぬ証人<br>Dump Witness</td>
+<td>27</td>
+<td>古い城<br>The Old Castle</td>
 <td>全滅</td>
-<td>5</td>
+<td>50</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>33: クローン地獄</td>
+<td>★『クリスドゥリアン』 / 'Crisdurian'（ほか職業別あり）</td>
 </tr>
 </tbody>
 </table></div>
@@ -327,8 +346,8 @@
 <th>種別</th>
 <th>対象Lv</th>
 <th>目標</th>
-<th>前提クエスト</th>
-<th>フラグ</th>
+<th>前提</th>
+<th>報酬</th>
 </tr>
 </thead>
 <tbody>
@@ -338,8 +357,8 @@
 <td>全滅</td>
 <td>15</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>—（最初）</td>
+<td>フェアノールのランプ</td>
 </tr>
 <tr>
 <td>3</td>
@@ -348,7 +367,7 @@
 <td>25</td>
 <td><a href="Monster-498-logrus-master.html">ログルス使い / Logrus master</a></td>
 <td>2: 下水道</td>
-<td>PRESET / ONCE</td>
+<td>スピード</td>
 </tr>
 <tr>
 <td>4</td>
@@ -357,7 +376,7 @@
 <td>30</td>
 <td>指定アーティファクト</td>
 <td>3: ログルス使い</td>
-<td>PRESET / ONCE</td>
+<td>—</td>
 </tr>
 <tr>
 <td>5</td>
@@ -366,7 +385,7 @@
 <td>40</td>
 <td>全エリアの全モンスターを撃破</td>
 <td>4: 宝物庫</td>
-<td>PRESET / TOWER</td>
+<td>耐毒（ほか職業別あり）</td>
 </tr>
 <tr>
 <td>16</td>
@@ -375,7 +394,7 @@
 <td>40</td>
 <td>エリア内の全モンスターを撃破</td>
 <td>5: 塔</td>
-<td>PRESET / ONCE</td>
+<td>反射</td>
 </tr>
 <tr>
 <td>26</td>
@@ -384,7 +403,7 @@
 <td>50</td>
 <td><a href="Monster-723-maulotaur.html">マウロタウロス / Maulotaur</a></td>
 <td>5: 塔</td>
-<td>PRESET / ONCE</td>
+<td>*破壊*</td>
 </tr>
 <tr>
 <td>15</td>
@@ -393,11 +412,13 @@
 <td>70</td>
 <td><a href="Monster-813-eric-the-usurper.html">王位簒奪者『エリック』 / Eric the Usurper</a></td>
 <td>26: 激戦場</td>
-<td>PRESET / ONCE</td>
+<td>増強</td>
 </tr>
 </tbody>
 </table></div>
-<h3>モリバント（5件）</h3>
+<h3>モリバント（5件 / 受注箇所 2 か所）</h3>
+<p>この町には独立した受注建物が <strong>2 か所</strong> あり、それぞれ別のクエスト連鎖を持つ（建物ごとに前のクエスト達成で次を提示）。</p>
+<h4>受注箇所①（依頼建物 <code>BUILDING_1</code>・3件）</h4>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -406,8 +427,8 @@
 <th>種別</th>
 <th>対象Lv</th>
 <th>目標</th>
-<th>前提クエスト</th>
-<th>フラグ</th>
+<th>前提</th>
+<th>報酬</th>
 </tr>
 </thead>
 <tbody>
@@ -417,8 +438,8 @@
 <td>全滅</td>
 <td>25</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>—（最初）</td>
+<td>全感知</td>
 </tr>
 <tr>
 <td>21</td>
@@ -426,8 +447,8 @@
 <td>全滅</td>
 <td>55</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>—（最初）</td>
+<td>体力回復</td>
 </tr>
 <tr>
 <td>24</td>
@@ -436,16 +457,32 @@
 <td>50</td>
 <td><a href="Monster-732-bull-gates-the-applephobe.html">リンゴ嫌い『ブル・ゲイツ』 / Bull Gates, the applephobe</a></td>
 <td>20: 謎の障気</td>
-<td>PRESET / ONCE</td>
+<td>耐劣化</td>
 </tr>
+</tbody>
+</table></div>
+<h4>受注箇所②（依頼建物 <code>BUILDING_10</code>・2件）</h4>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No</th>
+<th>クエスト / Quest</th>
+<th>種別</th>
+<th>対象Lv</th>
+<th>目標</th>
+<th>前提</th>
+<th>報酬</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>29</td>
 <td>ミミックの財宝<br>The Mimic's Treasure</td>
 <td>全滅</td>
 <td>25</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>—（最初）</td>
+<td>透明物体感知</td>
 </tr>
 <tr>
 <td>30</td>
@@ -453,8 +490,8 @@
 <td>全滅</td>
 <td>25</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>29: ミミックの財宝</td>
+<td>麻痺知らず</td>
 </tr>
 </tbody>
 </table></div>
@@ -467,8 +504,8 @@
 <th>種別</th>
 <th>対象Lv</th>
 <th>目標</th>
-<th>前提クエスト</th>
-<th>フラグ</th>
+<th>前提</th>
+<th>報酬</th>
 </tr>
 </thead>
 <tbody>
@@ -478,8 +515,8 @@
 <td>全滅</td>
 <td>15</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>—（最初）</td>
+<td>エルフのクローク</td>
 </tr>
 <tr>
 <td>19</td>
@@ -488,7 +525,7 @@
 <td>15</td>
 <td>エリア内の全モンスターを撃破</td>
 <td>22: オークのキャンプ</td>
-<td>PRESET / ONCE</td>
+<td>火炎</td>
 </tr>
 <tr>
 <td>23</td>
@@ -497,11 +534,13 @@
 <td>65</td>
 <td>エリア内の全モンスターを撃破</td>
 <td>19: 破滅のクエスト１</td>
-<td>PRESET / ONCE</td>
+<td>バランスドラゴン・スケイルメイル</td>
 </tr>
 </tbody>
 </table></div>
-<h3>ズル（4件）</h3>
+<h3>ズル（4件 / 受注箇所 4 か所）</h3>
+<p>この町には独立した受注建物が <strong>4 か所</strong> あり、それぞれ別のクエスト連鎖を持つ（建物ごとに前のクエスト達成で次を提示）。</p>
+<h4>受注箇所①（依頼建物 <code>BUILDING_8</code>・1件）</h4>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -510,8 +549,8 @@
 <th>種別</th>
 <th>対象Lv</th>
 <th>目標</th>
-<th>前提クエスト</th>
-<th>フラグ</th>
+<th>前提</th>
+<th>報酬</th>
 </tr>
 </thead>
 <tbody>
@@ -521,35 +560,83 @@
 <td>全滅</td>
 <td>65</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>—（最初）</td>
+<td>[力の魔道書]</td>
 </tr>
+</tbody>
+</table></div>
+<h4>受注箇所②（依頼建物 <code>BUILDING_14</code>・1件）</h4>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No</th>
+<th>クエスト / Quest</th>
+<th>種別</th>
+<th>対象Lv</th>
+<th>目標</th>
+<th>前提</th>
+<th>報酬</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>11</td>
 <td>カオスの特異点<br>Node of Chaos</td>
 <td>全滅</td>
 <td>65</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>—（最初）</td>
+<td>—</td>
 </tr>
+</tbody>
+</table></div>
+<h4>受注箇所③（依頼建物 <code>BUILDING_15</code>・1件）</h4>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No</th>
+<th>クエスト / Quest</th>
+<th>種別</th>
+<th>対象Lv</th>
+<th>目標</th>
+<th>前提</th>
+<th>報酬</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>12</td>
 <td>自然魔術の特異点<br>Node of Nature</td>
 <td>全滅</td>
 <td>65</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>—（最初）</td>
+<td>—</td>
 </tr>
+</tbody>
+</table></div>
+<h4>受注箇所④（依頼建物 <code>BUILDING_16</code>・1件）</h4>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No</th>
+<th>クエスト / Quest</th>
+<th>種別</th>
+<th>対象Lv</th>
+<th>目標</th>
+<th>前提</th>
+<th>報酬</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>13</td>
 <td>秘術の特異点<br>Node of Arcane</td>
 <td>全滅</td>
 <td>65</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（最初に提示）</td>
-<td>PRESET / ONCE</td>
+<td>—（最初）</td>
+<td>—</td>
 </tr>
 </tbody>
 </table></div>
@@ -599,7 +686,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/quests/*.txt</code>, <code>lib/edit/towns/*.txt</code>, <code>src/market/building-quest.cpp</code>, <code>src/system/dungeon/quest-definition.h</code>, <code>src/floor/fixed-map-generator.cpp</code>, <code>src/dungeon/quest.cpp</code>, <code>src/birth/game-play-initializer.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-05 02:02 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-05 02:15 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
