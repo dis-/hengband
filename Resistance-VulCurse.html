@@ -160,8 +160,8 @@
 <td><code>pow = 90 + player_ptr-&gt;lev</code></td>
 </tr>
 <tr>
-<td>`player_ptr-&gt;ult_res</td>
-<td></td>
+<td><code>player_ptr-&gt;ult_res || player_ptr-&gt;resist_magic || player_ptr-&gt;magicdef</code>、かつ <code>pow &lt; 95 + player_ptr-&gt;lev</code></td>
+<td><code>pow = 95 + player_ptr-&gt;lev</code></td>
 </tr>
 <tr>
 <td><code>player_ptr-&gt;down_saving</code></td>
@@ -174,7 +174,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-damage.cpp</code>, <code>src/player/player-status-resist.cpp</code>, <code>src/player/player-status-flags.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 09:52 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-05 21:26 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
