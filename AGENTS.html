@@ -139,24 +139,27 @@ this file holds the big picture, invariants, source-derived knowledge, and gotch
 <li>表の中身は手入力ではなくデータ由来。データ更新後に再生成すれば全ページが最新化される。</li>
 </ul>
 <h2>リポジトリ構成とパス / Repos &amp; paths（このマシン固有）</h2>
+<p>⚠️ <strong>地雷: 複数セッションの scratchpad に古いクローンが散在する。</strong> <code>build-site.mjs</code> の
+<code>--wiki</code>/<code>--out</code> <strong>既定値は古いセッションのディレクトリを指している</strong>ため、無引数で実行すると
+<strong>古いソースから古いチェックアウトへビルドして本番を退行させかねない</strong>。必ず両引数を明示する。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
 <th>対象</th>
-<th>場所</th>
+<th>場所（2026-07-05 時点の生きているチェックアウト）</th>
 <th>役割</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Wiki</strong>（この repo, <code>master</code>）</td>
-<td><code>scratchpad/hengband.wiki</code></td>
-<td>生成された <code>*.md</code>（ルート）＋生成ツール（<code>tools/</code>）</td>
+<td><code>…/Temp/claude/C--hengband/5b9625d2-*/scratchpad/wikirepo</code></td>
+<td>生成された <code>*.md</code>＋生成ツール（<code>tools/</code>）</td>
 </tr>
 <tr>
-<td><strong>Pages</strong>（<code>gh-pages</code> ブランチ）</td>
-<td><code>scratchpad/site</code>（別チェックアウト）</td>
-<td><code>build-site.mjs</code> が吐く幅広・検索・ソート可能な <code>*.html</code></td>
+<td><strong>Pages</strong>（<code>gh-pages</code>）</td>
+<td><code>…/Temp/claude/C--hengband/5b9625d2-*/scratchpad/ghp</code></td>
+<td><code>build-site.mjs</code> が吐く <code>*.html</code>（≈1840ページ）</td>
 </tr>
 <tr>
 <td><strong>本体ソース</strong></td>
@@ -175,17 +178,28 @@ this file holds the big picture, invariants, source-derived knowledge, and gotch
 <li>Pages リモート: <code>https://github.com/dis-/hengband.git</code>（<code>gh-pages</code> ブランチのみ。<strong><code>master</code>＝ゲーム本体には触れない</strong>）</li>
 <li>シェルは PowerShell が主だが、<code>gh api</code> 等では Git Bash＋<code>MSYS_NO_PATHCONV=1</code> を使う。</li>
 </ul>
+<p><strong>チェックアウトが生きているかの検証（コミット前に必ず）:</strong></p>
+<pre><code class="language-sh">git -C &lt;dir&gt; ls-files --error-unmatch Class-mage.html   # 古いクローンは NO を返す
+git -C &lt;dir&gt; ls-remote origin &lt;branch&gt;                  # HEAD がリモートと一致すること
+git -C &lt;dir&gt; status --short | wc -l                     # 作業ツリーが素であること
+</code></pre>
+<p><strong>ディレクトリが消えていた場合の復旧（fresh clone）:</strong></p>
+<pre><code class="language-sh">git clone https://github.com/dis-/hengband.wiki.git &lt;wikirepo&gt;
+git clone -b gh-pages --single-branch https://github.com/dis-/hengband.git &lt;ghp&gt;
+cd &lt;wikirepo&gt; &amp;&amp; npm i markdown-it        # build-site 用
+# 以降は必ず: node tools/build-site.mjs --wiki=&lt;wikirepo&gt; --out=&lt;ghp&gt;
+</code></pre>
 <h2>生成・ビルド・公開 / Regenerate, build, publish</h2>
 <pre><code class="language-sh">NODE=&quot;C:/Users/user/node-portable/node-v24.17.0-win-x64/node.exe&quot;
 
 # 1) Wiki Markdown を再生成（--src 省略時 C:/hengband/lib/edit）
 &quot;$NODE&quot; tools/generate-wiki.mjs
 
-# 2) Pages 用 HTML をビルド（既定: --wiki=&lt;this repo&gt; --out=&lt;scratchpad&gt;/site）
-&quot;$NODE&quot; tools/build-site.mjs
+# 2) Pages 用 HTML をビルド（⚠️ 既定パスは古い。必ず両引数を明示）
+&quot;$NODE&quot; tools/build-site.mjs --wiki=&lt;wikirepo&gt; --out=&lt;ghp&gt;
 
-# 3a) Wiki を公開:  git add -A &amp;&amp; git commit &amp;&amp; git push origin master
-# 3b) Pages を公開: site/ 側で git add -A &amp;&amp; git commit &amp;&amp; git push origin gh-pages
+# 3a) Wiki を公開:  タイムスタンプのみの差分を戻してから add/commit/push origin master（下記「地雷」参照）
+# 3b) Pages を公開: &lt;ghp&gt; 側で同様に精査してから add/commit/push origin gh-pages
 </code></pre>
 <p>依存は <code>npm i markdown-it</code>（build-site 用、<code>node_modules</code> は gitignore）。
 kuromoji（読み再生成）は通常不要。詳細・列設計・<code>specs.json</code>・SVGタイルは <code>tools/README.md</code> 参照。</p>
@@ -203,6 +217,15 @@ kuromoji（読み再生成）は通常不要。詳細・列設計・<code>specs.
 検証: <code>scratchpad/validate-tables.mjs</code>（列数ミスマッチ 0 を維持）。</li>
 <li>Wiki 内でシンボルは<strong>インラインSVG/CSS/<code>data:</code> を使わない</strong>（GitHub が除去する）。
 コミット済み SVG を <code>&lt;img src=&quot;https://raw.githubusercontent.com/wiki/&lt;owner&gt;/&lt;repo&gt;/images/...&quot;&gt;</code> で参照する。</li>
+<li><strong><code>esc()</code>（generate-wiki.mjs）は <code>*</code> もエスケープする</strong>。ゲーム内名称の <code>*解呪*</code> <code>*鑑定*</code> 等が
+イタリック化しないため。データ側（jsonc / spell-effects.json / analysis 本文）には生の <code>*</code> を
+そのまま書いてよい（テーブルセル経由なら自動エスケープ、コードブロック内は不要）。
+<code>esc()</code> を通らない経路（<code>bothOf</code> 直など）で <code>*</code> 入り文字列をセルに入れるときは <code>esc()</code> で包む。
+<strong>検証: ビルド後 <code>grep -rl '&lt;em&gt;' &lt;ghp&gt;/*.html | wc -l</code> が 0 であること。</strong></li>
+<li><strong>解析ページの追加 = モジュールスコープの <code>ANALYSIS</code> 配列に1エントリ（<code>cat</code>:
+combat/monster/chara/item/system）＋ <code>tools/analysis/&lt;file&gt;.md</code> 本文</strong>。解析インデックスと
+<strong>サイドバーは同じ <code>ANALYSIS</code> 配列から自動生成</strong>される（手で <code>_Sidebar</code> を編集しない）。
+検索インデックス（Pages 左上）も全ページのタイトルを自動収載する。</li>
 </ol>
 <h2>呪文の詳細効果 <code>tools/spell-effects.json</code>（ソース導出・重要）</h2>
 <ul>
@@ -266,13 +289,21 @@ kuromoji（読み再生成）は通常不要。詳細・列設計・<code>specs.
 </blockquote>
 <h2>再生成のタイムスタンプ地雷 / regen timestamp churn（重要）</h2>
 <p><code>generate-wiki.mjs</code> も <code>build-site.mjs</code> も<strong>各ページのフッターに生成時刻を埋め込む</strong>ため、
-再生成すると<strong>約1660ファイル全部</strong>に差分が出る（中身は時刻1行だけ）。実質変更のみをコミットする手順：</p>
-<pre><code class="language-sh">git diff --numstat &gt; /tmp/ns.txt
-# タイムスタンプのみのノイズ = ちょうど 1挿入/1削除。実変更 = それ以外。
-awk -F'\t' '!($1==1 &amp;&amp; $2==1){print $3}' /tmp/ns.txt | while read f; do git add -- &quot;$f&quot;; done
-git checkout -- .            # 残り（時刻のみ）を破棄
-git commit -m &quot;…&quot;
+再生成すると<strong>約1840ファイル全部</strong>に差分が出る（中身は時刻1行だけ）。</p>
+<p>⚠️ <strong>旧手順の <code>numstat 1==1/1==1</code> 判別は使わない</strong>：本物の1行変更（リンク移動＝1挿入1削除、
+<code>_Sidebar.md</code>・<code>app.js</code>・<code>tools/</code> の1行修正など）も 1/1 になり<strong>無言で退行を出荷した実績が3件</strong>ある。
+正しい判別は「<strong>差分から <code>生成 / Generated:</code> 行を除いて何も残らないファイルだけ戻す</strong>」：</p>
+<pre><code class="language-sh"># 実変更ファイル一覧（= コミットすべきもの。1パス。ファイル毎ループは1800件でタイムアウトする）
+git diff -U0 -- . ':(exclude)tools' | awk '
+  /^\+\+\+ b\// { f=substr($0,7); next }
+  /^[-+]/ &amp;&amp; $0 !~ /^(\+\+\+|---)/ { if ($0 !~ /Generated:/) real[f]=1 }
+  END { for (x in real) print x }' | sort &gt; /tmp/keep.txt
+# タイムスタンプのみのファイルを破棄（実変更と tools/ と未追跡は残す）
+comm -23 &lt;(git status --short | grep -v ' tools/' | grep -v '^??' | sed 's/^...//' | sort) /tmp/keep.txt \
+  | tr '\n' '\0' | xargs -0 -r git checkout --
+git add &lt;実変更 + tools/ + 新規ページ&gt; &amp;&amp; git commit -m &quot;…&quot;
 </code></pre>
+<p>なおサイドバー・検索プレースホルダ等<strong>全ページ共通ヘッダの変更時は全1840ファイルが正当な実変更</strong>（gh-pages側）。</p>
 <h2>並行エージェント運用 / Concurrency（別セッションが同時編集する前提）</h2>
 <ul>
 <li><strong>Wiki push</strong> は通常 fast-forward。reject 時は <code>git -c rebase.autoStash=true pull --rebase origin master</code> してから再push（リトライループ）。</li>
@@ -293,7 +324,8 @@ reject 時に繰り返す（build-site は wiki から決定的に生成され�
 LIT色=<code>src/grid/lighting-colors-table.cpp</code>。</li>
 </ul>
 <hr>
-<p>参考コミット（2026-07-04 時点）: 本体 <code>5ebae9734</code> / wiki <code>master</code> 呪文詳細追記済 / Pages <code>gh-pages</code> 反映済。
+<p>参考コミット（2026-07-05 時点）: 本体 <code>5ebae9734</code> / wiki <code>master</code>（職業29ページ・解析≈40項目・
+サイドバー自動生成・検索ページ名対応済）/ Pages <code>gh-pages</code> 反映済（≈1840ページ）。
 エントリ数: モンスター1407・ベースアイテム642・アーティファクト270・ダンジョン21・地形190・呪文13領域416・職業29。</p>
 </main></div>
 <script src="app.js"></script>
