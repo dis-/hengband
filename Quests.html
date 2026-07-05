@@ -123,9 +123,17 @@
 </li>
 </ul>
 </aside><main class="content"><h1>クエスト / Quests</h1>
-<p>変愚蛮怒のクエスト（<code>lib/edit/quests/*.txt</code> の定義）を一覧化します。最終目標は <strong>混沌のサーペント（100階）</strong> の討伐で、その手前で <strong>オベロン（99階）</strong> を倒す必要があります。クエストは街のNPCやダンジョンで受ける固定クエストと、鉄獄の特定階で発生するランダムクエストに分かれます。</p>
-<p>All quests defined in <code>lib/edit/quests/*.txt</code>, cross-referenced to monster / dungeon / artifact data.</p>
+<p>変愚蛮怒のクエスト（<code>lib/edit/quests/*.txt</code> の定義）を、<strong>受注箇所（町）・受注順・発生条件</strong> が分かる形で整理します。最終目標は <strong>混沌のサーペント（100階）</strong> の討伐で、その手前で <strong>オベロン（99階）</strong> を倒す必要があります。</p>
+<p>All quests defined in <code>lib/edit/quests/*.txt</code>, organised by where/when they are offered; cross-referenced to monster / dungeon / artifact data.</p>
 <p><a href="index.html">🏠 ホーム / Home</a></p>
+<h2>受注の仕組み / How quests are taken</h2>
+<ul>
+<li><strong>受注箇所</strong>: 街の依頼建物（<code>BUILDING_1</code>＝領主の館など）に入ると、その町の未受注クエストを1件だけ提示する（<code>castle_quest</code>、<code>src/market/building-quest.cpp</code>）。受けると状態が受託（TAKEN）になる。</li>
+<li><strong>受注順</strong>: 各町の依頼建物は <strong>前のクエストを達成（報酬受取）すると次のクエストを提示</strong> する連鎖形式。下表の「前提クエスト」がその直前のクエスト。深い町は荒野を旅して到達する必要がある。</li>
+<li><strong>クエスト入口</strong>: 受託すると、その町にクエスト入口（<code>QUEST_ENTER</code>）が出現し、そこから専用フロアへ入る。ワーグ（No.14）だけは入口が <strong>イークの洞穴</strong> にある。</li>
+<li><strong>ダンジョンの守護者</strong>: オベロン（99階）とサーペント（100階）はゲーム開始時に自動受託され、鉄獄の固定階で戦う（<code>init_dungeon_quests</code>、<code>src/birth/game-play-initializer.cpp</code>）。</li>
+<li><strong>町構成</strong>: 以下は通常荒野（<code>$WILDERNESS NORMAL</code>）の配置。荒野なし（lite）では全クエストが辺境の町に集約され、鉄獄のみ（vanilla）ではクエストが発生しない。</li>
+</ul>
 <h2>クエストの種別 / Quest kinds</h2>
 <p><code>QuestKindType</code>（<code>src/system/dungeon/quest-definition.h</code>）による目的の分類。</p>
 <div class="tablewrap"><table class="sortable">
@@ -202,8 +210,9 @@
 </tr>
 </tbody>
 </table></div>
-<h2>固定クエスト一覧 / Fixed quests</h2>
-<p>全 33 件。「対象Lv」はクエストフロアの危険度（相当階）。「目標」の ×N は必要撃破数。</p>
+<h2>町ごとの固定クエスト / Town quests</h2>
+<p>「対象Lv」はクエストフロアの危険度（相当階）。「目標」の ×N は必要撃破数。表の並びが受注順。</p>
+<h3>辺境の町（アウトポスト）（10件）</h3>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -212,7 +221,7 @@
 <th>種別</th>
 <th>対象Lv</th>
 <th>目標</th>
-<th>発生ダンジョン</th>
+<th>前提クエスト</th>
 <th>フラグ</th>
 </tr>
 </thead>
@@ -223,115 +232,7 @@
 <td>全滅</td>
 <td>5</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>2</td>
-<td>下水道<br>The Sewer</td>
-<td>全滅</td>
-<td>15</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>3</td>
-<td>ログルス使い<br>Logrus Master</td>
-<td>特定ユニーク撃破</td>
-<td>25</td>
-<td><a href="Monster-498-logrus-master.html">ログルス使い / Logrus master</a></td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>4</td>
-<td>宝物庫<br>The Vault</td>
-<td>アーティファクト発見</td>
-<td>30</td>
-<td>指定アーティファクト</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>5</td>
-<td>塔<br>The Tower</td>
-<td>塔</td>
-<td>40</td>
-<td>全エリアの全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / TOWER</td>
-</tr>
-<tr>
-<td>6</td>
-<td>塔<br>The Tower 2</td>
-<td>塔</td>
-<td>40</td>
-<td>全エリアの全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>SILENT / PRESET / TOWER</td>
-</tr>
-<tr>
-<td>7</td>
-<td>塔<br>The Tower 3</td>
-<td>塔</td>
-<td>40</td>
-<td>全エリアの全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>SILENT / PRESET / TOWER</td>
-</tr>
-<tr>
-<td>8</td>
-<td>オベロン<br>Oberon</td>
-<td>特定ユニーク撃破</td>
-<td>99</td>
-<td><a href="Monster-860-oberon-king-of-amber.html">アンバーの王『オベロン』 / Oberon, King of Amber</a></td>
-<td>鉄獄</td>
-<td>-</td>
-</tr>
-<tr>
-<td>9</td>
-<td>混沌のサーペント<br>Serpent of Chaos</td>
-<td>特定ユニーク撃破</td>
-<td>100</td>
-<td><a href="Monster-862-the-serpent-of-chaos.html">『混沌のサーペント』 / The Serpent of Chaos</a></td>
-<td>鉄獄</td>
-<td>-</td>
-</tr>
-<tr>
-<td>10</td>
-<td>仙術エネルギー特異点<br>Node of Sorcery</td>
-<td>全滅</td>
-<td>65</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>11</td>
-<td>カオスの特異点<br>Node of Chaos</td>
-<td>全滅</td>
-<td>65</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>12</td>
-<td>自然魔術の特異点<br>Node of Nature</td>
-<td>全滅</td>
-<td>65</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>13</td>
-<td>秘術の特異点<br>Node of Arcane</td>
-<td>全滅</td>
-<td>65</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
+<td>—（最初に提示）</td>
 <td>PRESET / ONCE</td>
 </tr>
 <tr>
@@ -340,26 +241,8 @@
 <td>特定ユニーク撃破</td>
 <td>5</td>
 <td><a href="Monster-257-warg.html">ワーグ / Warg</a> ×16</td>
-<td>イークの洞穴</td>
+<td>1: 盗賊の隠れ家</td>
 <td>-</td>
-</tr>
-<tr>
-<td>15</td>
-<td>エリックの要塞<br>Eric's Stronghold</td>
-<td>特定ユニーク撃破</td>
-<td>70</td>
-<td><a href="Monster-813-eric-the-usurper.html">王位簒奪者『エリック』 / Eric the Usurper</a></td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>16</td>
-<td>モンサルヴァト城への侵攻<br>Assault on Montsalvat</td>
-<td>全滅</td>
-<td>40</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
 </tr>
 <tr>
 <td>18</td>
@@ -367,61 +250,7 @@
 <td>脱出</td>
 <td>35</td>
 <td>フロアから脱出</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>19</td>
-<td>破滅のクエスト１<br>Doom Quest 1</td>
-<td>全滅</td>
-<td>15</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>20</td>
-<td>謎の障気<br>Vapor Quest</td>
-<td>全滅</td>
-<td>25</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>21</td>
-<td>破滅のクエスト２<br>Doom Quest 2</td>
-<td>全滅</td>
-<td>55</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>22</td>
-<td>オークのキャンプ<br>Orc Camp</td>
-<td>全滅</td>
-<td>15</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>23</td>
-<td>増殖地獄<br>Spawning Pits</td>
-<td>全滅</td>
-<td>65</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>24</td>
-<td>マイクロンフトの興亡<br>The Rise and Fall of Micro$oft</td>
-<td>特定ユニーク撃破</td>
-<td>50</td>
-<td><a href="Monster-732-bull-gates-the-applephobe.html">リンゴ嫌い『ブル・ゲイツ』 / Bull Gates, the applephobe</a></td>
-<td>—（街固定マップ）</td>
+<td>1: 盗賊の隠れ家</td>
 <td>PRESET / ONCE</td>
 </tr>
 <tr>
@@ -430,16 +259,7 @@
 <td>全滅</td>
 <td>48</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>26</td>
-<td>激戦場<br>Killing Fields</td>
-<td>特定ユニーク撃破</td>
-<td>50</td>
-<td><a href="Monster-723-maulotaur.html">マウロタウロス / Maulotaur</a></td>
-<td>—（街固定マップ）</td>
+<td>18: 湖の洞窟</td>
 <td>PRESET / ONCE</td>
 </tr>
 <tr>
@@ -448,7 +268,7 @@
 <td>全滅</td>
 <td>50</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
+<td>—（最初に提示）</td>
 <td>PRESET / ONCE</td>
 </tr>
 <tr>
@@ -457,25 +277,7 @@
 <td>特定ユニーク撃破</td>
 <td>70</td>
 <td><a href="Monster-776-archlich.html">アーチリッチ / Archlich</a> ×5</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>29</td>
-<td>ミミックの財宝<br>The Mimic's Treasure</td>
-<td>全滅</td>
-<td>25</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
-<td>PRESET / ONCE</td>
-</tr>
-<tr>
-<td>30</td>
-<td>テングとデスソード<br>Tengu and Death Swords</td>
-<td>全滅</td>
-<td>25</td>
-<td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
+<td>25: 幽霊屋敷</td>
 <td>PRESET / ONCE</td>
 </tr>
 <tr>
@@ -484,7 +286,7 @@
 <td>全滅</td>
 <td>22</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
+<td>—（最初に提示）</td>
 <td>PRESET / ONCE</td>
 </tr>
 <tr>
@@ -493,7 +295,7 @@
 <td>全滅</td>
 <td>25</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
+<td>—（最初に提示）</td>
 <td>PRESET / ONCE</td>
 </tr>
 <tr>
@@ -502,7 +304,7 @@
 <td>全滅</td>
 <td>45</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
+<td>—（最初に提示）</td>
 <td>PRESET / ONCE</td>
 </tr>
 <tr>
@@ -511,22 +313,293 @@
 <td>全滅</td>
 <td>5</td>
 <td>エリア内の全モンスターを撃破</td>
-<td>—（街固定マップ）</td>
+<td>—（最初に提示）</td>
 <td>PRESET / ONCE</td>
 </tr>
 </tbody>
 </table></div>
+<h3>テルモラ（7件）</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No</th>
+<th>クエスト / Quest</th>
+<th>種別</th>
+<th>対象Lv</th>
+<th>目標</th>
+<th>前提クエスト</th>
+<th>フラグ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>下水道<br>The Sewer</td>
+<td>全滅</td>
+<td>15</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>—（最初に提示）</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ログルス使い<br>Logrus Master</td>
+<td>特定ユニーク撃破</td>
+<td>25</td>
+<td><a href="Monster-498-logrus-master.html">ログルス使い / Logrus master</a></td>
+<td>2: 下水道</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>4</td>
+<td>宝物庫<br>The Vault</td>
+<td>アーティファクト発見</td>
+<td>30</td>
+<td>指定アーティファクト</td>
+<td>3: ログルス使い</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>5</td>
+<td>塔<br>The Tower</td>
+<td>塔</td>
+<td>40</td>
+<td>全エリアの全モンスターを撃破</td>
+<td>4: 宝物庫</td>
+<td>PRESET / TOWER</td>
+</tr>
+<tr>
+<td>16</td>
+<td>モンサルヴァト城への侵攻<br>Assault on Montsalvat</td>
+<td>全滅</td>
+<td>40</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>5: 塔</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>26</td>
+<td>激戦場<br>Killing Fields</td>
+<td>特定ユニーク撃破</td>
+<td>50</td>
+<td><a href="Monster-723-maulotaur.html">マウロタウロス / Maulotaur</a></td>
+<td>5: 塔</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>15</td>
+<td>エリックの要塞<br>Eric's Stronghold</td>
+<td>特定ユニーク撃破</td>
+<td>70</td>
+<td><a href="Monster-813-eric-the-usurper.html">王位簒奪者『エリック』 / Eric the Usurper</a></td>
+<td>26: 激戦場</td>
+<td>PRESET / ONCE</td>
+</tr>
+</tbody>
+</table></div>
+<h3>モリバント（5件）</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No</th>
+<th>クエスト / Quest</th>
+<th>種別</th>
+<th>対象Lv</th>
+<th>目標</th>
+<th>前提クエスト</th>
+<th>フラグ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20</td>
+<td>謎の障気<br>Vapor Quest</td>
+<td>全滅</td>
+<td>25</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>—（最初に提示）</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>21</td>
+<td>破滅のクエスト２<br>Doom Quest 2</td>
+<td>全滅</td>
+<td>55</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>—（最初に提示）</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>24</td>
+<td>マイクロンフトの興亡<br>The Rise and Fall of Micro$oft</td>
+<td>特定ユニーク撃破</td>
+<td>50</td>
+<td><a href="Monster-732-bull-gates-the-applephobe.html">リンゴ嫌い『ブル・ゲイツ』 / Bull Gates, the applephobe</a></td>
+<td>20: 謎の障気</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>29</td>
+<td>ミミックの財宝<br>The Mimic's Treasure</td>
+<td>全滅</td>
+<td>25</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>—（最初に提示）</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>30</td>
+<td>テングとデスソード<br>Tengu and Death Swords</td>
+<td>全滅</td>
+<td>25</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>—（最初に提示）</td>
+<td>PRESET / ONCE</td>
+</tr>
+</tbody>
+</table></div>
+<h3>アングウィル（3件）</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No</th>
+<th>クエスト / Quest</th>
+<th>種別</th>
+<th>対象Lv</th>
+<th>目標</th>
+<th>前提クエスト</th>
+<th>フラグ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22</td>
+<td>オークのキャンプ<br>Orc Camp</td>
+<td>全滅</td>
+<td>15</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>—（最初に提示）</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>19</td>
+<td>破滅のクエスト１<br>Doom Quest 1</td>
+<td>全滅</td>
+<td>15</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>22: オークのキャンプ</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>23</td>
+<td>増殖地獄<br>Spawning Pits</td>
+<td>全滅</td>
+<td>65</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>19: 破滅のクエスト１</td>
+<td>PRESET / ONCE</td>
+</tr>
+</tbody>
+</table></div>
+<h3>ズル（4件）</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No</th>
+<th>クエスト / Quest</th>
+<th>種別</th>
+<th>対象Lv</th>
+<th>目標</th>
+<th>前提クエスト</th>
+<th>フラグ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>仙術エネルギー特異点<br>Node of Sorcery</td>
+<td>全滅</td>
+<td>65</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>—（最初に提示）</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>11</td>
+<td>カオスの特異点<br>Node of Chaos</td>
+<td>全滅</td>
+<td>65</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>—（最初に提示）</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>12</td>
+<td>自然魔術の特異点<br>Node of Nature</td>
+<td>全滅</td>
+<td>65</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>—（最初に提示）</td>
+<td>PRESET / ONCE</td>
+</tr>
+<tr>
+<td>13</td>
+<td>秘術の特異点<br>Node of Arcane</td>
+<td>全滅</td>
+<td>65</td>
+<td>エリア内の全モンスターを撃破</td>
+<td>—（最初に提示）</td>
+<td>PRESET / ONCE</td>
+</tr>
+</tbody>
+</table></div>
+<h2>ダンジョンの守護者 / Dungeon guardians</h2>
+<p>ゲーム開始時に自動受託され、鉄獄（Angband）の固定階で戦う。撃破が最終目標への必須条件。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>No</th>
+<th>クエスト / Quest</th>
+<th>種別</th>
+<th>対象階</th>
+<th>目標</th>
+<th>フラグ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>オベロン<br>Oberon</td>
+<td>特定ユニーク撃破</td>
+<td>鉄獄 99階</td>
+<td><a href="Monster-860-oberon-king-of-amber.html">アンバーの王『オベロン』 / Oberon, King of Amber</a></td>
+<td>-</td>
+</tr>
+<tr>
+<td>9</td>
+<td>混沌のサーペント<br>Serpent of Chaos</td>
+<td>特定ユニーク撃破</td>
+<td>鉄獄 100階</td>
+<td><a href="Monster-862-the-serpent-of-chaos.html">『混沌のサーペント』 / The Serpent of Chaos</a></td>
+<td>-</td>
+</tr>
+</tbody>
+</table></div>
+<p>テルモラの No.5「塔」は多層構造で、上層 No.6・No.7（TOWERフラグ）が続けて出現する。各層はエリア内の全モンスター撃破が目標。</p>
+<blockquote>
+<p>補足（発生条件の分岐）: テルモラの No.16「モンサルヴァト城への侵攻」は <strong>パラディン＋暗黒領域</strong> の場合に No.5 の次へ挿入される特殊クエスト。No.14「ワーグを殱滅せよ」は辺境の町の No.1「盗賊の隠れ家」達成後に提示され、入口はイークの洞穴にある。</p>
+</blockquote>
 <h2>ランダムクエスト / Random quests</h2>
 <p>固定で <strong>10 個</strong>。鉄獄（Angband）の <strong>6・12・24・38・44・50・56・62・76・88 階</strong> で発生し、各階に到達すると1体のユニークモンスターが割り当てられる。</p>
 <ul>
 <li>対象は <code>determine_random_questor()</code>（<code>src/dungeon/quest.cpp</code>）が選ぶ。実効レベル <code>対象階 + 5 + 1d(対象階/10)</code> で抽選し、そのモンスターのレベルが <code>対象階 + 対象階/20</code> を超えるユニークが選ばれるまで繰り返す（合体分離モンスターは除外）。</li>
 <li>必要撃破数は1体（<code>max_num = 1</code>）。撃破するとそのフロアで報酬（高級な床落ちアイテム）を得られる。</li>
-<li>ゲーム開始時に <code>init_dungeon_quests()</code>（<code>src/birth/game-play-initializer.cpp</code>）で全ランダムクエストとオベロン・サーペントが受託状態になる。</li>
+<li>ゲーム開始時に <code>init_dungeon_quests()</code> で全ランダムクエストとオベロン・サーペントが受託状態になる。</li>
 </ul>
 <hr>
 <blockquote>
-<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/quests/*.txt</code>, <code>src/system/dungeon/quest-definition.h</code>, <code>src/floor/fixed-map-generator.cpp</code>, <code>src/dungeon/quest.cpp</code>, <code>src/birth/game-play-initializer.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-05 01:47 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/quests/*.txt</code>, <code>lib/edit/towns/*.txt</code>, <code>src/market/building-quest.cpp</code>, <code>src/system/dungeon/quest-definition.h</code>, <code>src/floor/fixed-map-generator.cpp</code>, <code>src/dungeon/quest.cpp</code>, <code>src/birth/game-play-initializer.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-05 02:02 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
