@@ -138,6 +138,41 @@ if (has_resist_neth(player_ptr)) {
 }
 </code></pre>
 <p>CALC_RAND の randrate(4, 7, mode) は randint1(4) * 100 + 7 * 100。</p>
+<h3>実行倍率（概算）</h3>
+<p>幽霊（SPECTRE）以外で地獄耐性を持つ場合、実行倍率 per は <code>per = 60000 / randrate(4,7)</code> で決まり、除数が <code>(randint1(4) + 7) × 100</code> なので <code>randint1(4)</code> の出目に応じて次の4通り（各1/4）になる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>randint1(4)</th>
+<th>除数</th>
+<th>per（実行倍率）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>800</td>
+<td>75（約 0.75 倍）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>900</td>
+<td>66（約 0.66 倍）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1000</td>
+<td>60（約 0.60 倍）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1100</td>
+<td>54（約 0.54 倍）</td>
+</tr>
+</tbody>
+</table></div>
+<p>つまり地獄ダメージは概ね <strong>約 54〜75%（平均約 63%）</strong> に軽減される（軽減幅は約 25〜46%、平均約 37%）。乱数依存のため固定倍率ではない。</p>
+<p>幽霊（SPECTRE）の場合は倍率6倍の加算（<code>per *= 6</code>）が無いため per は概算で 9〜12（約 1/10）だが、実際には後述の <code>effect_player_nether()</code> で地獄ダメージが無効化され、逆に <code>dam / 4</code> だけ回復するため実質免疫となる。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -200,7 +235,7 @@ if (player_ptr-&gt;ult_res || player_ptr-&gt;tim_res_nether) result |= FLAG_CAUS
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-damage.cpp</code>, <code>src/player/player-status-resist.cpp</code>, <code>src/player/player-status-flags.cpp</code> ほか）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-04 20:48 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-05 21:10 UTC · hengband <code>5ebae9734b</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
