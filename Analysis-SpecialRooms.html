@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>特殊部屋生成 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="ページ・モンスター名で検索 / search pages…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+</ul>
+<h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Classes.html">🧑‍🚀 職業 / Classes</a>
+<ul>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+</li>
+<li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Quests.html">📜 クエスト / Quests</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+</ul>
+<h3><a href="Analysis.html">🔬 解析 / Analysis</a></h3>
+<ul>
+<li>⚔️ 戦闘 / Combat
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></li>
+<li><a href="Analysis-ChaosEffect.html">カオス的効果</a></li>
+</ul>
+</li>
+<li>👹 モンスター / Monsters
+<ul>
+<li><a href="Analysis-MonsterGen.html">モンスター生成</a></li>
+<li><a href="Analysis-SpecialRooms.html">特殊部屋生成</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収処理</a></li>
+</ul>
+</li>
+<li>🧙 キャラクター / Character
+<ul>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-HitPoints.html">最大HP（ヒットポイント）</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力が上昇時にどれだけ増えるか</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-Stun.html">朦朧処理</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+<li><a href="Analysis-Android.html">アンドロイドのレベル</a></li>
+<li><a href="Analysis-Autoroller.html">オートローラー</a></li>
+<li><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></li>
+<li><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></li>
+<li><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></li>
+<li><a href="Analysis-Riding.html">騎乗時処理</a></li>
+</ul>
+</li>
+<li>🎒 アイテム / Items
+<ul>
+<li><a href="Analysis-ItemLevel.html">アイテムレベルが決まるルール</a></li>
+<li><a href="Analysis-DeviceUse.html">魔法道具使用成功率</a></li>
+<li><a href="Analysis-EatMagic.html">魔力喰い</a></li>
+<li><a href="Analysis-WeaponRepair.html">折れた武器修復</a></li>
+</ul>
+</li>
+<li>⚙️ システム・その他 / System
+<ul>
+<li><a href="Score.html">スコアの算出方法 / Scoring</a></li>
+<li><a href="Analysis-FloorGeneration.html">フロア生成</a></li>
+<li><a href="Analysis-Store.html">店舗</a></li>
+<li><a href="Analysis-Rumor.html">噂</a></li>
+<li><a href="Analysis-Autopick.html">自動拾い</a></li>
+<li><a href="Analysis-Glass.html">ガラス地形</a></li>
+<li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
+<li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
+<li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
+</ul>
+</li>
+<li>🛡️ <a href="Resistances.html">プレイヤー耐性一覧 / Resistances</a></li>
+<li>🧬 <a href="Mutations.html">突然変異一覧 / Mutations</a>
+<ul>
+<li><a href="Mutations-Activatable.html">発動型</a> ・ <a href="Mutations-Random.html">ランダム発動型</a> ・ <a href="Mutations-Constant.html">常時型</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>特殊部屋生成</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>モンスターの巣・巣窟・ヴォールトといった <strong>特殊部屋</strong> は、フロア生成時に <strong>階層で重み付けされたテーブル</strong> から割り当てられる。各部屋タイプには <strong>最小階（それより浅い階では出現しない）</strong> があり、深いほど出やすい。さらに巣／巣窟の <strong>テーマ</strong> にも個別の最小階がある。ここで生成される部屋は内部のモンスター生成レベルを引き上げるため、格上（階層外＝OOD）モンスターの主な供給源になる（<a href="Analysis-MonsterGen.html">モンスター生成</a> 参照）。</p>
+<h2>フロアの部屋割り当て（room-generator.cpp）</h2>
+<pre><code>max_rooms = 40                                   # 基本比率
+area_size = 100 × (フロア高×幅) / (MAX_HGT×MAX_WID)   # フロア面積比(%)
+dun_rooms = max_rooms × area_size / 100          # 部屋生成の試行回数
+level_index = min(10, round(現在階 / 10))          # 出現比テーブルの列（0,10,…,100F）
+</code></pre>
+<ul>
+<li>各部屋タイプについて、<code>現在階 &lt; 最小階</code> なら生成候補から除外（確率0）。そうでなければ出現比テーブルの <code>level_index</code> 列の値を重みにする。</li>
+<li>部屋は <strong><code>room_build_order</code>（難しい部屋から先に）</strong> の順で構築を試みる: 大ヴォールト → アーケード → ランダムヴォールト → 小ヴォールト → トラップの巣窟 → 巣窟 → 巣 → …。</li>
+<li>ダンジョンのフラグで枠が変わる: <code>NO_VAULT</code> はヴォールト3種を0に、<code>NO_CAVE</code> は洞窟枠を通常部屋へ、<code>ARENA/CAVE</code> 等も再配分。</li>
+<li>モンスター／アイテムのリストがほぼ満杯だと、大量配置系の部屋は生成が見送られることがある。</li>
+</ul>
+<h2>特殊部屋の出現条件（room_info_normal）</h2>
+<p>「生成比」は現在階に対応する列の重み（相対値）。<strong>最小階より浅い階では 0＝絶対に出ない</strong>。101F以降は100F値。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>部屋タイプ</th>
+<th style="text-align:right">最小階</th>
+<th>生成比（0/10/20/30/40/50/60/70/80/90/100F）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>モンスターの巣 NEST</td>
+<td style="text-align:right"><strong>10</strong></td>
+<td>0 / 1 / 1 / 1 / 2 / 3 / 5 / 6 / 8 / 10 / 13</td>
+</tr>
+<tr>
+<td>モンスターの巣窟 PIT</td>
+<td style="text-align:right"><strong>10</strong></td>
+<td>0 / 1 / 1 / 2 / 3 / 4 / 6 / 8 / 10 / 13 / 16</td>
+</tr>
+<tr>
+<td>トラップの巣窟 TRAP_PIT</td>
+<td style="text-align:right"><strong>20</strong></td>
+<td>0 / 0 / 1 / 1 / 1 / 2 / 3 / 4 / 5 / 6 / 8</td>
+</tr>
+<tr>
+<td>小ヴォールト LESSER_VAULT</td>
+<td style="text-align:right"><strong>10</strong></td>
+<td>0 / 1 / 1 / 1 / 2 / 2 / 3 / 5 / 6 / 8 / 10</td>
+</tr>
+<tr>
+<td>大ヴォールト GREATER_VAULT</td>
+<td style="text-align:right"><strong>20</strong></td>
+<td>0 / 0 / 1 / 1 / 1 / 2 / 2 / 2 / 3 / 3 / 4</td>
+</tr>
+<tr>
+<td>ランダムヴォールト RANDOM_VAULT</td>
+<td style="text-align:right"><strong>10</strong></td>
+<td>0 / 1 / 1 / 1 / 1 / 1 / 1 / 1 / 1 / 2 / 2</td>
+</tr>
+<tr>
+<td>クリプト CRYPT</td>
+<td style="text-align:right">10</td>
+<td>1 / 6 / 12 / 18 / 24 / 30 / 36 / 42 / 48 / 54 / 60</td>
+</tr>
+<tr>
+<td>ガラス部屋 GLASS</td>
+<td style="text-align:right">40</td>
+<td>0 / 0 / 0 / 0 / 1 / 1 / 1 / 2 / 2 / 2 / 2</td>
+</tr>
+</tbody>
+</table></div>
+<p>（通常部屋 NORMAL/OVERLAP/CROSS/INNER_FEAT/OVAL 等は最小階1〜3で常時候補。上表は格上モンスターに関わる主な特殊部屋。）</p>
+<p><strong>要点</strong>: 巣・巣窟・小/ランダムヴォールトは <strong>10F 以降</strong>、トラップ巣窟・大ヴォールトは <strong>20F 以降</strong>。いずれも深いほど頻繁。</p>
+<h2>モンスターの巣（nest, rooms-nest.cpp）</h2>
+<ul>
+<li><strong>64 体</strong> を生成。各体を <code>get_mon_num(max_level = 現在階 + 11)</code> で選抜（<code>select_pit_nest_monrace_id(…, boost=11)</code>）。</li>
+<li>テーマ（下表）の基準モンスターは <code>get_mon_num(max_level = 現在階 + 10)</code> で選ぶ。CLONE は同一種族の複製、SYMBOL は同じ表示記号でそろえる。</li>
+<li>配置は <strong>ランダム</strong>（種別をシャッフルして撒く）。強さの偏りは無い。</li>
+</ul>
+<h3>巣のテーマと最小階</h3>
+<p><code>現在階 ≥ テーマ最小Lv</code> のテーマのみ候補。重み <code>= 生成確率 × MAX_DEPTH / (現在階 − テーマ最小Lv + 5)</code> で抽選するため、<strong>テーマは最小階付近で最も出やすく、深くなるほど薄れる</strong>。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>テーマ</th>
+<th style="text-align:right">最小Lv</th>
+<th>テーマ</th>
+<th style="text-align:right">最小Lv</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クローン</td>
+<td style="text-align:right">5</td>
+<td>犬小屋</td>
+<td style="text-align:right">45</td>
+</tr>
+<tr>
+<td>ゼリー</td>
+<td style="text-align:right">5</td>
+<td>狂気(lovecraft)</td>
+<td style="text-align:right">70</td>
+</tr>
+<tr>
+<td>シンボル(善)</td>
+<td style="text-align:right">25</td>
+<td>教会</td>
+<td style="text-align:right">75</td>
+</tr>
+<tr>
+<td>シンボル(悪)</td>
+<td style="text-align:right">25</td>
+<td>アンデッド</td>
+<td style="text-align:right">75</td>
+</tr>
+<tr>
+<td>ミミック</td>
+<td style="text-align:right">30</td>
+<td>動物園</td>
+<td style="text-align:right">35</td>
+</tr>
+</tbody>
+</table></div>
+<h2>モンスターの巣窟（pit, rooms-pit.cpp）</h2>
+<ul>
+<li><strong>16 種族</strong> を <code>get_mon_num(max_level = 現在階 + 11)</code>（標準）で選び、<strong>レベル順にソートして強い種族ほど中心付近</strong>に配置する（同心状のピット構造）。</li>
+<li><strong>トラップの巣窟（trapped pit）</strong> は格上補正なし＝ <code>現在階 + 0</code> で選ぶ。</li>
+</ul>
+<h3>巣窟のテーマと最小階</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>テーマ</th>
+<th style="text-align:right">最小Lv</th>
+<th>テーマ</th>
+<th style="text-align:right">最小Lv</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>オーク</td>
+<td style="text-align:right">5</td>
+<td>教会</td>
+<td style="text-align:right">65</td>
+</tr>
+<tr>
+<td>トロル</td>
+<td style="text-align:right">20</td>
+<td>シンボル(善/悪)</td>
+<td style="text-align:right">70</td>
+</tr>
+<tr>
+<td>ダークエルフ</td>
+<td style="text-align:right">45</td>
+<td>ドラゴン</td>
+<td style="text-align:right">70</td>
+</tr>
+<tr>
+<td>巨人</td>
+<td style="text-align:right">50</td>
+<td>狂気</td>
+<td style="text-align:right">80</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:right"></td>
+<td>デーモン</td>
+<td style="text-align:right">80</td>
+</tr>
+</tbody>
+</table></div>
+<p>重み付けは巣と同式。例えば 60F ではオーク（最小5）よりトロル・巨人（最小20/50）の方が出やすく、<strong>ドラゴン・デーモン巣窟は 70〜80F 以降</strong> でしか出ない。</p>
+<h2>ヴォールト（vault）</h2>
+<p>固定レイアウト（<code>&amp;/@/9/8/,</code> 等の記号でモンスター・宝を指定）と、ランダム／迷路ヴォールト（空きマスを距離で難度分けして充填）がある。</p>
+<ul>
+<li><strong>小ヴォールト LESSER_VAULT</strong>（最小10F） / <strong>大ヴォールト GREATER_VAULT</strong>（最小20F） / <strong>ランダムヴォールト RANDOM_VAULT</strong>（最小10F）。</li>
+<li>大ヴォールトは最も難しく、最強格の配置記号（<code>8</code>＝現在階+40）を含みうる。</li>
+</ul>
+<h3>固定レイアウトの記号別生成レベル（rooms-vault.cpp）</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>記号</th>
+<th style="text-align:right">モンスター生成Lv</th>
+<th>アイテム</th>
+<th>補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&amp;</code></td>
+<td style="text-align:right">現在階 + 5</td>
+<td>—</td>
+<td>通常のヴォールト内モンスター</td>
+</tr>
+<tr>
+<td><code>@</code></td>
+<td style="text-align:right">現在階 + 11</td>
+<td>—</td>
+<td>やや強いモンスター（Meaner）</td>
+</tr>
+<tr>
+<td><code>9</code></td>
+<td style="text-align:right">現在階 + 9</td>
+<td>現在階 + 7（AM_GOOD）</td>
+<td>Meaner ＋宝</td>
+</tr>
+<tr>
+<td><code>8</code></td>
+<td style="text-align:right">現在階 + 40</td>
+<td>現在階 + 20（AM_GOOD|AM_GREAT）</td>
+<td>Nasty ＋高級宝</td>
+</tr>
+<tr>
+<td><code>,</code></td>
+<td style="text-align:right">1/2 で 現在階 + 3</td>
+<td>1/2 で 現在階 + 7</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h3>ランダム／迷路ヴォールトの宝物充填（treasure-deployment.cpp <code>fill_treasure</code>）</h3>
+<p>空きマスごとに <code>value = 中心からの距離×100/サイズ + randint1(10) − difficulty</code> を計算し、<strong>中心に近い（value が小さい）ほど格上</strong>:</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>value</th>
+<th style="text-align:right">モンスター生成Lv</th>
+<th>アイテム</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt; 0</td>
+<td style="text-align:right">現在階 + 40</td>
+<td>現在階 + 20（AM_GOOD）</td>
+</tr>
+<tr>
+<td>&lt; 5</td>
+<td style="text-align:right">現在階 + 20</td>
+<td>現在階 + 10（AM_GOOD）</td>
+</tr>
+<tr>
+<td>&lt; 10</td>
+<td style="text-align:right">現在階 + 9</td>
+<td>—</td>
+</tr>
+<tr>
+<td>&lt; 17</td>
+<td style="text-align:right">現在階（通常）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>&lt; 23</td>
+<td style="text-align:right">—</td>
+<td>通常アイテム or 罠</td>
+</tr>
+</tbody>
+</table></div>
+<h2>テーマ・格上補正のまとめ</h2>
+<ul>
+<li>特殊部屋は <strong>最小階を満たさないと出現しない</strong>（巣/巣窟/小・ランダムV=10F、トラップ巣窟/大V=20F）。深いほど頻度上昇。</li>
+<li>巣/巣窟の <strong>テーマにも最小階</strong> があり、深いテーマ（ドラゴン70/デーモン80等）は該当階以降のみ。テーマは最小階付近が最頻で深いほど薄れる。</li>
+<li>部屋内のモンスターは <code>get_mon_num</code> に渡す <code>max_level</code> が引き上げられる（巣/巣窟＝階+11、ヴォールト記号 <code>8</code>＝階+40 など）。この引き上げは <strong>多重抽選や経過日数OODと重ねて効く</strong>（詳細は <a href="Analysis-MonsterGen.html">モンスター生成</a>）。</li>
+</ul>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/room/room-info-table.cpp</code>, <code>src/room/room-generator.cpp</code>, <code>src/room/rooms-nest.cpp</code>, <code>src/room/rooms-pit.cpp</code>, <code>src/room/pit-nest-util.cpp</code>, <code>src/room/rooms-vault.cpp</code>, <code>src/room/treasure-deployment.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-06 20:23 UTC · hengband <code>6d4c6945c9</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
