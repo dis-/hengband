@@ -164,7 +164,7 @@
 <li><strong>多重抽選で深いモンスターに偏る</strong>: 40% で1回・50% で2回・10% で3回抽選し、その中で <strong>最もレベルの高い</strong> モンスターを採用する。</li>
 </ul>
 <h2>特殊な部屋・ヴォールトによる格上（OOD）モンスター</h2>
-<p>前述の「経過日数によるOOD化」とは別に、<strong>特定の部屋・巣・落とし穴・ヴォールト</strong>の中では、その位置に配置するモンスターの生成レベル（<code>get_mon_num</code> に渡す <code>max_level</code>）を一時的に <strong>現在の階より引き上げて</strong> 抽選する。これにより、階層より深いモンスターがまとまって出現する。以下がその全一覧である。</p>
+<p>前述の「経過日数によるOOD化」とは別に、<strong>特定の部屋・巣・巣窟・ヴォールト</strong>の中では、その位置に配置するモンスターの生成レベル（<code>get_mon_num</code> に渡す <code>max_level</code>）を一時的に <strong>現在の階より引き上げて</strong> 抽選する。これにより、階層より深いモンスターがまとまって出現する。以下がその全一覧である。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -180,14 +180,14 @@
 <td>64 匹を階+11で選抜。テーマ（同種クローン/同シンボル）は <code>階 + 10</code> で選んだ基準モンスターに合わせる</td>
 </tr>
 <tr>
-<td>モンスターの落とし穴（pit・標準）</td>
+<td>モンスターの巣窟（pit・標準）</td>
 <td><code>階 + 11</code></td>
 <td>候補をレベル順に整列し、<strong>強い個体を中心付近</strong>に配置する</td>
 </tr>
 <tr>
-<td>トラップの落とし穴（trapped pit）</td>
+<td>トラップの巣窟（trapped pit）</td>
 <td><code>階 + 0</code></td>
-<td>落とし穴だが格上補正は無し（現在の階基準）</td>
+<td>巣窟だが格上補正は無し（現在の階基準）</td>
 </tr>
 <tr>
 <td>固定ヴォールト 記号 <code>&amp;</code></td>
@@ -231,7 +231,7 @@
 <li>上記の引き上げは <code>get_mon_num</code> の <code>max_level</code> を高めるだけなので、<strong>「抽選」の多重抽選（40/50/10 で最深を採用）や、経過日数によるOOD化も重ねて効く</strong>。実際の個体は表の値より更に深くなりうる。</li>
 <li>引き上げ後もユニークの討伐済み判定・生成可否などの通常の除外は同様に適用される。</li>
 <li><code>階</code> は正確には <code>base_level</code>（通常は <code>dun_level</code> と同じ）。処理中だけ <code>monster_level</code> を書き換え、直後に元へ戻す。</li>
-<li>ヴォールト・巣・落とし穴自体の出現条件（階層・確率・部屋数）は <a href="Analysis-FloorGeneration.html">フロア生成</a> を参照。</li>
+<li>ヴォールト・巣・巣窟自体の出現条件（階層・確率・部屋数）は <a href="Analysis-FloorGeneration.html">フロア生成</a> を参照。</li>
 </ul>
 <h2>グループ・大群の頭数（place_monster_group）</h2>
 <p>群れを作るモンスターは複数体で出現する。</p>
@@ -281,14 +281,14 @@ extra は ±9 で頭打ち
 <ul>
 <li>出現モンスターは基本「現在の階」で決まるが、<strong>プレイ日数が経つほど格上（OOD）が混じる</strong>（最大 +25 階相当、確率最大 1/3）。</li>
 <li>多重抽選により、同じ階でも <strong>やや深いモンスターへ偏る</strong>。</li>
-<li><strong>巣・落とし穴・ヴォールト（特殊部屋）の中では生成レベルが引き上げられ</strong>、階より深いモンスターがまとまって出る（巣/落とし穴は <code>階 + 11</code>、ヴォールト記号 <code>8</code> は最大 <code>階 + 40</code>）。</li>
+<li><strong>巣・巣窟・ヴォールト（特殊部屋）の中では生成レベルが引き上げられ</strong>、階より深いモンスターがまとまって出る（巣/巣窟は <code>階 + 11</code>、ヴォールト記号 <code>8</code> は最大 <code>階 + 40</code>）。</li>
 <li>群れ・護衛・大群により、1回の生成で複数体まとまって出ることがある。</li>
 <li>生成時は種族の <code>sleep</code> に応じて眠っていることが多い（悪夢モードを除く）。</li>
 </ul>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/monster-floor/monster-generator.cpp</code>, <code>src/monster/monster-list.cpp</code>（get_mon_num）, <code>src/monster-floor/one-monster-placer.cpp</code>, <code>src/floor/cave-generator.cpp</code>, <code>src/world/world-turn-processor.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-06 15:08 UTC · hengband <code>6d4c6945c9</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-06 15:20 UTC · hengband <code>6d4c6945c9</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
