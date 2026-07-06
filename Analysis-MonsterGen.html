@@ -142,7 +142,7 @@
 <ol>
 <li>最下層の<strong>固定守護者</strong>（<code>final_guardian</code>）が未討伐でその階なら最深部に配置。</li>
 <li>プレイヤーから距離が <code>(min_dis, max_dis]</code> に入るランダムな空きグリッドを最大10000回試行して探す。</li>
-<li><code>randint1(5000) &lt;= 階</code> の確率（＝階/5000）で <strong>モンスターの大群（horde）</strong> を発生させる。深い階ほど群れが出やすい。</li>
+<li><code>randint1(5000) &lt;= 階</code> の確率（＝階/5000）で <strong>モンスターの大群（horde）</strong> を発生させる（詳細は後述「モンスターの大群（horde）」）。深い階ほど群れが出やすい。</li>
 <li>それ以外は <code>place_random_monster</code>（グループ生成を許可）で1体（＋グループ）配置。</li>
 </ol>
 <h2>どのモンスターが出るか（get_mon_num）</h2>
@@ -242,6 +242,30 @@ extra は ±9 で頭打ち
 頭数 = randint1(10) + extra   （1〜32体にクランプ）
 </code></pre>
 <p>中心の周囲へ散布して配置する。格下（階より浅い）モンスターほど大群になりやすい。</p>
+<h2>モンスターの大群（horde）</h2>
+<p><code>alloc_horde()</code>（<code>src/monster-floor/monster-generator.cpp</code>）による特別な大量発生。前述のとおり配置1回ごとに <code>randint1(5000) &lt;= 階</code> の確率（＝階/5000、<strong>深い階ほど頻繁</strong>）で発生し、<strong>同じシンボル（種別文字）のモンスターが一箇所に大量に湧く</strong>。</p>
+<h3>頭目（リーダー）の選抜</h3>
+<p><code>select_horde_leader_r_idx()</code> が、通常の <code>get_mon_num(max_level = monster_level)</code> で頭目を1体選ぶ（最大1000回試行）。次は頭目になれない:</p>
+<ul>
+<li><strong>ユニークモンスター</strong>（<code>UNIQUE</code>）</li>
+<li><strong><code>HAGURE</code>（はぐれもの）</strong></li>
+</ul>
+<p>選んだ頭目を配置地点に置く（最大1000回試行）。</p>
+<h3>群れ本体の召喚</h3>
+<p>頭目を中心に、<code>randint1(10) + 5</code> 回（＝ <strong>6〜15 回</strong>）の召喚を行う。各召喚は:</p>
+<ul>
+<li><code>summon_specific(..., 階 + 5, SUMMON_KIN, PM_ALLOW_GROUP, 頭目)</code> — 生成レベルは <strong><code>階 + 5</code></strong>（頭目より深いモンスターも混じりうる）。</li>
+<li><strong><code>SUMMON_KIN</code>＝頭目と同じシンボル文字のモンスターのみ</strong>を呼ぶ（<code>HAGURE</code> は対象外）。このため大群は「同じ記号のモンスターの集団」になる（例: <code>o</code> ならオーク系ばかり）。</li>
+<li><strong><code>PM_ALLOW_GROUP</code></strong> 付きなので、召喚された各個体がさらに自分のグループを伴うことがある（雪だるま式に増える）。</li>
+<li>散布中心は毎回 <strong>直前に召喚した位置へ移動</strong>する（<code>pos = pos_scat</code>）。半径5以内へ順に撒くため、群れは一方向へ<strong>帯状に広がる</strong>傾向がある。</li>
+</ul>
+<h3>補足</h3>
+<ul>
+<li>頭目選抜は <code>monster_level</code>、群れ召喚は <code>階 + 5</code>。<strong>格上補正が乗るため、大群のモンスターは通常配置よりやや深い</strong>。</li>
+<li>大群は「同一シンボル」で構成されるが、<code>SUMMON_KIN</code> はレベル条件も満たす種族から選ぶので、<strong>同記号でも複数種</strong>が混ざりうる。</li>
+<li><code>cheat_hear</code>（デバッグ）時のみ「モンスターの大群(記号)」というメッセージが出る。</li>
+<li>頭目がカメレオンの場合、メッセージには変身後の記号が使われる。</li>
+</ul>
 <h2>護衛・分隊・変装（place_specific_monster）</h2>
 <ul>
 <li>グループ許可時、種族が持つ <strong>護衛（reinforce）</strong> や <strong>分隊（ESCORT フラグ）</strong> のモンスターを周囲に配置する。</li>
@@ -264,7 +288,7 @@ extra は ±9 で頭打ち
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/monster-floor/monster-generator.cpp</code>, <code>src/monster/monster-list.cpp</code>（get_mon_num）, <code>src/monster-floor/one-monster-placer.cpp</code>, <code>src/floor/cave-generator.cpp</code>, <code>src/world/world-turn-processor.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-06 14:44 UTC · hengband <code>6d4c6945c9</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-06 15:08 UTC · hengband <code>6d4c6945c9</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
