@@ -255,14 +255,14 @@ extra は ±9 で頭打ち
 <h3>群れ本体の召喚</h3>
 <p>頭目を中心に、<code>randint1(10) + 5</code> 回（＝ <strong>6〜15 回</strong>）の召喚を行う。各召喚は:</p>
 <ul>
-<li><code>summon_specific(..., 階 + 5, SUMMON_KIN, PM_ALLOW_GROUP, 頭目)</code> — 生成レベルは <strong><code>階 + 5</code></strong>（頭目より深いモンスターも混じりうる）。</li>
+<li><code>summon_specific(..., 階 + 5, SUMMON_KIN, PM_ALLOW_GROUP, 頭目)</code> を呼ぶ。ただし <code>summon_specific</code>（<code>src/monster-floor/monster-summon.cpp</code>）は渡された <code>lev</code> をそのまま使わず、内部で <code>max_level = (現在階 + lev) / 2 + 5</code> に再計算する。ここでは <code>lev = 階+5</code> なので <strong>実効生成レベル = <code>(階 + (階+5))/2 + 5</code> ＝ <code>階 + 7</code></strong>（例: 60F なら <strong>67</strong>）。頭目（<code>階</code>）より深いモンスターまで混じりうる。</li>
 <li><strong><code>SUMMON_KIN</code>＝頭目と同じシンボル文字のモンスターのみ</strong>を呼ぶ（<code>HAGURE</code> は対象外）。このため大群は「同じ記号のモンスターの集団」になる（例: <code>o</code> ならオーク系ばかり）。</li>
 <li><strong><code>PM_ALLOW_GROUP</code></strong> 付きなので、召喚された各個体がさらに自分のグループを伴うことがある（雪だるま式に増える）。</li>
 <li>散布中心は毎回 <strong>直前に召喚した位置へ移動</strong>する（<code>pos = pos_scat</code>）。半径5以内へ順に撒くため、群れは一方向へ<strong>帯状に広がる</strong>傾向がある。</li>
 </ul>
 <h3>補足</h3>
 <ul>
-<li>頭目選抜は <code>monster_level</code>、群れ召喚は <code>階 + 5</code>。<strong>格上補正が乗るため、大群のモンスターは通常配置よりやや深い</strong>。</li>
+<li>頭目選抜は <code>get_mon_num(monster_level)</code>＝<code>階</code>まで。群れ本体は召喚レベルの平均化により <strong>実効 <code>階 + 7</code></strong> まで（上記）。<strong>格上補正が乗るため、大群本体は頭目より深いモンスターを含む</strong>。例えば 60F・day8（経過日数OODが効かない早期）でも、<code>D</code> の大群本体には Lv67（＝階+7）の「カオス・ワイアーム」等が出うる。</li>
 <li>大群は「同一シンボル」で構成されるが、<code>SUMMON_KIN</code> はレベル条件も満たす種族から選ぶので、<strong>同記号でも複数種</strong>が混ざりうる。</li>
 <li><code>cheat_hear</code>（デバッグ）時のみ「モンスターの大群(記号)」というメッセージが出る。</li>
 <li>頭目がカメレオンの場合、メッセージには変身後の記号が使われる。</li>
@@ -289,7 +289,7 @@ extra は ±9 で頭打ち
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/monster-floor/monster-generator.cpp</code>, <code>src/monster/monster-list.cpp</code>（get_mon_num）, <code>src/monster-floor/one-monster-placer.cpp</code>, <code>src/floor/cave-generator.cpp</code>, <code>src/world/world-turn-processor.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-06 20:23 UTC · hengband <code>6d4c6945c9</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-06 23:22 UTC · hengband <code>6d4c6945c9</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
