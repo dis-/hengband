@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>モンスターの行動決定 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
+<div class="search-wrap"><input id="search" type="search" placeholder="ページ・モンスター名で検索 / search pages…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+</header>
+<div class="layout"><aside class="sidebar"><ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+</ul>
+<h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Classes.html">🧑‍🚀 職業 / Classes</a>
+<ul>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+</li>
+<li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Quests.html">📜 クエスト / Quests</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+</ul>
+<h3><a href="Analysis.html">🔬 解析 / Analysis</a></h3>
+<ul>
+<li>⚔️ 戦闘 / Combat
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></li>
+<li><a href="Analysis-ChaosEffect.html">カオス的効果</a></li>
+</ul>
+</li>
+<li>👹 モンスター / Monsters
+<ul>
+<li><a href="Analysis-MonsterGen.html">モンスター生成</a></li>
+<li><a href="Analysis-SpecialRooms.html">特殊部屋生成</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterAI.html">モンスターの行動決定</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収処理</a></li>
+</ul>
+</li>
+<li>🧙 キャラクター / Character
+<ul>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-HitPoints.html">最大HP（ヒットポイント）</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力が上昇時にどれだけ増えるか</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-Stun.html">朦朧処理</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+<li><a href="Analysis-Android.html">アンドロイドのレベル</a></li>
+<li><a href="Analysis-Autoroller.html">オートローラー</a></li>
+<li><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></li>
+<li><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></li>
+<li><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></li>
+<li><a href="Analysis-Riding.html">騎乗時処理</a></li>
+</ul>
+</li>
+<li>🎒 アイテム / Items
+<ul>
+<li><a href="Analysis-ItemLevel.html">アイテムレベルが決まるルール</a></li>
+<li><a href="Analysis-DeviceUse.html">魔法道具使用成功率</a></li>
+<li><a href="Analysis-EatMagic.html">魔力喰い</a></li>
+<li><a href="Analysis-WeaponRepair.html">折れた武器修復</a></li>
+</ul>
+</li>
+<li>⚙️ システム・その他 / System
+<ul>
+<li><a href="Score.html">スコアの算出方法 / Scoring</a></li>
+<li><a href="Analysis-FloorGeneration.html">フロア生成</a></li>
+<li><a href="Analysis-Store.html">店舗</a></li>
+<li><a href="Analysis-Rumor.html">噂</a></li>
+<li><a href="Analysis-Autopick.html">自動拾い</a></li>
+<li><a href="Analysis-Glass.html">ガラス地形</a></li>
+<li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
+<li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
+<li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
+</ul>
+</li>
+<li>🛠️ 開発 / Development
+<ul>
+<li><a href="Analysis-FixedQuestJsonc.html">固定クエストのJSONC移行</a></li>
+</ul>
+</li>
+<li>🛡️ <a href="Resistances.html">プレイヤー耐性一覧 / Resistances</a></li>
+<li>🧬 <a href="Mutations.html">突然変異一覧 / Mutations</a>
+<ul>
+<li><a href="Mutations-Activatable.html">発動型</a> ・ <a href="Mutations-Random.html">ランダム発動型</a> ・ <a href="Mutations-Constant.html">常時型</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>モンスターの行動決定</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>モンスターの1ターンの行動は、<code>process_monster()</code>（<code>src/monster/monster-processor.cpp</code>）を頂点とする一連の判定によって決まる。全体の流れは次の3段構えになっている。</p>
+<ol>
+<li><strong>ターン管理</strong>（<code>process_monsters</code> → <code>sweep_monster_process</code>）：フロア上の全モンスターを走査し、行動権（エネルギー）が溜まったモンスターにだけ <code>process_monster()</code> を呼ぶ。遠すぎるモンスターは処理そのものを省略する。</li>
+<li><strong>行動決定</strong>（<code>process_monster</code>）：起床・特殊行動・魔法詠唱・移動の順に判定し、いずれかが成立した時点でそのターンを終える。</li>
+<li><strong>具体行動</strong>：魔法なら「どの魔法を撃つか」（<code>choose_attack_spell</code>）、移動なら「どこへ動くか」（<code>MonsterSweepGrid</code>）を別ルーチンで決める。</li>
+</ol>
+<p>このページでは、上流のターン管理から、起床・魔法・移動・逃走の各判断ロジックまでを順に解説する。ダメージ計算そのものは<a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a>・<a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a>を参照。</p>
+<p>なお、以下で頻出する定数は次の通り（<code>src/system/gamevalue.h</code>, <code>src/pet/pet-util.h</code>, <code>src/system/monster-entity.h</code>）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>定数</th>
+<th>値</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MAX_PLAYER_SIGHT</code></td>
+<td>20</td>
+<td>プレイヤーの最大視界グリッド数</td>
+</tr>
+<tr>
+<td><code>MAX_MONSTER_SENSING</code></td>
+<td>100</td>
+<td>モンスターの最大感知グリッド数</td>
+</tr>
+<tr>
+<td><code>MAX_REPRODUCTION</code></td>
+<td>100</td>
+<td>フロア上で分裂できる総数の上限</td>
+</tr>
+<tr>
+<td><code>PET_SEEK_DIST</code></td>
+<td>10</td>
+<td>ペットの索敵距離</td>
+</tr>
+<tr>
+<td><code>MONSTER_MAXHP</code></td>
+<td>30000</td>
+<td>モンスターHPの上限</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<h2>1. 行動機会の獲得（エネルギーと距離による足切り）</h2>
+<p><code>sweep_monster_process()</code> はフロアのモンスター配列を末尾から走査する。各モンスターについて、まず<strong>処理対象にするか</strong>を絞り込み、次に<strong>エネルギー</strong>が行動閾値に達しているかを見る。</p>
+<p>処理対象の足切り（<code>decide_process_continue</code>）は次の順で判定される。</p>
+<ul>
+<li><code>monster.cdis &gt;= MAX_MONSTER_SENSING</code>（プレイヤーから100グリッド以上）なら<strong>問答無用で処理しない</strong>。</li>
+<li>プレイヤーとの距離 <code>cdis</code> が種族の感知範囲 <code>aaf</code> 以内なら処理する（ペットは <code>aaf</code> を <code>MAX_PLAYER_SIGHT</code> で頭打ち）。</li>
+<li><code>cdis &lt;= MAX_PLAYER_SIGHT</code> かつプレイヤーからそのマスに視線が通る（またはプレイヤーが忌避感を放っている）なら処理する。</li>
+<li>上記に該当しなくても、モンスターがターゲット座標（<code>target_y</code>）を持っていれば処理する。</li>
+</ul>
+<p>処理対象になったモンスターは、エネルギーを蓄積する。</p>
+<pre><code>速度 = 騎乗中なら player の速度 / それ以外は monster.get_temporary_speed()
+energy_need -= speed_to_energy(速度)
+energy_need &gt; 0 なら今回は行動せずスキップ
+</code></pre>
+<p><code>speed_to_energy()</code> は速度が速いほど大きな値を返す（<a href="Analysis-Speed.html">加速内部値</a>を参照）。<code>energy_need</code> が 0 以下になった時点で <code>energy_need += ENERGY_NEED()</code>（基準100前後の乱数）を加え、<code>process_monster()</code> を呼ぶ。<strong>速いモンスターほど1プレイヤーターンあたり多く行動できる</strong>のはこの仕組みによる。</p>
+<p>行動が終わると <code>monster.reset_target()</code> でターゲットをリセットする。また、召喚などでこのターン中に生成された新モンスターがすぐ動かないよう、走査開始時点で存在したモンスターのIDだけを先にリストアップしてから処理している。</p>
+<hr>
+<h2>2. 起床判定（睡眠モンスターがプレイヤーに気付く）</h2>
+<p>睡眠中のモンスターは行動しない。起床は2系統ある。</p>
+<h3>2.1 忌避（aggravate）による強制起床</h3>
+<p><code>process_monster()</code> 冒頭の <code>awake_monster()</code> は、<strong>プレイヤーが忌避効果（aggravate）を持つ場合のみ</strong>、寝ているモンスターをその場で叩き起こす。忌避が無ければ寝たまま（<code>return</code> して何もしない）。</p>
+<h3>2.2 騒音の蓄積による自然な起床</h3>
+<p>通常の起床は時間経過処理 <code>process_monsters_mtimed_aux()</code>（<code>src/monster/monster-status.cpp</code>, <code>MonsterTimedEffect::SLEEP</code>）で、プレイヤーの立てる「騒音」に応じて判定される。</p>
+<p>まず<strong>気付ける位置にいるか</strong>を判定する（<code>cdis &lt; MAX_MONSTER_SENSING</code> が前提）。</p>
+<ul>
+<li>感知範囲内：<code>cdis &lt;= aaf</code>（ペットは <code>aaf</code> を <code>MAX_PLAYER_SIGHT</code> で頭打ち）。</li>
+<li>視認：<code>cdis &lt;= MAX_PLAYER_SIGHT</code> かつそのマスに視線が通る。</li>
+</ul>
+<p>気付ける位置なら、次の確率判定を行う。</p>
+<pre><code>notice = 0〜1023 の一様乱数（悪夢モードでは半分に）
+notice^3 &gt; csleep_noise なら「気付かない」→ 起床せず
+</code></pre>
+<p>ここで騒音 <code>csleep_noise</code> はプレイヤーの隠密技能で決まる（<code>src/monster/monster-status.cpp</code>）。</p>
+<pre><code>csleep_noise = 1 &lt;&lt; (30 - player_ptr-&gt;skill_stl)
+</code></pre>
+<p>つまり<strong>隠密技能が1上がるごとに騒音は半減</strong>し、モンスターに気付かれにくくなる。逆に技能が低いと <code>csleep_noise</code> が大きくなり、<code>notice^3</code> がそれを下回りやすくなって起こしやすい。</p>
+<p>気付いた場合の覚醒量 <code>d</code> は次の通りで、近いほど・プレイヤーが速いほど大きく目を覚ます。</p>
+<pre><code>d = (cdis &lt; MAX_MONSTER_SENSING/2) ? (MAX_MONSTER_SENSING / cdis) : 1
+d = d × speed_to_energy(プレイヤー速度) / 10   （最低1）
+睡眠カウンタ -= d
+</code></pre>
+<p>睡眠カウンタが 0 になった時点で起床する（視認していれば「◯◯が目を覚ました。」と表示）。悪夢モードは <code>notice</code> を半減させるため、モンスターがより敏感になる。</p>
+<hr>
+<h2>3. process_monster の行動決定順序</h2>
+<p><code>process_monster()</code> は以下を上から順に評価する。<strong>「打切り」列が「する」の判定は、成立するとその場で <code>return</code> し、そのモンスターのターンを終える</strong>（＝それ以降の行動はしない）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>順</th>
+<th>処理</th>
+<th>内容</th>
+<th>打切り</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>decide_drop_from_monster</code></td>
+<td>騎乗中の相手が乗馬不可へ変身していたら落馬</td>
+<td>しない</td>
+</tr>
+<tr>
+<td>2</td>
+<td>カメレオン変身</td>
+<td><code>CHAMELEON</code> 持ちが起きていて <code>1/13</code> で別種族へ化ける</td>
+<td>しない</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>process_stealth</code></td>
+<td>忍者の超隠密判定。結果を <code>aware</code>（気付き）に格納</td>
+<td>しない</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>vanish_summoned_children</code></td>
+<td>召喚主が消滅した召喚モンスターを消す</td>
+<td>消滅で終了</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>process_quantum_effect</code></td>
+<td>量子生物の確率的消滅／テレポート</td>
+<td>消滅で終了</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>explode_grenade</code></td>
+<td>手榴弾（GRENADE）は自爆</td>
+<td>爆死で終了</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>runaway_monster</code></td>
+<td>ペット／友好ユニークがHP1/3未満で撤退</td>
+<td>撤退で終了</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>awake_monster</code></td>
+<td>睡眠中で忌避なしなら行動しない</td>
+<td>寝たままで終了</td>
+</tr>
+<tr>
+<td>9</td>
+<td>朦朧</td>
+<td>朦朧状態で <code>1/2</code> の確率で行動を飛ばす</td>
+<td>飛ばしで終了</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>process_stalking</code></td>
+<td>STALKER持ちが確率でプレイヤー背後へテレポート</td>
+<td>実行で終了</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>process_angar</code></td>
+<td>忌避された友好モンスター等が敵対化</td>
+<td>しない</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>decide_monster_multiplication</code></td>
+<td>分裂（MULTIPLY）</td>
+<td>分裂で終了</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>process_special</code></td>
+<td>オーム（OHMU）のカビ召喚など</td>
+<td>しない</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>process_sound</code> / <code>process_speak</code></td>
+<td>効果音・セリフ</td>
+<td>しない</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>cast_spell</code></td>
+<td>魔法詠唱を試みる（第6章）</td>
+<td>詠唱成功で終了</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>decide_monster_movement_direction</code></td>
+<td>移動方向の決定（第7章）。移動先が無ければ終了</td>
+<td>不動で終了</td>
+</tr>
+<tr>
+<td>17</td>
+<td><code>process_monster_movement</code></td>
+<td>実際の移動・扉・攻撃（第10章）</td>
+<td>攻撃等で終了</td>
+</tr>
+<tr>
+<td>18</td>
+<td>匂い追跡フラグ調整</td>
+<td>前進失敗＆LOS攻撃を受けたら匂い追跡を許可</td>
+<td>しない</td>
+</tr>
+<tr>
+<td>19</td>
+<td>移動不可時の魔法</td>
+<td>動けず攻撃もできず恐怖でないなら再度 <code>freq_spell</code> で攻撃魔法を試行</td>
+<td>詠唱で終了</td>
+</tr>
+<tr>
+<td>20</td>
+<td><code>process_monster_fear</code></td>
+<td>恐怖で動けなかったら恐怖を解いて「戦いを決意」</td>
+<td>決意で終了</td>
+</tr>
+</tbody>
+</table></div>
+<p>要点は、<strong>魔法（15）→移動（16-17）→移動できなければもう一度魔法（19）</strong> という優先順位である。魔法を持つモンスターは移動より先に魔法を試み、失敗（射線・距離・確率）した場合に移動へ回る。</p>
+<hr>
+<h2>4. 気付き（aware）と超隠密</h2>
+<p><code>aware</code> は「モンスターがプレイヤーを認識して行動できるか」を表すフラグで、<code>process_stealth()</code> が返す。忍者の<strong>超隠密</strong>（<code>s_stealth</code>）を持つプレイヤーに対してのみ意味を持ち、それ以外は常に <code>aware = true</code>。</p>
+<p>超隠密時、モンスターが気付く確率は次式による（気付けば <code>aware = true</code>）。</p>
+<pre><code>tmp = プレイヤーLv×6 + (隠密技能+10)×4
+自分が光っている(monlite)なら tmp /= 3
+忌避を持つなら tmp /= 2
+モンスターLv &gt; (プレイヤーLv^2/20 + 10) なら tmp /= 3   （格上は見破りやすい）
+気付く条件: randint0(tmp) &lt;= モンスターLv + 20
+</code></pre>
+<p><code>aware = false</code>（気付いていない）の場合、後述の移動方向決定で<strong>ランダム徘徊</strong>になり、攻撃魔法も撃たない。</p>
+<hr>
+<h2>5. 特殊・確率的行動</h2>
+<p>第3章の表のうち、確率で発生する主な特殊行動を補足する。</p>
+<ul>
+<li><strong>カメレオン変身</strong>：<code>CHAMELEON</code> 持ちが起床中に <code>1/13</code> でその場の地形に応じた別種族へ変身する。HPは変身後の最大HP比で再スケールされる。</li>
+<li><strong>量子効果</strong>（<code>process_quantum_effect</code>）：<code>QUANTUM</code> 種族が <code>1/2</code> かつ <code>randint0((m_idx%100)+10)==0</code> で発動。非ユニーク・非クエスト対象なら<strong>消滅</strong>（撃破扱い）、ユニークなら「観測」時に <code>1/2</code> で自身がショートテレポート、もう <code>1/2</code> でプレイヤーを距離10テレポート・アウェイ（反テレポート無効）。</li>
+<li><strong>撤退</strong>（<code>runaway_monster</code>）：ペットまたは友好状態の<strong>ユニーク／ナズグル</strong>がHP1/3未満になると、テレポート・レベルの巻物を読んでフロアから去る。騎乗中の相手は最初の2回は「痛みで逃れようとする」だけで踏み止まる（<code>riding_pinch &lt; 2</code>）。</li>
+<li><strong>背後への忍び寄り</strong>（<code>process_stalking</code>）：<code>STALKER</code> 持ちが、距離20以内・非恐怖のとき <code>1/32</code> でプレイヤーの隣へテレポートする。呪術の反テレポート結界で阻害される。</li>
+<li><strong>分裂</strong>（<code>decide_monster_multiplication</code>）：<code>MULTIPLY</code> 持ちが、フロアの分裂総数が <code>MAX_REPRODUCTION</code>(100) 未満で発動。周囲8マスのモンスター数 <code>k</code> を数え、<code>k&gt;=4</code> または <code>randint0(k×8)!=0</code> なら分裂中止（＝混み合っていると増えにくい）。呪術の反増殖結界がかかっていると <code>k=8</code> 扱いで実質増えない。</li>
+<li><strong>オームの特殊</strong>（<code>process_special</code>）：OHMU が <code>freq_spell</code> 判定に通ると、能力値の数だけカビ（SUMMON_MOLD）を召喚する。</li>
+</ul>
+<hr>
+<h2>6. 魔法詠唱の判断</h2>
+<p>モンスターの魔法は、<code>process_monster()</code> からの <code>cast_spell()</code>（対モンスターも含む詠唱）と、移動できなかった場合の <code>make_attack_spell()</code>（対プレイヤー攻撃魔法）から呼ばれる。中核は <code>make_attack_spell()</code>（<code>src/mspell/mspell-attack.cpp</code>）である。</p>
+<h3>6.1 詠唱可否の前提</h3>
+<p><code>cast_spell()</code> はまず頻度で足切りする。</p>
+<pre><code>freq_spell == 0 なら詠唱しない
+randint1(100) &gt; freq_spell なら今回は詠唱しない
+</code></pre>
+<p><code>freq_spell</code> は種族データの詠唱頻度（%）。この判定を通ったうえで、<code>make_attack_spell()</code> が次の前提を確認する。</p>
+<ul>
+<li>混乱していると詠唱しない（ターゲットを解除して終了）。</li>
+<li><code>PREVENT_MAGIC</code> フラグ（プレイヤーに先手を与えるための1手抑止）が立っていると詠唱しない。</li>
+<li>敵対状態（hostile）でないと詠唱しない。</li>
+<li>プレイヤーが射程外（<code>cdis &gt; 最大射程</code>）かつターゲット未設定なら詠唱しない。</li>
+</ul>
+<p><code>cast_spell()</code> では、<strong>別モンスターをターゲットにできる状況</strong>（<code>target_y</code> があり、その相手が敵で射線が通る）を「反撃」と見なし、対モンスター詠唱（<code>monst_spell_monst</code>）を対プレイヤー詠唱より優先する。そうでなければ対プレイヤー詠唱を優先する。</p>
+<h3>6.2 使用可能な魔法の絞り込み</h3>
+<p>詠唱すると決めたら、種族の全習得魔法から<strong>この状況で使えない／使うべきでない魔法</strong>を落としていく。</p>
+<ul>
+<li><strong><code>STUPID</code>（愚鈍）モンスターは以下の賢い絞り込みをすべて飛ばし</strong>、候補からランダムに選ぶ（<code>choose_attack_spell</code> 冒頭で <code>rand_choice</code>）。反魔法ダンジョンでも詠唱失敗率0で撃つ。</li>
+<li><strong>反魔法ダンジョン</strong>（NO_MAGIC）では、非STUPIDは内在能力（NOMAGICマスク＝ブレスや発射など）以外の呪文を落とす。</li>
+<li><strong><code>SMART</code>（賢い）</strong> モンスター（<code>check_mspell_smart</code>）：HPが最大の1/10未満だと <code>1/2</code> で「知性的な呪文（INTマスク）」だけに絞る（＝窮地で回復・脱出・召喚など有効手に集中）。テレポート・レベルが使えない階では候補から外す。</li>
+<li><strong>非STUPID共通</strong>（<code>check_mspell_non_stupid</code>）：プレイヤーのMPが0なら魔力吸収を外す／プレイヤーへの明確な射線が無ければボルト系（BOLTマスク）を外す／召喚不能な地形なら召喚系を外す／死者復活が不能なら外す、など。</li>
+<li><strong>闘技場・幻影闘技（phase out）</strong>：召喚とテレポート・レベルを一律に外す。</li>
+</ul>
+<h3>6.3 SMART_LEARN によるプレイヤー耐性回避</h3>
+<p><code>smart_learn</code>／<code>smart_cheat</code> オプション有効時、モンスターは<strong>プレイヤーの耐性を学習</strong>し、無駄な属性攻撃を避ける（<code>remove_bad_spells</code>, <code>src/mspell/improper-mspell-remover.cpp</code>）。STUPIDは対象外。<code>smart_learn</code> では稀（<code>1/100</code>）に学習内容を忘れる。</p>
+<p>避ける確率は <code>int_outof()</code> による。<strong>SMARTフラグ持ちは表の確率そのまま、非SMARTは確率が半分</strong>になる（学習していても賢くないと活かしきれない）。</p>
+<p>属性ブレス／ボール／ボルトの回避確率は次の通り（<code>src/mspell/element-resistance-checker.cpp</code>）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>プレイヤーの状態</th>
+<th>回避確率（各呪文ごとに判定）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>免疫（IMM）</td>
+<td>100%（該当属性のブレス・ボール・ボルトを確実に外す）</td>
+</tr>
+<tr>
+<td>一時耐性＋恒久耐性の両方</td>
+<td>80%（毒のNUKE系は60%、冷気の極寒の矢は80%）</td>
+</tr>
+<tr>
+<td>一時耐性または恒久耐性のどちらか</td>
+<td>30%（冷気の極寒の矢のみ20%）</td>
+</tr>
+</tbody>
+</table></div>
+<p>同様に、高位耐性・状態異常耐性（<code>src/mspell/high-resistance-checker.cpp</code>）についても、プレイヤーが対応する耐性を持てば対応する呪文（混乱・盲目・恐怖・地獄・カオス等）を確率で外す。</p>
+<h3>6.4 魔法カテゴリの選択優先順位（choose_attack_spell）</h3>
+<p>絞り込み後の候補から実際に撃つ1つを選ぶのが <code>choose_attack_spell()</code>（<code>src/mspell/mspell-selector.cpp</code>）。候補を用途別（攻撃・脱出・召喚・戦術・妨害・回復・加速など）に分類し、<strong>上から順に確率判定</strong>して最初に当たったカテゴリからランダムに1つ選ぶ。STUPIDはこの分類を行わず即ランダムに選ぶ。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>順</th>
+<th>カテゴリ</th>
+<th>発動条件（要点）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>時間停止（WORLD）</td>
+<td>15%、かつ時間停止中でない</td>
+</tr>
+<tr>
+<td>2</td>
+<td>特殊（SPECIAL）</td>
+<td>分離ユニークが分離可能なHP状況</td>
+</tr>
+<tr>
+<td>3</td>
+<td>回復（HEAL）</td>
+<td>HP&lt;1/3 かつ <code>1/2</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>脱出（BLINK/TPORT/TELE_AWAY/TELE_LEVEL）</td>
+<td>(HP&lt;1/3 または 恐怖) かつ <code>1/2</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>特殊（SPECIAL）</td>
+<td>合体ユニークは70%、ロレント40%、オーム不可、その他 <code>1/2</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>戦術（BLINK）</td>
+<td>プレイヤーとの距離&lt;4 かつ攻撃手段あり かつ75%</td>
+</tr>
+<tr>
+<td>7</td>
+<td>召喚（SUMMON）</td>
+<td>40%</td>
+</tr>
+<tr>
+<td>8</td>
+<td>魔力消去（DISPEL）</td>
+<td><code>1/2</code> かつ消去対象あり</td>
+</tr>
+<tr>
+<td>9</td>
+<td>死者復活（RAISE_DEAD）</td>
+<td>40%</td>
+</tr>
+<tr>
+<td>10</td>
+<td>攻撃（ATTACK）</td>
+<td>プレイヤー無敵時は光の剣<code>1/2</code>／攻撃40%、通常時は攻撃85%</td>
+</tr>
+<tr>
+<td>11</td>
+<td>戦術（BLINK）</td>
+<td><code>1/2</code>、時間停止中でない</td>
+</tr>
+<tr>
+<td>12</td>
+<td>無敵化（INVULNER）</td>
+<td><code>1/2</code>、無敵状態でない</td>
+</tr>
+<tr>
+<td>13</td>
+<td>回復（HEAL）</td>
+<td>HP&lt;3/4 かつ <code>1/4</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td>加速（HASTE）</td>
+<td><code>1/5</code>、加速状態でない</td>
+</tr>
+<tr>
+<td>15</td>
+<td>妨害（ANNOY／盲目・混乱・減速等）</td>
+<td>80%</td>
+</tr>
+</tbody>
+</table></div>
+<p>どれにも当たらなければ何も詠唱しない（<code>MAX</code> を返す）。要点は、<strong>追い詰められると回復・脱出を優先</strong>し、余裕があれば攻撃（通常85%）を主軸に、召喚・妨害を織り交ぜるという設計である。</p>
+<hr>
+<h2>7. 移動方向の決定</h2>
+<p>魔法を撃たなかった（または撃てなかった）モンスターは、<code>decide_monster_movement_direction()</code>（<code>src/monster-floor/monster-direction.cpp</code>）で移動方向を決める。上から順に判定し、最初に決まった方向を採用する。</p>
+<ol>
+<li><strong>混乱中、または <code>aware = false</code>（気付いていない）</strong> → ランダム徘徊。</li>
+<li><strong>不規則移動フラグ</strong>（<code>random_walk</code>）：<code>RAND_MOVE_50</code> と <code>RAND_MOVE_25</code> の両持ちは75%、<code>RAND_MOVE_50</code> 単独は <code>1/2</code>、<code>RAND_MOVE_25</code> 単独は <code>1/4</code> でランダム徘徊。</li>
+<li><strong><code>NEVER_MOVE</code>（移動しない）かつ距離&gt;1</strong> → その場から動かない（ランダム＝実質不動）。</li>
+<li><strong>ペット</strong> → ペット専用の方向決定（下記）。</li>
+<li><strong>非敵対（友好など）</strong> → 最寄りの敵の方向を探し、なければランダム徘徊。</li>
+<li><strong>敵対</strong> → <code>MonsterSweepGrid</code> による本格的な移動先探索（第9章）。</li>
+</ol>
+<p>ペット（<code>decide_pet_movement_direction</code>）は、まず敵を探して接近を試み、敵がいなければプレイヤーとの追従距離（<code>pet_follow_distance</code>）に応じて「離れる／近寄る／その場でうろつく」を決める。索敵は <code>PET_SEEK_DIST</code>(10) で頭打ちにする。</p>
+<hr>
+<h2>8. 逃走するかの判断（mon_will_run）</h2>
+<p>移動先探索の前提として、モンスターが<strong>逃げようとしているか</strong>を <code>mon_will_run()</code>（<code>src/monster-floor/monster-sweep-grid.cpp</code>）で判定する。</p>
+<ul>
+<li><strong>ペット</strong>：追従距離が負（＝離れて追従）で、その距離以内にプレイヤーがいれば逃げる。</li>
+<li>距離が <code>MAX_PLAYER_SIGHT + 5</code>(25) を超える → 逃げない（遠すぎて無関係）。</li>
+<li><strong>恐怖状態</strong> → 逃げる。</li>
+<li>距離が5以下 → 逃げない（近すぎてもう逃げられない）。</li>
+<li>それ以外は<strong>強さ比較</strong>で決める。</li>
+</ul>
+<p>強さ比較では、モンスターの実効レベルを次のように水増しして評価する。</p>
+<pre><code>m_lev = 種族レベル + (m_idx &amp; 0x08) + 25
+</code></pre>
+<p><code>(m_idx &amp; 0x08)</code> は個体IDのビット3で 0 か 8 を足す擬似ランダムなばらつき。この <code>m_lev</code> とプレイヤーレベル <code>p_lev</code> を比べ、</p>
+<ul>
+<li><code>m_lev &gt; p_lev + 4</code>（十分格上）→ 逃げない。</li>
+<li><code>m_lev + 4 &lt;= p_lev</code>（十分格下）→ 逃げる。</li>
+<li>中間帯は、HPとレベルを掛け合わせた総合力で比較する。</li>
+</ul>
+<pre><code>p_val = p_lev × 最大HP + (現在HP &lt;&lt; 2)
+m_val = m_lev × 最大HP + (現在HP &lt;&lt; 2)
+p_val × モンスター最大HP &gt; m_val × プレイヤー最大HP  なら逃げる
+</code></pre>
+<p>すなわち<strong>プレイヤーの総合力が自分を上回ると判断したら逃走</strong>する。格上と互角以上の相手には向かってくる。</p>
+<hr>
+<h2>9. 移動先グリッドの決定</h2>
+<p>敵対モンスター（および逃走判定を経たペット）は <code>MonsterSweepGrid::get_movable_grid()</code> で具体的な移動先マスを決める。これは複数の「決定器（decider）」を<strong>優先順位付きで試す</strong>方式で、<code>MonsterMoveGridDecidersFactory</code> が状況に応じて必要な決定器を並べる。逃走中（<code>will_run</code>）はこれらを飛ばして反対方向へ逃げる。</p>
+<p>決定器は次の順で評価され、最初に移動先を返したものを採用する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>決定器</th>
+<th>使われる条件</th>
+<th>挙動</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SpecificTargetMoveGridDecider</code></td>
+<td>逃走せず、明示ターゲットあり</td>
+<td>ターゲットが敵かつ視線・射線が通れば、そのマスへ向かう</td>
+</tr>
+<tr>
+<td><code>HidingMoveGridDecider</code></td>
+<td>逃走せず、敵対で仲間持ち（HAS_FRIENDS）、動物系で壁抜け・壁破壊不可</td>
+<td>物陰に隠れて待ち伏せる（プレイヤー周囲の開けた度合いと自分のHP/MP比で発動）</td>
+</tr>
+<tr>
+<td><code>SurroundingMoveGridDecider</code></td>
+<td>逃走せず、仲間持ちで近距離（<code>dist_to_player &lt; 3</code>）</td>
+<td>プレイヤーを取り囲む位置へ回り込む</td>
+</tr>
+<tr>
+<td><code>RangedAttackMoveGridDecider</code></td>
+<td>逃走せず、射程内で攻撃能力（RF_ABILITY_ATTACK_MASK）あり、かつプレイヤーへ射線が通らない</td>
+<td>射線が通るマスへ回り込む</td>
+</tr>
+<tr>
+<td><code>NoiseTrackingMoveGridDecider</code></td>
+<td>直進不可の状況で、コスト場（flow）を持つ</td>
+<td>足音（flow cost）を辿ってプレイヤーへ近づく</td>
+</tr>
+<tr>
+<td><code>ScentTrackingMoveGridDecider</code></td>
+<td>flow が無く匂い（scent）を持つ</td>
+<td>匂い（<code>grid.when</code>）の新しい方へ辿る</td>
+</tr>
+</tbody>
+</table></div>
+<p>どの決定器も移動先を返さなければ、既定でプレイヤー位置へ向かう。</p>
+<p><strong>隠れる（HidingMoveGridDecider）</strong> の発動判定は、プレイヤー周囲8マスの通行可能数を数え、部屋の中なら-2、能力（呪文等）を持たないなら-2し、それが <code>8 × (現在HP+現在MP) / (最大HP+最大MP)</code> 以上なら「隠れる必要なし」と判断する（＝プレイヤーが手負いだと物陰に隠れて待つ傾向）。隠れ先は <code>find_hiding()</code>（<code>src/monster-floor/monster-safety-hiding.cpp</code>）が、プレイヤーから射線が通らず一撃も撃たれないマスを探す。</p>
+<p><strong>逃走時の逃げ先</strong>（<code>run_away</code>）は、ペットや <code>NOFLOW</code> 状態なら単純に反対側へ、そうでなければ <code>find_safety()</code> で「プレイヤーの射線が通らない安全マス」を探し、そこへ近づく方向を8方向からスコアリングして選ぶ。</p>
+<pre><code>スコア = 5000 / (安全地点までの距離 + 3) − 500 / (flow距離 + 1)
+</code></pre>
+<hr>
+<h2>10. 移動の実行（扉・壁・攻撃）</h2>
+<p>移動先が決まると <code>process_monster_movement()</code>（<code>src/monster-floor/monster-move.cpp</code>）が実際の1マス移動を試みる。ここで扉・壁・戦闘が処理される。</p>
+<ul>
+<li><strong>壁</strong>：<code>PASS_WALL</code>（壁抜け）はそのまま通過。<code>KILL_WALL</code>（壁破壊）は壁を掘る。ただしガラス地形は、STUPIDでなく <code>HP &gt;= max(最大HP/3, 200)</code> を満たさないと壊せない（自傷を嫌う）。</li>
+<li><strong>扉</strong>：<code>OPEN_DOOR</code>（扉開け）／<code>BASH_DOOR</code>（扉破壊）を持てば開閉・破壊を試みる。鍵付きは技能判定。</li>
+<li><strong>プレイヤー／敵への隣接</strong>：移動先にプレイヤー（または敵モンスター）がいれば、移動でなく<strong>打撃</strong>（<code>MonsterAttackPlayer</code> 等）に切り替わる。近接攻撃の詳細は<a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a>を参照。</li>
+</ul>
+<p>前進が塞がれ、かつLOS越しに攻撃を受けた場合は匂い追跡（<code>NOFLOW</code> 解除）に切り替えて回り込みを図る。</p>
+<hr>
+<h2>恐怖・混乱・朦朧の影響（まとめ）</h2>
+<p>行動決定に横断的に効く状態異常を整理する。</p>
+<ul>
+<li><strong>恐怖</strong>：移動方向決定で逃走側に倒れ（<code>mon_will_run</code> が真）、魔法選択では脱出・回復が優先される。移動も攻撃もできずに終わると、<code>process_monster_fear()</code> が恐怖を解除して「戦いを決意」する（次ターン以降は再び戦う）。</li>
+<li><strong>混乱</strong>：魔法は撃てず、移動はランダム徘徊になる。</li>
+<li><strong>朦朧</strong>：<code>process_monster</code> 序盤で <code>1/2</code> の確率でそのターンの行動自体を失う。詠唱時も追加で失敗しやすくなる（<code>check_mspell_unexploded</code>）。</li>
+<li><strong>気付いていない（aware=false）／超隠密</strong>：ランダム徘徊のみで、攻撃魔法を撃たない。</li>
+</ul>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/monster/monster-processor.cpp</code>, <code>src/monster-floor/monster-direction.cpp</code>, <code>src/monster-floor/monster-sweep-grid.cpp</code>, <code>src/monster-floor/monster-safety-hiding.cpp</code>, <code>src/monster-floor/monster-runaway.cpp</code>, <code>src/mspell/mspell-attack.cpp</code>, <code>src/mspell/mspell-selector.cpp</code>, <code>src/mspell/improper-mspell-remover.cpp</code>, <code>src/monster/monster-status.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-08 16:58 UTC · hengband <code>6f8eeac1e4</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>

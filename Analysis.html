@@ -67,6 +67,7 @@
 <li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
 <li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
 <li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterAI.html">モンスターの行動決定</a></li>
 <li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
 <li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収処理</a></li>
 </ul>
@@ -195,6 +196,10 @@
 <tr>
 <td><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></td>
 <td>種族フラグの分類と意味</td>
+</tr>
+<tr>
+<td><a href="Analysis-MonsterAI.html">モンスターの行動決定</a></td>
+<td>1ターンの行動決定フロー（エネルギーと距離による足切り・起床判定・魔法詠唱の可否と選択優先順位・SMART_LEARN耐性回避・移動方向決定・逃走判断・移動先グリッド探索）</td>
 </tr>
 <tr>
 <td><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></td>
@@ -397,7 +402,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>mars.kmc.gr.jp/~dis/heng_wiki</code> 解析/* を現行ソースで再検証）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-08 10:57 UTC · hengband <code>6f8eeac1e4</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-08 16:58 UTC · hengband <code>6f8eeac1e4</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
