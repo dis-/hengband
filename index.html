@@ -7,7 +7,7 @@
 <header class="site-header">
 <a class="brand" href="index.html">変愚蛮怒 データ仕様</a>
 <div class="search-wrap"><input id="search" type="search" placeholder="ページ・モンスター名で検索 / search pages…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
-<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Class-Magic.html">🎓 クラス別魔法</a><a href="Score.html">🧮 スコア</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
+<nav class="topnav"><a href="index.html">🏠 ホーム</a><a href="Races.html">🧬 種族</a><a href="Classes.html">🧑‍🚀 職業</a><a href="Personalities.html">🙂 性格</a><a href="Monsters.html">👹 モンスター</a><a href="Items.html">🗡️ アイテム</a><a href="Artifacts.html">💎 アーティファクト</a><a href="Dungeons.html">🏰 ダンジョン</a><a href="Quests.html">📜 クエスト</a><a href="Terrain.html">🌲 地形</a><a href="Spells.html">✨ 呪文</a><a href="Arena.html">🏟️ アリーナ</a><a href="GameModes.html">🎮 ゲームモード</a><a href="GameOptions.html">⚙️ ゲームオプション</a><a href="Ironman.html">🛡️ 鉄人</a><a href="Analysis.html">🔬 解析</a></nav>
 </header>
 <div class="layout"><aside class="sidebar"><ul>
 <li><a href="index.html">🏠 ホーム / Home</a></li>
@@ -130,34 +130,40 @@
 </aside><main class="content"><h1>変愚蛮怒 データ仕様 Wiki / Hengband Data Reference</h1>
 <p>変愚蛮怒 (Hengband) のゲームデータ (<code>lib/edit/*.jsonc</code>) から自動生成した、日英併記のリファレンスです。</p>
 <p>Bilingual (Japanese / English) reference tables auto-generated from Hengband's game data (<code>lib/edit/*.jsonc</code>).</p>
-<h2>ページ / Pages</h2>
+<h2>データ仕様 / Data Reference</h2>
 <ul>
 <li>🧬 <strong><a href="Races.html">種族 / Races</a></strong> — 38 種族 / races</li>
-<li>👹 <strong><a href="Monsters.html">モンスター / Monsters</a></strong> — 1407 種 / entries</li>
-<li>🗡️ <strong><a href="Items.html">ベースアイテム / Base Items</a></strong> — 642</li>
+<li>🧑‍🚀 <strong><a href="Classes.html">職業 / Classes</a></strong> — 能力値・技能・魔法適性の職業補正
+<ul>
+<li>🎓 <strong><a href="Class-Magic.html">クラス別魔法 / Class Magic</a></strong> — 29 職業 / classes</li>
+</ul>
+</li>
+<li>🙂 <strong><a href="Personalities.html">性格 / Personalities</a></strong> — 能力値・技能・内部フラグの性格補正</li>
+<li>👹 <strong><a href="Monsters.html">モンスター / Monsters</a></strong> — 1407 種 / entries
+<ul>
+<li>🔤 <a href="Monsters-by-Symbol.html">記号から / By symbol</a> ・ 🔎 <a href="Monsters-by-Name.html">名前で検索 / By name</a></li>
+</ul>
+</li>
+<li>🗡️ <strong><a href="Items.html">アイテム / Items</a></strong> — 642</li>
 <li>💎 <strong><a href="Artifacts.html">アーティファクト / Artifacts</a></strong> — 270</li>
 <li>🏰 <strong><a href="Dungeons.html">ダンジョン / Dungeons</a></strong> — 21</li>
 <li>📜 <strong><a href="Quests.html">クエスト / Quests</a></strong> — 固定＋ランダム</li>
 <li>🌲 <strong><a href="Terrain.html">地形 / Terrain</a></strong> — 190</li>
 <li>✨ <strong><a href="Spells.html">呪文 / Spells</a></strong> — 13 領域 / realms</li>
-<li>🎓 <strong><a href="Class-Magic.html">クラス別魔法 / Class Magic</a></strong> — 29 職業 / classes</li>
-</ul>
-<h2>解説 / Guides</h2>
-<ul>
-<li>🧑‍🚀 <strong><a href="Classes.html">職業 / Classes</a></strong> — 能力値・技能・魔法適性の職業補正</li>
-<li>🙂 <strong><a href="Personalities.html">性格 / Personalities</a></strong> — 能力値・技能・内部フラグの性格補正</li>
 <li>🏟️ <strong><a href="Arena.html">アリーナ（テルモラ闘技場） / Telmora Arena</a></strong> — 対戦相手と報酬の一覧</li>
 <li>🎮 <strong><a href="GameModes.html">ゲームモード / Game Modes</a></strong> — 出生オプションと高難度モード</li>
 <li>⚙️ <strong><a href="GameOptions.html">ゲームオプション / Game Options</a></strong> — 入力・表示・ゲーム進行・記録設定</li>
-<li>🧮 <strong><a href="Score.html">スコアの算出方法 / Scoring</a></strong> — ハイスコアの計算式</li>
 <li>🛡️ <strong><a href="Ironman.html">鉄人オプション / Ironman Options</a></strong> — 高難度オプション各種
 <ul>
 <li><a href="Ironman-Shops.html">店を使用しない</a> ・ <a href="Ironman-SmallestFloor.html">最小フロア</a> ・ <a href="Ironman-ForceArenaFloor.html">アリーナフロア強制</a> ・ <a href="Ironman-Rooms.html">常に特殊な部屋</a> ・ <a href="Nightmare.html">悪夢モード</a> ・ <a href="Ironman-Downward.html">帰還・上り階段なし</a></li>
 </ul>
 </li>
+</ul>
+<h2>解析 / Analysis</h2>
+<ul>
 <li>🔬 <strong><a href="Analysis.html">解析 / Analysis</a></strong> — ソースコードから再導出したゲーム内部仕様の解説（戦闘・モンスター・キャラクター・システム）
 <ul>
-<li>🗂️ 逆引き・一覧: <a href="Analysis-AttributeTypes.html">AttributeType 一覧</a> ・ <a href="Resistances.html">🛡️ プレイヤー耐性一覧</a> ・ <a href="Mutations.html">🧬 突然変異一覧</a></li>
+<li>🧮 <a href="Score.html">スコアの算出方法 / Scoring</a> ・ 🗂️ <a href="Analysis-AttributeTypes.html">AttributeType 一覧</a> ・ 🛡️ <a href="Resistances.html">プレイヤー耐性一覧</a> ・ 🧬 <a href="Mutations.html">突然変異一覧</a></li>
 </ul>
 </li>
 </ul>
@@ -165,7 +171,7 @@
 <blockquote>
 <p>🤖 全ページ自動生成。手動編集しないでください（<code>tools/generate-wiki.mjs</code> で再生成）。
 All pages auto-generated — do not edit by hand (regenerate via <code>tools/generate-wiki.mjs</code>).
-生成 / Generated: 2026-07-08 10:57 UTC · hengband <code>6f8eeac1e4</code></p>
+生成 / Generated: 2026-07-09 02:09 UTC · hengband <code>fb8802bf02</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
