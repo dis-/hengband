@@ -192,6 +192,12 @@ pval += recharge_amount                          （充填回数に加算）
 <li><strong>杖を複数所持</strong>: <code>recharge_amount /= 個数</code>（最低 1）。杖は重ねて持つほど 1 本あたりの充填量が減る。</li>
 </ul>
 <p>（ベースpval = そのアイテム種別の標準 <code>pval</code>、<code>get_baseitem_pval()</code>）</p>
+<h2>オーバーチャージ (満充填を超える場合)</h2>
+<p>充填量が満充填を超えるときの扱いは種別で異なり、専用の分岐処理が入る／入らないの差がある。</p>
+<ul>
+<li><strong>ロッド</strong>: <code>timeout</code> は下限 0 でクランプされる。<code>recharge_amount</code> が残り <code>timeout</code> 以上でも <code>timeout = 0</code>（満充填）になるだけで、超過分は単に捨てられる。負値にはならず、追加のペナルティも無い（<code>if (timeout &gt; recharge_amount) timeout -= amount; else timeout = 0;</code>）。</li>
+<li><strong>魔法棒・杖</strong>: 充填回数 <code>pval</code> に上限クランプは無く、成功するたび際限なく加算される（<code>item-&gt;pval += recharge_amount</code>）。ただし成否判定の <code>recharge_strength</code> に <code>- 8 × pval</code>（魔法棒のスタックは <code>- 8 × pval / 個数</code>）の項があるため、現在の充填回数が多いほど成功率が下がる。<code>8 × pval ≥ 100 + power - lv</code> に達すると <code>recharge_strength</code> が 0 に張り付き、<code>one_in_(0)</code> が真＝以降の充填は必ず失敗する（＝破損リスクだけが残る）。したがって固定の上限値ではなく、power とアイテムレベルに応じた「実質的な上限」を確率的に形成する。</li>
+</ul>
 <h2>失敗時の破損</h2>
 <p>失敗すると、対象の種別とプレイヤーのクラスに応じて破損内容が決まる。</p>
 <h3>固定アーティファクト</h3>
@@ -242,7 +248,7 @@ pval += recharge_amount                          （充填回数に加算）
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/spell-kind/magic-item-recharger.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-09 03:04 UTC · hengband <code>fb8802bf02</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-09 03:12 UTC · hengband <code>fb8802bf02</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
