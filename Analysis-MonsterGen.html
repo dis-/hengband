@@ -280,7 +280,13 @@ extra は ±9 で頭打ち
 <h2>生成直後の状態（place_monster_one）</h2>
 <ul>
 <li><strong>睡眠</strong>: <code>PM_ALLOW_SLEEP</code> かつ種族の <code>sleep &gt; 0</code> かつ非悪夢モードのとき、<code>csleep = sleep×2 + randint1(sleep×10)</code> で <strong>眠った状態</strong> で出現する。悪夢モードでは常に起きている。</li>
-<li>個体ごとに速度がわずかに変動する。</li>
+<li><strong>個体ごとの速度変動</strong>（<code>set_individual_speed</code>）: <strong>非ユニークかつアリーナ外</strong>で生成された個体は、速度がわずかに変動する。ユニークおよびアリーナ内では種族の基本速度のまま変動しない。
+<ul>
+<li>変動幅 <code>i = speed_to_energy(基本速度) / (1/4 の確率で 3、残り 3/4 は 10)</code>。<code>speed_to_energy</code> は加速内部値（標準 = 110、→ <a href="Analysis-Speed.html">加速内部値</a>）を 1 ターンの行動エネルギーへ変換する値で、標準 110 で 10、以降 +10 ごとに概ね +10 増える。</li>
+<li>個体の速度は <code>基本速度 + rand_spread(0, i)</code>。<code>rand_spread(0, i)</code> は <code>[-i, +i]</code> の一様乱数（平均 0）なので、速くも遅くもなりうるが平均は基本速度どおり。結果は上限 <code>110 + 99</code>（内部値 209）にクランプされる。</li>
+<li>例: 基本速度が標準 110（<code>speed_to_energy = 10</code>）なら、3/4 で <code>i = 1</code>（±1）、1/4 で <code>i = 3</code>（±3）。基本速度が速い個体ほど変動幅も大きく（例: 速度 130 は <code>speed_to_energy = 30</code> で ±3〜±10）、逆に <code>speed_to_energy &lt; 10</code> の低速種族は 3/4 の場合 <code>i = 0</code> となり変動しないこともある。</li>
+</ul>
+</li>
 <li>ユニークは <code>max_num</code>（多くは1体）まで。討伐済みユニークは再生成されない。</li>
 </ul>
 <h2>まとめ</h2>
@@ -294,7 +300,7 @@ extra は ±9 で頭打ち
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/monster-floor/monster-generator.cpp</code>, <code>src/monster/monster-list.cpp</code>（get_mon_num）, <code>src/monster-floor/one-monster-placer.cpp</code>, <code>src/floor/cave-generator.cpp</code>, <code>src/world/world-turn-processor.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-09 03:04 UTC · hengband <code>fb8802bf02</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-09 03:59 UTC · hengband <code>fb8802bf02</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
