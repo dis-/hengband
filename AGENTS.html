@@ -144,28 +144,28 @@ this file holds the big picture, invariants, source-derived knowledge, and gotch
 <code>gh-pages</code> ブランチの <code>*.html</code>）。どちらも <code>tools/</code> のスクリプトが吐く。</li>
 <li>表の中身は手入力ではなくデータ由来。データ更新後に再生成すれば全ページが最新化される。</li>
 </ul>
-<h2>リポジトリ構成とパス / Repos &amp; paths（このマシン固有）</h2>
-<p>⚠️ <strong>地雷: 複数セッションの scratchpad に古いクローンが散在する。</strong> <code>build-site.mjs</code> の
-<code>--wiki</code>/<code>--out</code> <strong>既定値は古いセッションのディレクトリを指している</strong>ため、無引数で実行すると
-<strong>古いソースから古いチェックアウトへビルドして本番を退行させかねない</strong>。必ず両引数を明示する。</p>
+<h2>リポジトリ構成とパス / Repos &amp; paths</h2>
+<p>チェックアウトは使い捨てで良い（セッションの scratchpad に fresh clone すれば数秒）。
+<code>build-site.mjs</code> の <code>--wiki</code> 既定値は<strong>スクリプト自身が入っている repo</strong>（<code>tools/..</code>）を指すので
+常に正しく、<code>--out</code> は<strong>必須引数</strong>（未指定はエラー終了）——古い既定パスへ誤ビルドする地雷は撤去済み。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
 <th>対象</th>
-<th>場所（2026-07-05 時点の生きているチェックアウト）</th>
+<th>場所</th>
 <th>役割</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Wiki</strong>（この repo, <code>master</code>）</td>
-<td><code>…/Temp/claude/C--hengband/5b9625d2-*/scratchpad/wikirepo</code></td>
+<td>任意（fresh clone 可）</td>
 <td>生成された <code>*.md</code>＋生成ツール（<code>tools/</code>）</td>
 </tr>
 <tr>
 <td><strong>Pages</strong>（<code>gh-pages</code>）</td>
-<td><code>…/Temp/claude/C--hengband/5b9625d2-*/scratchpad/ghp</code></td>
-<td><code>build-site.mjs</code> が吐く <code>*.html</code>（≈1840ページ）</td>
+<td>任意（fresh clone 可）</td>
+<td><code>build-site.mjs</code> が吐く <code>*.html</code>（≈1880ページ）</td>
 </tr>
 <tr>
 <td><strong>本体ソース</strong></td>
@@ -173,9 +173,9 @@ this file holds the big picture, invariants, source-derived knowledge, and gotch
 <td><code>lib/edit/*.jsonc</code>＝データ、<code>src/**/*.cpp</code>＝挙動。生成の <code>--src</code> 既定は <code>C:/hengband/lib/edit</code></td>
 </tr>
 <tr>
-<td><strong>Node（携帯版）</strong></td>
-<td><code>C:/Users/user/node-portable/node-v24.17.0-win-x64/node.exe</code></td>
-<td>PATH に無い。フルパスで呼ぶ</td>
+<td><strong>Node</strong></td>
+<td>マシン依存</td>
+<td>まず <code>node --version</code> を試す（PATH にあることが多い）。無ければ携帯版等をフルパスで</td>
 </tr>
 </tbody>
 </table></div>
@@ -184,29 +184,22 @@ this file holds the big picture, invariants, source-derived knowledge, and gotch
 <li>Pages リモート: <code>https://github.com/dis-/hengband.git</code>（<code>gh-pages</code> ブランチのみ。<strong><code>master</code>＝ゲーム本体には触れない</strong>）</li>
 <li>シェルは PowerShell が主だが、<code>gh api</code> 等では Git Bash＋<code>MSYS_NO_PATHCONV=1</code> を使う。</li>
 </ul>
-<p><strong>チェックアウトが生きているかの検証（コミット前に必ず）:</strong></p>
-<pre><code class="language-sh">git -C &lt;dir&gt; ls-files --error-unmatch Class-mage.html   # 古いクローンは NO を返す
-git -C &lt;dir&gt; ls-remote origin &lt;branch&gt;                  # HEAD がリモートと一致すること
-git -C &lt;dir&gt; status --short | wc -l                     # 作業ツリーが素であること
-</code></pre>
-<p><strong>ディレクトリが消えていた場合の復旧（fresh clone）:</strong></p>
-<pre><code class="language-sh">git clone https://github.com/dis-/hengband.wiki.git &lt;wikirepo&gt;
-git clone -b gh-pages --single-branch https://github.com/dis-/hengband.git &lt;ghp&gt;
+<p>古いクローンを使い回す場合はコミット前に <code>git -C &lt;dir&gt; ls-remote origin &lt;branch&gt;</code> で
+HEAD がリモートと一致することだけ確認する（遅れていれば pull / reset で追従）。</p>
+<p><strong>セットアップ（fresh clone）:</strong></p>
+<pre><code class="language-sh">git clone git@github.com:dis-/hengband.wiki.git &lt;wikirepo&gt;
+git clone -b gh-pages --single-branch git@github.com:dis-/hengband.git &lt;ghp&gt;
 cd &lt;wikirepo&gt; &amp;&amp; npm i markdown-it        # build-site 用
-# 以降は必ず: node tools/build-site.mjs --wiki=&lt;wikirepo&gt; --out=&lt;ghp&gt;
 </code></pre>
 <h2>生成・ビルド・公開 / Regenerate, build, publish</h2>
-<pre><code class="language-sh">NODE=&quot;C:/Users/user/node-portable/node-v24.17.0-win-x64/node.exe&quot;
-
-# 1) Wiki Markdown を再生成（--src 省略時 C:/hengband/lib/edit）
-&quot;$NODE&quot; tools/generate-wiki.mjs
-
-# 2) Pages 用 HTML をビルド（⚠️ 既定パスは古い。必ず両引数を明示）
-&quot;$NODE&quot; tools/build-site.mjs --wiki=&lt;wikirepo&gt; --out=&lt;ghp&gt;
-
-# 3a) Wiki を公開:  タイムスタンプのみの差分を戻してから add/commit/push origin master（下記「地雷」参照）
-# 3b) Pages を公開: &lt;ghp&gt; 側で同様に精査してから add/commit/push origin gh-pages
+<pre><code class="language-sh">cd &lt;wikirepo&gt;
+node tools/generate-wiki.mjs                 # 1) Wiki md 再生成（--src 省略時 C:/hengband/lib/edit）
+node tools/build-site.mjs --out=&lt;ghp&gt;        # 2) Pages HTML ビルド（--wiki は自 repo が既定）
+# 3) 公開（write-if-changed により差分＝実変更。両側とも add -A で安全）
+git add -A &amp;&amp; git commit &amp;&amp; git push origin master
+git -C &lt;ghp&gt; add -A &amp;&amp; git -C &lt;ghp&gt; commit &amp;&amp; git -C &lt;ghp&gt; push origin gh-pages
 </code></pre>
+<p>検証はビルド後に <code>grep -rl '&lt;em&gt;' &lt;ghp&gt;/*.html | wc -l</code> が 0 であることを確認（絶対規則4）。</p>
 <p>依存は <code>npm i markdown-it</code>（build-site 用、<code>node_modules</code> は gitignore）。
 kuromoji（読み再生成）は通常不要。詳細・列設計・<code>specs.json</code>・SVGタイルは <code>tools/README.md</code> 参照。</p>
 <h2>絶対規則 / Invariants（破ると自動生成物が壊れる）</h2>
@@ -293,27 +286,23 @@ combat/monster/chara/item/system）＋ <code>tools/analysis/&lt;file&gt;.md</cod
 <blockquote>
 <p>⚠️ <strong><code>CRUSADE|Summon_Angel</code> は既に敵対情報あり</strong>（2/3味方）＝再編集不要、という具合に既存記述を確認してから触ること。</p>
 </blockquote>
-<h2>再生成のタイムスタンプ地雷 / regen timestamp churn（重要）</h2>
-<p><code>generate-wiki.mjs</code> も <code>build-site.mjs</code> も<strong>各ページのフッターに生成時刻を埋め込む</strong>ため、
-再生成すると<strong>約1840ファイル全部</strong>に差分が出る（中身は時刻1行だけ）。</p>
-<p>⚠️ <strong>旧手順の <code>numstat 1==1/1==1</code> 判別は使わない</strong>：本物の1行変更（リンク移動＝1挿入1削除、
-<code>_Sidebar.md</code>・<code>app.js</code>・<code>tools/</code> の1行修正など）も 1/1 になり<strong>無言で退行を出荷した実績が3件</strong>ある。
-正しい判別は「<strong>差分から <code>生成 / Generated:</code> 行を除いて何も残らないファイルだけ戻す</strong>」：</p>
-<pre><code class="language-sh"># 実変更ファイル一覧（= コミットすべきもの。1パス。ファイル毎ループは1800件でタイムアウトする）
-git diff -U0 -- . ':(exclude)tools' | awk '
-  /^\+\+\+ b\// { f=substr($0,7); next }
-  /^[-+]/ &amp;&amp; $0 !~ /^(\+\+\+|---)/ { if ($0 !~ /Generated:/) real[f]=1 }
-  END { for (x in real) print x }' | sort &gt; /tmp/keep.txt
-# タイムスタンプのみのファイルを破棄（実変更と tools/ と未追跡は残す）
-comm -23 &lt;(git status --short | grep -v ' tools/' | grep -v '^??' | sed 's/^...//' | sort) /tmp/keep.txt \
-  | tr '\n' '\0' | xargs -0 -r git checkout --
-git add &lt;実変更 + tools/ + 新規ページ&gt; &amp;&amp; git commit -m &quot;…&quot;
-</code></pre>
-<p>なおサイドバー・検索プレースホルダ等<strong>全ページ共通ヘッダの変更時は全1840ファイルが正当な実変更</strong>（gh-pages側）。</p>
+<h2>タイムスタンプの扱い / Page stamps（2026-07-09 以降は自動で安全）</h2>
+<p><code>generate-wiki.mjs</code> は <strong>write-if-changed</strong>：<code>生成 / Generated:</code> 行を除いて内容が既存ファイルと
+同一なら書き込まず、旧ファイル（旧スタンプ）を温存する。スタンプの意味は「そのページの内容が
+最後に実変更された日時」。<code>build-site.mjs</code> は独自スタンプを持たない純関数（md→HTML）なので、
+md が変わらなければ HTML も変わらない。</p>
+<p>したがって <strong>再生成・再ビルド後の <code>git status</code> の差分＝実変更そのもの</strong>であり、
+両リポジトリとも <strong><code>git add -A</code> で常に安全にコミットできる</strong>。旧手順（<code>numstat 1/1</code> 判別や
+awk による <code>Generated:</code> 行フィルタ＋選別 checkout）は<strong>不要になった</strong>。</p>
+<blockquote>
+<p>歴史的経緯: かつては両方のスクリプトが毎回全ページに壁時計を書き込み、再生成のたび
+約1840ファイルに時刻1行だけの差分が出た。その選別作業で退行を3件出荷した末、
+2026-07-09 に write-if-changed 化して問題自体を除去した。</p>
+</blockquote>
 <h2>並行エージェント運用 / Concurrency（別セッションが同時編集する前提）</h2>
 <ul>
 <li><strong>Wiki push</strong> は通常 fast-forward。reject 時は <code>git -c rebase.autoStash=true pull --rebase origin master</code> してから再push（リトライループ）。</li>
-<li><strong>gh-pages push</strong> は「<code>git fetch &amp;&amp; git reset --hard origin/gh-pages</code> → 再ビルド → 実変更のみ add → push」を
+<li><strong>gh-pages push</strong> は「<code>git fetch &amp;&amp; git reset --hard origin/gh-pages</code> → 再ビルド → <code>add -A</code> → push」を
 reject 時に繰り返す（build-site は wiki から決定的に生成されるので、最新wikiでビルドした側が勝てば内容は正しい）。</li>
 <li><code>generate-wiki.mjs</code> は<strong>書き込みのみ（削除しない）</strong>。他セッションが足した新規ページ（Races/Analysis/Guide 等）は
 再生成しても消えない。<code>reset --hard origin/…</code> で相手の最新を取り込んでから自分の変更を再適用すること。</li>
