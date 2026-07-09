@@ -128,7 +128,7 @@
 </aside><main class="content"><h1>突然変異</h1>
 <p><a href="Analysis.html">← 解析 / Analysis</a></p>
 <h2>概要</h2>
-<p>突然変異（mutation）は、プレイヤーの肉体・精神・魔力に恒久的な変化をもたらす能力・特性である。カオスの力による捻じ曲げ、薬、レベルアップ（ビーストマン）、カオスの守護悪魔（パトロン）の褒美などによって獲得され、有益なもの・有害なもの・その両面を持つものが混在する。獲得した突然変異はセーブデータ内のビットフラグ集合 <code>player_ptr-&gt;muta</code> に記録される。</p>
+<p>突然変異（mutation）は、プレイヤーの肉体・精神・魔力に恒久的な変化をもたらす能力・特性である。カオスの力による捻じ曲げ、薬、レベルアップ（獣人）、カオスの守護悪魔（パトロン）の褒美などによって獲得され、有益なもの・有害なもの・その両面を持つものが混在する。獲得した突然変異はセーブデータ内のビットフラグ集合 <code>player_ptr-&gt;muta</code> に記録される。</p>
 <p>内部的には <code>PlayerMutationType</code> という列挙型（<code>src/mutation/mutation-flag-types.h</code>）で定義され、その並び順が3つの大分類に対応している。</p>
 <h2>分類</h2>
 <p>突然変異は、列挙値のブロックによって次の3種類に大別される。</p>
@@ -186,7 +186,7 @@
 <td><code>src/object-use/quaff/quaff-effects.cpp</code></td>
 </tr>
 <tr>
-<td>ビーストマンのレベルアップ</td>
+<td>獣人のレベルアップ</td>
 <td>新たな最高レベル到達時に <code>1/5</code> で1つ変異</td>
 <td><code>src/player/player-status.cpp</code></td>
 </tr>
@@ -244,12 +244,12 @@
 <td>同上</td>
 </tr>
 <tr>
-<td>ミンディー</td>
+<td>マインドフレア</td>
 <td><code>TENTACLES</code>（邪悪な触手）</td>
 <td>同上</td>
 </tr>
 <tr>
-<td>ビーストマン</td>
+<td>獣人</td>
 <td><code>POLYMORPH</code>（変身）</td>
 <td><code>randint1(10) &lt; 2</code></td>
 </tr>
@@ -263,7 +263,7 @@
 <li>基本は変異1つにつき回復率が10%低下（<code>regen = 100 - count * 10</code>）。</li>
 <li>下限は10%（それ以下にはならない）。</li>
 <li><strong>ラッキーな性格</strong>は変異数を1つ分割り引く。</li>
-<li><strong>ビーストマン</strong>は変異10個までは無ペナルティ扱いとなり、11個目以降は1つあたり5%低下（<code>count -= 10; mod = 5</code>）。</li>
+<li><strong>獣人</strong>は変異10個までは無ペナルティ扱いとなり、11個目以降は1つあたり5%低下（<code>count -= 10; mod = 5</code>）。</li>
 </ul>
 <h2>代表的な発動型変異</h2>
 <p>「特殊能力を使う」コマンド（<code>U</code>、ローグライク・キーセットでは <code>O</code>）から発動でき、最低レベル・消費MP・失敗率・関連能力値を持つ（<code>src/racial/mutation-racial-selector.cpp</code>）。ダメージ等はプレイヤーレベル <code>lvl</code> に依存する。</p>
@@ -476,9 +476,9 @@
 <h2>まとめ</h2>
 <ul>
 <li>突然変異は <code>player_ptr-&gt;muta</code> ビットフラグに保持され、<code>PlayerMutationType</code>（0〜95）の並びが「発動型／ランダム発動型／常時型」の3分類に対応する。</li>
-<li>主要な獲得契機はカオス攻撃被弾（耐性なしで 1/3）、自己変容の薬、ビーストマンのレベルアップ（1/5）、パトロンの褒美（1/6）。</li>
+<li>主要な獲得契機はカオス攻撃被弾（耐性なしで 1/3）、自己変容の薬、獣人のレベルアップ（1/5）、パトロンの褒美（1/6）。</li>
 <li>ランダム抽選は <code>randint1(193)</code>（狂戦士は 75〜193）で、<code>case</code> 枠数が出現率に比例し、種族固有の上書きと相反変異の相殺が入る。</li>
-<li>変異を持つほど自然回復が低下する（1つ10%、下限10%）が、ビーストマンは10個まで無ペナルティ・以降5%、ラッキーな性格は1個分割引。</li>
+<li>変異を持つほど自然回復が低下する（1つ10%、下限10%）が、獣人は10個まで無ペナルティ・以降5%、ラッキーな性格は1個分割引。</li>
 </ul>
 <p>（数値・確率はすべて上記ソースの現行実装から確認したもので、憶測は含まない。）</p>
 <blockquote>
@@ -487,7 +487,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/mutation/</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-09 02:49 UTC · hengband <code>fb8802bf02</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-09 02:53 UTC · hengband <code>fb8802bf02</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

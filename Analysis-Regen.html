@@ -238,7 +238,7 @@
 <p><code>mutant_regenerate_mod</code>（%）は <code>calc_mutant_regenerate_mod()</code>（<code>src/mutation/mutation-calculator.cpp</code>）で算出され、突然変異が無ければ 100（等倍）。変異数に応じて回復速度が低下する。</p>
 <ul>
 <li>通常は 1変異につき 10% 減少（<code>mod = 10</code>）。</li>
-<li>ビーストマンは変異10個までペナルティ無し、それ以降は 1変異につき 5% 減少（<code>count -= 10; mod = 5</code>）。</li>
+<li>獣人は変異10個までペナルティ無し、それ以降は 1変異につき 5% 減少（<code>count -= 10; mod = 5</code>）。</li>
 <li>性格「幸運」は変異カウントを 1 減らす。</li>
 <li>下限は 10%（<code>regen &lt; 10</code> なら 10 に補正）。</li>
 </ul>
@@ -354,7 +354,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/hpmp/hp-mp-processor.cpp</code>, <code>src/hpmp/hp-mp-regenerator.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-09 02:28 UTC · hengband <code>fb8802bf02</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-09 02:53 UTC · hengband <code>fb8802bf02</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
