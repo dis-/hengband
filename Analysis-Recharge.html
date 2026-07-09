@@ -196,16 +196,21 @@ pval += recharge_amount                          （充填回数に加算）
 <p>充填量が満充填を超えるときの扱いは種別で異なり、専用の分岐処理が入る／入らないの差がある。</p>
 <ul>
 <li><strong>ロッド</strong>: <code>timeout</code> は下限 0 でクランプされる。<code>recharge_amount</code> が残り <code>timeout</code> 以上でも <code>timeout = 0</code>（満充填）になるだけで、超過分は単に捨てられる。負値にはならず、追加のペナルティも無い（<code>if (timeout &gt; recharge_amount) timeout -= amount; else timeout = 0;</code>）。</li>
-<li><strong>魔法棒・杖</strong>: 充填回数 <code>pval</code> に上限クランプは無く、成功するたび際限なく加算される（<code>item-&gt;pval += recharge_amount</code>）。ただし成否判定の <code>recharge_strength</code> に <code>- 8 × pval</code>（魔法棒のスタックは <code>- 8 × pval / 個数</code>）の項があるため、現在の充填回数が多いほど成功率が下がる。<code>8 × pval ≥ 100 + power - lv</code> に達すると <code>recharge_strength</code> が 0 に張り付き、<code>one_in_(0)</code> が真＝以降の充填は必ず失敗する（＝破損リスクだけが残る）。したがって固定の上限値ではなく、power とアイテムレベルに応じた「実質的な上限」を確率的に形成する。</li>
+<li><strong>魔法棒・杖</strong>: 充填回数 <code>pval</code> に上限クランプは無く、成功するたび際限なく加算される（<code>item-&gt;pval += recharge_amount</code>）。ただし成否判定の <code>recharge_strength</code> に <code>- 8 × pval</code>（魔法棒のスタックは <code>- 8 × pval / 個数</code>）の項があるため、現在の充填回数が多いほど成功率が下がる。<code>8 × pval ≥ 100 + power - lv</code> に達すると <code>recharge_strength</code> が 0 に張り付き、<code>one_in_(0)</code> が真＝以降の充填は必ず失敗する。したがって固定の上限値ではなく、power とアイテムレベルに応じた「実質的な上限」を確率的に形成する。
+<ul>
+<li>この過充填状態で充填を試みると、失敗時の破損処理により魔法棒は破壊される（非魔法系クラスなら <code>1/5</code> でスタック全損、他は 1 本破壊）。<strong>充填の発動元が固定アーティファクトであってもこの破損は防げない</strong>（下記「失敗時の破損」参照）。実際、固定アーティファクトの発動で魔法棒を過充填して破損する挙動が確認されている。</li>
+</ul>
+</li>
 </ul>
 <h2>失敗時の破損</h2>
-<p>失敗すると、対象の種別とプレイヤーのクラスに応じて破損内容が決まる。</p>
-<h3>固定アーティファクト</h3>
-<p>破壊はされず、魔力が逆流して完全にドレインされる。</p>
+<p>失敗すると、<strong>充填対象アイテム</strong>の種別とプレイヤーのクラスに応じて破損内容が決まる。判定に使われるのは充填対象アイテム自身の性質のみで、<strong>充填の発動元</strong>（呪文・巻物・「魔力充填」を発動できる固定アーティファクトなど）は <code>power</code> を与えるだけで対象の破損可否には関与しない。したがって固定アーティファクトの発動で魔法棒を充填しても、失敗すれば魔法棒は下記「通常アイテム」の処理どおり破損する。</p>
+<h3>充填対象自身が固定アーティファクトの場合（デバイスでは発生しない）</h3>
+<p>コード上は、<strong>充填対象アイテム自身</strong>が固定アーティファクトであれば破壊されず、魔力が逆流して完全にドレインされる（<code>item-&gt;is_fixed_artifact()</code>）。</p>
 <ul>
 <li>ロッド: <code>timeout = (timeout + 100) × 2</code>（<code>timeout &lt; 10000</code> のとき）</li>
 <li>魔法棒・杖: <code>pval = 0</code></li>
 </ul>
+<p>ただし Hengband には魔法棒・杖・ロッドの固定アーティファクトが存在しない（デバイスの <code>type_value</code> は STAFF=55 / WAND=65 / ROD=66 だが、固定アーティファクト定義の <code>type_value</code> は最大 50）。よってこの分岐は充填対象がデバイスである限り発生しない、Angband 由来の防御的コードであり、<strong>魔法棒・杖・ロッドは常に下記「通常アイテム」の破損処理に従う</strong>。</p>
 <h3>通常アイテム — クラス別の破損率</h3>
 <p>魔法系クラス（<code>is_wizard</code>: <strong>メイジ／ハイ=メイジ／スペルマスター／魔道具術師／青魔道師／元素使い</strong>）は破損が緩やかになる。</p>
 <div class="tablewrap"><table class="sortable">
@@ -248,7 +253,7 @@ pval += recharge_amount                          （充填回数に加算）
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/spell-kind/magic-item-recharger.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-09 03:12 UTC · hengband <code>fb8802bf02</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-09 03:29 UTC · hengband <code>fb8802bf02</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
