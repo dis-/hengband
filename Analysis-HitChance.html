@@ -246,8 +246,8 @@ chance = skill_thn + bonus * BTH_PLUS_ADJ(=3)
 </tr>
 <tr>
 <td>スペルマスターの不適正武器</td>
-<td><code>-200</code>（賢者の杖/なまけ者ハンマーなら <code>-30</code>）</td>
-<td>職業がスペルマスター</td>
+<td><code>-200</code>（適正武器の「魔術師の杖」または「棒」なら <code>-30</code>）</td>
+<td>職業がスペルマスター。<code>SV_WIZSTAFF</code>=魔術師の杖／<code>SV_NAMAKE_HAMMER</code>=棒（瞬間生成でアーティファクト「適当な棒」になる）</td>
 </tr>
 <tr>
 <td>忍者/修行僧の不適正武器</td>
@@ -271,8 +271,8 @@ chance = skill_thn + bonus * BTH_PLUS_ADJ(=3)
 </tr>
 <tr>
 <td>二刀流ペナルティ</td>
-<td><code>- calc_double_weapon_penalty</code></td>
-<td>二刀流時（副手命中の減算、熟練度で軽減）</td>
+<td><code>- calc_double_weapon_penalty</code>（下記）</td>
+<td>二刀流時（両手に近接武器）。各手それぞれ計算</td>
 </tr>
 <tr>
 <td>朱雀の構え</td>
@@ -287,6 +287,246 @@ chance = skill_thn + bonus * BTH_PLUS_ADJ(=3)
 <li>捨て身：<code>chance = max(chance × 3/2, chance + 60)</code></li>
 <li>徳「勇気」：<code>+ valour徳値 / 10</code>（正負いずれもあり）</li>
 </ul>
+<h3>能力値による命中補正テーブル（<code>adj_str_th</code> / <code>adj_dex_th</code>）</h3>
+<p>STR・DEX それぞれの命中補正は、内部テーブル値から 128 を引いた値（<code>src/player/player-status-table.cpp</code>）。ほとんどの能力値帯で 0〜数点、18/220 で最大 +16。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>能力値</th>
+<th>STR補正</th>
+<th>DEX補正</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>-3</td>
+<td>-3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>-2</td>
+<td>-2</td>
+</tr>
+<tr>
+<td>5</td>
+<td>-1</td>
+<td>-2</td>
+</tr>
+<tr>
+<td>6</td>
+<td>-1</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>0</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>8〜15</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>16</td>
+<td>0</td>
+<td>+1</td>
+</tr>
+<tr>
+<td>17</td>
+<td>0</td>
+<td>+2</td>
+</tr>
+<tr>
+<td>18/00〜18/49</td>
+<td>+1</td>
+<td>+3</td>
+</tr>
+<tr>
+<td>18/50〜18/59</td>
+<td>+1</td>
+<td>+4</td>
+</tr>
+<tr>
+<td>18/60〜18/69</td>
+<td>+1</td>
+<td>+4</td>
+</tr>
+<tr>
+<td>18/70〜18/79</td>
+<td>+2</td>
+<td>+4</td>
+</tr>
+<tr>
+<td>18/80〜18/89</td>
+<td>+3</td>
+<td>+4</td>
+</tr>
+<tr>
+<td>18/90〜18/99</td>
+<td>+4</td>
+<td>+5</td>
+</tr>
+<tr>
+<td>18/100〜18/109</td>
+<td>+5</td>
+<td>+6</td>
+</tr>
+<tr>
+<td>18/110〜18/119</td>
+<td>+6</td>
+<td>+7</td>
+</tr>
+<tr>
+<td>18/120〜18/129</td>
+<td>+7</td>
+<td>+8</td>
+</tr>
+<tr>
+<td>18/130〜18/139</td>
+<td>+8</td>
+<td>+9</td>
+</tr>
+<tr>
+<td>18/140〜18/149</td>
+<td>+9</td>
+<td>+9</td>
+</tr>
+<tr>
+<td>18/150〜18/159</td>
+<td>+10</td>
+<td>+10</td>
+</tr>
+<tr>
+<td>18/160〜18/169</td>
+<td>+11</td>
+<td>+11</td>
+</tr>
+<tr>
+<td>18/170〜18/179</td>
+<td>+12</td>
+<td>+12</td>
+</tr>
+<tr>
+<td>18/180〜18/189</td>
+<td>+13</td>
+<td>+13</td>
+</tr>
+<tr>
+<td>18/190〜18/199</td>
+<td>+14</td>
+<td>+14</td>
+</tr>
+<tr>
+<td>18/200〜18/219</td>
+<td>+15</td>
+<td>+15</td>
+</tr>
+<tr>
+<td>18/220+</td>
+<td>+16</td>
+<td>+16</td>
+</tr>
+</tbody>
+</table></div>
+<p>STR は 18/00 まで 0 でそこから緩やかに、DEX は 16 から早めに立ち上がるのが特徴。素手・両手持ち時はこの STR+DEX 補正が主攻撃手にもう一度加算される（最低 +1）。</p>
+<h3>二刀流ペナルティ（<code>calc_double_weapon_penalty</code>）</h3>
+<p>両手に近接武器を装備しているときのみ発生し、各手について次を計算して <code>to_h[手]</code> から減算する（<code>src/player/player-status.cpp</code>）：</p>
+<pre><code>penalty = (100 - 二刀流熟練度/160) - (130 - その手の武器重量) / 8
+特定の対アーティファクトのペア（クイック＆タイニー／アイシング＆きらめき／
+  アヌビス＆チャリオット）: penalty = penalty/2 - 5
+easy_2weapon フラグ（該当手）があり penalty&gt;0: penalty /= 2
+副手が TR_SUPPORTIVE を持つ: penalty = max(0, penalty - 10)
+武蔵の二刀流セット: penalty = min(0, penalty)  ← ペナルティ完全消去
+その手の武器が長柄(POLEARM): penalty += 10
+</code></pre>
+<ul>
+<li>二刀流熟練度が高いほど、また武器が軽いほどペナルティは小さい（熟練度は160ごと・重量は8ごとに1点改善）。武器重量は 0.1lb 単位で、130（=13.0lb）を基準に軽ければペナルティ減。</li>
+<li>ペナルティは各手ごとに独立に計算され、それぞれの命中に効く。長柄は取り回しが悪く +10 加算（＝命中が余計に下がる）。</li>
+</ul>
+<h2>具体例</h2>
+<p><strong>例1: hit_chance の感度（chance と AC の関係）</strong></p>
+<p><code>hit_chance()</code> は整数演算（切り捨て）。標準性格・視認可の場合：</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>chance</th>
+<th>AC</th>
+<th>計算</th>
+<th>命中率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>120</td>
+<td>30</td>
+<td>5 + (100 - 30×75/120)×90/100 = 5 + (100-18)×90/100 = 5+73</td>
+<td>78%</td>
+</tr>
+<tr>
+<td>120</td>
+<td>100</td>
+<td>5 + (100 - 100×75/120)×90/100 = 5 + (100-62)×90/100 = 5+34</td>
+<td>39%</td>
+</tr>
+<tr>
+<td>60</td>
+<td>100</td>
+<td>5 + (100 - 100×75/60)×90/100 = 5 + (100-125)×90/100 = 5+(-22) → 下限</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>300</td>
+<td>50</td>
+<td>5 + (100 - 50×75/300)×90/100 = 5 + (100-12)×90/100 = 5+79</td>
+<td>84%</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>chance</code> が AC の 75% を大きく上回ると 84% 付近で頭打ちに近づき、下回ると急落して 5% で底打ちする。視認できない相手は <code>chance</code> が半分になるため、上表の chance を半減して読む。</p>
+<p><strong>例2: 命中値 <code>chance</code> の組み立て（近接・数値は仮定）</strong></p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>skill_thn</code>（種族＋職業＋性格＋Lv補正）</td>
+<td>60</td>
+</tr>
+<tr>
+<td><code>to_h[手]</code> 能力値補正（STR 18/100=+5, DEX 18/90=+5）</td>
+<td>+10</td>
+</tr>
+<tr>
+<td>主攻撃手の STR+DEX 再加算（両手持ち）</td>
+<td>+10</td>
+</tr>
+<tr>
+<td>武器熟練（例: 熟練度6000）<code>(6000-4000)/200</code></td>
+<td>+10</td>
+</tr>
+<tr>
+<td>武器の <code>to_h</code>（強化 +9）</td>
+<td>+9</td>
+</tr>
+<tr>
+<td><strong>bonus = to_h<a href="30.html">手</a> + 武器to_h(9)</strong></td>
+<td>39</td>
+</tr>
+<tr>
+<td><strong>chance = skill_thn(60) + bonus(39)×3</strong></td>
+<td><strong>177</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>この <code>chance = 177</code> で AC 50 のモンスター（視認可）を攻撃すると：
+<code>5 + (100 - 50×75/177)×90/100 = 5 + (100-21)×90/100 = 5 + 71 = 76%</code>。
+祝福（+10）や英雄（+12）が乗ると <code>to_h</code> が増え、<code>bonus×3</code> を通じて <code>chance</code> がさらに上がる（祝福なら +10×3 = 命中値+30 相当）。</p>
 <h2>対象モンスターのAC</h2>
 <p><code>decide_attack_hit()</code>（<code>src/combat/attack-accuracy.cpp</code>）が <code>test_hit_norm(chance, monrace.ac, 視認可否)</code> を呼ぶ。ACはそのモンスター種族の基本AC（<code>monrace.ac</code>）で、個体差はない。</p>
 <h2>例外的な必中・確率固定の攻撃</h2>
@@ -312,7 +552,7 @@ chance = skill_thn + bonus * BTH_PLUS_ADJ(=3)
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/combat/attack-accuracy.cpp</code>, <code>src/player/player-status.cpp</code>, <code>src/mind/mind-samurai.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-14 05:42 UTC · hengband <code>559732b34f</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-14 06:46 UTC · hengband <code>559732b34f</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
