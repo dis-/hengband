@@ -140,7 +140,7 @@
 <p><code>hit_chance()</code> の中身：</p>
 <pre><code>hit_chance(chance, ac):
   chance &lt;= 0 なら 常に 5%
-  chance_left = 90（ただし性格が「のんき」なら (90*19+9)/20 = 85）
+  chance_left = 90（ただし性格が「なまけもの」なら (90*19+9)/20 = 85）
   result = 5 + (100 - ac*75/chance) * chance_left / 100
   result の下限は 5%
 </code></pre>
@@ -154,11 +154,139 @@
 chance = skill_thn + bonus * BTH_PLUS_ADJ(=3)
 </code></pre>
 <ul>
-<li><strong><code>skill_thn</code></strong>（<code>calc_to_hit_melee()</code>、<code>src/player/player-status.cpp</code>）: 種族・職業・性格それぞれの近接命中テーブル値 <code>r_thn</code>/<code>c_thn</code>/<code>a_thn</code> を合算し、レベルに応じた追加加算（<code>x_thn * Lv/10</code> と <code>a_thn * Lv/50</code>）を加える。武器を持たなくても種族・職業・レベルだけで決まるベース値。</li>
-<li><strong><code>to_h[手]</code></strong>（<code>calc_to_hit()</code>、<code>src/player/player-status.cpp</code>）: 能力値ボーナス（<code>adj_dex_th</code>・<code>adj_str_th</code> テーブル、STR/DEXそれぞれ）、祝福/勇気/狂戦士の一時ボーナス（各+10〜+12）、朦朧のペナルティ、武器種別の熟練度（<code>weapon_exp</code>）、武器重量超過ペナルティ、呪いの低命中ペナルティ、騎乗時のボーナス／ペナルティなど多数の加減算を合成した最終値。</li>
-<li><strong>武器の <code>to_h</code></strong>: アイテム自体の命中修正値（強化値・アーティファクト固有値など）。</li>
+<li><strong><code>skill_thn</code></strong>（<code>calc_to_hit_melee()</code>、<code>src/player/player-status.cpp</code>）: 種族・職業・性格それぞれの近接命中テーブル値 <code>r_thn</code>/<code>c_thn</code>/<code>a_thn</code> を合算し、レベルに応じた追加加算 <code>x_thn × Lv/10</code> と <code>a_thn × Lv/50</code> を加える。武器を持たなくても種族・職業・性格・レベルだけで決まるベース値（各職業・種族・性格ごとの数値はそれぞれの個別ページに記載）。</li>
+<li><strong>武器の <code>to_h</code></strong>: アイテム自体の命中修正値（強化値 <code>+h</code>・アーティファクト固有値など）。</li>
+<li><strong><code>to_h[手]</code></strong>（<code>calc_to_hit()</code>、<code>src/player/player-status.cpp</code>）: 下記の各項を合成した最終値。</li>
 </ul>
-<p>剣術家の型固有ボーナス（居合 +60、剛毅刃 +150）・捨て身（<code>chance = max(chance*3/2, chance+60)</code>）・徳「勇気」による加算も <code>calc_attack_quality()</code> 内で上乗せされる。</p>
+<h3><code>to_h[手]</code> の加算項目（<code>calc_to_hit</code>）</h3>
+<p>すべて <code>hit</code> に加減算され、<code>chance = skill_thn + (to_h[手] + 武器to_h) × 3</code> に効く（1点の <code>to_h</code> が命中値3点ぶんに相当）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>能力値補正（STR）</td>
+<td><code>adj_str_th[STR] - 128</code></td>
+<td>常時。腕力の命中補正テーブル（中央値128基準）</td>
+</tr>
+<tr>
+<td>能力値補正（DEX）</td>
+<td><code>adj_dex_th[DEX] - 128</code></td>
+<td>常時。器用さの命中補正テーブル</td>
+</tr>
+<tr>
+<td>祝福</td>
+<td><code>+10</code></td>
+<td>祝福状態（<code>is_blessed</code>）</td>
+</tr>
+<tr>
+<td>ヒーロー</td>
+<td><code>+12</code></td>
+<td>ヒーロー状態</td>
+</tr>
+<tr>
+<td>狂戦士化</td>
+<td><code>+12</code></td>
+<td>狂戦士化状態（<code>is_shero</code>）</td>
+</tr>
+<tr>
+<td>朦朧ペナルティ</td>
+<td><code>-5 / -10 / -20 / -40</code></td>
+<td>朦朧の程度（軽度/朦朧/重度/意識不明）</td>
+</tr>
+<tr>
+<td>主武器手の能力補正</td>
+<td><code>max((adj_str_th[STR]-128)+(adj_dex_th[DEX]-128), 1)</code></td>
+<td>素手または両手持ちボーナス無効でない主攻撃手（STR/DEX補正を再度上乗せ、最低+1）</td>
+</tr>
+<tr>
+<td>素手熟練</td>
+<td><code>(格闘熟練度 - 4000) / 200</code></td>
+<td>素手戦闘時の主攻撃手（<code>[入門者]</code>閾値4000基準、200ごとに+1）</td>
+</tr>
+<tr>
+<td>武器熟練</td>
+<td><code>(weapon_exp[種別] - 4000) / 200</code></td>
+<td>武器装備時（→ <a href="Analysis-Skills.html">技能</a> 参照）</td>
+</tr>
+<tr>
+<td>重量超過ペナルティ</td>
+<td><code>2 × (装備可能重量 - 武器重量/10)</code></td>
+<td>武器重量が扱える上限を超えたとき（負値）</td>
+</tr>
+<tr>
+<td>低命中の呪い</td>
+<td><code>-5</code>（重い呪いなら <code>-15</code>）</td>
+<td>武器に <code>LOW_MELEE</code> の呪い</td>
+</tr>
+<tr>
+<td>騎乗ボーナス（槍）</td>
+<td><code>+15</code></td>
+<td>騎乗中にランス系を装備</td>
+</tr>
+<tr>
+<td>騎乗ペナルティ</td>
+<td><code>- (騎乗対象Lv - 乗馬技能/80 + 30、最低30)</code></td>
+<td>騎乗中に非ランスかつ <code>TR_RIDING</code> 無し（魔獣使いは一律 <code>-5</code>）</td>
+</tr>
+<tr>
+<td>僧侶の刃物ペナルティ</td>
+<td><code>-2</code></td>
+<td>僧侶が非祝福の剣/長柄を装備</td>
+</tr>
+<tr>
+<td>狂戦士（職業）補正</td>
+<td><code>+Lv/5</code>（片手/両手条件でさらに <code>+Lv/5</code>）</td>
+<td>職業が狂戦士</td>
+</tr>
+<tr>
+<td>スペルマスターの不適正武器</td>
+<td><code>-200</code>（賢者の杖/なまけ者ハンマーなら <code>-30</code>）</td>
+<td>職業がスペルマスター</td>
+</tr>
+<tr>
+<td>忍者/修行僧の不適正武器</td>
+<td><code>-40</code></td>
+<td>忍者・修行僧が専用外の武器を持つ</td>
+</tr>
+<tr>
+<td>呪術（Hex）補正</td>
+<td><code>+5 / +7 / +13 / +5</code></td>
+<td>Hex領域で呪われた武器（呪い/重い呪い/永遠の呪い/太古の怨念、加算）</td>
+</tr>
+<tr>
+<td>装備品の <code>to_h</code></td>
+<td>各装備の <code>to_h</code> の総和</td>
+<td>手・武器種に応じて主/副手へ配分（忍者は正の値を半減、二刀流は片手ぶん配分）</td>
+</tr>
+<tr>
+<td>武術ボーナス</td>
+<td><code>+Lv/3</code></td>
+<td>武術（素手）状態かつ重装でない／非狂戦士</td>
+</tr>
+<tr>
+<td>二刀流ペナルティ</td>
+<td><code>- calc_double_weapon_penalty</code></td>
+<td>二刀流時（副手命中の減算、熟練度で軽減）</td>
+</tr>
+<tr>
+<td>朱雀の構え</td>
+<td><code>-Lv/3</code></td>
+<td>修行僧が朱雀の構えかつ武術・主手</td>
+</tr>
+</tbody>
+</table></div>
+<h3><code>chance</code> への上乗せ（<code>calc_attack_quality</code>、剣術家ほか）</h3>
+<ul>
+<li>居合の型 <code>+60</code>、剛毅刃の型 <code>+150</code></li>
+<li>捨て身：<code>chance = max(chance × 3/2, chance + 60)</code></li>
+<li>徳「勇気」：<code>+ valour徳値 / 10</code>（正負いずれもあり）</li>
+</ul>
 <h2>対象モンスターのAC</h2>
 <p><code>decide_attack_hit()</code>（<code>src/combat/attack-accuracy.cpp</code>）が <code>test_hit_norm(chance, monrace.ac, 視認可否)</code> を呼ぶ。ACはそのモンスター種族の基本AC（<code>monrace.ac</code>）で、個体差はない。</p>
 <h2>例外的な必中・確率固定の攻撃</h2>
@@ -184,7 +312,7 @@ chance = skill_thn + bonus * BTH_PLUS_ADJ(=3)
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/combat/attack-accuracy.cpp</code>, <code>src/player/player-status.cpp</code>, <code>src/mind/mind-samurai.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-14 04:02 UTC · hengband <code>559732b34f</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-07-14 05:42 UTC · hengband <code>559732b34f</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
