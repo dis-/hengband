@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>命中率計算 · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<div class="search-wrap"><input id="search" type="search" placeholder="ページ・モンスター名で検索 / search pages…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+</header>
+<div class="layout"><aside class="sidebar"><ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+</ul>
+<h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Classes.html">🧑‍🚀 職業 / Classes</a>
+<ul>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+</li>
+<li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Quests.html">📜 クエスト / Quests</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+</ul>
+<h3><a href="Analysis.html">🔬 解析 / Analysis</a></h3>
+<ul>
+<li>⚔️ 戦闘 / Combat
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-HitChance.html">命中率計算</a></li>
+<li><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></li>
+<li><a href="Analysis-ChaosEffect.html">カオス的効果</a></li>
+</ul>
+</li>
+<li>👹 モンスター / Monsters
+<ul>
+<li><a href="Analysis-MonsterGen.html">モンスター生成</a></li>
+<li><a href="Analysis-SpecialRooms.html">特殊部屋生成</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterAI.html">モンスターの行動決定</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収処理</a></li>
+</ul>
+</li>
+<li>🧙 キャラクター / Character
+<ul>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-HitPoints.html">最大HP（ヒットポイント）</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力が上昇時にどれだけ増えるか</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-Stun.html">朦朧処理</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+<li><a href="Analysis-Android.html">アンドロイドのレベル</a></li>
+<li><a href="Analysis-Autoroller.html">オートローラー</a></li>
+<li><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></li>
+<li><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></li>
+<li><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></li>
+<li><a href="Analysis-Riding.html">騎乗時処理</a></li>
+<li>🛡️ <a href="Resistances.html">プレイヤー耐性一覧 / Resistances</a></li>
+<li>🧬 <a href="Mutations.html">突然変異一覧 / Mutations</a>
+<ul>
+<li><a href="Mutations-Activatable.html">発動型</a> ・ <a href="Mutations-Random.html">ランダム発動型</a> ・ <a href="Mutations-Constant.html">常時型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>🎒 アイテム / Items
+<ul>
+<li><a href="Analysis-ItemLevel.html">アイテムレベルが決まるルール</a></li>
+<li><a href="Analysis-DeviceUse.html">魔法道具使用成功率</a></li>
+<li><a href="Analysis-EatMagic.html">魔力喰い</a></li>
+<li><a href="Analysis-WeaponRepair.html">折れた武器修復</a></li>
+<li><a href="Analysis-Recharge.html">魔力充填</a></li>
+</ul>
+</li>
+<li>⚙️ システム・その他 / System
+<ul>
+<li><a href="Score.html">スコアの算出方法 / Scoring</a></li>
+<li><a href="Analysis-FloorGeneration.html">フロア生成</a></li>
+<li><a href="Analysis-Store.html">店舗</a></li>
+<li><a href="Analysis-Rumor.html">噂</a></li>
+<li><a href="Analysis-Autopick.html">自動拾い</a></li>
+<li><a href="Analysis-Glass.html">ガラス地形</a></li>
+<li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
+<li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
+<li><a href="Analysis-LaunchOptions.html">起動オプション</a></li>
+<li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
+</ul>
+</li>
+<li>🛠️ 開発 / Development
+<ul>
+<li><a href="Analysis-FixedQuestJsonc.html">固定クエストのJSONC移行</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>命中率計算</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p>命中率は、プレイヤーの「基本命中値」（種族・職業・性格・武器熟練度・能力値・状態異常などから合成）と、対象モンスターのACから、<code>hit_chance()</code>（<code>src/combat/attack-accuracy.cpp</code>）で百分率に変換される。実際に命中したかどうかは、この百分率と <code>1d100</code> の比較で決まる（<code>test_hit_norm()</code>）。</p>
+<h2>命中判定の大枠</h2>
+<pre><code>test_hit_norm(chance, ac, visible):
+  見えない相手には chance = (chance+1)/2 に半減
+  hit_chance(chance, ac) &gt;= 1d100 なら命中
+</code></pre>
+<p><code>hit_chance()</code> の中身：</p>
+<pre><code>hit_chance(chance, ac):
+  chance &lt;= 0 なら 常に 5%
+  chance_left = 90（ただし性格が「のんき」なら (90*19+9)/20 = 85）
+  result = 5 + (100 - ac*75/chance) * chance_left / 100
+  result の下限は 5%
+</code></pre>
+<ul>
+<li><code>100 - ac*75/chance</code> は「命中値がACに対してどれだけ優っているか」を百分率化した項で、AC が高いほど、あるいは <code>chance</code> が低いほど小さく（マイナスにもなり得る）なり、命中率を押し下げる。</li>
+<li>下限 5% のみ式でクランプされる。上限（<code>randint1(100)</code> は 1〜100 なので <code>hit_chance</code> が 100 以上ならほぼ確実に命中）は式上クランプされていないため、命中値がACを大きく上回れば実質100%近くに張り付く。</li>
+</ul>
+<h2>基本命中値 (chance) の合成 — 通常の武器攻撃</h2>
+<p><code>src/player-attack/player-attack.cpp</code> の直接攻撃処理は <code>calc_attack_quality()</code>（<code>src/mind/mind-samurai.cpp</code>、全職業共通で呼ばれる）で <code>chance</code> を作る：</p>
+<pre><code>bonus  = to_h[攻撃手] + 武器の to_h
+chance = skill_thn + bonus * BTH_PLUS_ADJ(=3)
+</code></pre>
+<ul>
+<li><strong><code>skill_thn</code></strong>（<code>calc_to_hit_melee()</code>、<code>src/player/player-status.cpp</code>）: 種族・職業・性格それぞれの近接命中テーブル値 <code>r_thn</code>/<code>c_thn</code>/<code>a_thn</code> を合算し、レベルに応じた追加加算（<code>x_thn * Lv/10</code> と <code>a_thn * Lv/50</code>）を加える。武器を持たなくても種族・職業・レベルだけで決まるベース値。</li>
+<li><strong><code>to_h[手]</code></strong>（<code>calc_to_hit()</code>、<code>src/player/player-status.cpp</code>）: 能力値ボーナス（<code>adj_dex_th</code>・<code>adj_str_th</code> テーブル、STR/DEXそれぞれ）、祝福/勇気/狂戦士の一時ボーナス（各+10〜+12）、朦朧のペナルティ、武器種別の熟練度（<code>weapon_exp</code>）、武器重量超過ペナルティ、呪いの低命中ペナルティ、騎乗時のボーナス／ペナルティなど多数の加減算を合成した最終値。</li>
+<li><strong>武器の <code>to_h</code></strong>: アイテム自体の命中修正値（強化値・アーティファクト固有値など）。</li>
+</ul>
+<p>剣術家の型固有ボーナス（居合 +60、剛毅刃 +150）・捨て身（<code>chance = max(chance*3/2, chance+60)</code>）・徳「勇気」による加算も <code>calc_attack_quality()</code> 内で上乗せされる。</p>
+<h2>対象モンスターのAC</h2>
+<p><code>decide_attack_hit()</code>（<code>src/combat/attack-accuracy.cpp</code>）が <code>test_hit_norm(chance, monrace.ac, 視認可否)</code> を呼ぶ。ACはそのモンスター種族の基本AC（<code>monrace.ac</code>）で、個体差はない。</p>
+<h2>例外的な必中・確率固定の攻撃</h2>
+<ul>
+<li><strong>毒針の武器 (<code>SV_POISON_NEEDLE</code>) または必殺技「急所突き」</strong>: 命中判定を飛ばし、<code>1/n</code> の確率で成功／失敗が決まる（<code>n</code> は両手持ちや三段の条件で倍加）。ACや命中値は一切関与しない。</li>
+<li><strong>忍者の奇襲・不意打ち</strong>（対象が <code>RESIST_ALL</code> を持たない場合）: 無条件で命中。</li>
+<li><strong>必殺技「魔神斬り」</strong>: 命中判定後に <code>1/2</code> で強制的にミス扱いへ上書き。</li>
+</ul>
+<h2>射撃・投擲の命中値</h2>
+<p>近接とは別の合成関数を使う（同じ <code>hit_chance()</code>/<code>test_hit_norm()</code> に渡す <code>chance</code> の作り方が異なるだけ）。</p>
+<ul>
+<li><strong>射撃</strong>: <code>calc_to_hit_shoot()</code> — <code>r_thb</code>/<code>c_thb</code>/<code>a_thb</code> を合算し、レベル加算は近接と同じ形（<code>x_thb * Lv/10</code> と <code>a_thb * Lv/50</code>）。</li>
+<li><strong>投擲</strong>: <code>calc_to_hit_throw()</code> — 射撃と同じテーブルを使うが、狂戦士化中は <code>-20</code> の固定ペナルティが入る。</li>
+</ul>
+<h2>モンスターからプレイヤー／モンスターへの命中判定</h2>
+<p>プレイヤーへの命中判定とは全く別の式（<code>check_hit_from_monster_to_player()</code> / <code>check_hit_from_monster_to_monster()</code>、<code>src/combat/attack-accuracy.cpp</code>）。</p>
+<pre><code>1d100 の結果が 10 未満なら、5 未満で命中・5以上でミス（常に1/20で命中、1/20でミスが先に確定）
+それ以外は:
+  i = 攻撃属性ごとの基本命中値(power) + モンスターレベル×3
+  1d(i) が (対象AC×3/4) を超えれば命中
+</code></pre>
+<p>朦朧状態の攻撃側は追加で <code>1/2</code> の確率で無条件ミスになる。対プレイヤーの場合、ACは装備由来の <code>player_ptr-&gt;ac + to_a</code>（双剣の構え「水月」なら <code>+Lv×2</code>）。この式は「対プレイヤー用命中値(chance)＋AC」を使うプレイヤー側の式とは異なり、&quot;モンスターの攻撃力とレベル&quot; 対 &quot;ACの3/4&quot; という別系統の乱数比較になっている。</p>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/combat/attack-accuracy.cpp</code>, <code>src/player/player-status.cpp</code>, <code>src/mind/mind-samurai.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-07-14 04:02 UTC · hengband <code>559732b34f</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
