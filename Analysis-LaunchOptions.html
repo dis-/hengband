@@ -124,6 +124,7 @@
 </li>
 <li>🛠️ 開発 / Development
 <ul>
+<li><a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a></li>
 <li><a href="Analysis-FixedQuestJsonc.html">固定クエストのJSONC移行</a></li>
 </ul>
 </li>
@@ -139,7 +140,7 @@
 <p>このページでは両プラットフォームの起動オプションを網羅する。オプション名はソースの <code>switch</code> 文（<code>src/main.cpp</code> の <code>main()</code>／<code>src/main-win/commandline-win.cpp</code> の <code>CommandLine::handle()</code>）から導出している。</p>
 <hr>
 <h2>1. Windows版のコマンドライン</h2>
-<p>Windows版は <code>CommandLineToArgvW()</code> で取得した引数を <code>CommandLine::handle()</code> が走査する。認識するのは次の3つだけで、これ以外の引数は<strong>無視される</strong>。</p>
+<p>Windows版は <code>CommandLineToArgvW()</code> で取得した引数を <code>CommandLine::handle()</code> が走査する。認識するのは次の6つだけで、これ以外の引数は<strong>無視される</strong>。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -157,11 +158,20 @@
 <td>スポイラー（各種ゲームデータ一覧）ファイルを生成して即終了（<code>create_debug_spoiler</code>）</td>
 </tr>
 <tr>
+<td><code>--bot-json-output[=path]</code></td>
+<td><a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a>を有効化（<code>arg_bot_json_output</code>）。<code>=path</code> で出力先を指定、<code>=-</code> で標準出力</td>
+</tr>
+<tr>
+<td><code>-o</code> / <code>-r</code></td>
+<td>オリジナル／ローグライク・キー配置を強制（<code>arg_force_original</code> / <code>arg_force_roguelike</code>）</td>
+</tr>
+<tr>
 <td>先頭が <code>-</code> でない最初の引数</td>
 <td><strong>セーブファイル名</strong>とみなす（<code>savefile_option</code>）。以降の非オプション引数は無視</td>
 </tr>
 </tbody>
 </table></div>
+<p>なお、起動時の引数ダンプ（<code>argv[n] : …</code>）は<strong>標準エラー</strong>へ出力される。<code>--bot-json-output=-</code> を指定したときに標準出力をJSONL専用の出力先として使えるようにするためである。</p>
 <p>セーブファイル引数は、実質的に<strong>セーブファイルをアイコンにドラッグ&amp;ドロップ／ダブルクリックで起動</strong>したときに Windows が渡すファイル名を受け取るための仕組みである（<code>check_for_save_file</code> がそのファイルで <code>game_in_progress = true</code> にしてゲームを再開する）。</p>
 <h3>Windowsの設定はINIファイル＋メニュー経由</h3>
 <p>Windows版の描画・音まわりは起動時に <strong>INIファイル</strong>（<code>GetPrivateProfileIntA(&quot;Angband&quot;, …)</code>）から読まれる。対応する <code>arg_*</code> 変数と既定値は次の通り。</p>
@@ -274,6 +284,10 @@
 <tr>
 <td><code>--output-spoilers</code></td>
 <td>スポイラーを出力して終了</td>
+</tr>
+<tr>
+<td><code>--bot-json-output[=path]</code></td>
+<td><a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a>を有効化（<code>parse_long_opt</code>）。<code>=path</code> で出力先を指定、<code>=-</code> で標準出力</td>
 </tr>
 <tr>
 <td><code>--</code></td>
@@ -428,15 +442,15 @@
 <hr>
 <h2>まとめ</h2>
 <ul>
-<li><strong>Windows版</strong>の実効的なコマンドライン起動オプションは <code>--debug-console</code>・<code>--output-spoilers</code>・セーブファイル名の3種のみ。ゲーム設定はINI＋オプションメニューで行う。</li>
-<li><strong>POSIX/Unix版</strong>は <code>-n</code>/<code>-b</code>/<code>-v</code>/<code>-g</code>/<code>-r</code>/<code>-o</code>/<code>-s</code>/<code>-u</code>/<code>-m</code>/<code>-M</code>/<code>-d</code>/<code>-x</code>・<code>--output-spoilers</code>・<code>--</code> を持つ。<code>-u&lt;who&gt;</code> はプレイヤー名（セーブファイル）指定、<code>-m&lt;sys&gt;</code> は表示モジュール強制、<code>-d&lt;what&gt;=&lt;path&gt;</code> は lib ディレクトリ再定義に使う。</li>
-<li>両版共通で <code>--output-spoilers</code> はスポイラーファイルを生成して終了する。</li>
+<li><strong>Windows版</strong>の実効的なコマンドライン起動オプションは <code>--debug-console</code>・<code>--output-spoilers</code>・<code>--bot-json-output</code>・<code>-o</code>/<code>-r</code>・セーブファイル名のみ。描画や音などのゲーム設定はINI＋オプションメニューで行う。</li>
+<li><strong>POSIX/Unix版</strong>は <code>-n</code>/<code>-b</code>/<code>-v</code>/<code>-g</code>/<code>-r</code>/<code>-o</code>/<code>-s</code>/<code>-u</code>/<code>-m</code>/<code>-M</code>/<code>-d</code>/<code>-x</code>・<code>--output-spoilers</code>・<code>--bot-json-output</code>・<code>--</code> を持つ。<code>-u&lt;who&gt;</code> はプレイヤー名（セーブファイル）指定、<code>-m&lt;sys&gt;</code> は表示モジュール強制、<code>-d&lt;what&gt;=&lt;path&gt;</code> は lib ディレクトリ再定義に使う。</li>
+<li>両版共通で <code>--output-spoilers</code> はスポイラーファイルを生成して終了し、<code>--bot-json-output[=path]</code> は<a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a>を有効化する。</li>
 <li>usage に載る <code>-f</code>（fiddle）・<code>-w</code>（wizard）はソース上未実装で、指定するとusageが表示される。</li>
 </ul>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/main.cpp</code>, <code>src/main-win.cpp</code>, <code>src/main-win/commandline-win.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-10 19:51 UTC · hengband <code>fb8802bf02</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-08-02 09:58 UTC · hengband <code>d489d37bb8</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

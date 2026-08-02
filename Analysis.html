@@ -124,6 +124,7 @@
 </li>
 <li>🛠️ 開発 / Development
 <ul>
+<li><a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a></li>
 <li><a href="Analysis-FixedQuestJsonc.html">固定クエストのJSONC移行</a></li>
 </ul>
 </li>
@@ -381,7 +382,7 @@
 </tr>
 <tr>
 <td><a href="Analysis-LaunchOptions.html">起動オプション</a></td>
-<td>コマンドライン起動オプション（Windows版＝セーブファイル指定＋デバッグ用のみ・設定はINI＋オプションメニュー／POSIX版＝1文字オプション一覧・-dによるlibディレクトリ再定義・--以降の表示モジュールサブオプション・環境変数ANGBAND_PATH・usageに載るが未実装の-f/-w）</td>
+<td>コマンドライン起動オプション（Windows版＝セーブファイル指定＋デバッグ用＋Bot向けJSON出力・設定はINI＋オプションメニュー／POSIX版＝1文字オプション一覧・-dによるlibディレクトリ再定義・--以降の表示モジュールサブオプション・環境変数ANGBAND_PATH・usageに載るが未実装の-f/-w）</td>
 </tr>
 <tr>
 <td><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></td>
@@ -399,6 +400,10 @@
 </thead>
 <tbody>
 <tr>
+<td><a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a></td>
+<td><code>--bot-json-output</code> で有効になるJSON Lines出力（5種のスナップショットとその出力タイミング・共通スナップショットの全フィールド・記憶マップ/モンスター3系統/アイテムの鑑定段階・store/character/knowledge/lookの各ブロック・ファイル運用とフェアプレイのための伏せ字規則）</td>
+</tr>
+<tr>
 <td><a href="Analysis-FixedQuestJsonc.html">固定クエストのJSONC移行</a></td>
 <td>固定クエスト定義の .txt → per-quest JSONC 移行の仕様（ファイル構成・スキーマ・データモデル・旧 parse_qtw_* との挙動対応）とフォローアップ予定</td>
 </tr>
@@ -408,7 +413,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>mars.kmc.gr.jp/~dis/heng_wiki</code> 解析/* を現行ソースで再検証）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-14 04:06 UTC · hengband <code>559732b34f</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-08-02 09:58 UTC · hengband <code>d489d37bb8</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

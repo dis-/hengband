@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bot向けJSON出力モード · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<div class="search-wrap"><input id="search" type="search" placeholder="ページ・モンスター名で検索 / search pages…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+</header>
+<div class="layout"><aside class="sidebar"><ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+</ul>
+<h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Classes.html">🧑‍🚀 職業 / Classes</a>
+<ul>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+</li>
+<li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Quests.html">📜 クエスト / Quests</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+</ul>
+<h3><a href="Analysis.html">🔬 解析 / Analysis</a></h3>
+<ul>
+<li>⚔️ 戦闘 / Combat
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-HitChance.html">命中率計算</a></li>
+<li><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></li>
+<li><a href="Analysis-ChaosEffect.html">カオス的効果</a></li>
+</ul>
+</li>
+<li>👹 モンスター / Monsters
+<ul>
+<li><a href="Analysis-MonsterGen.html">モンスター生成</a></li>
+<li><a href="Analysis-SpecialRooms.html">特殊部屋生成</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterAI.html">モンスターの行動決定</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収処理</a></li>
+</ul>
+</li>
+<li>🧙 キャラクター / Character
+<ul>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-HitPoints.html">最大HP（ヒットポイント）</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力が上昇時にどれだけ増えるか</a></li>
+<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-Stun.html">朦朧処理</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+<li><a href="Analysis-Android.html">アンドロイドのレベル</a></li>
+<li><a href="Analysis-Autoroller.html">オートローラー</a></li>
+<li><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></li>
+<li><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></li>
+<li><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></li>
+<li><a href="Analysis-Riding.html">騎乗時処理</a></li>
+<li>🛡️ <a href="Resistances.html">プレイヤー耐性一覧 / Resistances</a></li>
+<li>🧬 <a href="Mutations.html">突然変異一覧 / Mutations</a>
+<ul>
+<li><a href="Mutations-Activatable.html">発動型</a> ・ <a href="Mutations-Random.html">ランダム発動型</a> ・ <a href="Mutations-Constant.html">常時型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>🎒 アイテム / Items
+<ul>
+<li><a href="Analysis-ItemLevel.html">アイテムレベルが決まるルール</a></li>
+<li><a href="Analysis-DeviceUse.html">魔法道具使用成功率</a></li>
+<li><a href="Analysis-EatMagic.html">魔力喰い</a></li>
+<li><a href="Analysis-WeaponRepair.html">折れた武器修復</a></li>
+<li><a href="Analysis-Recharge.html">魔力充填</a></li>
+</ul>
+</li>
+<li>⚙️ システム・その他 / System
+<ul>
+<li><a href="Score.html">スコアの算出方法 / Scoring</a></li>
+<li><a href="Analysis-FloorGeneration.html">フロア生成</a></li>
+<li><a href="Analysis-Store.html">店舗</a></li>
+<li><a href="Analysis-Rumor.html">噂</a></li>
+<li><a href="Analysis-Autopick.html">自動拾い</a></li>
+<li><a href="Analysis-Glass.html">ガラス地形</a></li>
+<li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
+<li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
+<li><a href="Analysis-LaunchOptions.html">起動オプション</a></li>
+<li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
+</ul>
+</li>
+<li>🛠️ 開発 / Development
+<ul>
+<li><a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a></li>
+<li><a href="Analysis-FixedQuestJsonc.html">固定クエストのJSONC移行</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>Bot向けJSON出力モード</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<h2>概要</h2>
+<p><strong>Bot向けJSON出力モード</strong>は、起動オプション <code>--bot-json-output[=パス]</code> を付けたときだけ有効になる出力専用の機能で、<strong>ゲームがプレイヤーのキー入力を待つ直前</strong>にその時点の状況を <strong>1行1JSON（JSON Lines / JSONL）</strong> で書き出す。外部プログラム（Bot）がこの行を読んで盤面を把握し、ウィンドウへキーを送り返す、という運用を想定している。</p>
+<ul>
+<li>実装は <code>src/bot/bot-json-output.cpp</code> に集約され、公開インターフェースは <code>src/bot/bot-json-output.h</code> の5つの関数だけ。</li>
+<li>各関数は先頭で <code>arg_bot_json_output</code> を確認し、<strong>モードが無効なら即 return</strong> する。したがって通常プレイ時のコストは分岐1つ分で、ゲームロジックには一切干渉しない（読み取り専用）。</li>
+<li>設計上の中心原則は<strong>フェアプレイ</strong>：「<strong>画面上でプレイヤーが知り得る情報だけを出す</strong>」。未知のマス・幻覚中の正体・未鑑定アイテムの数値などは、後述のとおり明示的に伏せられている。</li>
+</ul>
+<p>対応する起動オプション自体の位置づけは <a href="Analysis-LaunchOptions.html">起動オプション</a> も参照。</p>
+<hr>
+<h2>1. 有効化とオプション解析</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>指定</th>
+<th>効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--bot-json-output</code></td>
+<td>モードを有効化。出力先は既定の <code>bot-state.jsonl</code></td>
+</tr>
+<tr>
+<td><code>--bot-json-output=&lt;path&gt;</code></td>
+<td>モードを有効化し、出力先を <code>&lt;path&gt;</code> に変更（<code>=</code> の後が空なら既定のまま）</td>
+</tr>
+<tr>
+<td><code>--bot-json-output=-</code></td>
+<td>出力先を<strong>標準出力</strong>にする</td>
+</tr>
+</tbody>
+</table></div>
+<p>保持する変数は <code>src/game-option/runtime-arguments.{h,cpp}</code> の2つ。</p>
+<ul>
+<li><code>bool arg_bot_json_output</code>（既定 <code>false</code>）</li>
+<li><code>std::string arg_bot_json_output_path</code>（既定 <code>&quot;bot-state.jsonl&quot;</code>）</li>
+</ul>
+<p>解析はプラットフォームごとに別実装になっている。</p>
+<ul>
+<li><strong>POSIX/Unix版</strong>：<code>src/main.cpp</code> の <code>parse_long_opt()</code>。<code>--output-spoilers</code> と同じ長オプション解析経路に追加され、<code>display_usage()</code> にも 1 行載る。</li>
+<li><strong>Windows版</strong>：<code>src/main-win/commandline-win.cpp</code> の <code>parse_bot_json_output_option()</code>。<code>CommandLineToArgvW()</code> が返すワイド文字列を扱うため、<code>=</code> 以降のパスは <code>to_multibyte()</code> でマルチバイトへ変換してから格納する。</li>
+</ul>
+<p>Windows版のコマンドライン処理は、このモード追加に伴い次の2点も変わっている。</p>
+<ul>
+<li><strong>引数ダンプの出力先が標準出力から標準エラーへ移動</strong>した。<code>--bot-json-output=-</code> で標準出力をJSONL専用の出力先として使えるようにするため。</li>
+<li><strong><code>-o</code>（オリジナル・キー配置）と <code>-r</code>（ローグライク・キー配置）を認識する</strong>ようになった。Bot側がキー配置を固定できないと、送るキーの意味が環境依存になってしまうため。</li>
+</ul>
+<p>実行時に生成されるファイル（<code>BOT_PLAY</code> セーブファイルと <code>bot-state*.jsonl</code>）はリポジトリ直下に書かれるため、<code>.gitignore</code> に登録されている。</p>
+<hr>
+<h2>2. 出力タイミング（<code>type</code> の5種類）</h2>
+<p>スナップショットは<strong>プレイヤーが入力を求められる直前</strong>にだけ書き出される。フックは5か所で、いずれも「共通スナップショット」を作ってから <code>type</code> を差し替え、専用ブロックを追加する構造になっている。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th><code>type</code></th>
+<th>出力関数</th>
+<th>フック位置</th>
+<th>追加ブロック</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>player_turn</code></td>
+<td><code>output_bot_json_snapshot</code></td>
+<td><code>process_player()</code> の <code>InputKeyRequestor::request_command()</code> 直前（<code>src/core/player-processor.cpp</code>）</td>
+<td>なし</td>
+</tr>
+<tr>
+<td><code>store</code></td>
+<td><code>output_bot_json_store_snapshot</code></td>
+<td><code>do_cmd_store()</code> のコマンド入力直前（<code>src/store/cmd-store.cpp</code>）</td>
+<td><code>store</code></td>
+</tr>
+<tr>
+<td><code>character</code></td>
+<td><code>output_bot_json_character_snapshot</code></td>
+<td><code>do_cmd_player_status()</code> の冒頭（<code>src/cmd-visual/cmd-draw.cpp</code>）</td>
+<td><code>character</code></td>
+</tr>
+<tr>
+<td><code>knowledge</code></td>
+<td><code>output_bot_json_knowledge_snapshot</code></td>
+<td><code>do_cmd_knowledge()</code> の各カテゴリ選択時（<code>src/cmd-io/cmd-knowledge.cpp</code>）</td>
+<td><code>knowledge</code></td>
+</tr>
+<tr>
+<td><code>look</code></td>
+<td><code>output_bot_json_look_snapshot</code></td>
+<td><code>do_cmd_look()</code> の <code>target_set()</code> 直前（<code>src/cmd-io/cmd-floor.cpp</code>）</td>
+<td><code>look</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>重要な制約として、<strong>出力されるのはコマンド入力待ちの瞬間だけ</strong>である。<code>-more-</code> 待ちや「はい/いいえ」の確認プロンプトの最中には新しいスナップショットは出ないので、外部Botはそれらを既存のスナップショットとメッセージから推測して処理する必要がある。</p>
+<hr>
+<h2>3. 共通スナップショットの構造</h2>
+<p>すべての <code>type</code> に共通する最上位キーは次の通り（<code>make_snapshot()</code>）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>キー</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>スナップショット種別（前節の5種）</td>
+</tr>
+<tr>
+<td><code>turn</code></td>
+<td>ゲームターン（<code>AngbandWorld::game_turn</code>）</td>
+</tr>
+<tr>
+<td><code>player</code></td>
+<td>プレイヤーの状態（下表）</td>
+</tr>
+<tr>
+<td><code>floor</code></td>
+<td>現在フロアの情報</td>
+</tr>
+<tr>
+<td><code>progress</code></td>
+<td>ダンジョン到達・制覇・クエストなどの進行状況</td>
+</tr>
+<tr>
+<td><code>nearby_grids</code></td>
+<td>知覚済みグリッドの配列（第4節）</td>
+</tr>
+<tr>
+<td><code>visible_monsters</code></td>
+<td>直接視認しているモンスター（第5節）</td>
+</tr>
+<tr>
+<td><code>detected_monsters</code></td>
+<td>視線外だが感知しているモンスター（第5節）</td>
+</tr>
+<tr>
+<td><code>messages</code></td>
+<td>前回スナップショット以降に増えたメッセージ（最大32件・古い順）</td>
+</tr>
+<tr>
+<td><code>inventory</code></td>
+<td>持ち物（第6節）</td>
+</tr>
+<tr>
+<td><code>equipment</code></td>
+<td>装備（第6節）</td>
+</tr>
+</tbody>
+</table></div>
+<h3><code>player</code></h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>キー</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>y</code> / <code>x</code></td>
+<td>現在座標</td>
+</tr>
+<tr>
+<td><code>level</code> / <code>exp</code></td>
+<td>レベル・経験値</td>
+</tr>
+<tr>
+<td><code>hp</code> / <code>max_hp</code> / <code>mp</code> / <code>max_mp</code></td>
+<td>HP・MP</td>
+</tr>
+<tr>
+<td><code>gold</code></td>
+<td>所持金</td>
+</tr>
+<tr>
+<td><code>speed</code></td>
+<td>加速値（<code>pspeed</code>）</td>
+</tr>
+<tr>
+<td><code>ac</code></td>
+<td>表示上のAC（<code>dis_ac + dis_to_a</code>）</td>
+</tr>
+<tr>
+<td><code>recalling</code></td>
+<td>帰還の巻物が発動待ちか（<code>word_recall != 0</code>）</td>
+</tr>
+<tr>
+<td><code>food_state</code></td>
+<td>満腹度の段階（下記）</td>
+</tr>
+<tr>
+<td><code>food_type</code></td>
+<td>種族の食性（<code>PlayerRace::food()</code>）</td>
+</tr>
+<tr>
+<td><code>class_id</code> / <code>race_id</code> / <code>personality_id</code></td>
+<td>職業・種族・性格のID</td>
+</tr>
+<tr>
+<td><code>skills</code></td>
+<td><code>melee</code> / <code>shooting</code> / <code>saving</code> / <code>device</code> / <code>stealth</code> と、二刀流・盾の熟練度</td>
+</tr>
+<tr>
+<td><code>melee</code></td>
+<td>左右の手の攻撃回数・命中修正・ダメージ修正（表示値）</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>blind</code> / <code>confused</code> / <code>afraid</code> / <code>poisoned</code> / <code>stunned</code> / <code>cut</code> / <code>paralyzed</code> / <code>hallucinated</code></td>
+</tr>
+<tr>
+<td><code>stats</code></td>
+<td>能力値6種それぞれの <code>cur</code> / <code>max</code> / <code>use</code> / <code>index</code> / <code>drained</code></td>
+</tr>
+<tr>
+<td><code>abilities</code></td>
+<td>判明している耐性・能力19種の真偽値</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>food_state</code> は <code>player.food</code> の閾値（<code>src/player/digestion-processor.h</code>）で決まる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>値</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fainting</code></td>
+<td><code>food</code> &lt; 500（<code>PY_FOOD_FAINT</code>）</td>
+</tr>
+<tr>
+<td><code>weak</code></td>
+<td>&lt; 1000（<code>PY_FOOD_WEAK</code>）</td>
+</tr>
+<tr>
+<td><code>hungry</code></td>
+<td>&lt; 2000（<code>PY_FOOD_ALERT</code>）</td>
+</tr>
+<tr>
+<td><code>normal</code></td>
+<td>&lt; 10000（<code>PY_FOOD_FULL</code>）</td>
+</tr>
+<tr>
+<td><code>full</code></td>
+<td>&lt; 15000（<code>PY_FOOD_MAX</code>）</td>
+</tr>
+<tr>
+<td><code>gorged</code></td>
+<td>15000 以上</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>abilities</code> は<strong>装備の鑑定済みフラグ</strong>（<code>get_flags_known()</code>）・<strong>種族/職業などの内在フラグ</strong>（<code>player_flags</code>）・<strong>一時効果</strong>（<code>tim_player_flags</code>）を OR したもの。免疫を持っていれば対応する耐性も <code>true</code> になる（キャラクター画面の表示と同じ扱い）。</p>
+<h3><code>floor</code></h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>キー</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dungeon_id</code> / <code>level</code></td>
+<td>ダンジョンIDと階層</td>
+</tr>
+<tr>
+<td><code>width</code> / <code>height</code></td>
+<td>フロアの大きさ</td>
+</tr>
+<tr>
+<td><code>inside_arena</code></td>
+<td>闘技場内か</td>
+</tr>
+<tr>
+<td><code>quest_id</code></td>
+<td>クエストフロアならそのID</td>
+</tr>
+<tr>
+<td><code>town_id</code></td>
+<td>街ID（<code>town_index - 1</code>。街に居なければ <code>-1</code>）</td>
+</tr>
+<tr>
+<td><code>town_index</code></td>
+<td>内部の街インデックス（街に居なければ <code>0</code>）</td>
+</tr>
+<tr>
+<td><code>in_town</code></td>
+<td>街のマスに立っているか</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>in_town</code> は <code>dun_level == 0 &amp;&amp; is_in_any_town()</code> で判定している。<code>is_in_any_town()</code>（＝<code>current_town_index &gt; 0</code>）はダンジョンに潜っても解除されないため単独では使えず、また地上でも「街」と「ダンジョン入口だけがある荒野マス」は共に <code>dungeon_id = 0</code> / <code>level = 0</code> なので、この2条件の組み合わせが必要になる。</p>
+<h3><code>progress</code></h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>キー</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>recall_dungeon_id</code></td>
+<td>帰還先ダンジョン</td>
+</tr>
+<tr>
+<td><code>recall_depth</code></td>
+<td>帰還先ダンジョンでの最深到達階（＝帰還したときに降り立つ階）</td>
+</tr>
+<tr>
+<td><code>entered_dungeon_ids</code></td>
+<td>一度でも入ったダンジョンのID一覧</td>
+</tr>
+<tr>
+<td><code>dungeon_recall_depths</code></td>
+<td>ダンジョンID（文字列キー）→ 最深到達階</td>
+</tr>
+<tr>
+<td><code>conquered_dungeon_ids</code></td>
+<td>制覇済み（最深部の主が討伐済み）のダンジョンID一覧</td>
+</tr>
+<tr>
+<td><code>yeek_cave_conquered</code></td>
+<td>イークの洞穴（列挙名は <code>GALGALS</code>）の制覇状況</td>
+</tr>
+<tr>
+<td><code>angband_recall_unlocked</code></td>
+<td>アングバンドへ帰還できるか</td>
+</tr>
+<tr>
+<td><code>visited_town_ids</code></td>
+<td>行き方を知っている街のID一覧</td>
+</tr>
+<tr>
+<td><code>quests</code></td>
+<td>開示対象のクエスト一覧（下記）</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>angband_recall_unlocked</code> は <code>has_entered()</code> ではなく <strong><code>get_max_level() &gt; 0</code></strong> で判定する。宿屋で噂を聞くと <code>set_max_level(mindepth)</code> が呼ばれて「アングバンドへ帰還できるようになった」状態になるため、実際に入場していなくても解禁されうるからである。<code>visited_town_ids</code> も同様に、実際に訪れた街と宿屋の噂で行き方を知った街の両方を含み、宿屋の「他の街へテレポート」に並ぶ街と一致する。</p>
+<p><code>quests</code>（<code>make_disclosed_quests_json()</code>）は**「遂行中のクエスト」画面の開示規則をそのまま再現**している。</p>
+<ul>
+<li><code>QUEST_FLAG_SILENT</code> のクエストと、遂行中でも完了でも失敗でもないものは出さない。</li>
+<li><strong>遂行中のランダムクエストは最も浅い1件だけ</strong>（<code>QuestList::find_shallowest_random_quest_id()</code>。アングバンドの到達階層に届いていないもの・複数体討伐のものは開示しない）。</li>
+<li>完了/失敗したランダムクエストは、名前を討伐対象モンスター名に差し替えて出す。</li>
+<li>種別に応じて <code>r_idx</code>（討伐対象）、<code>cur_num</code> / <code>max_num</code>（討伐数）、<code>reward_artifact_id</code> / <code>reward_baseitem_id</code>（アーティファクト探索の報酬）を追加する。</li>
+</ul>
+<hr>
+<h2>4. マップ情報（<code>nearby_grids</code>）</h2>
+<p>名前に反して、出力されるのは<strong>プレイヤーが記憶しているマップ全体＋現在の視界</strong>である（フロア全域を走査し、知覚できないマスは<strong>出力しない</strong>）。Bot側は「範囲内なのに配列に無いマス」を未探索フロンティアとして扱えばよい。</p>
+<p>知覚判定 <code>is_grid_perceivable()</code> は次のとおり。</p>
+<ol>
+<li>記憶対象地形（<code>TerrainCharacteristics::REMEMBER</code>）なら、マーク済みかつ <code>is_revealed_wall()</code>（全周を壁に囲まれた壁を隠すオプションの判定）を満たすこと。</li>
+<li>盲目なら以降はすべて不可視。</li>
+<li><code>CAVE_MARK</code> / <code>CAVE_LITE</code> / <code>CAVE_MNLT</code> のいずれかが立っている、または視界内（<code>CAVE_VIEW</code>）かつ「グロー中（<code>CAVE_GLOW</code> かつ <code>CAVE_MNDK</code> でない）」または <code>see_nocto</code> を持つこと。</li>
+</ol>
+<p>各グリッドの主なフィールド。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>キー</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>y</code> / <code>x</code> / <code>known</code></td>
+<td>座標と既知フラグ（未知の場合は <code>known: false</code> と空の <code>flags</code> だけを返す形も定義されている）</td>
+</tr>
+<tr>
+<td><code>terrain_id</code></td>
+<td>地形ID（<code>TerrainKind::MIMIC</code>＝見かけの地形）</td>
+</tr>
+<tr>
+<td><code>monster_index</code></td>
+<td>視界内で視認できるモンスターのインデックス（居なければ <code>0</code>）</td>
+</tr>
+<tr>
+<td><code>object_count</code></td>
+<td>発見済みアイテムの個数</td>
+</tr>
+<tr>
+<td><code>object_tvals</code></td>
+<td>発見済みアイテムの大分類（tval）一覧。<strong>幻覚中は空配列</strong></td>
+</tr>
+<tr>
+<td><code>flags</code></td>
+<td><code>mark</code> / <code>cave_known</code> / <code>lite</code> / <code>view</code> / <code>room</code> / <code>unsafe</code></td>
+</tr>
+<tr>
+<td><code>terrain</code></td>
+<td>地形の性質18種（下記）</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>terrain</code> に含まれる真偽値は <code>floor</code> / <code>wall</code> / <code>move</code> / <code>los</code> / <code>door</code> / <code>trap</code> / <code>stairs</code> / <code>up_stairs</code> / <code>down_stairs</code> / <code>entrance</code> / <code>quest_enter</code> / <code>quest_exit</code> / <code>store</code> / <code>can_dig</code> / <code>tunnel</code> / <code>permanent</code> / <code>has_gold</code> / <code>building</code>。さらに条件付きで次が付く。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>追加キー</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>store_number</code></td>
+<td>店の入口（どの店かを示す <code>StoreSaleType</code>）</td>
+</tr>
+<tr>
+<td><code>entrance_dungeon_id</code></td>
+<td>ダンジョン入口（<code>grid.special</code>）</td>
+</tr>
+<tr>
+<td><code>quest_id</code></td>
+<td>クエストの入口・出口</td>
+</tr>
+<tr>
+<td><code>building_type</code> / <code>building_special</code></td>
+<td>施設（建物）タイル</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>object_tvals</code> を幻覚中に伏せる一方で <code>object_count</code> は残すのは、「そこに何かが落ちていること自体は画面のシンボルで分かるが、種類は分からない」という画面の見え方に合わせるため。</p>
+<hr>
+<h2>5. モンスターの3系統</h2>
+<p>モンスター情報は<strong>わざと3通りの異なる可視判定</strong>で出力される（統合してはいけない、とソースにコメントがある）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>出力先</th>
+<th>判定条件</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>visible_monsters</code></td>
+<td><code>ml</code> かつ<strong>そのマスが視線内</strong></td>
+<td>直接視認しているものだけ。常時出力</td>
+</tr>
+<tr>
+<td><code>detected_monsters</code></td>
+<td><code>ml</code> かつ<strong>視線外</strong></td>
+<td>ESP・探知で見えているもの。<code>y</code> / <code>x</code> / <code>esp</code> / <code>detected</code> が付く</td>
+</tr>
+<tr>
+<td><code>look</code> の <code>monster</code></td>
+<td><code>ml</code> のみ</td>
+<td>look コマンド自身の判定（<code>target_set_accept</code>）と一致させる</td>
+</tr>
+</tbody>
+</table></div>
+<p>各モンスターの内容は <code>index</code> / <code>race_id</code> / <code>name</code> / <code>health</code> / <code>asleep</code> / <code>stunned</code> / <code>confused</code> / <code>fearful</code> / <code>friendly</code> / <code>pet</code>。<code>health</code> は割合の帯で出す。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>値</th>
+<th>残りHP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>unhurt</code></td>
+<td>満タン</td>
+</tr>
+<tr>
+<td><code>lightly_wounded</code></td>
+<td>60% 以上</td>
+</tr>
+<tr>
+<td><code>wounded</code></td>
+<td>25% 以上</td>
+</tr>
+<tr>
+<td><code>badly_wounded</code></td>
+<td>10% 以上</td>
+</tr>
+<tr>
+<td><code>almost_dead</code></td>
+<td>10% 未満</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>幻覚中</strong>は <code>index</code> / <code>hallucinated</code> / <code>pet</code> だけになり、正体・HP帯・状態異常は伏せられる。位置情報（インデックス）を残すのは、幻覚中でも「そのマスに何かがいる」ことは画面のランダムシンボルで分かるためで、伏せるのは正体の方だけという切り分けになっている。</p>
+<hr>
+<h2>6. アイテムの表現（<code>make_item_json</code>）</h2>
+<p>持ち物・装備・床のアイテム・我が家の在庫まで、すべてこの共通関数を通る。<strong>鑑定状態に応じて出るフィールドが増える</strong>のがポイント。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>条件</th>
+<th>フィールド</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>常に</td>
+<td><code>name</code>（<code>describe_flavor</code> の表示名）・<code>count</code>・<code>tval</code>・<code>aware</code>・<code>known</code>・<code>fully_known</code>・<code>is_equipment</code>・<code>weight</code>・<code>is_bounty</code></td>
+</tr>
+<tr>
+<td>「未知の匂い/形」を判別済み（<code>aware</code>）</td>
+<td><code>sval</code></td>
+</tr>
+<tr>
+<td>擬似鑑定済み（<code>IdentificationFlag::SENSE</code>）</td>
+<td><code>pseudo_feeling</code>（<code>broken</code> / <code>terrible</code> / <code>worthless</code> / <code>cursed</code> / <code>uncursed</code> / <code>average</code> / <code>good</code> / <code>excellent</code> / <code>special</code> / <code>none</code>）</td>
+</tr>
+<tr>
+<td>鑑定済み（<code>known</code>）</td>
+<td><code>charges</code> / <code>pval</code> / <code>fuel</code> / <code>timeout</code> / <code>is_ego</code> / <code>is_artifact</code> / <code>is_cursed</code> / <code>is_broken</code> / <code>inscription</code> / <code>to_h</code> / <code>to_d</code> / <code>to_a</code> / <code>ac</code> / <code>damage_dice</code> / <code>known_flags</code>（フラグIDの配列）。武器・弓なら <code>weapon_proficiency</code>（その武器種の熟練度）</td>
+</tr>
+</tbody>
+</table></div>
+<p>未鑑定のアイテムから充填回数や修正値が読めないのは、通常プレイのアイテム説明と同じ制約である。<code>inscription</code> は<strong>プレイヤー自身が書いた銘</strong>なので開示され、外部Botにとってはセーブファイルに永続する唯一の自前メモ領域として使える。</p>
+<p>スロット表記は <code>inventory</code> が持ち物欄の記号（<code>a</code>, <code>b</code>, …）、<code>equipment</code> がラベル（<code>main_hand</code> / <code>sub_hand</code> / <code>bow</code> / <code>main_ring</code> / <code>sub_ring</code> / <code>neck</code> / <code>light</code> / <code>body</code> / <code>outer</code> / <code>head</code> / <code>arms</code> / <code>feet</code>）。</p>
+<hr>
+<h2>7. <code>store</code> ブロック（店の中）</h2>
+<p>店のコマンド入力待ちで、共通スナップショットに <code>store</code> が付く。</p>
+<ul>
+<li><code>store_type</code> … 店種別（<code>StoreSaleType</code>）。</li>
+<li><code>items[]</code> … 在庫。<code>letter</code> は<strong>現在表示中のページを基準にした相対記号</strong>（<code>store_top</code> の商品が <code>a</code>）で、ページ外の在庫は出力しない。店側が受け付ける入力と一致させるための仕様。</li>
+<li>通常の店では <code>name</code>（<code>OD_STORE</code> 表記）・<code>price</code>（<code>price_item</code> による実売価格）・<code>pval</code> / <code>charges</code> を出す。店の在庫は鑑定済みで、充填回数も画面に表示されているため隠す理由がない。</li>
+<li><strong>我が家・博物館</strong>は売買ではないので価格を出さず、通常のアイテムJSON（第6節）をそのまま並べる。</li>
+</ul>
+<hr>
+<h2>8. <code>character</code> ブロック（<code>C</code> キー）</h2>
+<p>キャラクター情報画面を開いた瞬間に出る、詳細ステータス一式。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>キー</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>skills</code></td>
+<td><code>thn</code> / <code>thb</code> / <code>sav</code> / <code>dev</code> / <code>stl</code> / <code>dis</code> / <code>srh</code> / <code>fos</code> / <code>dig</code> の生値</td>
+</tr>
+<tr>
+<td><code>ranged</code></td>
+<td><code>to_h_b</code> / <code>shots</code> / <code>shot_frac</code> / <code>shooting_multiplier</code> / <code>see_infra</code></td>
+</tr>
+<tr>
+<td><code>melee</code></td>
+<td><code>expected_damage_x100</code>（左右の手の期待ダメージ×100）・<code>expected_damage_per_round_x100</code>（攻撃回数を掛けたもの）・<code>bare_hand</code> / <code>two_handed</code> / <code>monk_stance</code></td>
+</tr>
+<tr>
+<td><code>stats</code></td>
+<td>能力値ごとの <code>top</code> / <code>maximum</code> / <code>at_maximum</code></td>
+</tr>
+<tr>
+<td><code>age</code> / <code>height</code> / <code>weight</code> / <code>social_class</code> / <code>alignment</code></td>
+<td>身上・属性値</td>
+</tr>
+<tr>
+<td><code>realms</code></td>
+<td>使用魔法領域（ID＋名称）</td>
+</tr>
+<tr>
+<td><code>chaos_patron</code></td>
+<td>カオスパトロン</td>
+</tr>
+<tr>
+<td><code>mutations</code></td>
+<td>保有する突然変異IDの配列</td>
+</tr>
+<tr>
+<td><code>characteristics</code></td>
+<td>耐性・能力フラグ表（下記）</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>characteristics</code> はキャラクター画面の耐性表そのもので、<strong>136種のフラグ</strong>について次を出力する。</p>
+<ul>
+<li><code>flag_id</code> … <code>tr_type</code> のID。</li>
+<li><code>equipment[]</code> … 装備スロットごとの <code>{ slot, has }</code>。<strong>鑑定済みフラグのみ</strong>（<code>get_flags_known()</code>）。</li>
+<li><code>player</code> / <code>temporary</code> … 内在フラグ／一時効果。</li>
+<li><code>immunity</code> / <code>temporary_immunity</code> / <code>vulnerability</code> … 免疫・一時免疫・弱点。</li>
+</ul>
+<p><code>stats</code> の <code>maximum</code>（能力値の上限）は、<code>KNOW_STAT</code> を得ているか既に上限に達している場合のみ数値を出し、それ以外は <code>null</code> になる。ここも画面表示（<code>?</code> 表示になる）と同じ扱い。期待ダメージと射撃性能は、表示用の <code>calc_player_two_hands()</code> / <code>calc_player_shot_params()</code> を再利用して算出している（この2関数はBot出力のために <code>src/view/status-first-page.h</code> へ公開された）。</p>
+<hr>
+<h2>9. <code>knowledge</code> ブロック（<code>~</code> の知識メニュー）</h2>
+<p>知識メニューでカテゴリを選ぶと、その内容がJSONでも出る。<code>category</code>（スラッグ）と <code>menu_key</code>（選択に使ったキー）が必ず付く。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>キー</th>
+<th><code>category</code></th>
+<th>内容キー</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1</code></td>
+<td><code>artifacts_known</code></td>
+<td><code>artifacts</code>（既知のアーティファクト）</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><code>artifacts_identified</code></td>
+<td><code>artifacts</code>（鑑定済みのアーティファクト）</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td><code>objects_known</code></td>
+<td><code>objects</code>（<code>id</code> / <code>tval</code> / <code>sval</code> / <code>name</code>）</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td><code>uniques_alive</code></td>
+<td><code>uniques</code>（生存ユニーク）</td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td><code>uniques_dead</code></td>
+<td><code>uniques</code>（撃破済みユニーク）</td>
+</tr>
+<tr>
+<td><code>8</code></td>
+<td><code>bounty</code></td>
+<td><code>today</code>（本日の賞金首。未確認なら <code>null</code>）・<code>wanted</code>（未達成の賞金首）</td>
+</tr>
+<tr>
+<td><code>9</code></td>
+<td><code>home</code></td>
+<td><code>items</code>（我が家の在庫）</td>
+</tr>
+<tr>
+<td><code>0</code></td>
+<td><code>equip_resistances</code></td>
+<td><code>equipment</code>（装備・持ち物・我が家の<strong>完全鑑定済み</strong>装備品を <code>source</code> 付きで列挙）</td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td><code>features</code></td>
+<td><code>features</code>（地形一覧）</td>
+</tr>
+<tr>
+<td><code>b</code></td>
+<td><code>self_info</code></td>
+<td><code>life_rating</code>（<code>KNOW_HPRATE</code> が無ければ <code>null</code>）・<code>stat_limits</code></td>
+</tr>
+<tr>
+<td><code>c</code></td>
+<td><code>mutations</code></td>
+<td><code>mutation_ids</code></td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td><code>weapon_exp</code></td>
+<td><code>weapons</code>（武器種ごとの <code>exp</code> / <code>max</code> / <code>rank</code>）</td>
+</tr>
+<tr>
+<td><code>e</code></td>
+<td><code>spell_exp</code></td>
+<td><code>spells</code>（領域・呪文ごとの <code>exp</code> / <code>rank</code>）</td>
+</tr>
+<tr>
+<td><code>f</code></td>
+<td><code>skill_exp</code></td>
+<td><code>skills</code></td>
+</tr>
+<tr>
+<td><code>g</code></td>
+<td><code>virtues</code></td>
+<td><code>virtues</code>（徳の種類と値）</td>
+</tr>
+<tr>
+<td><code>h</code></td>
+<td><code>dungeons</code></td>
+<td><code>dungeons</code>（入場済みダンジョンの <code>max_level</code> / <code>conquered</code>）</td>
+</tr>
+<tr>
+<td><code>i</code></td>
+<td><code>quests</code></td>
+<td><code>quests</code>（第3節と同じ開示規則）</td>
+</tr>
+<tr>
+<td><code>j</code></td>
+<td><code>pets</code></td>
+<td><code>pets</code>（現フロアのペット）</td>
+</tr>
+<tr>
+<td><code>k</code></td>
+<td><code>autopick</code></td>
+<td><code>rules</code>（自動拾い設定を1行の書式に戻したもの）</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>6</code>（モンスターの思い出）と <code>7</code>（撃破数）はJSON出力の対象外。<code>spell_exp</code> では<strong>剣術（<code>HISSATSU</code>）だけ <code>exp</code> と <code>rank</code> が <code>null</code> になり <code>masked: true</code> が付く</strong>。剣術は熟練度の概念が画面上も表示されないためで、これも画面と出力を一致させる措置である。</p>
+<hr>
+<h2>10. <code>look</code> ブロック（<code>l</code> / <code>x</code> の周辺確認）</h2>
+<p>look コマンドの巡回対象（<code>target_set_prepare(TARGET_LOOK)</code>）を<strong>そのままの順序</strong>で配列にしたもの。</p>
+<ul>
+<li><code>hallucinated</code> … 幻覚中フラグ。</li>
+<li><code>panel</code> … 現在の表示パネル範囲（<code>row_min</code> / <code>row_max</code> / <code>col_min</code> / <code>col_max</code>）。</li>
+<li><code>grids[]</code> … <code>index</code>（巡回順）・<code>y</code> / <code>x</code>・<code>distance</code>・<code>is_player_position</code>・<code>terrain</code>・<code>monster</code>・<code>items[]</code>・<code>carried_items[]</code>（モンスターが持っているアイテム）。</li>
+</ul>
+<p>地形は、マーク済みでもなく <code>player_can_see_bold()</code> でもないマスでは <code>TerrainTag::NONE</code> に差し替えられ、<code>redacted: true</code> が付く。look で「何かが見えているが地形は分からない」状況を再現するための伏せ字である。</p>
+<hr>
+<h2>11. 出力ファイルの扱い</h2>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>項目</th>
+<th>仕様</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>既定の出力先</td>
+<td><code>bot-state.jsonl</code>（<code>--bot-json-output=-</code> なら標準出力）</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>JSON Lines。1スナップショット＝1行、書き込みごとに <code>flush</code></td>
+</tr>
+<tr>
+<td>セッション開始時</td>
+<td>ファイルを <strong>truncate</strong> して開き直す（過去実行分は残さない）</td>
+</tr>
+<tr>
+<td>サイズ上限</td>
+<td><code>BOT_JSON_OUTPUT_MAX_BYTES</code> = <strong>256MiB</strong>。超えたら再度 truncate して書き直す</td>
+</tr>
+<tr>
+<td>文字コード</td>
+<td><code>sys_to_utf8()</code> でUTF-8化。変換失敗時は <code>&lt;encoding-error&gt;</code>、<code>dump()</code> も <code>error_handler_t::replace</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>全マップを含むスナップショットは大きいため、履歴を貯めずに<strong>最新行だけを消費する前提</strong>で上限打ち切りにしている。Bot側はファイルが縮んだことを検知して先頭から読み直せばよい。</p>
+<p><code>messages</code> の作り方にも状態がある（<code>make_recent_messages_json()</code>）。</p>
+<ul>
+<li>前回スナップショット時のメッセージ総数と最新行を静的に保持し、<strong>増分だけ</strong>を古い順に出す。</li>
+<li>総数が同じでも最新行の内容が変わっていれば1件だけ出す（同じ行がまとめられた場合の取りこぼし防止）。</li>
+<li>1回のスナップショットで最大 <code>BOT_JSON_MAX_MESSAGES</code> = <strong>32件</strong>。</li>
+<li><strong>最初の呼び出しは基準値を取るだけで空配列</strong>を返す。</li>
+</ul>
+<hr>
+<h2>12. フェアプレイ設計のまとめ</h2>
+<p>このモードは「Botに有利な情報を足す」のではなく「<strong>プレイヤーが画面から読める情報だけを機械可読にする</strong>」ことを目的としており、次の伏せ字が入っている。</p>
+<ul>
+<li>知覚できないマスは <code>nearby_grids</code> に<strong>出さない</strong>（未知＝欠落）。盲目中は記憶済み地形以外は出ない。</li>
+<li>幻覚中はモンスターの正体・HP帯・状態異常、床のアイテムの種類（<code>object_tvals</code>）を伏せる。位置は伏せない。</li>
+<li>未鑑定アイテムの充填回数・修正値・ダイス・フラグは出さない。未判別なら <code>sval</code> すら出さない。</li>
+<li>能力値の上限は <code>KNOW_STAT</code>、命の格付けは <code>KNOW_HPRATE</code> を得ているときだけ。</li>
+<li>クエストは「遂行中のクエスト」画面の開示規則（沈黙クエスト非表示・遂行中ランダムクエストは最も浅い1件のみ）に従う。</li>
+<li>剣術の熟練度は画面同様マスクする。</li>
+<li>直接視認・感知・lookでモンスターの可視判定を分けており、常時出力の <code>visible_monsters</code> にはESPで見えているだけの相手を混ぜない。</li>
+<li>店の在庫記号は実際に押せるページ相対の記号だけを出す。</li>
+</ul>
+<p>一方で、<code>inscription</code>（プレイヤーが書いた銘）、制覇済みダンジョン、帰還可能階層、行き方を知っている街など、<strong>キャラクター画面や宿屋のメニューで確認できる情報は開示する</strong>。</p>
+<hr>
+<h2>まとめ</h2>
+<ul>
+<li><code>--bot-json-output[=パス]</code> を付けたときだけ有効な、読み取り専用のJSONL出力モード。無効時のコストは分岐1つ。</li>
+<li>出力タイミングは<strong>入力待ちの直前</strong>の5か所（通常ターン・店・キャラクター情報・知識メニュー・look）。共通スナップショットに種別ごとのブロックが加わる。</li>
+<li>共通スナップショットには、プレイヤー状態・フロア・進行状況・記憶マップ全域・可視/感知モンスター・増分メッセージ・持ち物・装備が入る。</li>
+<li>すべての開示範囲は「画面で見える情報」に揃えられており、未知・幻覚・未鑑定・未取得の知識は明示的に伏せられる。</li>
+</ul>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/bot/bot-json-output.cpp</code>, <code>src/bot/bot-json-output.h</code>, <code>src/game-option/runtime-arguments.cpp</code>, <code>src/main.cpp</code>, <code>src/main-win/commandline-win.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-08-02 09:58 UTC · hengband <code>d489d37bb8</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
