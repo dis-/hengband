@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ja"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>技能 · 変愚蛮怒 データ仕様</title>
+<title>技能・熟練度 · 変愚蛮怒 データ仕様</title>
 <link rel="stylesheet" href="style.css"></head>
 <body>
 <header class="site-header">
@@ -77,7 +77,7 @@
 <li><a href="Analysis-HitPoints.html">最大HP（ヒットポイント）</a></li>
 <li><a href="Analysis-StatMax.html">能力の最大値</a></li>
 <li><a href="Analysis-StatGain.html">能力が上昇時にどれだけ増えるか</a></li>
-<li><a href="Analysis-Skills.html">技能</a></li>
+<li><a href="Analysis-Skills.html">技能・熟練度</a></li>
 <li><a href="Analysis-Regen.html">自然回復</a></li>
 <li><a href="Analysis-Speed.html">加速内部値</a></li>
 <li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
@@ -129,25 +129,46 @@
 </ul>
 </li>
 </ul>
-</aside><main class="content"><h1>技能</h1>
+</aside><main class="content"><h1>技能・熟練度</h1>
 <p><a href="Analysis.html">← 解析 / Analysis</a></p>
 <h2>概要</h2>
-<p>変愚蛮怒における「技能」とは、武器・弓・素手・魔法などの熟練度（proficiency）を表す内部パラメータである。同じ武器種を使い続けたり、同じ呪文を唱え続けたりすることで熟練度が経験値として蓄積し、一定の閾値を超えると抽象的な「ランク」が上昇する。ランクが上がると命中率やダメージなどに補正がかかる。</p>
-<p>熟練度は大きく次の4系統に分けられる。</p>
-<ul>
-<li><strong>武器熟練度</strong>（<code>weapon_exp</code>）: 近接武器および弓の各<code>tval</code>/<code>sval</code>ごとに保持</li>
-<li><strong>技能熟練度</strong>（<code>skill_exp</code>）: マーシャルアーツ・二刀流・乗馬・盾の4種</li>
-<li><strong>呪文熟練度</strong>（<code>spell_exp</code>）: 魔法・歌・呪術の各呪文ごとに保持</li>
-<li>各系統とも、職業・武器種によって到達できる上限ランクが異なる</li>
-</ul>
-<h2>技能ランクと閾値</h2>
-<p>ランクは内部的に5段階（<code>PlayerSkillRank</code>）で表現される。系統ごとに閾値となる経験値が異なる。</p>
+<p>変愚蛮怒の<strong>熟練度</strong>（proficiency）は、同じ武器を振り続ける・同じ呪文を唱え続けることで蓄積していく内部経験値である。画面には数値ではなく5段階のランク（[初心者]〜[達人]）で表示され、内部値そのものが命中・AC・消費MP・失敗率などの補正に直接使われる。</p>
+<p>熟練度は3系統に分かれる。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
-<th>ランク（内部名）</th>
-<th>表示名</th>
-<th>武器・技能</th>
+<th>系統</th>
+<th>内部データ</th>
+<th>単位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>武器熟練度</td>
+<td><code>weapon_exp[tval][sval]</code></td>
+<td>弓(19)・掘削具(20)・鈍器(21)・長柄(22)・剣(23) の<strong>各アイテム種別（sval）ごと</strong></td>
+</tr>
+<tr>
+<td>技能熟練度</td>
+<td><code>skill_exp[4]</code></td>
+<td>マーシャルアーツ（素手）・二刀流・乗馬・盾</td>
+</tr>
+<tr>
+<td>呪文熟練度</td>
+<td><code>spell_exp[64]</code></td>
+<td>第1領域の呪文が 0〜31、第2領域の呪文が 32〜63</td>
+</tr>
+</tbody>
+</table></div>
+<p>剣術家の<strong>必殺技には熟練度が無い</strong>。知識画面でも <code>[--]</code> と表示され、消費MPも熟練度で変化しない（<code>spell.smana</code> をそのまま消費する）。</p>
+<h2>ランクと閾値</h2>
+<p>ランクは内部的に5段階（<code>PlayerSkillRank</code>）。系統ごとに閾値が異なり、表の値は<strong>そのランクになる下限値</strong>（例: 武器熟練度4000〜5999が[入門者]）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>内部名</th>
+<th>表示</th>
+<th>武器・素手・二刀流・盾</th>
 <th>乗馬</th>
 <th>呪文</th>
 </tr>
@@ -190,30 +211,47 @@
 </tr>
 </tbody>
 </table></div>
-<p>表の数値は、そのランクに到達するために必要な経験値の下限である（例: 武器熟練度が4000以上6000未満なら[入門者]）。</p>
+<h3>上昇処理に共通する仕組み</h3>
+<p>攻撃系の熟練度（武器・素手・二刀流）は共通の処理（<code>gain_attack_skill_exp</code>）で上がる。</p>
+<ul>
+<li>現在の<strong>帯</strong>（[初心者]帯＝次の閾値未満、以下同様）ごとに決まった「1回あたりの上昇量」を加算する。次の閾値は越えない。</li>
+<li><strong>[熟練者]帯から[エキスパート]帯へ進むにはプレイヤーレベル20以上</strong>（<code>lev &gt; 19</code>）が必要。この条件を満たさない間は6999で頭打ちになる。</li>
+<li><strong>[エキスパート]帯から[達人]帯へ進むにはプレイヤーレベル35以上</strong>（<code>lev &gt; 34</code>）が必要。</li>
+<li>職業ごとに定められた上限（後述）に達した項目はそれ以上上がらない。</li>
+</ul>
+<p>乗馬と呪文はこの共通処理を使わず、それぞれ独自の条件で上昇する（後述）。</p>
 <h2>武器熟練度</h2>
-<h3>ランク別の上限（職業・武器種による違い）</h3>
-<p>各職業には、武器種（<code>tval</code>）・武器の種類（<code>sval</code>）ごとに「開始ランク」と「上限ランク」が設定されている（<code>lib/edit/ClassSkillDefinitions.txt</code>、<code>W:</code>行）。上限ランクを超えて熟練度が上がることはない。</p>
-<ul>
-<li>例: 戦士（WARRIOR）は多くの武器で上限が[達人]（4）だが、スリング・ショートボウ・ロングボウ・クロスボウ類は上限[エキスパート]（3）に制限される。</li>
-<li>熟練度は職業ごとに大きく異なり、魔法系職業では多くの武器種が低い上限に抑えられる。</li>
-</ul>
-<h3>特殊な武器熟練度上限の上書き</h3>
-<p><code>PlayerSkill::apply_special_weapon_skill_max_values()</code> により、以下の場合に特定武器の上限が[達人]へ引き上げられる（いずれも職業がスペルマスター(SORCERER)でない場合に限る）。</p>
-<ul>
-<li><strong>性格がセクシーギャル</strong>: ムチ（HAFTED / SV_WHIP）の上限が[達人]になる</li>
-<li><strong>種族がマーフォーク</strong>: トライデント（POLEARM / SV_TRIDENT）と三叉槍（SV_TRIFURCATE_SPEAR）の上限が[達人]になる</li>
-</ul>
-<p>なおスペルマスターは全呪文が常に[達人]扱い（後述）で、武器熟練度の特例は適用されない。</p>
-<h3>熟練度上昇の契機と上昇量</h3>
-<p>近接武器での攻撃時（<code>gain_melee_weapon_exp</code>）と弓での射撃時（<code>gain_range_weapon_exp</code>）に、装備中の武器種の熟練度が増加する。近接の場合、実際に装備している武器と同じ<code>sval</code>か、それ以外かで上昇量が異なる。</p>
-<p>上昇量はランク帯ごとに定められた「1回あたりの上昇量」の配列で与えられ、次のランク閾値を超えない範囲で加算される。近接武器の上昇量は以下の通り（<code>GainAmountList</code>は[初心者],[入門者],[熟練者],[エキスパート]帯での1回あたり上昇量）。</p>
+<h3>上昇の契機</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>系統</th>
+<th>契機</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>近接</td>
+<td><strong>1回の攻撃コマンドにつき1回</strong>（打撃回数や命中・空振りとは無関係）。主手・副手それぞれで判定される</td>
+<td>装備が近接武器であり、<code>対象モンスターのレベル + 10 &gt; プレイヤーレベル</code></td>
+</tr>
+<tr>
+<td>射撃</td>
+<td>発射した矢弾がモンスターに命中したとき</td>
+<td><code>対象モンスターのレベル + 10 &gt; プレイヤーレベル</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>上昇するのは<strong>装備している武器と同じ分類（tval）に属する全アイテム種別</strong>で、装備中のものと同じ sval かどうかで上昇量が変わる。剣を振れば、その剣種が大きく伸び、同じ「剣」分類の他の武器種もわずかに伸びる。それぞれ自分の上限で頭打ちになる。</p>
+<h3>上昇量（1回あたり）</h3>
+<p>近接（<code>gain_melee_weapon_exp</code>）:</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
 <th>帯</th>
-<th>装備武器と同種</th>
-<th>それ以外</th>
+<th>装備中と同じ武器種</th>
+<th>同じ分類の他の武器種</th>
 </tr>
 </thead>
 <tbody>
@@ -239,13 +277,13 @@
 </tr>
 </tbody>
 </table></div>
-<p>弓（射撃）での上昇量は次の通り。</p>
+<p>射撃（<code>gain_range_weapon_exp</code>）:</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
 <th>帯</th>
-<th>使用中の弓と同種</th>
-<th>それ以外</th>
+<th>使用中と同じ弓の種類</th>
+<th>同じ分類の他の種類</th>
 </tr>
 </thead>
 <tbody>
@@ -271,71 +309,1465 @@
 </tr>
 </tbody>
 </table></div>
-<p>上昇には以下の共通条件がある（<code>gain_attack_skill_exp</code>）。</p>
-<ul>
-<li>[熟練者]帯から[エキスパート]帯への上昇にはプレイヤーレベル20以上（<code>lev &gt; 19</code>）が必要</li>
-<li>[エキスパート]帯から[達人]帯への上昇にはプレイヤーレベル35以上（<code>lev &gt; 34</code>）が必要</li>
-<li>また、弓の射撃で熟練度が入るのは対象モンスターのレベル+10がプレイヤーレベルより大きい場合のみ。近接では素手（マーシャルアーツ）と二刀流の熟練度取得に同様のモンスターレベル判定がある（武器熟練度自体には近接時のモンスターレベル制限はない）。</li>
-</ul>
-<h3>ランクが命中・ダメージに与える寄与</h3>
-<p><strong>近接武器の命中</strong>（<code>calc_to_hit_bonus</code>相当、<code>player-status.cpp</code>）:</p>
-<pre><code>命中補正 += (weapon_exp[tval][sval] - [入門者]閾値(4000)) / 200
+<h3>命中への効果</h3>
+<p>近接では <strong>熟練度200につき命中修正+1</strong>、基準は[入門者]閾値の4000である。</p>
+<pre><code>命中修正 += (weapon_exp[tval][sval] - 4000) / 200
 </code></pre>
-<p>熟練度が[入門者]閾値(4000)を基準に、200ごとに命中+1される。<a href="8000.html">達人</a>まで上げると (8000-4000)/200 = +20 の命中補正となる。</p>
-<p><strong>弓の命中・威力</strong>（<code>shoot.cpp</code>）:</p>
+<p>この命中修正（<code>to_h</code>）は最終的に <code>命中判定値 = skill_thn + (命中修正合計) × 3</code>（<code>BTH_PLUS_ADJ = 3</code>）として使われる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>熟練度</th>
+<th>ランク</th>
+<th>命中修正</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>[初心者]</td>
+<td>-20</td>
+</tr>
+<tr>
+<td>4000</td>
+<td>[入門者]</td>
+<td>±0</td>
+</tr>
+<tr>
+<td>6000</td>
+<td>[熟練者]</td>
+<td>+10</td>
+</tr>
+<tr>
+<td>7000</td>
+<td>[エキスパート]</td>
+<td>+15</td>
+</tr>
+<tr>
+<td>8000</td>
+<td>[達人]</td>
+<td>+20</td>
+</tr>
+</tbody>
+</table></div>
+<p>射撃では命中判定値・会心発生率の計算に直接組み込まれる（<code>shoot.cpp</code>）。</p>
 <ul>
-<li>通常の弓・スリング: <code>(weapon_exp - [達人]閾値/2(4000)) / 200</code> を命中値に加算（倍率200）</li>
-<li>クロスボウ（ボルト使用）: <code>weapon_exp / 400</code> を加算（倍率400、[達人]閾値の減算なし）</li>
+<li>弓・スリング（矢・弾を使う射撃武器）: <code>命中判定値 = skill_thb + ((weapon_exp - 4000) / 200 + 各種修正) × 3</code></li>
+<li>クロスボウ（ボルトを使う射撃）: <code>命中判定値 = skill_thb + (weapon_exp / 400 + 各種修正) × 3</code>（4000を引かず、200ではなく400で割る）</li>
+<li>射撃武器を装備していない場合は <code>weapon_exp[0]</code> を弓と同じ式で使う。</li>
 </ul>
-<p><strong>ダメージ</strong>: ソースを確認した範囲では、武器熟練度・ランクは近接の命中および弓の命中/発射計算に寄与するが、近接の打撃回数（<code>num_blow</code>）や打撃ダメージダイスには直接寄与していない。近接打撃回数は腕力・器用さ・職業・武器重量などから決まる。</p>
-<h2>マーシャルアーツ（素手）技能</h2>
-<p>素手戦闘の熟練度（<code>skill_exp[MARTIAL_ARTS]</code>）。上限は職業ごとに設定される（僧（MONK）・練気術師（ForceTrainer）・狂戦士（BERSERKER）は開始4000・上限8000＝[達人]、多くの職業は上限4000程度）。</p>
+<p>同じ値が会心（射撃クリティカル）の発生判定にも使われるため、熟練度は命中率と会心率の両方に効く。</p>
+<p>なお<strong>近接の打撃回数（<code>num_blow</code>）やダメージダイスには熟練度は関与しない</strong>（腕力・器用さ・職業・武器重量で決まる）。</p>
+<h3>上限の特例</h3>
+<p>上限は職業・武器種ごとに定義される（後述の一覧）が、次の上書きがある（いずれも職業がスペルマスターでない場合のみ、<code>apply_special_weapon_skill_max_values</code>）。</p>
 <ul>
-<li>上昇契機: 素手攻撃時、対象モンスターのレベル+10がプレイヤーレベル以下だと上昇しない（<code>monrace.level + 10 &lt;= lev</code> で打ち切り）。</li>
-<li>上昇量: [初心者]帯40、[入門者]帯5、[熟練者]帯1、[エキスパート]帯は1/3の確率で1。ランク上昇のレベル条件（20/35）は武器と共通。</li>
-<li>命中への寄与: <code>命中 += (skill_exp[MARTIAL_ARTS] - [入門者]閾値(4000)) / 200</code>。</li>
+<li><strong>性格がセクシーギャル</strong>: ムチの上限が[達人]になる。さらに生成時にムチの熟練度が[入門者]（4000）以上に底上げされる。</li>
+<li><strong>種族がマーフォーク</strong>: トライデントと三叉槍の上限が[達人]になる。</li>
 </ul>
-<p>素手の打撃技（<code>ma_blows</code>、17種）の選択はプレイヤーレベルと技の難度で決まり、熟練度ランクそのものではなく主に<strong>レベル</strong>に依存する。打撃回数もレベル・器用さで決まる。</p>
+<h2>素手（マーシャルアーツ）技能</h2>
+<ul>
+<li><strong>上昇の契機</strong>: 武器を装備していない手での攻撃時。<code>対象モンスターのレベル + 10 &gt; プレイヤーレベル</code> のときのみ上昇する。</li>
+<li><strong>上昇量</strong>: [初心者]帯40 / [入門者]帯5 / [熟練者]帯1 / [エキスパート]帯は1/3の確率で1。レベル条件（20/35）は武器と共通。</li>
+<li><strong>効果</strong>: <code>命中修正 += (skill_exp[素手] - 4000) / 200</code>。武器熟練度と同じ基準・同じ刻み。
+<ul>
+<li>ただしこの補正は、<strong>主手または副手の片方だけが素手の場合、騎乗中は加算されない</strong>（両手とも素手なら騎乗中でも加算される）。</li>
+</ul>
+</li>
+<li>素手の打撃技（<code>ma_blows</code> 全17種）の選択や打撃回数は<strong>プレイヤーレベルと器用さ</strong>で決まり、熟練度ランクには依存しない。</li>
+</ul>
 <h2>二刀流技能</h2>
-<p>二刀流の熟練度（<code>skill_exp[TWO_WEAPON]</code>）。上限は職業依存（戦士・盗賊・剣術家・狂戦士などは上限8000）。</p>
 <ul>
-<li>上昇契機: 両手に武器を持って攻撃した際、<code>(skill_exp - 1000) / 200 &lt; monrace.level</code> を満たすときに上昇する。</li>
-<li>上昇量: [初心者]帯80、[入門者]帯4、[熟練者]帯1、[エキスパート]帯は1/3の確率で1。</li>
-<li>効果: 副手の命中ペナルティ軽減。ペナルティは概ね <code>(100 - skill_exp/160) - (130 - 武器重量)/8</code> で計算され、熟練度が高いほどペナルティが小さくなる。特定の武器の組み合わせ（クイック＆タイニー等）ではペナルティが半減され-5される。</li>
+<li><strong>上昇の契機</strong>: 両手に近接武器を持ってモンスターを攻撃したとき、かつ <code>(skill_exp[二刀流] - 1000) / 200 &lt; 対象モンスターのレベル</code>。</li>
+<li><strong>上昇量</strong>: [初心者]帯80 / [入門者]帯4 / [熟練者]帯1 / [エキスパート]帯は1/3の確率で1。</li>
+<li><strong>効果</strong>: 二刀流時の命中ペナルティを軽減する。</li>
+</ul>
+<pre><code>ペナルティ = (100 - skill_exp[二刀流] / 160) - (130 - 対象の手の武器重量) / 8
+</code></pre>
+<p>熟練度による軽減は <code>skill_exp / 160</code>＝<strong><a href="8000.html">達人</a>で−50</strong>。武器が軽いほどペナルティも小さい。この後、以下の補正が順に適用される。</p>
+<ul>
+<li>クイック＆タイニー／アイシング＆トゥインクル／アヌビス＆チャリオットのセット装備: ペナルティを 1/2 して更に−5</li>
+<li><code>easy_2weapon</code>（二刀流を容易にする装備）: 該当装備1つにつきペナルティを半減</li>
+<li>副手に <code>TR_SUPPORTIVE</code> 付き装備: ペナルティ−10（下限0）</li>
+<li>武蔵セット装備: ペナルティを0以下に（実質免除）</li>
+<li>対象の手が長柄（POLEARM）: ペナルティ+10</li>
 </ul>
 <h2>乗馬技能</h2>
-<p>騎乗の熟練度（<code>skill_exp[RIDING]</code>）。閾値が武器系と異なり、[入門者]500・[熟練者]2000・[エキスパート]5000・[達人]8000（<code>riding_skill_rank</code>）。上限は職業依存（獣王(BEASTMASTER)・騎兵(KIHEI)は開始500・上限8000、多くの職業は0～5000）。</p>
-<p>上昇契機は3つ。</p>
-<ul>
-<li><strong>近接攻撃時</strong>（<code>gain_riding_skill_exp_on_melee_attack</code>）: 攻撃対象・騎乗モンスターのレベルに応じて上昇。<code>(now_exp/200 - 5) &lt; 対象モンスターレベル</code> で+1、<code>now_exp/100 &lt; 騎乗モンスターレベル</code> のとき差に応じて加算。</li>
-<li><strong>射撃時</strong>（<code>gain_riding_skill_exp_on_range_attack</code>）: <code>(skill_exp - 1000) / 200 &lt; 騎乗モンスターレベル</code> かつ1/2の確率で+1。</li>
-<li><strong>落馬判定時</strong>（<code>gain_riding_skill_exp_on_fall_off_check</code>）: 上限が1000以下の職業では上昇しない。被ダメージと騎乗モンスターレベルに応じて上昇。</li>
-</ul>
-<p>効果: 騎乗中の命中ペナルティを軽減する。ペナルティは概ね <code>騎乗モンスターレベル - skill_exp/80 + 30</code>（下限30、調教可能職は固定5）で、熟練度が高いほど小さくなる。</p>
+<p>閾値だけが他と異なり、[入門者]500・[熟練者]2000・[エキスパート]5000・[達人]8000（<code>riding_skill_rank</code>）。上昇にレベル条件（20/35）が無い代わりに、乗騎・対象モンスターのレベルとの比較で伸びる。</p>
+<h3>上昇の契機</h3>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>契機</th>
+<th>条件と上昇量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>騎乗中の近接攻撃</td>
+<td><code>(現在値 / 200 - 5) &lt; 対象モンスターのレベル</code> で+1。さらに <code>現在値 / 100 &lt; 乗騎のレベル</code> なら+1、<code>現在値 / 100 + 15 &lt; 乗騎のレベル</code> のときはその差ぶん追加</td>
+</tr>
+<tr>
+<td>騎乗中の射撃</td>
+<td><code>(現在値 - 1000) / 200 &lt; 乗騎のレベル</code> かつ1/2の確率で+1</td>
+</tr>
+<tr>
+<td>落馬判定時</td>
+<td>職業の上限が1000以下なら上昇しない。<code>(被ダメージ / 2 + 乗騎のレベル) &gt; (現在値 / 30 + 10)</code> のとき、<code>現在値 / 100 + 15 &lt; 乗騎のレベル</code> ならその差ぶん、そうでなければ+1</td>
+</tr>
+</tbody>
+</table></div>
+<h3>効果</h3>
+<p>熟練度が効く場面は多い。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>場面</th>
+<th>式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>騎乗中の命中ペナルティ</td>
+<td><code>ペナルティ = 乗騎のレベル - skill_exp / 80 + 30</code>（最低30）。獣王・騎兵は矢以外で固定5。ボルト使用時は2倍。ランス装備なら逆に命中+15、<code>TR_RIDING</code> 付き武器はペナルティ免除</td>
+</tr>
+<tr>
+<td>騎乗中の速度</td>
+<td>乗騎が加速持ち（速度 &gt; +0）なら <code>(乗騎速度 - 110) × (skill_exp × 3 + レベル × 160 - 10000) / 22000</code>（負なら0）。加えて常に <code>(skill_exp + レベル × 160) / 3200</code> を加算</td>
+</tr>
+<tr>
+<td>騎乗中の呪文難度</td>
+<td><code>難度 += max(乗騎のレベル - skill_exp / 100 - 10, 0)</code></td>
+</tr>
+<tr>
+<td>騎乗の成否</td>
+<td><code>乗ろうとするモンスターのレベル &gt; randint1(skill_exp / 50 + レベル / 2 + 20)</code> なら乗り損なう</td>
+</tr>
+<tr>
+<td>落馬判定</td>
+<td><code>randint0(被ダメージ / 2 + 落馬レベル × 2) &gt;= skill_exp / 30 + 10</code> で落馬（落馬レベル＝乗騎のレベル、両手持ち武器なら+20）</td>
+</tr>
+<tr>
+<td>乗騎の朦朧・混乱・恐怖</td>
+<td>毎ターン <code>randint0(乗騎のレベル) &lt; skill_exp</code> なら即座に立ち直らせる</td>
+</tr>
+<tr>
+<td>敵対した乗騎の暴走</td>
+<td><code>abs(善悪値 / 10) &lt; randint0(skill_exp)</code> なら暴れ出さない</td>
+</tr>
+<tr>
+<td>騎兵の「手なずけ」</td>
+<td><code>randint1(skill_exp / 120 + レベル × 2 / 3) &gt; 補正後モンスターレベル</code> ほかの条件を満たすとペット化、失敗すると落馬</td>
+</tr>
+</tbody>
+</table></div>
 <h2>盾（防御）技能</h2>
-<p>盾など「protector」装備を身につけている際に働く熟練度（<code>skill_exp[SHIELD]</code>）。上限は職業依存（騎兵・観光客(TOURIST)は上限8000、多くは0～6000）。</p>
 <ul>
-<li>上昇契機: モンスターに攻撃された時（<code>gain_armor_exp</code>）。主手か副手にprotectorを装備している場合、モンスターレベルに応じて上昇。<code>(cur/100) &lt; モンスターレベル</code> のとき、差が大きいほど多く加算される。</li>
-<li>効果: protector装備時にACへ加算。<code>AC += skill_exp[SHIELD] * (1 + lev/22) / 2000</code>。熟練度とプレイヤーレベルが高いほどAC上昇量が増える。</li>
+<li><strong>上昇の契機</strong>: 主手か副手に盾などの「protector」を装備している状態で、<strong>モンスターの物理打撃（殴る・触る・噛む・体当たり等）を回避したとき</strong>。命中してしまった打撃や、物理打撃以外では上がらない。</li>
+<li><strong>上昇量</strong>: <code>(現在値 / 100) &lt; モンスターのレベル</code> のとき <code>1 + max(モンスターのレベル - (現在値 / 100 + 15), 0)</code>。格上ほど大きく伸びる。</li>
+<li><strong>効果</strong>: protector 装備時のACに加算される。</li>
 </ul>
+<pre><code>AC += skill_exp[盾] × (1 + プレイヤーレベル / 22) / 2000
+</code></pre>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>熟練度</th>
+<th>Lv1〜21</th>
+<th>Lv22〜43</th>
+<th>Lv44〜50</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4000 [入門者]</td>
+<td>+2</td>
+<td>+4</td>
+<td>+6</td>
+</tr>
+<tr>
+<td>6000 [熟練者]</td>
+<td>+3</td>
+<td>+6</td>
+<td>+9</td>
+</tr>
+<tr>
+<td>8000 [達人]</td>
+<td>+4</td>
+<td>+8</td>
+<td>+12</td>
+</tr>
+</tbody>
+</table></div>
 <h2>呪文熟練度</h2>
-<p>魔法・歌（MUSIC）・呪術（HEX）の各呪文について、第1領域は<code>spell_exp[0..31]</code>、第2領域は<code>spell_exp[32..63]</code>に熟練度を保持する。閾値は[入門者]900・[熟練者]1200・[エキスパート]1400・[達人]1600（<code>spell_skill_rank</code>）。</p>
-<ul>
-<li>上昇契機（<code>gain_spell_skill_exp</code>）: 該当領域が自分の第1/第2領域であり、呪文IDが有効(0～31)なときに上昇。第1領域と第2領域で上昇量が異なる。</li>
-<li>歌・呪術など継続詠唱系は毎ターン少量上昇する別処理（<code>gain_continuous_spell_skill_exp</code>）を持つ。</li>
-<li>上昇にはダンジョン階層（<code>dun_level</code>）とプレイヤーレベル・呪文レベルの関係による条件がある。おおむね「深い階で、自分のレベルや呪文レベルに対して階層が十分高い」ときにのみ上位帯へ上昇する。</li>
-</ul>
+<p>魔法領域の呪文・歌（MUSIC）・呪術（HEX）が対象。第1領域の呪文は <code>spell_exp[0..31]</code>、第2領域は <code>spell_exp[32..63]</code> に記録される。</p>
+<h3>上昇の契機と条件</h3>
+<p>詠唱するたびに上昇するが、<strong>帯ごとにダンジョンの深さの条件</strong>が付く（<code>dlev</code>＝現在の階層、<code>plev</code>＝プレイヤーレベル、<code>slev</code>＝呪文レベル）。町（<code>dlev = 0</code>）では[入門者]までしか伸びない。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>帯</th>
+<th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[初心者]帯（0〜899）</td>
+<td>無条件</td>
+</tr>
+<tr>
+<td>[入門者]帯（900〜1199）</td>
+<td><code>dlev &gt; 4</code> かつ <code>dlev + 10 &gt; plev</code></td>
+</tr>
+<tr>
+<td>[熟練者]帯（1200〜1399）</td>
+<td><code>dlev + 5 &gt; plev</code> かつ <code>dlev + 5 &gt; slev</code></td>
+</tr>
+<tr>
+<td>[エキスパート]帯（1400〜1599）</td>
+<td><code>dlev + 5 &gt; plev</code> かつ <code>dlev &gt; slev</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>上昇量は領域によって異なる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>帯</th>
+<th>第1領域</th>
+<th>第2領域</th>
+<th>歌・呪術の継続詠唱（毎ターン）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[初心者]帯</td>
+<td>60</td>
+<td>60</td>
+<td>5</td>
+</tr>
+<tr>
+<td>[入門者]帯</td>
+<td>8</td>
+<td>8</td>
+<td>1/2の確率で1</td>
+</tr>
+<tr>
+<td>[熟練者]帯</td>
+<td>2</td>
+<td>2</td>
+<td>1/5の確率で1</td>
+</tr>
+<tr>
+<td>[エキスパート]帯</td>
+<td>1</td>
+<td><strong>0</strong></td>
+<td>1/5の確率で1</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>第2領域の呪文は[エキスパート]（1400）が事実上の上限</strong>である（[エキスパート]帯の上昇量が0のため[達人]に到達しない）。知識画面でも第2領域は[エキスパート]で「!」（上限到達）と表示される。</p>
+<h3>再学習による熟練度の跳ね上げ</h3>
+<p>すでに覚えている呪文を魔法書からもう一度「学ぶ」と、熟練度が一段跳ね上がる（<code>gain_spell_skill_exp_over_learning</code>）。上限（第1領域1600 / 第2領域1400）に達している呪文は「完全に使いこなせる」として学べない。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>学習前の熟練度</th>
+<th>学習後</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1400以上</td>
+<td>1600（[達人]）</td>
+</tr>
+<tr>
+<td>1200〜1399</td>
+<td>第1領域は +200、第2領域は 1400</td>
+</tr>
+<tr>
+<td>900〜1199</td>
+<td><code>1200 + (現在値 - 900) × 2 / 3</code></td>
+</tr>
+<tr>
+<td>0〜899</td>
+<td><code>900 + 現在値 / 3</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3>消費MPへの効果</h3>
+<p>魔法領域・技術領域の呪文は、消費MPが熟練度で変動する（<code>mod_need_mana</code>）。</p>
+<pre><code>消費MP = ceil(基本消費MP × (3800 - 熟練度) / 2400)   （最低1）
+</code></pre>
+<p>「消費魔力減少」（<code>dec_mana</code>）がある場合はさらに 3/4 になる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>熟練度</th>
+<th>ランク</th>
+<th>倍率</th>
+<th>基本消費20MPの例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>[初心者]</td>
+<td>×1.583</td>
+<td>32</td>
+</tr>
+<tr>
+<td>900</td>
+<td>[入門者]</td>
+<td>×1.208</td>
+<td>25</td>
+</tr>
+<tr>
+<td>1200</td>
+<td>[熟練者]</td>
+<td>×1.083</td>
+<td>22</td>
+</tr>
+<tr>
+<td>1400</td>
+<td>[エキスパート]</td>
+<td>×1.000</td>
+<td>20</td>
+</tr>
+<tr>
+<td>1600</td>
+<td>[達人]</td>
+<td>×0.917</td>
+<td>19</td>
+</tr>
+</tbody>
+</table></div>
+<h3>失敗率への効果</h3>
+<p>熟練度が <strong>1400以上で失敗率−1%、1600以上でさらに−1%</strong>（合計−2%）。この減算は最低失敗率・朦朧補正・95%上限を適用した<strong>後</strong>に行われるため、結果として職業の最低失敗率を下回ることがある。</p>
 <h3>職業による特例</h3>
 <ul>
-<li><strong>スペルマスター(SORCERER)</strong>: <code>exp_of_spell</code> が常に[達人]閾値(1600)を返す＝全呪文が常に達人扱い。</li>
-<li><strong>赤魔道師(RED_MAGE)</strong>: 常に[熟練者]閾値(1200)扱い。</li>
+<li><strong>スペルマスター</strong>: <code>exp_of_spell</code> が常に1600を返す＝全呪文が常に[達人]扱い（生成時の初期値も1600）。</li>
+<li><strong>赤魔道師</strong>: 常に1200＝[熟練者]扱い（初期値も1200）。</li>
+<li>それ以外の職業は全呪文が0から始まる。</li>
 </ul>
-<h2>技能値の確認方法</h2>
-<p>ゲーム内の「知識」メニューから、武器熟練度（<code>do_cmd_knowledge_weapon_exp</code>）・技能熟練度（<code>do_cmd_knowledge_skill_exp</code>）・呪文熟練度をランク表示（[初心者]～[達人]）で確認できる。上限に達している項目には「!」が表示される。</p>
+<h2>職業別の熟練度上限</h2>
+<h3>技能4種の開始／上限ランク</h3>
+<p><code>lib/edit/ClassSkillDefinitions.txt</code> の <code>S:</code> 定義。<code>開始 → 上限</code> の形式で、開始と上限が同じ場合は1つだけ示す。上限が[初心者]の技能は<strong>その職業では伸びない</strong>（実質使えない）ことを意味する。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>職業 / Class</th>
+<th>素手</th>
+<th>二刀流</th>
+<th>乗馬</th>
+<th>盾</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="Class-warrior.html">戦士</a></td>
+<td>[初心者] → [達人]</td>
+<td>[入門者] → [達人]</td>
+<td>[初心者] → [エキスパート]</td>
+<td>[入門者] → [達人]</td>
+</tr>
+<tr>
+<td><a href="Class-mage.html">メイジ</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-priest.html">プリースト</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [熟練者]</td>
+</tr>
+<tr>
+<td><a href="Class-rogue.html">盗賊</a></td>
+<td>[初心者] → [達人]</td>
+<td>[入門者] → [達人]</td>
+<td>[初心者] → [熟練者]</td>
+<td>[初心者] → [熟練者]</td>
+</tr>
+<tr>
+<td><a href="Class-ranger.html">レンジャー</a></td>
+<td>[初心者] → [熟練者]</td>
+<td>[初心者] → [熟練者]</td>
+<td>[初心者] → [エキスパート]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-paladin.html">パラディン</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [エキスパート]</td>
+<td>[初心者] → [エキスパート]</td>
+<td>[初心者] → [達人]</td>
+</tr>
+<tr>
+<td><a href="Class-warrior-mage.html">魔法戦士</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [熟練者]</td>
+<td>[初心者] → [熟練者]</td>
+<td>[初心者] → [エキスパート]</td>
+</tr>
+<tr>
+<td><a href="Class-chaos-warrior.html">混沌の戦士</a></td>
+<td>[初心者] → [エキスパート]</td>
+<td>[初心者] → [エキスパート]</td>
+<td>[初心者] → [熟練者]</td>
+<td>[初心者] → [入門者]</td>
+</tr>
+<tr>
+<td><a href="Class-monk.html">修行僧</a></td>
+<td>[入門者] → [達人]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-mindcrafter.html">超能力者</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [入門者]</td>
+</tr>
+<tr>
+<td><a href="Class-high-mage.html">ハイ=メイジ</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-tourist.html">観光客</a></td>
+<td>[初心者] → [達人]</td>
+<td>[初心者] → [達人]</td>
+<td>[初心者] → [エキスパート]</td>
+<td>[初心者] → [達人]</td>
+</tr>
+<tr>
+<td><a href="Class-imitator.html">ものまね師</a></td>
+<td>[初心者] → [エキスパート]</td>
+<td>[初心者] → [エキスパート]</td>
+<td>[初心者] → [熟練者]</td>
+<td>[初心者] → [入門者]</td>
+</tr>
+<tr>
+<td><a href="Class-beastmaster.html">魔獣使い</a></td>
+<td>[初心者] → [熟練者]</td>
+<td>[初心者] → [熟練者]</td>
+<td>[入門者] → [達人]</td>
+<td>[初心者] → [入門者]</td>
+</tr>
+<tr>
+<td><a href="Class-sorcerer.html">スペルマスター</a></td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-archer.html">アーチャー</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [熟練者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-magic-eater.html">魔道具術師</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-bard.html">吟遊詩人</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-red-mage.html">赤魔道師</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [熟練者]</td>
+<td>[初心者] → [熟練者]</td>
+</tr>
+<tr>
+<td><a href="Class-samurai.html">剣術家</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[入門者] → [達人]</td>
+<td>[初心者] → [熟練者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-forcetrainer.html">練気術師</a></td>
+<td>[入門者] → [達人]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-blue-mage.html">青魔道師</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-cavalry.html">騎兵</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [入門者]</td>
+<td>[入門者] → [達人]</td>
+<td>[初心者] → [達人]</td>
+</tr>
+<tr>
+<td><a href="Class-berserker.html">狂戦士</a></td>
+<td>[入門者] → [達人]</td>
+<td>[入門者] → [達人]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-smith.html">鍛冶師</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者] → [熟練者]</td>
+<td>[初心者] → [エキスパート]</td>
+</tr>
+<tr>
+<td><a href="Class-mirror-master.html">鏡使い</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-ninja.html">忍者</a></td>
+<td>[初心者] → [エキスパート]</td>
+<td>[入門者] → [達人]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-sniper.html">スナイパー</a></td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+</tr>
+<tr>
+<td><a href="Class-elementalist.html">元素使い</a></td>
+<td>[初心者] → [入門者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+<td>[初心者]</td>
+</tr>
+</tbody>
+</table></div>
+<h3>武器分類ごとの開始／上限ランク</h3>
+<p><code>W:</code> 定義。同じランクの武器種はまとめ、少数派を全て列挙している（個々の武器種ごとの内訳は各職業ページの「武器熟練度」を参照）。</p>
+<details>
+<summary>全職業 × 5分類の内訳を表示</summary>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>職業 / Class</th>
+<th>分類</th>
+<th>初期ランク</th>
+<th>上限ランク</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="Class-warrior.html">戦士</a></td>
+<td>弓・射撃</td>
+<td>[入門者]（全て）</td>
+<td>[達人]: 進化する銃、ハープ、弓 ／ [エキスパート]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-warrior.html">戦士</a></td>
+<td>掘削具</td>
+<td>[入門者]（全て）</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-warrior.html">戦士</a></td>
+<td>鈍器</td>
+<td>[入門者]（下記以外） ／ [初心者]: ヌンチャク、魔術師の杖、冥界の大鉄杖</td>
+<td>[達人]（下記以外） ／ [熟練者]: ヌンチャク ／ [初心者]: 魔術師の杖</td>
+</tr>
+<tr>
+<td><a href="Class-warrior.html">戦士</a></td>
+<td>長柄</td>
+<td>[入門者]（下記以外） ／ [初心者]: 死の大鎌</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-warrior.html">戦士</a></td>
+<td>剣</td>
+<td>[入門者]（下記以外） ／ [初心者]: 毒針</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-mage.html">メイジ</a></td>
+<td>弓・射撃</td>
+<td>[入門者]: スリング ／ [初心者]（下記以外）</td>
+<td>[達人]: 弓 ／ [熟練者]: スリング ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-mage.html">メイジ</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-mage.html">メイジ</a></td>
+<td>鈍器</td>
+<td>[入門者]: クォータースタッフ、魔術師の杖 ／ [初心者]（下記以外）</td>
+<td>[達人]: クォータースタッフ、魔術師の杖、棒 ／ [入門者]（下記以外） ／ [初心者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-mage.html">メイジ</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-mage.html">メイジ</a></td>
+<td>剣</td>
+<td>[入門者]: ダガー ／ [初心者]（下記以外）</td>
+<td>[達人]: ダガー、毒針 ／ [熟練者]: 短刀 ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-priest.html">プリースト</a></td>
+<td>弓・射撃</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 弓 ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-priest.html">プリースト</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-priest.html">プリースト</a></td>
+<td>鈍器</td>
+<td>[入門者]: メイス、魔術師の杖 ／ [初心者]（下記以外）</td>
+<td>[達人]: 棒 ／ [エキスパート]（下記以外） ／ [入門者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-priest.html">プリースト</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-priest.html">プリースト</a></td>
+<td>剣</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-rogue.html">盗賊</a></td>
+<td>弓・射撃</td>
+<td>[入門者]（下記以外） ／ [初心者]: ライト・クロスボウ、ヘヴィ・クロスボウ、進化する銃、ハープ</td>
+<td>[達人]（下記以外） ／ [エキスパート]: ショート・ボウ、ロング・ボウ、ライト・クロスボウ、ヘヴィ・クロスボウ</td>
+</tr>
+<tr>
+<td><a href="Class-rogue.html">盗賊</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[エキスパート]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-rogue.html">盗賊</a></td>
+<td>鈍器</td>
+<td>[入門者]: ムチ、ヌンチャク ／ [初心者]（下記以外）</td>
+<td>[達人]: ムチ、棒 ／ [エキスパート]: 棍棒、ヌンチャク、ウォー・ハンマー ／ [熟練者]（下記以外） ／ [入門者]: 魔術師の杖、冥界の大鉄杖</td>
+</tr>
+<tr>
+<td><a href="Class-rogue.html">盗賊</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[エキスパート]: ハチェット、スピア、鎌、トライデント ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-rogue.html">盗賊</a></td>
+<td>剣</td>
+<td>[入門者]: 折れたダガー、折れた剣、ダガー、マン・ゴーシュ、短刀、スモール・ソード、ショート・ソード ／ [初心者]（下記以外）</td>
+<td>[達人]（下記以外） ／ [エキスパート]: バゼラード、ブロード・ソード、ロング・ソード、シミター、忍者刀、バスタード・ソード ／ [熟練者]: 青龍刀、クレイモア、エスパドン、グレート・ソード、フランベルジュ、野太刀、首切りソード、ツヴァイハンダー、カオス・ブレード、ダイヤモンド・エッジ、毒針、隼の剣</td>
+</tr>
+<tr>
+<td><a href="Class-ranger.html">レンジャー</a></td>
+<td>弓・射撃</td>
+<td>[入門者]: ショート・ボウ、ロング・ボウ、弓 ／ [初心者]（下記以外）</td>
+<td>[達人]（下記以外） ／ [エキスパート]: スリング、ライト・クロスボウ、ヘヴィ・クロスボウ</td>
+</tr>
+<tr>
+<td><a href="Class-ranger.html">レンジャー</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-ranger.html">レンジャー</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 棒 ／ [熟練者]（下記以外） ／ [入門者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-ranger.html">レンジャー</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-ranger.html">レンジャー</a></td>
+<td>剣</td>
+<td>[入門者]: ダガー、ショート・ソード、ブロード・ソード ／ [初心者]（下記以外）</td>
+<td>[達人]: ダガー、ショート・ソード、ブロード・ソード、毒針 ／ [エキスパート]: マン・ゴーシュ ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-paladin.html">パラディン</a></td>
+<td>弓・射撃</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 弓 ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-paladin.html">パラディン</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-paladin.html">パラディン</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 棒 ／ [熟練者]（下記以外） ／ [入門者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-paladin.html">パラディン</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: スピア、ハルベルト ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-paladin.html">パラディン</a></td>
+<td>剣</td>
+<td>[入門者]（下記以外） ／ [初心者]: ダガー、短刀、毒針</td>
+<td>[達人]（下記以外） ／ [熟練者]: ダガー、短刀</td>
+</tr>
+<tr>
+<td><a href="Class-warrior-mage.html">魔法戦士</a></td>
+<td>弓・射撃</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 弓 ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-warrior-mage.html">魔法戦士</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-warrior-mage.html">魔法戦士</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 棒 ／ [熟練者]（下記以外） ／ [入門者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-warrior-mage.html">魔法戦士</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-warrior-mage.html">魔法戦士</a></td>
+<td>剣</td>
+<td>[入門者]: スモール・ソード、ショート・ソード、サーベル ／ [初心者]（下記以外）</td>
+<td>[達人]: スモール・ソード、ショート・ソード、サーベル、毒針 ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-chaos-warrior.html">混沌の戦士</a></td>
+<td>弓・射撃</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 弓 ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-chaos-warrior.html">混沌の戦士</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-chaos-warrior.html">混沌の戦士</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 棒 ／ [エキスパート]（下記以外） ／ [入門者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-chaos-warrior.html">混沌の戦士</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[エキスパート]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-chaos-warrior.html">混沌の戦士</a></td>
+<td>剣</td>
+<td>[入門者]: ブロード・ソード、カオス・ブレード ／ [初心者]（下記以外）</td>
+<td>[達人]: ブロード・ソード、カオス・ブレード ／ [エキスパート]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-monk.html">修行僧</a></td>
+<td>弓・射撃</td>
+<td>[入門者]: ショート・ボウ、ロング・ボウ、弓 ／ [初心者]（下記以外）</td>
+<td>[達人]: 進化する銃、ハープ、弓 ／ [エキスパート]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-monk.html">修行僧</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[初心者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-monk.html">修行僧</a></td>
+<td>鈍器</td>
+<td>[入門者]: ヌンチャク、三節棍 ／ [初心者]（下記以外）</td>
+<td>[達人]: ヌンチャク、三節棍、棒 ／ [初心者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-monk.html">修行僧</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[初心者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-monk.html">修行僧</a></td>
+<td>剣</td>
+<td>[初心者]（全て）</td>
+<td>[初心者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-mindcrafter.html">超能力者</a></td>
+<td>弓・射撃</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 弓 ／ [熟練者]（下記以外） ／ [入門者]: 進化する銃、ハープ</td>
+</tr>
+<tr>
+<td><a href="Class-mindcrafter.html">超能力者</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-mindcrafter.html">超能力者</a></td>
+<td>鈍器</td>
+<td>[入門者]: 魔術師の杖 ／ [初心者]（下記以外）</td>
+<td>[達人]: 魔術師の杖、棒 ／ [熟練者]（下記以外） ／ [入門者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-mindcrafter.html">超能力者</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-mindcrafter.html">超能力者</a></td>
+<td>剣</td>
+<td>[入門者]: スモール・ソード ／ [初心者]（下記以外）</td>
+<td>[達人]: 毒針 ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-high-mage.html">ハイ=メイジ</a></td>
+<td>弓・射撃</td>
+<td>[入門者]: スリング ／ [初心者]（下記以外）</td>
+<td>[達人]: 弓 ／ [熟練者]: スリング ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-high-mage.html">ハイ=メイジ</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-high-mage.html">ハイ=メイジ</a></td>
+<td>鈍器</td>
+<td>[入門者]: クォータースタッフ、魔術師の杖 ／ [初心者]（下記以外）</td>
+<td>[達人]: クォータースタッフ、魔術師の杖、棒 ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-high-mage.html">ハイ=メイジ</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-high-mage.html">ハイ=メイジ</a></td>
+<td>剣</td>
+<td>[入門者]: ダガー ／ [初心者]（下記以外）</td>
+<td>[達人]: ダガー、毒針 ／ [熟練者]: 短刀 ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-tourist.html">観光客</a></td>
+<td>弓・射撃</td>
+<td>[入門者]: スリング ／ [初心者]（下記以外）</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-tourist.html">観光客</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-tourist.html">観光客</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-tourist.html">観光客</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-tourist.html">観光客</a></td>
+<td>剣</td>
+<td>[初心者]（全て）</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-imitator.html">ものまね師</a></td>
+<td>弓・射撃</td>
+<td>[入門者]: スリング ／ [初心者]（下記以外）</td>
+<td>[達人]: スリング、弓 ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-imitator.html">ものまね師</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-imitator.html">ものまね師</a></td>
+<td>鈍器</td>
+<td>[入門者]: 棍棒、メイス ／ [初心者]（下記以外）</td>
+<td>[達人]: 棒 ／ [エキスパート]（下記以外） ／ [熟練者]: ヌンチャク ／ [初心者]: 魔術師の杖</td>
+</tr>
+<tr>
+<td><a href="Class-imitator.html">ものまね師</a></td>
+<td>長柄</td>
+<td>[入門者]: ハチェット ／ [初心者]（下記以外）</td>
+<td>[エキスパート]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-imitator.html">ものまね師</a></td>
+<td>剣</td>
+<td>[入門者]: ダガー、スモール・ソード、ショート・ソード、ロング・ソード ／ [初心者]（下記以外）</td>
+<td>[エキスパート]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-beastmaster.html">魔獣使い</a></td>
+<td>弓・射撃</td>
+<td>[入門者]: ショート・ボウ、ロング・ボウ、弓 ／ [初心者]（下記以外）</td>
+<td>[達人]（下記以外） ／ [エキスパート]: スリング ／ [熟練者]: ライト・クロスボウ、ヘヴィ・クロスボウ</td>
+</tr>
+<tr>
+<td><a href="Class-beastmaster.html">魔獣使い</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-beastmaster.html">魔獣使い</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 棒 ／ [エキスパート]: 鎖つき鉄球、ウォー・ハンマー、フレイル、粉砕のメイス、冥界の大鉄杖 ／ [熟練者]（下記以外） ／ [入門者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-beastmaster.html">魔獣使い</a></td>
+<td>長柄</td>
+<td>[入門者]: スピア、ブロード・スピア、ランス ／ [初心者]（下記以外）</td>
+<td>[達人]: ハチェット、スピア、ブロード・スピア、ランス、三叉槍、ヘヴィ・ランス、釣り竿 ／ [エキスパート]: トライデント、フォシャール、グレイブ、切り裂きの大鎌、死の大鎌 ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-beastmaster.html">魔獣使い</a></td>
+<td>剣</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: サーベル、隼の剣 ／ [エキスパート]: タルワール、ブロード・ソード、ロング・ソード、青龍刀 ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-sorcerer.html">スペルマスター</a></td>
+<td>弓・射撃</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 弓 ／ [初心者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-sorcerer.html">スペルマスター</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[初心者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-sorcerer.html">スペルマスター</a></td>
+<td>鈍器</td>
+<td>[達人]: 魔術師の杖 ／ [初心者]（下記以外）</td>
+<td>[達人]: 魔術師の杖、棒 ／ [初心者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-sorcerer.html">スペルマスター</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[初心者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-sorcerer.html">スペルマスター</a></td>
+<td>剣</td>
+<td>[初心者]（全て）</td>
+<td>[初心者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-archer.html">アーチャー</a></td>
+<td>弓・射撃</td>
+<td>[入門者]（下記以外） ／ [初心者]: 進化する銃、ハープ</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-archer.html">アーチャー</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-archer.html">アーチャー</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 棒 ／ [熟練者]（下記以外） ／ [入門者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-archer.html">アーチャー</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-archer.html">アーチャー</a></td>
+<td>剣</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-magic-eater.html">魔道具術師</a></td>
+<td>弓・射撃</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 弓 ／ [熟練者]: スリング ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-magic-eater.html">魔道具術師</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-magic-eater.html">魔道具術師</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 棒 ／ [熟練者]: 棍棒、ムチ、クォータースタッフ、メイス、ウォー・ハンマー ／ [入門者]（下記以外） ／ [初心者]: ヌンチャク、魔術師の杖</td>
+</tr>
+<tr>
+<td><a href="Class-magic-eater.html">魔道具術師</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]: スピア、鎌、トライデント ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-magic-eater.html">魔道具術師</a></td>
+<td>剣</td>
+<td>[入門者]: ダガー、ショート・ソード ／ [初心者]（下記以外）</td>
+<td>[達人]: 毒針 ／ [熟練者]: ダガー、マン・ゴーシュ、短刀、レイピア、スモール・ソード、ショート・ソード、サーベル、カットラス、脇差し、タルワール、ロング・ソード、シミター、忍者刀、カタナ ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-bard.html">吟遊詩人</a></td>
+<td>弓・射撃</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 弓 ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-bard.html">吟遊詩人</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-bard.html">吟遊詩人</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 棒 ／ [熟練者]（下記以外） ／ [入門者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-bard.html">吟遊詩人</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-bard.html">吟遊詩人</a></td>
+<td>剣</td>
+<td>[入門者]: ショート・ソード ／ [初心者]（下記以外）</td>
+<td>[達人]: 毒針 ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-red-mage.html">赤魔道師</a></td>
+<td>弓・射撃</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 弓 ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-red-mage.html">赤魔道師</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-red-mage.html">赤魔道師</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 棒 ／ [熟練者]（下記以外） ／ [入門者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-red-mage.html">赤魔道師</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-red-mage.html">赤魔道師</a></td>
+<td>剣</td>
+<td>[入門者]: ショート・ソード ／ [初心者]（下記以外）</td>
+<td>[達人]: サーベル、毒針 ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-samurai.html">剣術家</a></td>
+<td>弓・射撃</td>
+<td>[入門者]: 進化する銃、ハープ ／ [初心者]（下記以外）</td>
+<td>[達人]: 進化する銃、ハープ、弓 ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-samurai.html">剣術家</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-samurai.html">剣術家</a></td>
+<td>鈍器</td>
+<td>[入門者]（下記以外） ／ [初心者]: ヌンチャク、魔術師の杖、冥界の大鉄杖</td>
+<td>[達人]（下記以外） ／ [熟練者]: ヌンチャク ／ [初心者]: 魔術師の杖</td>
+</tr>
+<tr>
+<td><a href="Class-samurai.html">剣術家</a></td>
+<td>長柄</td>
+<td>[入門者]（下記以外） ／ [初心者]: 死の大鎌</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-samurai.html">剣術家</a></td>
+<td>剣</td>
+<td>[入門者]（下記以外） ／ [初心者]: 毒針</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-forcetrainer.html">練気術師</a></td>
+<td>弓・射撃</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 進化する銃、ハープ、弓 ／ [熟練者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-forcetrainer.html">練気術師</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[初心者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-forcetrainer.html">練気術師</a></td>
+<td>鈍器</td>
+<td>[入門者]: ヌンチャク、三節棍 ／ [初心者]（下記以外）</td>
+<td>[達人]: ヌンチャク、三節棍、棒 ／ [エキスパート]: 錫杖、六尺棒、鉄棒 ／ [初心者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-forcetrainer.html">練気術師</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[初心者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-forcetrainer.html">練気術師</a></td>
+<td>剣</td>
+<td>[初心者]（全て）</td>
+<td>[初心者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-blue-mage.html">青魔道師</a></td>
+<td>弓・射撃</td>
+<td>[入門者]: スリング ／ [初心者]（下記以外）</td>
+<td>[達人]: 弓 ／ [熟練者]: スリング ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-blue-mage.html">青魔道師</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-blue-mage.html">青魔道師</a></td>
+<td>鈍器</td>
+<td>[入門者]: クォータースタッフ、魔術師の杖 ／ [初心者]（下記以外）</td>
+<td>[達人]: クォータースタッフ、魔術師の杖、棒 ／ [入門者]（下記以外） ／ [初心者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-blue-mage.html">青魔道師</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-blue-mage.html">青魔道師</a></td>
+<td>剣</td>
+<td>[入門者]: ダガー ／ [初心者]（下記以外）</td>
+<td>[達人]: ダガー、毒針 ／ [熟練者]: 短刀 ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-cavalry.html">騎兵</a></td>
+<td>弓・射撃</td>
+<td>[入門者]: ショート・ボウ、ロング・ボウ、弓 ／ [初心者]（下記以外）</td>
+<td>[達人]（下記以外） ／ [エキスパート]: スリング、ライト・クロスボウ、ヘヴィ・クロスボウ</td>
+</tr>
+<tr>
+<td><a href="Class-cavalry.html">騎兵</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[エキスパート]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-cavalry.html">騎兵</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 鎖つき鉄球、ウォー・ハンマー、フレイル、粉砕のメイス、冥界の大鉄杖、棒 ／ [エキスパート]（下記以外） ／ [入門者]: ヌンチャク ／ [初心者]: 魔術師の杖</td>
+</tr>
+<tr>
+<td><a href="Class-cavalry.html">騎兵</a></td>
+<td>長柄</td>
+<td>[入門者]: スピア、ブロード・スピア、ランス、ヘヴィ・ランス ／ [初心者]（下記以外）</td>
+<td>[達人]: ハチェット、スピア、トライデント、フォシャール、ブロード・スピア、グレイブ、ランス、三叉槍、ヘヴィ・ランス、切り裂きの大鎌、釣り竿、死の大鎌 ／ [エキスパート]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-cavalry.html">騎兵</a></td>
+<td>剣</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: サーベル、タルワール、ブロード・ソード、ロング・ソード、青龍刀、隼の剣 ／ [エキスパート]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-berserker.html">狂戦士</a></td>
+<td>弓・射撃</td>
+<td>[初心者]（全て）</td>
+<td>[初心者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-berserker.html">狂戦士</a></td>
+<td>掘削具</td>
+<td>[入門者]（全て）</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-berserker.html">狂戦士</a></td>
+<td>鈍器</td>
+<td>[入門者]（下記以外） ／ [初心者]: 魔術師の杖、冥界の大鉄杖</td>
+<td>[達人]（下記以外） ／ [初心者]: 魔術師の杖</td>
+</tr>
+<tr>
+<td><a href="Class-berserker.html">狂戦士</a></td>
+<td>長柄</td>
+<td>[入門者]（全て）</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-berserker.html">狂戦士</a></td>
+<td>剣</td>
+<td>[入門者]（下記以外） ／ [初心者]: 毒針</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-smith.html">鍛冶師</a></td>
+<td>弓・射撃</td>
+<td>[入門者]（下記以外） ／ [初心者]: スリング、ショート・ボウ、ロング・ボウ、弓</td>
+<td>[達人]（下記以外） ／ [エキスパート]: ライト・クロスボウ、ヘヴィ・クロスボウ ／ [熟練者]: スリング、ショート・ボウ、ロング・ボウ</td>
+</tr>
+<tr>
+<td><a href="Class-smith.html">鍛冶師</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-smith.html">鍛冶師</a></td>
+<td>鈍器</td>
+<td>[入門者]（下記以外） ／ [初心者]: 棍棒、ムチ、クォータースタッフ、ヌンチャク、錫杖、三節棍、六尺棒、魔術師の杖、冥界の大鉄杖</td>
+<td>[達人]（下記以外） ／ [エキスパート]: メイス、鎖つき鉄球、モーニング・スター、フレイル、鉛詰めメイス ／ [熟練者]: 棍棒、クォータースタッフ、ヌンチャク、錫杖、三節棍、六尺棒 ／ [入門者]: ムチ ／ [初心者]: 魔術師の杖</td>
+</tr>
+<tr>
+<td><a href="Class-smith.html">鍛冶師</a></td>
+<td>長柄</td>
+<td>[入門者]（下記以外） ／ [初心者]: ハチェット、スピア、鎌、オウル・パイク、トライデント、フォシャール、パイク、死の大鎌</td>
+<td>[達人]（下記以外） ／ [エキスパート]: ブロード・スピア、薙刀、ルツェルン・ハンマー、グレイブ、ラジャタン、ランス、三叉槍、ヘヴィ・ランス ／ [熟練者]: ハチェット、スピア、鎌、オウル・パイク、トライデント、フォシャール、パイク</td>
+</tr>
+<tr>
+<td><a href="Class-smith.html">鍛冶師</a></td>
+<td>剣</td>
+<td>[入門者]: 隼の剣 ／ [初心者]（下記以外）</td>
+<td>[達人]: 隼の剣 ／ [熟練者]（下記以外） ／ [入門者]: ダガー、マン・ゴーシュ、短刀、レイピア、サーベル、脇差し ／ [初心者]: 折れたダガー、折れた剣</td>
+</tr>
+<tr>
+<td><a href="Class-mirror-master.html">鏡使い</a></td>
+<td>弓・射撃</td>
+<td>[入門者]: スリング ／ [初心者]（下記以外）</td>
+<td>[達人]: 弓 ／ [熟練者]（下記以外） ／ [入門者]: 進化する銃、ハープ</td>
+</tr>
+<tr>
+<td><a href="Class-mirror-master.html">鏡使い</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-mirror-master.html">鏡使い</a></td>
+<td>鈍器</td>
+<td>[入門者]: クォータースタッフ、魔術師の杖 ／ [初心者]（下記以外）</td>
+<td>[達人]: クォータースタッフ、魔術師の杖、棒 ／ [入門者]（下記以外） ／ [初心者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-mirror-master.html">鏡使い</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-mirror-master.html">鏡使い</a></td>
+<td>剣</td>
+<td>[入門者]: ダガー ／ [初心者]（下記以外）</td>
+<td>[達人]: ダガー、毒針 ／ [熟練者]: 短刀 ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-ninja.html">忍者</a></td>
+<td>弓・射撃</td>
+<td>[初心者]（全て）</td>
+<td>[達人]（下記以外） ／ [エキスパート]: スリング、ショート・ボウ ／ [入門者]: ロング・ボウ ／ [初心者]: ライト・クロスボウ、ヘヴィ・クロスボウ</td>
+</tr>
+<tr>
+<td><a href="Class-ninja.html">忍者</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-ninja.html">忍者</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 棒 ／ [入門者]（下記以外） ／ [初心者]: グレート・ハンマー、粉砕のメイス、魔術師の杖、冥界の大鉄杖</td>
+</tr>
+<tr>
+<td><a href="Class-ninja.html">忍者</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[熟練者]: 釣り竿 ／ [入門者]（下記以外） ／ [初心者]: ランス、グレート・アックス、ヘヴィ・ランス、切り裂きの大鎌、死の大鎌</td>
+</tr>
+<tr>
+<td><a href="Class-ninja.html">忍者</a></td>
+<td>剣</td>
+<td>[入門者]: ダガー、短刀、忍者刀 ／ [初心者]（下記以外）</td>
+<td>[達人]: ダガー、短刀、忍者刀、毒針 ／ [熟練者]: 折れたダガー、折れた剣、マン・ゴーシュ、レイピア、スモール・ソード、ショート・ソード、脇差し、隼の剣 ／ [入門者]（下記以外） ／ [初心者]: 首切りソード、ツヴァイハンダー</td>
+</tr>
+<tr>
+<td><a href="Class-sniper.html">スナイパー</a></td>
+<td>弓・射撃</td>
+<td>[入門者]（下記以外） ／ [初心者]: 進化する銃、ハープ</td>
+<td>[達人]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-sniper.html">スナイパー</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-sniper.html">スナイパー</a></td>
+<td>鈍器</td>
+<td>[初心者]（全て）</td>
+<td>[達人]: 棒 ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-sniper.html">スナイパー</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-sniper.html">スナイパー</a></td>
+<td>剣</td>
+<td>[入門者]: ダガー ／ [初心者]（下記以外）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-elementalist.html">元素使い</a></td>
+<td>弓・射撃</td>
+<td>[入門者]: スリング ／ [初心者]（下記以外）</td>
+<td>[達人]: 弓 ／ [熟練者]: スリング ／ [入門者]（下記以外）</td>
+</tr>
+<tr>
+<td><a href="Class-elementalist.html">元素使い</a></td>
+<td>掘削具</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-elementalist.html">元素使い</a></td>
+<td>鈍器</td>
+<td>[入門者]: クォータースタッフ、魔術師の杖 ／ [初心者]（下記以外）</td>
+<td>[達人]: クォータースタッフ、魔術師の杖、棒 ／ [入門者]（下記以外） ／ [初心者]: ヌンチャク</td>
+</tr>
+<tr>
+<td><a href="Class-elementalist.html">元素使い</a></td>
+<td>長柄</td>
+<td>[初心者]（全て）</td>
+<td>[入門者]（全て）</td>
+</tr>
+<tr>
+<td><a href="Class-elementalist.html">元素使い</a></td>
+<td>剣</td>
+<td>[入門者]: ダガー ／ [初心者]（下記以外）</td>
+<td>[達人]: ダガー、毒針 ／ [熟練者]: 短刀 ／ [入門者]（下記以外）</td>
+</tr>
+</tbody>
+</table></div>
+</details>
+<h2>熟練度の確認方法</h2>
+<p>ゲーム内の「知識」コマンドから確認できる。</p>
+<ul>
+<li><strong>武器の経験値</strong>（<code>do_cmd_knowledge_weapon_exp</code>）: 武器種ごとのランク一覧。上限に達した項目には <code>!</code> が付く。射撃に使わない「進化する銃」（SV_CRIMSON）と「ハープ」（SV_HARP）は弓分類だが一覧から除外される。</li>
+<li><strong>技能の経験値</strong>（<code>do_cmd_knowledge_skill_exp</code>）: マーシャルアーツ・二刀流・乗馬・盾の4種。乗馬だけ乗馬用の閾値でランク表示される。</li>
+<li><strong>魔法の経験値</strong>（<code>do_cmd_knowledge_spell_exp</code>）: 領域ごとの呪文一覧。必殺技は <code>[--]</code>。</li>
+<li>オプション「技能値等に実値を並記する」（<code>show_actual_value</code>、初期値ON）を有効にすると、<code>現在値/上限</code> の実数値が並記される。</li>
+<li>呪文の一覧画面（詠唱時・閲覧時）にも「熟練度」列としてランクが表示される。</li>
+</ul>
 <hr>
 <blockquote>
-<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-skill.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-08 10:57 UTC · hengband <code>6f8eeac1e4</code> · <code>tools/generate-wiki.mjs</code></p>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player/player-skill.cpp</code>, <code>src/player/player-status.cpp</code>, <code>src/spell/spell-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-09-06 07:34 UTC · hengband <code>899fbee927</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
