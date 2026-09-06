@@ -227,7 +227,13 @@ kuromoji（読み再生成）は通常不要。詳細・列設計・<code>specs.
 <li><strong>解析ページの追加 = モジュールスコープの <code>ANALYSIS</code> 配列に1エントリ（<code>cat</code>:
 combat/monster/chara/item/system）＋ <code>tools/analysis/&lt;file&gt;.md</code> 本文</strong>。解析インデックスと
 <strong>サイドバーは同じ <code>ANALYSIS</code> 配列から自動生成</strong>される（手で <code>_Sidebar</code> を編集しない）。
-検索インデックス（Pages 左上）も全ページのタイトルを自動収載する。</li>
+検索インデックス（Pages 左上）も全ページのタイトルを自動収載する。
+解析本文に <code>&lt;!--GEN:name--&gt;</code> だけの行を書くと、<code>ANALYSIS_TABLES[name]()</code> が返す生成表に
+置換される（<code>buildAnalysis</code> の <code>readBody</code>）。データ由来の表を解析ページに載せたいときは
+本文へ表を手書きせず、この仕組みで生成すること。現在の name: <code>class-skill-caps</code>（職業×
+素手/二刀流/乗馬/盾の開始・上限ランク）、<code>class-weapon-caps</code>（職業×武器分類の内訳）。
+検索インデックスはページ見出し（<code>ja</code>）を収載するので、利用者が検索しそうな語を題に含める
+（例: 「技能」だけでは「熟練度」で引けなかったため「技能・熟練度」に改題）。</li>
 </ol>
 <h2>呪文の詳細効果 <code>tools/spell-effects.json</code>（ソース導出・重要）</h2>
 <ul>
