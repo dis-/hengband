@@ -1,16 +1,18 @@
 (function(){
 var input=document.getElementById('search'),box=document.getElementById('results'),idx=[],shown=[],active=-1;
 function esc(s){return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+// Fold kana only for matching; keep the original labels and URLs for display.
+function searchKey(s){return (s||'').normalize('NFKC').toLowerCase().replace(/[ァ-ヶヽヾ]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0x60)})}
 if(input){
-  fetch('search-index.json').then(function(r){return r.json()}).then(function(d){idx=d}).catch(function(){});
+  fetch('search-index.json').then(function(r){return r.json()}).then(function(d){idx=d.map(function(e){return {entry:e,ja:searchKey(e.ja),en:searchKey(e.en)}});run()}).catch(function(){});
   var t;
   input.addEventListener('input',function(){clearTimeout(t);t=setTimeout(run,110)});
   function run(){
-    var q=input.value.trim().toLowerCase();active=-1;
+    var q=searchKey(input.value).trim();active=-1;
     if(!q){box.className='results';box.innerHTML='';return;}
     var out=[];
     for(var i=0;i<idx.length&&out.length<40;i++){var e=idx[i];
-      if((e.ja&&e.ja.toLowerCase().indexOf(q)>=0)||(e.en&&e.en.toLowerCase().indexOf(q)>=0))out.push(e);}
+      if(e.ja.indexOf(q)>=0||e.en.indexOf(q)>=0)out.push(e.entry);}
     shown=out;
     box.innerHTML=out.map(function(e,i){return '<a href="'+e.url+'" data-i="'+i+'"><span>'+esc(e.ja)+'</span> <span class="en">'+esc(e.en)+'</span><span class="tag">'+esc(e.t)+'</span></a>'}).join('');
     box.className=out.length?'results open':'results';
