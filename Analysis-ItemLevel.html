@@ -101,6 +101,7 @@
 </li>
 <li>🎒 アイテム / Items
 <ul>
+<li><a href="Analysis-ItemGeneration.html">アイテム生成（良品・優品・エゴ・アーティファクト）</a></li>
 <li><a href="Analysis-ItemLevel.html">アイテムレベルが決まるルール</a></li>
 <li><a href="Analysis-DeviceUse.html">魔法道具使用成功率</a></li>
 <li><a href="Analysis-EatMagic.html">魔力喰い</a></li>
@@ -229,7 +230,7 @@ object_level = base_level
 </tbody>
 </table></div>
 <p><code>randint1(10)</code> は 1〜10 の一様乱数です。</p>
-<p>なお強化モード指定とは別に、<code>make_object()</code> は一定確率で「その場限りのアーティファクト (instant artifact)」の生成を試みます。その試行確率は次の通りです。</p>
+<p>なお強化モード指定とは別に、<code>make_object()</code> は種類制約の指定がない場合、一定確率で INSTA_ART 型の固定アーティファクト生成を試みます。その入口の試行確率は次の通りです（生成成功率ではありません）。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -362,7 +363,7 @@ chance_great = chance_good * 2 / 3          (ダンジョンの obj_great で上
 <li><code>power &lt;= -2</code> は劣悪（呪われた粗悪品）方向の強化。</li>
 </ul>
 <h3>アーティファクト化の試行回数</h3>
-<p>強化パワーとモードからアーティファクト（ランダムアーティファクト）生成の試行回数 <code>rolls</code> が決まります。</p>
+<p>強化パワーとモードから通常型の固定アーティファクト生成の試行回数 <code>rolls</code> が決まります。ランダムアーティファクト化は別の処理です。品質判定の条件付き確率と各経路の違いは <a href="Analysis-ItemGeneration.html">アイテム生成</a> を参照してください。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -424,7 +425,7 @@ object_level = base_level（特別部屋・宝箱・モンスタードロップ�
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/floor/floor-object.cpp</code>, <code>src/object-enchant/item-magic-applier.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-08 10:57 UTC · hengband <code>6f8eeac1e4</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-09-12 11:07 UTC · hengband <code>fc462b0c6c</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
