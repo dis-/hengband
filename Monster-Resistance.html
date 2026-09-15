@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="ja"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>変愚蛮怒 データ仕様 Wiki / Hengband Data Reference · 変愚蛮怒 データ仕様</title>
-<link rel="stylesheet" href="style.css"></head>
+<title>モンスター耐性表 / Monster Resistance Table · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="monster-resistance.css"></head>
 <body>
 <header class="site-header">
 <div class="search-wrap"><input id="search" type="search" placeholder="ページ・モンスター名で検索 / search pages…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
@@ -131,48 +131,24 @@
 </ul>
 </li>
 </ul>
-</aside><main class="content"><h1>変愚蛮怒 データ仕様 Wiki / Hengband Data Reference</h1>
-<p>変愚蛮怒 (Hengband) のゲームデータ (<code>lib/edit/*.jsonc</code>) から自動生成した、日英併記のリファレンスです。</p>
-<p>Bilingual (Japanese / English) reference tables auto-generated from Hengband's game data (<code>lib/edit/*.jsonc</code>).</p>
-<h2>データ仕様 / Data Reference</h2>
-<ul>
-<li>🧬 <strong><a href="Races.html">種族 / Races</a></strong> — 38 種族 / races</li>
-<li>🧑‍🚀 <strong><a href="Classes.html">職業 / Classes</a></strong> — 能力値・技能・魔法適性の職業補正
-<ul>
-<li>🎓 <strong><a href="Class-Magic.html">クラス別魔法 / Class Magic</a></strong> — 29 職業 / classes</li>
-</ul>
-</li>
-<li>🙂 <strong><a href="Personalities.html">性格 / Personalities</a></strong> — 能力値・技能・内部フラグの性格補正</li>
-<li>👹 <strong><a href="Monsters.html">モンスター / Monsters</a></strong> — 1416 種 / entries
-<ul>
-<li>🔤 <a href="Monsters-by-Symbol.html">記号から / By symbol</a> ・ 🔎 <a href="Monsters-by-Name.html">名前で検索 / By name</a> ・ 🛡️ <a href="Monster-Resistance.html">耐性表 / Resistance table</a></li>
-</ul>
-</li>
-<li>🗡️ <strong><a href="Items.html">アイテム / Items</a></strong> — 642</li>
-<li>💎 <strong><a href="Artifacts.html">アーティファクト / Artifacts</a></strong> — 270</li>
-<li>🏰 <strong><a href="Dungeons.html">ダンジョン / Dungeons</a></strong> — 21</li>
-<li>📜 <strong><a href="Quests.html">クエスト / Quests</a></strong> — 固定＋ランダム</li>
-<li>🌲 <strong><a href="Terrain.html">地形 / Terrain</a></strong> — 190</li>
-<li>✨ <strong><a href="Spells.html">呪文 / Spells</a></strong> — 13 領域 / realms</li>
-<li>🏟️ <strong><a href="Arena.html">アリーナ（テルモラ闘技場） / Telmora Arena</a></strong> — 対戦相手と報酬の一覧</li>
-<li>🎮 <strong><a href="GameModes.html">ゲームモード / Game Modes</a></strong> — 出生オプションと高難度モード</li>
-<li>⚙️ <strong><a href="GameOptions.html">ゲームオプション / Game Options</a></strong> — 入力・表示・ゲーム進行・記録設定</li>
-<li>🛡️ <strong><a href="Ironman.html">鉄人オプション / Ironman Options</a></strong> — 高難度オプション各種
-<ul>
-<li><a href="Ironman-Shops.html">店を使用しない</a> ・ <a href="Ironman-SmallestFloor.html">最小フロア</a> ・ <a href="Ironman-ForceArenaFloor.html">アリーナフロア強制</a> ・ <a href="Ironman-Rooms.html">常に特殊な部屋</a> ・ <a href="Nightmare.html">悪夢モード</a> ・ <a href="Ironman-Downward.html">帰還・上り階段なし</a></li>
-</ul>
-</li>
-</ul>
-<h2>解析 / Analysis</h2>
-<ul>
-<li>🔬 <strong><a href="Analysis.html">解析 / Analysis</a></strong> — ソースコードから再導出したゲーム内部仕様の解説（戦闘・モンスター・キャラクター・システム）</li>
-</ul>
-<hr>
-<blockquote>
-<p>🤖 全ページ自動生成。手動編集しないでください（<code>tools/generate-wiki.mjs</code> で再生成）。
-All pages auto-generated — do not edit by hand (regenerate via <code>tools/generate-wiki.mjs</code>).
-生成 / Generated: 2026-07-14 04:02 UTC · hengband <code>559732b34f</code></p>
-</blockquote>
+</aside><main class="content">
+<h1>モンスター耐性表 / Monster Resistance Table</h1>
+<p>名前・レベルで行を、耐性名で列を絞り込めます。● はモンスター定義にある耐性フラグです。弱点フラグ（HURT_*）は含めていません。</p>
+<p>Filter rows by name and level, and columns by resistance name. ● denotes a resistance flag in the monster definition; vulnerability flags (HURT_*) are excluded.</p>
+<div class="resistance-controls">
+<fieldset><legend>行を絞り込み / Filter rows</legend>
+<label>モンスター名 / Name <input id="monster-query" type="search" placeholder="日本語名・English name" autocomplete="off"></label>
+<label>レベル / Level <input id="min-level" type="number" min="0" placeholder="最小 / Min" aria-label="最小レベル"> ～ <input id="max-level" type="number" min="0" placeholder="最大 / Max" aria-label="最大レベル"></label>
+</fieldset>
+<fieldset><legend>列を絞り込み / Filter columns</legend>
+<label>耐性名 / Resistance <input id="resistance-query" type="search" placeholder="炎・カオス・teleport・RES_CHAO" autocomplete="off"></label>
+<label><input id="only-held" type="checkbox"> 表示中の耐性を持つモンスターのみ / Only monsters with a visible resistance</label>
+</fieldset>
+</div>
+<p id="resistance-count" role="status" aria-live="polite"></p>
+<div class="tablewrap resistance-tablewrap"><table id="resistance-table"><thead></thead><tbody></tbody></table></div>
+<p class="resistance-note">※ これは定義ファイルのフラグ一覧です。ゲーム中の個別属性ダメージ計算や複合耐性を網羅した判定表ではありません。 / This lists definition flags, not every derived damage calculation.</p>
+<blockquote>🤖 データ元 / Source: <code>lib/edit/MonraceDefinitions.jsonc</code> · hengband <code>559732b34f</code> · <code>build-monster-resistance.mjs</code></blockquote>
 </main></div>
-<script src="app.js"></script>
+<script src="app.js"></script><script src="monster-resistance.js"></script>
 </body></html>
