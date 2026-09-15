@@ -1,8 +1,8 @@
 (function () {
   'use strict';
 
-  // These are the literal resistance, immunity and status-protection flags in
-  // the source definition. HURT_* flags are vulnerabilities, not resistances.
+  // Most cells show literal source flags. Nether and chaos additionally show
+  // partial mitigation derived from the EVIL and DEMON kind flags.
   const columns = [
     ['RES_ALL', '全耐性', 'Resist all'],
     ['RES_ACID', '酸', 'Acid'], ['IM_ACID', '酸免疫', 'Acid immunity'],
@@ -44,17 +44,30 @@
     if (text !== undefined) element.textContent = text;
     return element;
   }
+  function resistance(monster, flag) {
+    if (monster.flags.includes(flag)) return { text: '●', className: 'held', detail: '定義上の耐性 / explicit flag' };
+    if (flag === 'RES_NETH' && (monster.kinds || []).includes('EVIL')) {
+      return { text: '½', className: 'partial', detail: '邪悪 (EVIL): 地獄ダメージ半減 / EVIL: nether damage halved' };
+    }
+    if (flag === 'RES_CHAO' && (monster.kinds || []).includes('DEMON')) {
+      return { text: '⅓', className: 'partial', detail: '悪魔 (DEMON): 3分の1の確率でカオス軽減 / DEMON: 1-in-3 chance of chaos mitigation' };
+    }
+    return { text: '—', className: '', detail: 'なし / no' };
+  }
   function render() {
     const nameNeedle = key(query.value).trim();
     const resistanceNeedle = key(columnQuery.value).trim();
     const minimum = minLevel.value === '' ? -Infinity : Number(minLevel.value);
     const maximum = maxLevel.value === '' ? Infinity : Number(maxLevel.value);
-    const availableColumns = columns.filter(column => monsters.some(monster => monster.flags.includes(column[0])));
-    const visibleColumns = availableColumns.filter(column => column.some(part => key(part).includes(resistanceNeedle)));
+    const availableColumns = columns.filter(column => monsters.some(monster => resistance(monster, column[0]).text !== '—'));
+    const visibleColumns = availableColumns.filter(column =>
+      column.some(part => key(part).includes(resistanceNeedle)) ||
+      ((key('一部軽減 partial mitigation').includes(resistanceNeedle)) &&
+        (column[0] === 'RES_NETH' || column[0] === 'RES_CHAO')));
     const visibleMonsters = monsters.filter(monster =>
       monster.level >= minimum && monster.level <= maximum &&
       (!nameNeedle || key(monster.ja).includes(nameNeedle) || key(monster.en).includes(nameNeedle)) &&
-      (!onlyHeld.checked || visibleColumns.some(column => monster.flags.includes(column[0]))));
+      (!onlyHeld.checked || visibleColumns.some(column => resistance(monster, column[0]).text !== '—')));
 
     const headRow = document.createElement('tr');
     headRow.append(cell('th', 'monster-name', 'モンスター / Monster'));
@@ -77,9 +90,9 @@
       name.append(link, cell('span', 'en', monster.en));
       row.append(name, cell('td', 'monster-level', monster.level));
       for (const [flag, ja, en] of visibleColumns) {
-        const held = monster.flags.includes(flag);
-        const value = cell('td', held ? 'held' : '', held ? '●' : '—');
-        value.title = `${monster.ja}: ${ja} / ${en} ${held ? 'あり / yes' : 'なし / no'}`;
+        const state = resistance(monster, flag);
+        const value = cell('td', state.className, state.text);
+        value.title = `${monster.ja}: ${ja} / ${en} — ${state.detail}`;
         row.append(value);
       }
       body.append(row);

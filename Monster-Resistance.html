@@ -133,8 +133,8 @@
 </ul>
 </aside><main class="content">
 <h1>モンスター耐性表 / Monster Resistance Table</h1>
-<p>名前・レベルで行を、耐性名で列を絞り込めます。● はモンスター定義にある耐性フラグです。弱点フラグ（HURT_*）は含めていません。</p>
-<p>Filter rows by name and level, and columns by resistance name. ● denotes a resistance flag in the monster definition; vulnerability flags (HURT_*) are excluded.</p>
+<p>名前・レベルで行を、耐性名で列を絞り込めます。● は定義上の耐性フラグ、½ は邪悪（EVIL）による地獄ダメージ半減、⅓ は悪魔（DEMON）に3分の1の確率で起こるカオス軽減です。</p>
+<p>Filter rows by name and level, and columns by resistance name. ● is an explicit resistance flag; ½ means nether damage is halved for EVIL monsters; ⅓ means chaos mitigation activates with a 1-in-3 chance for DEMON monsters.</p>
 <div class="resistance-controls">
 <fieldset><legend>行を絞り込み / Filter rows</legend>
 <label>モンスター名 / Name <input id="monster-query" type="search" placeholder="日本語名・English name" autocomplete="off"></label>
@@ -147,8 +147,8 @@
 </div>
 <p id="resistance-count" role="status" aria-live="polite"></p>
 <div class="tablewrap resistance-tablewrap"><table id="resistance-table"><thead></thead><tbody></tbody></table></div>
-<p class="resistance-note">※ これは定義ファイルのフラグ一覧です。ゲーム中の個別属性ダメージ計算や複合耐性を網羅した判定表ではありません。 / This lists definition flags, not every derived damage calculation.</p>
-<blockquote>🤖 データ元 / Source: <code>lib/edit/MonraceDefinitions.jsonc</code> · hengband <code>559732b34f</code> · <code>build-monster-resistance.mjs</code></blockquote>
+<p class="resistance-note">※ 地獄・カオスの一部軽減のみ、種別フラグから導出しています。定義上の耐性がある場合は ● を優先します。弱点フラグ（HURT_*）やその他の複合ダメージ計算は含めていません。 / Only partial nether and chaos mitigation is derived from kind flags. Explicit resistance takes precedence; vulnerability flags and other derived calculations are excluded.</p>
+<blockquote>🤖 データ元 / Source: <code>lib/edit/MonraceDefinitions.jsonc</code> · <code>src/effect/effect-monster-resist-hurt.cpp</code> · hengband <code>559732b34f</code> · <code>build-monster-resistance.mjs</code></blockquote>
 </main></div>
 <script src="app.js"></script><script src="monster-resistance.js"></script>
 </body></html>
