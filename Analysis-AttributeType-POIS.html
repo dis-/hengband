@@ -214,7 +214,7 @@ dam /= 9;
 一時耐性(is_oppose_pois)   : per = (per + 2) / 3
 dam = dam * per / 100
 </code></pre>
-<p>耐性と一時耐性（double_resist = is_oppose_pois）は乗算的に効く。両方あれば約 1/9 まで軽減。</p>
+<p>実効倍率は、毒耐性・一時耐性がどちらもなければ <strong>100%</strong>、どちらか一方なら <strong>34%</strong>、両方なら <strong>12%</strong>（<code>(per + 2) ÷ 3</code> を各回整数計算）。詳しくは <a href="Resistance-Pois.html">毒耐性</a>。</p>
 <p>副次効果（耐性・一時耐性のいずれも無く、分身でない場合）:</p>
 <ul>
 <li><code>1/CHANCE_ABILITY_SCORE_DECREASE</code> の確率で耐久力（CON）が低下する。</li>

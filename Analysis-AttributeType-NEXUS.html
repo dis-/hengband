@@ -201,6 +201,7 @@
 <p><code>effect_player_nexus</code> による処理。目が見えない場合「何か奇妙なもので攻撃された！」と表示される。ダメージは補正される。</p>
 <pre><code>dam = dam * calc_nexus_damage_rate() / 100
 </code></pre>
+<p>この版の <code>calc_nexus_damage_rate()</code> は、ダメージ軽減の条件に因果混乱耐性ではなく <code>has_resist_disen()</code>（劣化耐性）を使う。劣化耐性がある場合、倍率は <code>per = 600 ÷ (1d4 + 7)</code> を整数で計算した <strong>75・66・60・54%</strong>（各1/4、範囲54〜75%）。劣化耐性がなければ100%（等倍）。因果混乱耐性は以下の追加効果を防ぐが、このダメージ倍率の条件ではない。詳しくは <a href="Resistance-Nexus.html">因果混乱耐性</a>。</p>
 <p>因果混乱耐性が無く、分身状態でもない場合、<code>apply_nexus</code> によって <code>1d7</code> の抽選で以下の効果が発生する。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>

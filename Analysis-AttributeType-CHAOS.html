@@ -215,6 +215,7 @@
 <p><code>effect_player_chaos</code> による処理。ダメージは <code>calc_chaos_damage_rate</code> により補正される。</p>
 <pre><code>dam = dam * calc_chaos_damage_rate() / 100
 </code></pre>
+<p>カオス耐性がある場合、<code>CALC_RAND</code> の倍率は <code>per = 600 ÷ (1d4 + 7)</code> を整数で計算した <strong>75・66・60・54%</strong>（各1/4、範囲54〜75%）。耐性がなければ100%（等倍）。詳しくは <a href="Resistance-Chaos.html">カオス耐性</a>。</p>
 <p>分身（マルチシャドウ）状態の場合は追加効果を受けず、ダメージのみを受ける。それ以外の場合の追加効果:</p>
 <ul>
 <li>混乱耐性・カオス耐性のいずれも無い場合、混乱を <code>randint0(20) + 10</code> 追加。</li>

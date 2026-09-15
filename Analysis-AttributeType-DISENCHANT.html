@@ -201,6 +201,7 @@
 <p><code>effect_player_disenchant</code> による処理。目が見えない場合「何かさえないもので攻撃された！」と表示される。ダメージは補正される。</p>
 <pre><code>dam = dam * calc_disenchant_damage_rate() / 100
 </code></pre>
+<p>劣化耐性がある場合、<code>CALC_RAND</code> の倍率は <code>per = 600 ÷ (1d4 + 7)</code> を整数で計算した <strong>75・66・60・54%</strong>（各1/4、範囲54〜75%）。耐性がなければ100%（等倍）。詳しくは <a href="Resistance-Disen.html">劣化耐性</a>。</p>
 <p>劣化耐性が無く、分身状態でもない場合、装備品の劣化処理 <code>apply_disenchant</code> が発生する。</p>
 <h2>アイテムへの効果</h2>
 <p><code>affect_item</code> に劣化属性（<code>DISENCHANT</code>）の分岐は無く、床落ちアイテムへの固有効果は無い（劣化はプレイヤーの装備品に対してのみ適用される）。</p>

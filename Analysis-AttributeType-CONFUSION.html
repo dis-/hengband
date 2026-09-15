@@ -229,6 +229,7 @@
 <p>ダメージは混乱ダメージ率で補正される。</p>
 <pre><code>dam = dam * calc_conf_damage_rate(player_ptr, CALC_RAND) / 100
 </code></pre>
+<p>混乱耐性がある場合、倍率は <code>per = 500 ÷ (1d4 + 7)</code> を整数で計算した <strong>62・55・50・45%</strong>（各1/4、範囲45〜62%）。耐性がなければ100%（等倍）。詳しくは <a href="Resistance-Conf.html">混乱耐性</a>。</p>
 <p>混乱耐性がなく、多重影 (multishadow) でもない場合、混乱状態を付与する。</p>
 <pre><code>混乱付与ターン = randint1(20) + 10
 </code></pre>

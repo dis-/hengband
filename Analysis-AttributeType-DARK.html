@@ -227,7 +227,7 @@ dam = dam * 2 / (randint1(6) + 6);
 </tr>
 <tr>
 <td>暗黒耐性 (resist_dark)</td>
-<td>×400 ÷ randrate(4,7)（実効 ≒ 8〜14%）</td>
+<td>×400 ÷ randrate(4,7)（実効 36・40・44・50%、範囲36〜50%）</td>
 </tr>
 <tr>
 <td>上記なし</td>
@@ -235,6 +235,7 @@ dam = dam * 2 / (randint1(6) + 6);
 </tr>
 </tbody>
 </table></div>
+<p><code>CALC_RAND</code> の <code>randrate(4,7)</code> は <code>(1d4 + 7) × 100</code>。上記の数値は暗黒耐性のみがある場合の整数倍率。詳しくは <a href="Resistance-Dark.html">暗黒耐性</a>。</p>
 <p>追加効果:</p>
 <ul>
 <li>盲目でなく、盲目耐性を持たず、暗黒耐性・暗黒免疫のいずれも持たず、多重影でない場合、<code>randint1(5)+2</code> ターンの盲目になる。</li>

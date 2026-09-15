@@ -189,6 +189,7 @@
 <p><code>effect_player_death_ray</code> による処理。目が見えない場合「何か非常に冷たいもので攻撃された！」と表示される。ダメージは補正される。</p>
 <pre><code>dam = dam * calc_deathray_damage_rate() / 100
 </code></pre>
+<p>ゴーレム・スケルトン・ゾンビ・吸血鬼・バルログ・スペクター、または非生物への変身中は倍率 <strong>0%</strong>（無効）。それ以外は <strong>100%</strong>（等倍）。通常の属性耐性による段階的な軽減はない。</p>
 <p>追加のステータス効果は無い。</p>
 <h2>アイテムへの効果</h2>
 <p><code>affect_item</code> に死の光線属性（<code>DEATH_RAY</code>）の分岐は無く、アイテムへの固有効果は無い。</p>

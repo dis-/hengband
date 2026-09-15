@@ -247,7 +247,7 @@ dam = dam * 2;
 </tr>
 <tr>
 <td>光耐性 (resist_lite)</td>
-<td>×400 ÷ randrate(4,7)（実効 400/28〜400/49 相当 ≒ 8〜14%）</td>
+<td>×400 ÷ randrate(4,7)（耐性のみなら実効 36・40・44・50%、範囲36〜50%）</td>
 </tr>
 <tr>
 <td>幽体化 (wraith_form) 中</td>
@@ -255,7 +255,7 @@ dam = dam * 2;
 </tr>
 </tbody>
 </table></div>
-<p>（上記の各補正は該当すれば累積で適用される）</p>
+<p><code>CALC_RAND</code> の <code>randrate(4,7)</code> は <code>(1d4 + 7) × 100</code>。上記の耐性倍率は光弱点や幽体化がない場合の数値で、それらの補正は該当すれば累積で適用される。詳しくは <a href="Resistance-Lite.html">閃光耐性</a>。</p>
 <p>追加効果:</p>
 <ul>
 <li>盲目でなく、光耐性・盲目耐性のいずれも持たず、多重影でない場合、<code>randint1(5)+2</code> ターンの盲目になる。</li>

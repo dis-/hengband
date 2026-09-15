@@ -205,6 +205,7 @@
 <p><code>effect_player_time</code> による処理。目が見えない場合「過去からの衝撃に攻撃された！」と表示される。ダメージは補正される。</p>
 <pre><code>dam = dam * calc_time_damage_rate() / 100
 </code></pre>
+<p>時間逆転耐性がある場合、<code>CALC_RAND</code> の倍率は <code>per = 400 ÷ (1d4 + 7)</code> を整数で計算した <strong>50・44・40・36%</strong>（各1/4、範囲36〜50%）。耐性がなければ100%（等倍）。詳しくは <a href="Resistance-Time.html">時間逆転耐性</a>。</p>
 <p>時間耐性を持ち、分身状態でない場合、「時間が通り過ぎていく気がする。」と表示される。</p>
 <p>時間耐性が無く、分身状態でもない場合、<code>effect_player_time_addition</code> により <code>1d10</code> の抽選で以下の追加効果が発生する。</p>
 <div class="tablewrap"><table class="sortable">

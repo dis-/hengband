@@ -219,6 +219,7 @@
 <p>それ以外の種族では、ダメージが補正される。</p>
 <pre><code>dam = dam * calc_nether_damage_rate() / 100
 </code></pre>
+<p>通常種族の地獄耐性がある場合、<code>CALC_RAND</code> の倍率は <code>per = 600 ÷ (1d4 + 7)</code> を整数で計算した <strong>75・66・60・54%</strong>（各1/4、範囲54〜75%）。耐性がなければ100%（等倍）。スペクターはこの倍率によるダメージ処理ではなく、上記の無効化・回復が優先される。詳しくは <a href="Resistance-Nether.html">地獄耐性</a>。</p>
 <p>地獄耐性が無く、分身状態でもない場合、経験値吸収が発生する。</p>
 <pre><code>drain_exp(200 + exp/100, 200 + exp/1000, 75)
 </code></pre>

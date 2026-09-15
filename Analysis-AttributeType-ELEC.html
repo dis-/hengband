@@ -216,7 +216,7 @@ dam /= 9;
 電撃免疫(has_immune_elec)  : per = 0（ダメージ無効）
 dam = dam * per / 100
 </code></pre>
-<p>耐性と一時耐性は乗算的に効き、両方あれば概ね 1/9 程度まで軽減される。</p>
+<p>脆弱・免疫がない場合の実効倍率は、耐性なし・一時耐性なしで <strong>100%</strong>、どちらか一方で <strong>34%</strong>、両方で <strong>12%</strong>（<code>(per + 2) ÷ 3</code> を各回整数計算）。脆弱があればこの数値に脆弱補正が先に適用され、免疫なら0%。</p>
 <p>副次効果:</p>
 <ul>
 <li>免疫・一時耐性がなく、耐性もない状態で <code>1/CHANCE_ABILITY_SCORE_DECREASE</code> の確率で敏捷（DEX）が低下する（分身時を除く）。</li>

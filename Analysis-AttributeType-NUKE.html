@@ -215,7 +215,8 @@ dam /= randint1(6) + 6;
 一時耐性(is_oppose_pois)   : per = (per + 2) / 3
 dam = dam * per / 100
 </code></pre>
-<p>※ NUKE 専用の <code>calc_nuke_damage_rate()</code>（耐性ごとに <code>per = (2*per + 2) / 5</code>）も定義されているが、<code>effect_player_nuke()</code> は毒レートを使用する。</p>
+<p>この属性処理で使う毒ダメージ率の実効倍率は、毒耐性・一時耐性がどちらもなければ <strong>100%</strong>、どちらか一方なら <strong>34%</strong>、両方なら <strong>12%</strong>（各回整数計算）。</p>
+<p>※ モンスターの放射能打撃では別の <code>calc_nuke_damage_rate()</code> を使い、毒耐性・一時耐性がどちらもなければ <strong>100%</strong>、どちらか一方なら <strong>40%</strong>、両方なら <strong>16%</strong>（<code>per = (2 × per + 2) ÷ 5</code> を各回整数計算）。上記の <code>effect_player_nuke()</code> は毒レートを使用する。</p>
 <p>副次効果（毒耐性・一時耐性のいずれも無く、分身でない場合）:</p>
 <ul>
 <li>毒状態を <code>randint0(dam) + 10</code> ターン付与。</li>
