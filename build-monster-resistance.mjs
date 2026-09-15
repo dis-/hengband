@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -136,7 +136,10 @@ function replaceOnce(file, before, after) {
   content = content.replace(before, after);
   writeFileSync(file, content);
 }
-for (const file of ['index.html', 'Monsters.html']) replaceOnce(file, navTarget, navWithTable);
+// Generated pages contain a static copy of the sidebar, so update every page.
+for (const file of readdirSync('.').filter(name => name.endsWith('.html'))) {
+  replaceOnce(file, navTarget, navWithTable);
+}
 replaceOnce('index.html', homeTarget, homeWithTable);
 replaceOnce('Monsters.html', monsterTarget, monsterWithTable);
 
