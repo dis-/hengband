@@ -136,8 +136,8 @@
 <h2>概要</h2>
 <p><strong>Bot向けJSON出力モード</strong>は、起動オプション <code>--bot-json-output[=パス]</code> を付けたときだけ有効になる出力専用の機能で、<strong>ゲームがプレイヤーのキー入力を待つ直前</strong>にその時点の状況を <strong>1行1JSON（JSON Lines / JSONL）</strong> で書き出す。外部プログラム（Bot）がこの行を読んで盤面を把握し、ウィンドウへキーを送り返す、という運用を想定している。</p>
 <ul>
-<li>実装は <code>src/bot/bot-json-output.cpp</code> に集約され、公開インターフェースは <code>src/bot/bot-json-output.h</code> の5つの関数だけ。</li>
-<li>各関数は先頭で <code>arg_bot_json_output</code> を確認し、<strong>モードが無効なら即 return</strong> する。したがって通常プレイ時のコストは分岐1つ分で、ゲームロジックには一切干渉しない（読み取り専用）。</li>
+<li>実装は <code>src/bot/bot-json-output.cpp</code> に集約される。JSONLへ書く5つの出力関数に加え、制御サーバの <code>state</code> 応答用に <code>make_bot_json_snapshot()</code> が公開されている。</li>
+<li>JSONL出力関数は先頭で <code>arg_bot_json_output</code> を確認し、<strong>モードが無効なら即 return</strong> する。制御サーバからの取得は <code>--bot-json-output</code> なしでも利用できる。いずれもゲーム状態を変更しない読み取り専用機能である。</li>
 <li>設計上の中心原則は<strong>フェアプレイ</strong>：「<strong>画面上でプレイヤーが知り得る情報だけを出す</strong>」。未知のマス・幻覚中の正体・未鑑定アイテムの数値などは、後述のとおり明示的に伏せられている。</li>
 </ul>
 <p>対応する起動オプション自体の位置づけは <a href="Analysis-LaunchOptions.html">起動オプション</a> も参照。</p>
@@ -163,17 +163,22 @@
 <td><code>--bot-json-output=-</code></td>
 <td>出力先を<strong>標準出力</strong>にする</td>
 </tr>
+<tr>
+<td><code>--bot-json-timing</code></td>
+<td>JSONL生成の計測ログを有効化。単独ではJSONL出力を有効化せず、標準出力時には記録しない</td>
+</tr>
 </tbody>
 </table></div>
-<p>保持する変数は <code>src/game-option/runtime-arguments.{h,cpp}</code> の2つ。</p>
+<p>保持する変数は <code>src/game-option/runtime-arguments.{h,cpp}</code> の3つ。</p>
 <ul>
 <li><code>bool arg_bot_json_output</code>（既定 <code>false</code>）</li>
+<li><code>bool arg_bot_json_timing</code>（既定 <code>false</code>）</li>
 <li><code>std::string arg_bot_json_output_path</code>（既定 <code>&quot;bot-state.jsonl&quot;</code>）</li>
 </ul>
-<p>解析はプラットフォームごとに別実装になっている。</p>
+<p>長オプションの共通部分は <code>parse_runtime_argument()</code> で解釈され、POSIX版とWindows版の双方から利用される。<code>--bot-json-output[=path]</code> のパス処理は各フロントエンド側で行う。</p>
 <ul>
-<li><strong>POSIX/Unix版</strong>：<code>src/main.cpp</code> の <code>parse_long_opt()</code>。<code>--output-spoilers</code> と同じ長オプション解析経路に追加され、<code>display_usage()</code> にも 1 行載る。</li>
-<li><strong>Windows版</strong>：<code>src/main-win/commandline-win.cpp</code> の <code>parse_bot_json_output_option()</code>。<code>CommandLineToArgvW()</code> が返すワイド文字列を扱うため、<code>=</code> 以降のパスは <code>to_multibyte()</code> でマルチバイトへ変換してから格納する。</li>
+<li><strong>POSIX/Unix版</strong>：<code>src/main.cpp</code> の長オプション解析経路から共通処理を呼ぶ。</li>
+<li><strong>Windows版</strong>：<code>src/main-win/commandline-win.cpp</code> でワイド文字列を扱い、パスはマルチバイトへ変換して格納する。</li>
 </ul>
 <p>Windows版のコマンドライン処理は、このモード追加に伴い次の2点も変わっている。</p>
 <ul>
@@ -227,6 +232,7 @@
 </tbody>
 </table></div>
 <p>重要な制約として、<strong>出力されるのはコマンド入力待ちの瞬間だけ</strong>である。<code>-more-</code> 待ちや「はい/いいえ」の確認プロンプトの最中には新しいスナップショットは出ないので、外部Botはそれらを既存のスナップショットとメッセージから推測して処理する必要がある。</p>
+<p>同じ共通スナップショットは制御サーバの <code>state</code> リクエストでも取得できる。<code>map: false</code> を指定すると地図生成を省略できる。JSONLの <code>messages</code> は前回出力からの増分だが、<code>state</code> は差分状態を消費せず直近履歴を返す。</p>
 <hr>
 <h2>3. 共通スナップショットの構造</h2>
 <p>すべての <code>type</code> に共通する最上位キーは次の通り（<code>make_snapshot()</code>）。</p>
@@ -241,6 +247,10 @@
 <tr>
 <td><code>type</code></td>
 <td>スナップショット種別（前節の5種）</td>
+</tr>
+<tr>
+<td><code>protocol_version</code></td>
+<td>JSONスナップショットの互換性バージョン。最新developは <strong>2</strong></td>
 </tr>
 <tr>
 <td><code>turn</code></td>
@@ -259,8 +269,8 @@
 <td>ダンジョン到達・制覇・クエストなどの進行状況</td>
 </tr>
 <tr>
-<td><code>nearby_grids</code></td>
-<td>知覚済みグリッドの配列（第4節）</td>
+<td><code>grid_map</code></td>
+<td>知覚済み地形を圧縮した地図（第4節）。<code>state(map=false)</code> と店内スナップショットでは省略</td>
 </tr>
 <tr>
 <td><code>visible_monsters</code></td>
@@ -284,6 +294,7 @@
 </tr>
 </tbody>
 </table></div>
+<p><code>protocol_version</code> は制御サーバの <code>info</code> と全スナップショットで共通である。クライアントは処理前に値を確認し、未対応の版を拒否すること。v1とv2の地図形式には互換性がない。</p>
 <h3><code>player</code></h3>
 <div class="tablewrap"><table class="sortable">
 <thead>
@@ -296,6 +307,10 @@
 <tr>
 <td><code>y</code> / <code>x</code></td>
 <td>現在座標</td>
+</tr>
+<tr>
+<td><code>can_see_own_grid</code> / <code>light_radius</code></td>
+<td>自分のマスを視認できるか・現在の光源半径</td>
 </tr>
 <tr>
 <td><code>level</code> / <code>exp</code></td>
@@ -350,8 +365,16 @@
 <td>能力値6種それぞれの <code>cur</code> / <code>max</code> / <code>use</code> / <code>index</code> / <code>drained</code></td>
 </tr>
 <tr>
-<td><code>abilities</code></td>
-<td>判明している耐性・能力19種の真偽値</td>
+<td><code>ability_sources</code></td>
+<td>判明している耐性・能力19種を、<code>equipment</code> / <code>permanent</code> / <code>temporary</code> の供給源別に出力</td>
+</tr>
+<tr>
+<td><code>immunities</code></td>
+<td>炎・冷気・電撃・酸・閃光・暗黒・地獄の免疫を供給源別に出力</td>
+</tr>
+<tr>
+<td><code>vulnerabilities</code></td>
+<td>酸・電撃・炎・冷気・閃光・呪力の弱点を供給源別に出力</td>
 </tr>
 </tbody>
 </table></div>
@@ -390,7 +413,8 @@
 </tr>
 </tbody>
 </table></div>
-<p><code>abilities</code> は<strong>装備の鑑定済みフラグ</strong>（<code>get_flags_known()</code>）・<strong>種族/職業などの内在フラグ</strong>（<code>player_flags</code>）・<strong>一時効果</strong>（<code>tim_player_flags</code>）を OR したもの。免疫を持っていれば対応する耐性も <code>true</code> になる（キャラクター画面の表示と同じ扱い）。</p>
+<p><code>ability_sources</code> の各能力は <code>{ equipment, permanent, temporary }</code> というオブジェクトである。装備は<strong>鑑定済みフラグ</strong>（<code>get_flags_known()</code>）、恒久側は種族・職業・変異・性格等（<code>player_flags</code>）、一時側は時限効果と構え（<code>tim_player_flags</code>）。免疫は対応する耐性にも反映される。旧プロトコルの真偽値 <code>abilities</code> は廃止された。</p>
+<p><code>permanent</code> は「絶対に失効しない」という意味ではない。変身中は変身先種族の能力がここに現れる。<code>immunities.nether.permanent</code> は専用フラグではなく、スペクター種族の地獄無効を表す。弱点はキャラクター画面で確認できる範囲に限定され、未表示の呪い特性までは開示しない。</p>
 <h3><code>floor</code></h3>
 <div class="tablewrap"><table class="sortable">
 <thead>
@@ -403,6 +427,10 @@
 <tr>
 <td><code>dungeon_id</code> / <code>level</code></td>
 <td>ダンジョンIDと階層</td>
+</tr>
+<tr>
+<td><code>feeling</code></td>
+<td>公開済みの階の雰囲気（深度表示色および <code>Ctrl+F</code> で確認できる段階）</td>
 </tr>
 <tr>
 <td><code>width</code> / <code>height</code></td>
@@ -487,15 +515,10 @@
 <li>種別に応じて <code>r_idx</code>（討伐対象）、<code>cur_num</code> / <code>max_num</code>（討伐数）、<code>reward_artifact_id</code> / <code>reward_baseitem_id</code>（アーティファクト探索の報酬）を追加する。</li>
 </ul>
 <hr>
-<h2>4. マップ情報（<code>nearby_grids</code>）</h2>
-<p>名前に反して、出力されるのは<strong>プレイヤーが記憶しているマップ全体＋現在の視界</strong>である（フロア全域を走査し、知覚できないマスは<strong>出力しない</strong>）。Bot側は「範囲内なのに配列に無いマス」を未探索フロンティアとして扱えばよい。</p>
-<p>知覚判定 <code>is_grid_perceivable()</code> は次のとおり。</p>
-<ol>
-<li>記憶対象地形（<code>TerrainCharacteristics::REMEMBER</code>）なら、マーク済みかつ <code>is_revealed_wall()</code>（全周を壁に囲まれた壁を隠すオプションの判定）を満たすこと。</li>
-<li>盲目なら以降はすべて不可視。</li>
-<li><code>CAVE_MARK</code> / <code>CAVE_LITE</code> / <code>CAVE_MNLT</code> のいずれかが立っている、または視界内（<code>CAVE_VIEW</code>）かつ「グロー中（<code>CAVE_GLOW</code> かつ <code>CAVE_MNDK</code> でない）」または <code>see_nocto</code> を持つこと。</li>
-</ol>
-<p>各グリッドの主なフィールド。</p>
+<h2>4. 圧縮マップ情報（<code>grid_map</code>、プロトコルv2）</h2>
+<p>プロトコルv1の <code>nearby_grids</code> は廃止され、v2では<strong>プレイヤーが現在知覚できる地形観測</strong>を <code>palette</code> と行単位のランレングス <code>runs</code> に圧縮して返す。地形の可視判定は通常の画面描画と <code>is_map_terrain_visible()</code> を共有し、盲目・暗視・モンスターの暗闇・壁の表示設定なども画面と同じになる。</p>
+<p>観測できないセルは <code>runs</code> から省略される。これは「床ではない」「過去の記憶が誤り」という意味ではなく、<strong>今回のスナップショットでは新しい地形観測がない</strong>という意味である。クライアントはフロア単位で過去の観測を保持し、同じセルを再観測したときに更新する必要がある。</p>
+<p><code>grid_map</code> の構造。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -505,36 +528,32 @@
 </thead>
 <tbody>
 <tr>
-<td><code>y</code> / <code>x</code> / <code>known</code></td>
-<td>座標と既知フラグ（未知の場合は <code>known: false</code> と空の <code>flags</code> だけを返す形も定義されている）</td>
+<td><code>w</code> / <code>h</code></td>
+<td>フロアの幅・高さ。座標はゼロ起点の <code>y, x</code></td>
 </tr>
 <tr>
-<td><code>terrain_id</code></td>
-<td>地形ID（<code>TerrainKind::MIMIC</code>＝見かけの地形）</td>
+<td><code>palette</code></td>
+<td><code>[terrain_id, flag_bits, terrain_bits, known]</code> の配列。地形はMIMIC（見かけ）を使い、秘密ドア等の正体は出さない。現在の <code>flag_bits</code> は予約値0、<code>known</code> は1</td>
 </tr>
 <tr>
-<td><code>monster_index</code></td>
-<td>視界内で視認できるモンスターのインデックス（居なければ <code>0</code>）</td>
+<td><code>runs</code></td>
+<td><code>[y, x0, length, palette_index]</code>。同じ行で同じパレット値が連続するセルだけをまとめる</td>
 </tr>
 <tr>
-<td><code>object_count</code></td>
-<td>発見済みアイテムの個数</td>
+<td><code>cells</code></td>
+<td><code>y, x</code> と追加情報を持つ疎な配列。短いキーは <code>m</code>=モンスターindex、<code>o</code>=発見済みオブジェクトのスタック数、<code>t</code>=tval配列、<code>s</code>=店、<code>e</code>=ダンジョン入口、<code>q</code>=クエスト、<code>b</code>/<code>p</code>=建物種別/special</td>
 </tr>
 <tr>
-<td><code>object_tvals</code></td>
-<td>発見済みアイテムの大分類（tval）一覧。<strong>幻覚中は空配列</strong></td>
+<td><code>found_items</code></td>
+<td><code>[y, x, stack_count, tval, ...]</code>。地形が今回見えなくても検知済みの品を出す。金貨・未発見品・個数0は除外し、幻覚中はtvalを0にする</td>
 </tr>
 <tr>
-<td><code>flags</code></td>
-<td><code>mark</code> / <code>cave_known</code> / <code>lite</code> / <code>view</code> / <code>room</code> / <code>unsafe</code></td>
-</tr>
-<tr>
-<td><code>terrain</code></td>
-<td>地形の性質18種（下記）</td>
+<td><code>unsafe_rows</code></td>
+<td>地下かつ罠未調査表示が有効な場合だけ、高さと同数の16進文字列。それ以外は <code>null</code>。各ニブルの下位ビットからx座標を表す</td>
 </tr>
 </tbody>
 </table></div>
-<p><code>terrain</code> に含まれる真偽値は <code>floor</code> / <code>wall</code> / <code>move</code> / <code>los</code> / <code>door</code> / <code>trap</code> / <code>stairs</code> / <code>up_stairs</code> / <code>down_stairs</code> / <code>entrance</code> / <code>quest_enter</code> / <code>quest_exit</code> / <code>store</code> / <code>can_dig</code> / <code>tunnel</code> / <code>permanent</code> / <code>has_gold</code> / <code>building</code>。さらに条件付きで次が付く。</p>
+<p><code>terrain_bits</code> は次の順にビット0から割り当てられる：<code>building</code>, <code>can_dig</code>, <code>door</code>, <code>down_stairs</code>, <code>entrance</code>, <code>floor</code>, <code>has_gold</code>, <code>los</code>, <code>move</code>, <code>permanent</code>, <code>quest_enter</code>, <code>quest_exit</code>, <code>stairs</code>, <code>store</code>, <code>trap</code>, <code>tunnel</code>, <code>up_stairs</code>, <code>wall</code>。内部の <code>CAVE_MARK</code> / <code>CAVE_KNOWN</code> / 照明等は公開しない。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -544,24 +563,24 @@
 </thead>
 <tbody>
 <tr>
-<td><code>store_number</code></td>
+<td><code>s</code></td>
 <td>店の入口（どの店かを示す <code>StoreSaleType</code>）</td>
 </tr>
 <tr>
-<td><code>entrance_dungeon_id</code></td>
+<td><code>e</code></td>
 <td>ダンジョン入口（<code>grid.special</code>）</td>
 </tr>
 <tr>
-<td><code>quest_id</code></td>
+<td><code>q</code></td>
 <td>クエストの入口・出口</td>
 </tr>
 <tr>
-<td><code>building_type</code> / <code>building_special</code></td>
+<td><code>b</code> / <code>p</code></td>
 <td>施設（建物）タイル</td>
 </tr>
 </tbody>
 </table></div>
-<p><code>object_tvals</code> を幻覚中に伏せる一方で <code>object_count</code> は残すのは、「そこに何かが落ちていること自体は画面のシンボルで分かるが、種類は分からない」という画面の見え方に合わせるため。</p>
+<p><code>cells.t</code> を幻覚中に空配列にし、<code>found_items</code> のtvalを0にする一方で、スタック数と行長は保つ。「そこに何かがあることは分かるが種類は分からない」という画面の見え方に合わせた仕様である。</p>
 <hr>
 <h2>5. モンスターの3系統</h2>
 <p>モンスター情報は<strong>わざと3通りの異なる可視判定</strong>で出力される（統合してはいけない、とソースにコメントがある）。</p>
@@ -591,7 +610,7 @@
 </tr>
 </tbody>
 </table></div>
-<p>各モンスターの内容は <code>index</code> / <code>race_id</code> / <code>name</code> / <code>health</code> / <code>asleep</code> / <code>stunned</code> / <code>confused</code> / <code>fearful</code> / <code>friendly</code> / <code>pet</code>。<code>health</code> は割合の帯で出す。</p>
+<p>各モンスターの内容は <code>index</code> / <code>y</code> / <code>x</code> / <code>race_id</code> / <code>name</code> / <code>health</code> / <code>asleep</code> / <code>stunned</code> / <code>confused</code> / <code>fearful</code> / <code>friendly</code> / <code>pet</code>。地図を省略した <code>state(map=false)</code> でも位置を取得できる。<code>health</code> は割合の帯で出す。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -622,7 +641,7 @@
 </tr>
 </tbody>
 </table></div>
-<p><strong>幻覚中</strong>は <code>index</code> / <code>hallucinated</code> / <code>pet</code> だけになり、正体・HP帯・状態異常は伏せられる。位置情報（インデックス）を残すのは、幻覚中でも「そのマスに何かがいる」ことは画面のランダムシンボルで分かるためで、伏せるのは正体の方だけという切り分けになっている。</p>
+<p><strong>幻覚中</strong>は <code>index</code> / <code>y</code> / <code>x</code> / <code>hallucinated</code> / <code>pet</code> だけになり、正体・HP帯・状態異常は伏せられる。幻覚中でも「そのマスに何かがいる」ことは画面のランダムシンボルで分かるため、伏せるのは正体の方だけという切り分けになっている。</p>
 <hr>
 <h2>6. アイテムの表現（<code>make_item_json</code>）</h2>
 <p>持ち物・装備・床のアイテム・我が家の在庫まで、すべてこの共通関数を通る。<strong>鑑定状態に応じて出るフィールドが増える</strong>のがポイント。</p>
@@ -636,7 +655,7 @@
 <tbody>
 <tr>
 <td>常に</td>
-<td><code>name</code>（<code>describe_flavor</code> の表示名）・<code>count</code>・<code>tval</code>・<code>aware</code>・<code>known</code>・<code>fully_known</code>・<code>is_equipment</code>・<code>weight</code>・<code>is_bounty</code></td>
+<td><code>name</code>（<code>describe_flavor</code> の表示名）・<code>count</code>・<code>tval</code>・<code>aware</code>・<code>known</code>・<code>fully_known</code>・<code>is_equipment</code>・<code>weight</code>・<code>is_bounty</code>・<code>inscription</code></td>
 </tr>
 <tr>
 <td>「未知の匂い/形」を判別済み（<code>aware</code>）</td>
@@ -648,7 +667,7 @@
 </tr>
 <tr>
 <td>鑑定済み（<code>known</code>）</td>
-<td><code>charges</code> / <code>pval</code> / <code>fuel</code> / <code>timeout</code> / <code>is_ego</code> / <code>is_artifact</code> / <code>is_cursed</code> / <code>is_broken</code> / <code>inscription</code> / <code>to_h</code> / <code>to_d</code> / <code>to_a</code> / <code>ac</code> / <code>damage_dice</code> / <code>known_flags</code>（フラグIDの配列）。武器・弓なら <code>weapon_proficiency</code>（その武器種の熟練度）</td>
+<td><code>charges</code> / <code>pval</code> / <code>fuel</code> / <code>timeout</code> / <code>is_ego</code> / <code>is_artifact</code> / <code>is_cursed</code> / <code>is_broken</code> / <code>to_h</code> / <code>to_d</code> / <code>to_a</code> / <code>ac</code> / <code>damage_dice</code> / <code>known_flags</code>（フラグIDの配列）。武器・弓なら <code>weapon_proficiency</code>（その武器種の熟練度）</td>
 </tr>
 </tbody>
 </table></div>
@@ -656,11 +675,13 @@
 <p>スロット表記は <code>inventory</code> が持ち物欄の記号（<code>a</code>, <code>b</code>, …）、<code>equipment</code> がラベル（<code>main_hand</code> / <code>sub_hand</code> / <code>bow</code> / <code>main_ring</code> / <code>sub_ring</code> / <code>neck</code> / <code>light</code> / <code>body</code> / <code>outer</code> / <code>head</code> / <code>arms</code> / <code>feet</code>）。</p>
 <hr>
 <h2>7. <code>store</code> ブロック（店の中）</h2>
-<p>店のコマンド入力待ちで、共通スナップショットに <code>store</code> が付く。</p>
+<p>店のコマンド入力待ちで、共通スナップショットに <code>store</code> が付く。店内では移動できず地形も変わらないため、直前の地上スナップショットと同一になる <code>grid_map</code> は省略される。</p>
 <ul>
 <li><code>store_type</code> … 店種別（<code>StoreSaleType</code>）。</li>
+<li><code>stock_num</code> … 店の全在庫数。</li>
+<li><code>page_top</code> / <code>page_size</code> … 現在ページの開始位置と1ページの枠数。満杯のページでも次ページの有無を正しく判断できる。</li>
 <li><code>items[]</code> … 在庫。<code>letter</code> は<strong>現在表示中のページを基準にした相対記号</strong>（<code>store_top</code> の商品が <code>a</code>）で、ページ外の在庫は出力しない。店側が受け付ける入力と一致させるための仕様。</li>
-<li>通常の店では <code>name</code>（<code>OD_STORE</code> 表記）・<code>price</code>（<code>price_item</code> による実売価格）・<code>pval</code> / <code>charges</code> を出す。店の在庫は鑑定済みで、充填回数も画面に表示されているため隠す理由がない。</li>
+<li>通常の店では商品を完全鑑定済みとして共通アイテムJSONを作り、<code>name</code>（<code>OD_STORE</code> 表記）と <code>price</code>（<code>price_item</code> による実売価格）を加える。特性・修正値・充填回数も店頭で公開される範囲として出力する。</li>
 <li><strong>我が家・博物館</strong>は売買ではないので価格を出さず、通常のアイテムJSON（第6節）をそのまま並べる。</li>
 </ul>
 <hr>
@@ -869,6 +890,10 @@
 <td>文字コード</td>
 <td><code>sys_to_utf8()</code> でUTF-8化。変換失敗時は <code>&lt;encoding-error&gt;</code>、<code>dump()</code> も <code>error_handler_t::replace</code></td>
 </tr>
+<tr>
+<td>open失敗</td>
+<td>JSONLファイルのopenに2回連続で失敗すると標準エラーへ通知し、その実行中のJSONL出力を停止。成功時に失敗回数をリセット</td>
+</tr>
 </tbody>
 </table></div>
 <p>全マップを含むスナップショットは大きいため、履歴を貯めずに<strong>最新行だけを消費する前提</strong>で上限打ち切りにしている。Bot側はファイルが縮んだことを検知して先頭から読み直せばよい。</p>
@@ -879,12 +904,21 @@
 <li>1回のスナップショットで最大 <code>BOT_JSON_MAX_MESSAGES</code> = <strong>32件</strong>。</li>
 <li><strong>最初の呼び出しは基準値を取るだけで空配列</strong>を返す。</li>
 </ul>
+<h3>任意の計測ログ（<code>--bot-json-timing</code>）</h3>
+<p>ファイル出力時だけ、JSONLパスへ <code>.timing.log</code> を付けたファイルに <code>type</code> / <code>turn</code> / <code>build_us</code> / <code>dump_us</code> / <code>write_us</code> / <code>bytes</code> を1行ずつ記録する。既定は無効で、標準出力と制御サーバの <code>state</code> は対象外。</p>
+<ul>
+<li>10MiBに達した次の書込時にローテーションし、<code>.1</code>（最新）〜<code>.3</code> の3世代を保持する。</li>
+<li>起動時は現在ログを空にするがバックアップは残す。旧名 <code>emitter-timing-c2.log</code> は移行・削除しない。</li>
+<li>シンボリックリンク、複数ハードリンク、通常ファイル以外、JSONL本体と同一実体のパスは拒否する。</li>
+<li>計測ログの回転・書込に失敗した場合は計測だけを停止し、JSONL出力とゲームは継続する。</li>
+</ul>
 <hr>
 <h2>12. フェアプレイ設計のまとめ</h2>
 <p>このモードは「Botに有利な情報を足す」のではなく「<strong>プレイヤーが画面から読める情報だけを機械可読にする</strong>」ことを目的としており、次の伏せ字が入っている。</p>
 <ul>
-<li>知覚できないマスは <code>nearby_grids</code> に<strong>出さない</strong>（未知＝欠落）。盲目中は記憶済み地形以外は出ない。</li>
-<li>幻覚中はモンスターの正体・HP帯・状態異常、床のアイテムの種類（<code>object_tvals</code>）を伏せる。位置は伏せない。</li>
+<li>知覚できない地形は <code>grid_map.runs</code> に<strong>出さない</strong>。欠落は今回の観測なしを意味し、クライアント側の過去観測を自動的に否定しない。</li>
+<li>内部の地形状態フラグは出さず、画面に現れるMIMIC地形と静的な地形特性だけを出す。</li>
+<li>幻覚中はモンスターの正体・HP帯・状態異常、床のアイテムの種類を伏せる。位置と個数は伏せない。</li>
 <li>未鑑定アイテムの充填回数・修正値・ダイス・フラグは出さない。未判別なら <code>sval</code> すら出さない。</li>
 <li>能力値の上限は <code>KNOW_STAT</code>、命の格付けは <code>KNOW_HPRATE</code> を得ているときだけ。</li>
 <li>クエストは「遂行中のクエスト」画面の開示規則（沈黙クエスト非表示・遂行中ランダムクエストは最も浅い1件のみ）に従う。</li>
@@ -898,13 +932,15 @@
 <ul>
 <li><code>--bot-json-output[=パス]</code> を付けたときだけ有効な、読み取り専用のJSONL出力モード。無効時のコストは分岐1つ。</li>
 <li>出力タイミングは<strong>入力待ちの直前</strong>の5か所（通常ターン・店・キャラクター情報・知識メニュー・look）。共通スナップショットに種別ごとのブロックが加わる。</li>
-<li>共通スナップショットには、プレイヤー状態・フロア・進行状況・記憶マップ全域・可視/感知モンスター・増分メッセージ・持ち物・装備が入る。</li>
+<li>最新developのプロトコルは<strong>v2</strong>。<code>nearby_grids</code> を廃止し、パレット＋ランレングス方式の <code>grid_map</code> に置き換えた。</li>
+<li>共通スナップショットには、供給源別の能力・免疫・弱点、フロア、進行状況、圧縮地図、可視/感知モンスター、メッセージ、持ち物、装備が入る。</li>
+<li>同じスキーマは制御サーバの <code>state</code> でも取得でき、地図を省略可能。JSONLの増分メッセージ状態とは分離されている。</li>
 <li>すべての開示範囲は「画面で見える情報」に揃えられており、未知・幻覚・未鑑定・未取得の知識は明示的に伏せられる。</li>
 </ul>
 <hr>
 <blockquote>
-<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/bot/bot-json-output.cpp</code>, <code>src/bot/bot-json-output.h</code>, <code>src/game-option/runtime-arguments.cpp</code>, <code>src/main.cpp</code>, <code>src/main-win/commandline-win.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-08-02 09:58 UTC · hengband <code>d489d37bb8</code> · <code>tools/generate-wiki.mjs</code></p>
+<p>🤖 この解説ページは最新developの実装を元に更新されています（出典: <code>src/bot/bot-json-output.cpp</code>, <code>src/bot/bot-json-output.h</code>, <code>src/bot/bot-control-server.cpp</code>, <code>src/game-option/runtime-arguments.cpp</code>, <code>src/view/display-map.cpp</code>, <code>tools/bot/README.md</code>）。
+更新 / Updated: 2026-09-17 JST · hengband <code>2836018585</code> · Bot JSON protocol <code>2</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
