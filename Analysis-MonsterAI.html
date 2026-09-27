@@ -519,7 +519,71 @@ randint1(100) &gt; freq_spell なら今回は詠唱しない
 </tr>
 </tbody>
 </table></div>
-<p>どれにも当たらなければ何も詠唱しない（<code>MAX</code> を返す）。要点は、<strong>追い詰められると回復・脱出を優先</strong>し、余裕があれば攻撃（通常85%）を主軸に、召喚・妨害を織り交ぜるという設計である。</p>
+<p>どのカテゴリにも当たらなければ、この1回の選択は失敗として <code>MAX</code> を返す。ただし、これだけで直ちに「何も詠唱しない」とはならない。呼び出し元による再選択がある。</p>
+<h3>6.5 選択失敗時の再選択（最大10回）</h3>
+<p><code>make_attack_spell()</code> 内の <code>switch_do_spell()</code>（<code>src/mspell/mspell-attack.cpp</code>）は、通常の選択経路（<code>DO_SPELL_NONE</code>）で <code>choose_attack_spell()</code> を<strong>最大10回</strong>呼ぶ。<code>MAX</code> が返るたびに、同じ候補集合を使ってカテゴリの確率判定を先頭からやり直す。いずれかの魔法が選ばれた時点で終了し、10回とも <code>MAX</code> なら対プレイヤー詠唱を取りやめる。</p>
+<pre><code>最大10回繰り返す:
+    spell = choose_attack_spell(絞り込み済みの候補)
+    spell != MAX なら、その魔法を採用して終了
+10回とも MAX なら、対プレイヤー詠唱を取りやめる
+</code></pre>
+<p><strong>表の「召喚40%」「攻撃85%」は、1回のカテゴリ選択中、その判定まで到達した場合の確率</strong>であり、1行動あたりの使用確率ではない。前段の <code>freq_spell</code> 判定、候補の絞り込み、優先カテゴリ、再選択を合わせて計算する必要がある。再選択では <code>freq_spell</code> や候補の絞り込みを再抽選せず、魔法が選ばれた後の詠唱失敗や結界による阻害も再選択の対象にはならない。分解ブレス等を強制選択する経路では、この10回の選択を通らない。</p>
+<p>例えば、召喚だけが候補に残る場合、1回の選択は40%で召喚、60%で <code>MAX</code> となる。この場合、最大10回の選択で召喚を選ぶ確率は <code>1 − 0.6^10 ≒ 99.395%</code>。召喚と通常攻撃だけなら、1回で召喚40%、攻撃 <code>60% × 85% = 51%</code>、<code>MAX</code> 9%となり、最大10回で召喚を選ぶ確率は <code>0.4 × (1 − 0.09^10) / (1 − 0.09) ≒ 43.956%</code> となる。</p>
+<h3>6.6 視界外・射線外からの反撃と召喚</h3>
+<p>ここでいう「視界外」は、プレイヤーが画面上でモンスターを見えているかとは別である。魔法の対象決定では、まず <code>projectable(モンスター位置, プレイヤー位置)</code> による<strong>通常の射線</strong>を判定する（<code>decide_lite_projection()</code>, <code>src/mspell/mspell-lite.cpp</code>）。LOS（視線）と射線は地形によって異なるため、「見えないなら必ず間接魔法だけ」とは限らない。</p>
+<p>通常の射線が通らない場合は、次の順で対象・魔法を決める。</p>
+<ol>
+<li>壁越しの分解ブレス、光のブレス、光の球の特殊判定を試す。成立すれば、その魔法を強制選択する。</li>
+<li>成立しなければ、プレイヤー周囲8マスに通常の射線が通る地点を探す。見つかればそこを対象とし、通常の候補選択へ進む。直接射線を必要とする魔法は、選択後の到達判定で使用を取りやめることがある。</li>
+<li>それも成立せず、反撃対象座標 <code>target_y</code>・<code>target_x</code> が残っていれば、その地点を対象として、候補を <strong><code>RF_ABILITY_INDIRECT_MASK</code>（間接魔法）だけ</strong>に制限する（<code>decide_lite_breath()</code>）。召喚、加速、回復、無敵化、短距離・長距離テレポート、時間停止、死者復活、叫びが含まれる。通常の攻撃魔法や魔力消去は含まれない。</li>
+<li>反撃対象もなければ、光のブレスの追加判定を除いて対プレイヤー詠唱を取りやめる。</li>
+</ol>
+<p>プレイヤーから正のダメージを受けると、通常は反撃対象座標が設定される。ただし <code>PROJECT_NO_HANGEKI</code> 付きの攻撃は設定しない（<code>src/effect/effect-monster.cpp</code>）。対象座標は魔法処理や行動終了で解除されるため、過去に一度ダメージを受けただけで恒久的に壁越し召喚が可能になるわけではない。召喚可能なマスがなければ、間接魔法への制限後も召喚は候補から除かれる。</p>
+<h4>例：『混沌のサーペント』の召喚確率</h4>
+<p>サーペントの <code>1_IN_3</code> は整数除算により <code>freq_spell = 33</code>。さらに <code>msa_type</code> の初期化時に <code>freq_spell × 2 = 66%</code> で召喚を含む魔法を候補に残し、それ以外ではブレス・ロケット等の内在能力だけに絞る。この2段階は別の判定である。</p>
+<p>以下は、最初の <code>cast_spell()</code> に到達する行動機会についての計算例。召喚可能な地形、通常状態（HPが最大の1/10以上）、プレイヤーに気付いている、プレイヤー無敵なし、魔力消去の対象なし、通常攻撃の候補が残ることを前提とする。移動不能時の追加詠唱判定、他モンスターへの詠唱、召喚された個体数・召喚そのものの成否は含めない。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>状況</th>
+<th>最初の詠唱判定から召喚を選ぶ確率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>プレイヤーへの通常の射線が通る</td>
+<td><code>0.33 × 0.66 × 0.4 × (1 − 0.09^10) / 0.91 ≒ 9.574%</code></td>
+</tr>
+<tr>
+<td>通常の射線も隣接マスへの射線も通らず、特殊ブレス等も選ばれず、反撃対象座標が残る</td>
+<td><code>0.33 × 0.66 × (1 − 0.6^10) ≒ 21.648%</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>後者では、サーペントの候補は召喚だけになるため、再選択によって召喚が選ばれやすくなる。瀕死時の候補制限、魔力消去、無敵、召喚不能な地形などでは数値が変わる。</p>
+<h4>分解ブレスだけが届く地形の注釈</h4>
+<p>通常の射線が通らず、分解ブレスを持ち、距離が最大射程の半分未満で、<code>in_disintegration_range()</code> が成立する場合は、反撃対象による間接魔法への制限より先に分解ブレスを抽選する。抽選は <code>1/10</code>、または逆方向（プレイヤー位置→モンスター位置）の通常射線が通る場合に追加で <code>1/2</code>。したがって逆方向も通らなければ10%、逆方向だけ通れば <code>10% + 90% × 50% = 55%</code> で分解ブレスを強制選択する。</p>
+<p>逆方向も隣接マスへの通常射線も通らず、分解ブレスだけが届き、反撃対象座標が残る場合、上記の通常状態のサーペントでは次のようになる。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>行動</th>
+<th>最初の詠唱判定から選ぶ確率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分解ブレス</td>
+<td><code>0.33 × 0.10 = 3.30%</code></td>
+</tr>
+<tr>
+<td>召喚</td>
+<td><code>0.33 × 0.90 × 0.66 × (1 − 0.6^10) ≒ 19.483%</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>分解ブレスの抽選に外れた90%では、反撃対象を使って召喚の選択へ進む。距離条件を満たさなければ分解ブレスの先行抽選はなく、召喚は約21.648%。反撃対象がなければ、この配置では抽選に外れても召喚の選択には進まない。逆方向の通常射線だけが通る場合は、分解ブレス18.15%、召喚約9.742%となる（他の対象決定条件は同じ）。</p>
+<p>出典：<code>src/mspell/mspell-attack.cpp</code>（<code>switch_do_spell</code>, <code>make_attack_spell</code>）、<code>src/mspell/mspell-selector.cpp</code>、<code>src/mspell/mspell-lite.cpp</code>、<code>src/mspell/mspell-attack-util.cpp</code>、<code>src/monster-race/race-ability-mask.cpp</code>、<code>src/effect/effect-monster.cpp</code>、<code>src/info-reader/race-reader.cpp</code>。</p>
 <hr>
 <h2>7. 移動方向の決定</h2>
 <p>魔法を撃たなかった（または撃てなかった）モンスターは、<code>decide_monster_movement_direction()</code>（<code>src/monster-floor/monster-direction.cpp</code>）で移動方向を決める。上から順に判定し、最初に決まった方向を採用する。</p>
@@ -627,7 +691,7 @@ p_val × モンスター最大HP &gt; m_val × プレイヤー最大HP  なら�
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/monster/monster-processor.cpp</code>, <code>src/monster-floor/monster-direction.cpp</code>, <code>src/monster-floor/monster-sweep-grid.cpp</code>, <code>src/monster-floor/monster-safety-hiding.cpp</code>, <code>src/monster-floor/monster-runaway.cpp</code>, <code>src/mspell/mspell-attack.cpp</code>, <code>src/mspell/mspell-selector.cpp</code>, <code>src/mspell/improper-mspell-remover.cpp</code>, <code>src/monster/monster-status.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-08 16:58 UTC · hengband <code>6f8eeac1e4</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-09-27 12:19 UTC · hengband <code>baacd585d8</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
