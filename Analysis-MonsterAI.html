@@ -558,7 +558,7 @@ randint1(100) &gt; freq_spell なら今回は詠唱しない
 <p>例えば、召喚だけが候補に残る場合、1回の選択は40%で召喚、60%で <code>MAX</code> となる。この場合、最大10回の選択で召喚を選ぶ確率は <code>1 − 0.6^10 ≒ 99.395%</code>。召喚と通常攻撃だけなら、1回で召喚40%、攻撃 <code>60% × 85% = 51%</code>、<code>MAX</code> 9%となり、最大10回で召喚を選ぶ確率は <code>0.4 × (1 − 0.09^10) / (1 − 0.09) ≒ 43.956%</code> となる。</p>
 <h3>6.6 視界外・射線外からの反撃と召喚</h3>
 <p>ここでいう「視界外」は、プレイヤーが画面上でモンスターを見えているかとは別である。魔法の対象決定では、まず <code>projectable(モンスター位置, プレイヤー位置)</code> による<strong>通常の射線</strong>を判定する（<code>decide_lite_projection()</code>, <code>src/mspell/mspell-lite.cpp</code>）。LOS（視線）と射線は地形によって異なるため、「見えないなら必ず間接魔法だけ」とは限らない。</p>
-<p>通常の射線が通る場合でも、プレイヤーのいるマスが射線を通さない地形（<code>PROJECTION</code> を持たない）なら、<code>1/2</code> で分解ブレス、続いて <code>1/2</code> で光のブレスを強制選択することがある。</p>
+<p>通常の射線が通る場合でも、プレイヤーのいるマスが射線を通さない地形（<code>PROJECTION</code> を持たない）なら、強制ブレスの判定がある。分解ブレスを持ち、その地形が <code>CAN_DISINTEGRATE</code> を持つ場合は <code>1/2</code> で分解ブレスを強制選択する。それが選ばれず、光のブレスを持ち、その地形が <code>LOS</code> を持つ場合は、続いて <code>1/2</code> で光のブレスを強制選択する。</p>
 <p>通常の射線が通らない場合は、次の順で対象・魔法を決める。</p>
 <ol>
 <li>壁越しの分解ブレス、光のブレス、光の球の特殊判定を試す。成立すれば、その魔法を強制選択する。</li>
@@ -579,7 +579,7 @@ randint1(100) &gt; freq_spell なら今回は詠唱しない
 </thead>
 <tbody>
 <tr>
-<td>プレイヤーへの通常の射線が通る</td>
+<td>プレイヤーへの通常の射線が通り、プレイヤー位置の地形が <code>PROJECTION</code> を持つ（地形による強制ブレスなし）</td>
 <td><code>0.33 × 0.4 × (1 − 0.09^10) / 0.91 ≒ 14.505%</code></td>
 </tr>
 <tr>
@@ -589,6 +589,7 @@ randint1(100) &gt; freq_spell なら今回は詠唱しない
 </tbody>
 </table></div>
 <p>前者では、1回の選択が召喚40%・攻撃51%・<code>MAX</code> 9%になる。後者では、サーペントの候補は召喚だけになるため、再選択によって召喚が選ばれやすくなる。瀕死時の候補制限、魔力消去、無敵、召喚不能な地形などでは数値が変わる。</p>
+<p>通常の射線が通っていても、プレイヤー位置の地形が <code>PROJECTION</code> を持たず <code>CAN_DISINTEGRATE</code> を持つ場合（木の中や、壁抜けで分解可能な壁の中にいる場合など）、サーペントは <code>1/2</code> で分解ブレスを強制選択する。他の前提が同じなら、最初の詠唱判定から分解ブレスを選ぶ確率は <code>0.33 × 0.5 = 16.5%</code>、召喚を選ぶ確率は <code>0.33 × 0.5 × 0.4 × (1 − 0.09^10) / 0.91 ≒ 7.253%</code> となる。この強制選択は内在能力を消す判定より前なので、34%の候補除外の影響を受けない。</p>
 <h4>分解ブレスだけが届く地形の注釈</h4>
 <p>通常の射線が通らず、分解ブレスを持ち、距離が最大射程の半分未満で、<code>in_disintegration_range()</code> が成立する場合は、反撃対象による間接魔法への制限より先に分解ブレスを抽選する。抽選は <code>1/10</code>、または逆方向（プレイヤー位置→モンスター位置）の通常射線が通る場合に追加で <code>1/2</code>。したがって逆方向も通らなければ10%、逆方向だけ通れば <code>10% + 90% × 50% = 55%</code> で分解ブレスを強制選択する。この抽選は内在能力を消す判定（34%）より前に行われるので、その影響を受けない。</p>
 <p>逆方向も隣接マスへの通常射線も通らず、分解ブレスだけが届き、反撃対象座標が残る場合、上記の通常状態のサーペントでは次のようになる。</p>
@@ -743,7 +744,7 @@ p_val × モンスター最大HP &gt; m_val × プレイヤー最大HP  なら�
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/monster/monster-processor.cpp</code>, <code>src/monster-floor/monster-direction.cpp</code>, <code>src/monster-floor/monster-sweep-grid.cpp</code>, <code>src/monster-floor/monster-safety-hiding.cpp</code>, <code>src/monster-floor/monster-runaway.cpp</code>, <code>src/mspell/mspell-attack.cpp</code>, <code>src/mspell/mspell-selector.cpp</code>, <code>src/mspell/improper-mspell-remover.cpp</code>, <code>src/monster/monster-status.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-09-27 13:08 UTC · hengband <code>baacd585d8</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-09-27 14:51 UTC · hengband <code>baacd585d8</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
