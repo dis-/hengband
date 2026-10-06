@@ -188,8 +188,8 @@
 </ul>
 <p>実行時に生成されるファイル（<code>BOT_PLAY</code> セーブファイルと <code>bot-state*.jsonl</code>）はリポジトリ直下に書かれるため、<code>.gitignore</code> に登録されている。</p>
 <hr>
-<h2>2. 出力タイミング（<code>type</code> の5種類）</h2>
-<p>スナップショットは<strong>プレイヤーが入力を求められる直前</strong>にだけ書き出される。フックは5か所で、いずれも「共通スナップショット」を作ってから <code>type</code> を差し替え、専用ブロックを追加する構造になっている。</p>
+<h2>2. 出力タイミング（<code>type</code> の8種類）</h2>
+<p>通常状態の5種類に加え、protocol v3では画面に一覧や思い出が表示された時点を表す3種類が追加された。いずれも「共通スナップショット」を作ってから <code>type</code> を差し替え、専用ブロックを追加する構造になっている。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -230,8 +230,27 @@
 <td><code>do_cmd_look()</code> の <code>target_set()</code> 直前（<code>src/cmd-io/cmd-floor.cpp</code>）</td>
 <td><code>look</code></td>
 </tr>
+<tr>
+<td><code>spell_list</code></td>
+<td><code>output_bot_json_spell_list_snapshot</code></td>
+<td>魔法書の閲覧・詠唱・学習で呪文一覧を表示した時点</td>
+<td><code>spell_list</code></td>
+</tr>
+<tr>
+<td><code>power_list</code></td>
+<td><code>output_bot_json_power_list_snapshot</code></td>
+<td>種族・職業・突然変異・超能力等の特殊能力一覧を表示した時点</td>
+<td><code>power_list</code></td>
+</tr>
+<tr>
+<td><code>lore</code></td>
+<td><code>output_bot_json_lore_snapshot</code></td>
+<td>注視・知識メニュー等でモンスターの思い出を表示した時点</td>
+<td><code>lore</code></td>
+</tr>
 </tbody>
 </table></div>
+<p>v3で追加された専用ブロックは、<code>spell_list: { realm_id, spells[] }</code>（各行は <code>spell_id</code> / <code>status</code> / <code>name</code> / <code>level</code> / <code>mana</code> と、画面に出る場合だけ <code>fail</code> / <code>proficiency</code> / <code>proficiency_mark</code> / <code>info</code>）、<code>power_list: { kind, page, browse_mode, powers[] }</code>（各行は <code>letter</code> / <code>page</code> / <code>name</code> / <code>level</code> / <code>cost</code> / <code>fail</code> / <code>info</code>）、<code>lore: { race_id, name, text }</code> である。いずれも地図を含まない。</p>
 <p>重要な制約として、<strong>出力されるのはコマンド入力待ちの瞬間だけ</strong>である。<code>-more-</code> 待ちや「はい/いいえ」の確認プロンプトの最中には新しいスナップショットは出ないので、外部Botはそれらを既存のスナップショットとメッセージから推測して処理する必要がある。</p>
 <p>同じ共通スナップショットは制御サーバの <code>state</code> リクエストでも取得できる。<code>map: false</code> を指定すると地図生成を省略できる。JSONLの <code>messages</code> は前回出力からの増分だが、<code>state</code> は差分状態を消費せず直近履歴を返す。</p>
 <hr>
@@ -247,11 +266,11 @@
 <tbody>
 <tr>
 <td><code>type</code></td>
-<td>スナップショット種別（前節の5種）</td>
+<td>スナップショット種別（前節の8種）</td>
 </tr>
 <tr>
 <td><code>protocol_version</code></td>
-<td>JSONスナップショットの互換性バージョン。最新developは <strong>2</strong></td>
+<td>JSONスナップショットの互換性バージョン。最新developは <strong>3</strong></td>
 </tr>
 <tr>
 <td><code>turn</code></td>
@@ -283,7 +302,7 @@
 </tr>
 <tr>
 <td><code>messages</code></td>
-<td>前回スナップショット以降に増えたメッセージ（最大32件・古い順）</td>
+<td>前回スナップショット以降に増えたメッセージ（件数上限なし・古い順）</td>
 </tr>
 <tr>
 <td><code>inventory</code></td>
@@ -295,7 +314,16 @@
 </tr>
 </tbody>
 </table></div>
-<p><code>protocol_version</code> は制御サーバの <code>info</code> と全スナップショットで共通である。クライアントは処理前に値を確認し、未対応の版を拒否すること。v1とv2の地図形式には互換性がない。</p>
+<p><code>protocol_version</code> は制御サーバの <code>info</code> と全スナップショットで共通である。クライアントは処理前に値を確認し、未対応の版を拒否すること。v3では画面に出ない内部値の削除・置換があるため、v2クライアントとの互換性はない。</p>
+<h3>protocol v3 の主な変更</h3>
+<p>v3は「人間が画面で認識できる情報を過不足なく出す」ための改訂である。表示オプション <code>show_actual_value</code> が有効なときだけ画面に現れる数値は、JSONでも同じ条件でのみ出力される。例外として、Botの判断区切りに使う <code>turn</code> は引き続き出力する。</p>
+<div class="tablewrap"><table class="sortable"><thead><tr><th>区分</th><th>主な変更</th></tr></thead><tbody>
+<tr><td>共通状態</td><td><code>clock</code>、追跡対象と騎乗モンスターの体力ゲージ、地名、称号、最高経験値・最高レベル、表示速度、行動状態、学習表示、状態バー、負傷・朦朧段階、技能評価などを追加</td></tr>
+<tr><td>モンスター</td><td>撃破済みの場合だけレベルを開示し、加速・減速・無敵状態を追加。lookにはクローン表示、レベルアップまでの撃破数、画面と同じ説明文を追加</td></tr>
+<tr><td>知識</td><td><code>monsters</code> と <code>kill_count</code> を追加。熟練度の最大到達記号、ユニーク撃破時レベル・時刻、徳の属性表示を画面と同じ条件で出力</td></tr>
+<tr><td>専用画面</td><td><code>spell_list</code>、<code>power_list</code>、<code>lore</code> の3スナップショットを追加</td></tr>
+<tr><td>削除・置換</td><td>生の <code>timeout</code>/<code>fuel</code>/<code>player.skills</code>/<code>stats.*.cur</code>/<code>character.skills</code>/<code>character.alignment</code> を削除し、画面表記に対応するキーへ置換</td></tr>
+</tbody></table></div>
 <h3><code>player</code></h3>
 <div class="tablewrap"><table class="sortable">
 <thead>
@@ -314,20 +342,32 @@
 <td>自分のマスを視認できるか・現在の光源半径</td>
 </tr>
 <tr>
-<td><code>level</code> / <code>exp</code></td>
-<td>レベル・経験値</td>
+<td><code>level</code> / <code>max_level</code> / <code>level_drained</code></td>
+<td>現在レベル・最高到達レベル・レベル減少表示の有無</td>
 </tr>
 <tr>
 <td><code>hp</code> / <code>max_hp</code> / <code>mp</code> / <code>max_mp</code></td>
 <td>HP・MP</td>
 </tr>
 <tr>
+<td><code>exp</code> / <code>max_exp</code> / <code>exp_drained</code> / <code>exp_to_advance</code></td>
+<td>現在経験値・最高経験値・経験値減少表示の有無・次レベルに必要な経験値</td>
+</tr>
+<tr>
+<td><code>title</code> / <code>race_title</code> / <code>mimic_form</code></td>
+<td>画面上の称号・種族欄・変身種別</td>
+</tr>
+<tr>
 <td><code>gold</code></td>
 <td>所持金</td>
 </tr>
 <tr>
-<td><code>speed</code></td>
-<td>加速値（<code>pspeed</code>）</td>
+<td><code>speed</code> / <code>speed_display</code></td>
+<td>内部加速値と、画面に表示される速度欄（値・文字・色・騎乗中か）</td>
+</tr>
+<tr>
+<td><code>action</code> / <code>study</code> / <code>status_bar</code></td>
+<td>行動状態、学習・まね表示、画面下部の状態表示</td>
 </tr>
 <tr>
 <td><code>ac</code></td>
@@ -350,24 +390,24 @@
 <td>職業・種族・性格のID</td>
 </tr>
 <tr>
-<td><code>skills</code></td>
-<td><code>melee</code> / <code>shooting</code> / <code>saving</code> / <code>device</code> / <code>stealth</code> と、二刀流・盾の熟練度</td>
+<td><code>skill_ratings</code></td>
+<td>戦闘・射撃・魔法防御・隠密・知覚・探索・解除・魔道具・掘削の画面評価。各項目は <code>text</code> / <code>color</code> / <code>rating</code> を持ち、数値表示時のみ <code>value</code></td>
 </tr>
 <tr>
 <td><code>melee</code></td>
-<td>左右の手の攻撃回数・命中修正・ダメージ修正（表示値）</td>
+<td>左右の手と突然変異の攻撃回数、左右の手の命中・ダメージ修正（画面の最終値。攻撃不能な手の修正は <code>null</code>）</td>
 </tr>
 <tr>
 <td><code>status</code></td>
-<td><code>blind</code> / <code>confused</code> / <code>afraid</code> / <code>poisoned</code> / <code>stunned</code> / <code>cut</code> / <code>paralyzed</code> / <code>hallucinated</code></td>
+<td><code>blind</code> / <code>confused</code> / <code>afraid</code> / <code>poisoned</code> / <code>stunned</code> / <code>cut</code> / <code>paralyzed</code> / <code>hallucinated</code>。負傷・朦朧は画面と同じ段階名も持つ</td>
 </tr>
 <tr>
 <td><code>stats</code></td>
-<td>能力値6種それぞれの <code>cur</code> / <code>max</code> / <code>use</code> / <code>index</code> / <code>drained</code></td>
+<td>能力値6種それぞれの <code>max</code> / <code>top</code> / <code>use</code> / <code>index</code> / <code>drained</code> / <code>at_racial_max</code>。画面に出ない生の <code>cur</code> はv3で削除</td>
 </tr>
 <tr>
 <td><code>ability_sources</code></td>
-<td>判明している耐性・能力19種を、<code>equipment</code> / <code>permanent</code> / <code>temporary</code> の供給源別に出力</td>
+<td>判明している耐性・能力22種を、<code>equipment</code> / <code>permanent</code> / <code>temporary</code> の供給源別に出力</td>
 </tr>
 <tr>
 <td><code>immunities</code></td>
@@ -516,8 +556,8 @@
 <li>種別に応じて <code>r_idx</code>（討伐対象）、<code>cur_num</code> / <code>max_num</code>（討伐数）、<code>reward_artifact_id</code> / <code>reward_baseitem_id</code>（アーティファクト探索の報酬）を追加する。</li>
 </ul>
 <hr>
-<h2>4. 圧縮マップ情報（<code>grid_map</code>、プロトコルv2）</h2>
-<p>プロトコルv1の <code>nearby_grids</code> は廃止され、v2では<strong>プレイヤーが現在知覚できる地形観測</strong>を <code>palette</code> と行単位のランレングス <code>runs</code> に圧縮して返す。地形の可視判定は通常の画面描画と <code>is_map_terrain_visible()</code> を共有し、盲目・暗視・モンスターの暗闇・壁の表示設定なども画面と同じになる。</p>
+<h2>4. 圧縮マップ情報（<code>grid_map</code>、プロトコルv2・v3）</h2>
+<p>プロトコルv1の <code>nearby_grids</code> は廃止され、v2以降では<strong>プレイヤーが現在知覚できる地形観測</strong>を <code>palette</code> と行単位のランレングス <code>runs</code> に圧縮して返す。地形の可視判定は通常の画面描画と <code>is_map_terrain_visible()</code> を共有し、盲目・暗視・モンスターの暗闇・壁の表示設定なども画面と同じになる。</p>
 <p>観測できないセルは <code>runs</code> から省略される。これは「床ではない」「過去の記憶が誤り」という意味ではなく、<strong>今回のスナップショットでは新しい地形観測がない</strong>という意味である。クライアントはフロア単位で過去の観測を保持し、同じセルを再観測したときに更新する必要がある。</p>
 <p><code>grid_map</code> の構造。</p>
 <div class="tablewrap"><table class="sortable">
@@ -534,7 +574,7 @@
 </tr>
 <tr>
 <td><code>palette</code></td>
-<td><code>[terrain_id, flag_bits, terrain_bits, known]</code> の配列。地形はMIMIC（見かけ）を使い、秘密ドア等の正体は出さない。現在の <code>flag_bits</code> は予約値0、<code>known</code> は1</td>
+<td><code>[terrain_id, flag_bits, terrain_bits, known]</code> の配列。地形はMIMIC（見かけ）を使い、秘密ドア等の正体は出さない。v3の <code>flag_bits</code> は画面が使った記号区分（0=通常、1=照明、2=暗所）で、内部照明フラグではない。<code>known</code> は1</td>
 </tr>
 <tr>
 <td><code>runs</code></td>
@@ -547,6 +587,10 @@
 <tr>
 <td><code>found_items</code></td>
 <td><code>[y, x, stack_count, tval, ...]</code>。地形が今回見えなくても検知済みの品を出す。金貨・未発見品・個数0は除外し、幻覚中はtvalを0にする</td>
+</tr>
+<tr>
+<td><code>found_item_names</code></td>
+<td>v3で追加。<code>found_items</code> と同じ順の <code>[y, x, name, ...]</code>。未鑑定品は見た目の名前、幻覚中は <code>null</code></td>
 </tr>
 <tr>
 <td><code>unsafe_rows</code></td>
@@ -611,7 +655,7 @@
 </tr>
 </tbody>
 </table></div>
-<p>各モンスターの内容は <code>index</code> / <code>y</code> / <code>x</code> / <code>race_id</code> / <code>name</code> / <code>health</code> / <code>asleep</code> / <code>stunned</code> / <code>confused</code> / <code>fearful</code> / <code>friendly</code> / <code>pet</code>。地図を省略した <code>state(map=false)</code> でも位置を取得できる。<code>health</code> は割合の帯で出す。</p>
+<p>各モンスターの内容は <code>index</code> / <code>y</code> / <code>x</code> / <code>race_id</code> / <code>name</code> / <code>level</code> / <code>health</code> / <code>asleep</code> / <code>stunned</code> / <code>confused</code> / <code>fearful</code> / <code>fast</code> / <code>slow</code> / <code>invulnerable</code> / <code>friendly</code> / <code>pet</code>。<code>level</code> はその種族を撃破済みの場合だけ数値になり、未撃破なら <code>null</code>。地図を省略した <code>state(map=false)</code> でも位置を取得できる。<code>health</code> は割合の帯で出す。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -668,7 +712,7 @@
 </tr>
 <tr>
 <td>鑑定済み（<code>known</code>）</td>
-<td><code>charges</code> / <code>pval</code> / <code>fuel</code> / <code>timeout</code> / <code>is_ego</code> / <code>is_artifact</code> / <code>is_cursed</code> / <code>is_broken</code> / <code>to_h</code> / <code>to_d</code> / <code>to_a</code> / <code>ac</code> / <code>damage_dice</code> / <code>known_flags</code>（フラグIDの配列）。武器・弓なら <code>weapon_proficiency</code>（その武器種の熟練度）</td>
+<td><code>charges</code> / <code>pval</code> / <code>charging</code> / <code>charging_count</code> / <code>light_turns</code> / <code>is_ego</code> / <code>is_artifact</code> / <code>is_cursed</code> / <code>is_broken</code> / <code>to_h</code> / <code>to_d</code> / <code>to_a</code> / <code>ac</code> / <code>damage_dice</code> / <code>known_flags</code>。武器・弓は常に <code>weapon_proficiency_rank</code>、数値表示時だけ <code>weapon_proficiency</code></td>
 </tr>
 </tbody>
 </table></div>
@@ -697,24 +741,44 @@
 </thead>
 <tbody>
 <tr>
-<td><code>skills</code></td>
-<td><code>thn</code> / <code>thb</code> / <code>sav</code> / <code>dev</code> / <code>stl</code> / <code>dis</code> / <code>srh</code> / <code>fos</code> / <code>dig</code> の生値</td>
+<td><code>skill_ratings</code></td>
+<td><code>player.skill_ratings</code> と同じ、キャラクター画面の技能評価</td>
+</tr>
+<tr>
+<td><code>name</code> / <code>sex</code> / <code>race_title</code> / <code>class_title</code> / <code>personality_title</code> / <code>history</code></td>
+<td>キャラクター画面に表示される人物情報と生い立ち</td>
+</tr>
+<tr>
+<td><code>displayed_melee</code> / <code>displayed_shooting</code> / <code>base_ac</code> / <code>ac_bonus</code></td>
+<td>画面の命中・ダメージ修正とAC表示</td>
+</tr>
+<tr>
+<td><code>speed</code> / <code>exp</code> / <code>day</code> / <code>hour</code> / <code>minute</code> / <code>play_time</code></td>
+<td>キャラクター画面の速度、経験値、日時、実プレイ時間</td>
+</tr>
+<tr>
+<td><code>stat_modifiers</code> / <code>curse_marks</code></td>
+<td>能力修正欄と装備の呪い記号</td>
 </tr>
 <tr>
 <td><code>ranged</code></td>
-<td><code>to_h_b</code> / <code>shots</code> / <code>shot_frac</code> / <code>shooting_multiplier</code> / <code>see_infra</code></td>
+<td><code>to_h_b</code>（画面の最終命中値）/ <code>shots</code> / <code>shot_frac</code> / <code>shooting_multiplier</code> / <code>see_infra</code></td>
 </tr>
 <tr>
 <td><code>melee</code></td>
-<td><code>expected_damage_x100</code>（左右の手の期待ダメージ×100）・<code>expected_damage_per_round_x100</code>（攻撃回数を掛けたもの）・<code>bare_hand</code> / <code>two_handed</code> / <code>monk_stance</code></td>
+<td><code>blows</code>（左右の手・突然変異の攻撃回数）・<code>expected_damage_per_round</code>（画面の整数値）・<code>damage_nil</code>・<code>bare_hand</code> / <code>two_handed</code> / <code>monk_stance</code></td>
 </tr>
 <tr>
 <td><code>stats</code></td>
 <td>能力値ごとの <code>top</code> / <code>maximum</code> / <code>at_maximum</code></td>
 </tr>
 <tr>
-<td><code>age</code> / <code>height</code> / <code>weight</code> / <code>social_class</code> / <code>alignment</code></td>
-<td>身上・属性値</td>
+<td><code>age</code> / <code>height</code> / <code>weight</code> / <code>social_class</code></td>
+<td>身上情報</td>
+</tr>
+<tr>
+<td><code>alignment_label</code> / <code>alignment_value</code></td>
+<td>属性名と属性値。数値表示が無効なら <code>alignment_value</code> は <code>null</code></td>
 </tr>
 <tr>
 <td><code>realms</code></td>
@@ -741,7 +805,7 @@
 <li><code>player</code> / <code>temporary</code> … 内在フラグ／一時効果。</li>
 <li><code>immunity</code> / <code>temporary_immunity</code> / <code>vulnerability</code> … 免疫・一時免疫・弱点。</li>
 </ul>
-<p><code>stats</code> の <code>maximum</code>（能力値の上限）は、<code>KNOW_STAT</code> を得ているか既に上限に達している場合のみ数値を出し、それ以外は <code>null</code> になる。ここも画面表示（<code>?</code> 表示になる）と同じ扱い。期待ダメージと射撃性能は、表示用の <code>calc_player_two_hands()</code> / <code>calc_player_shot_params()</code> を再利用して算出している（この2関数はBot出力のために <code>src/view/status-first-page.h</code> へ公開された）。</p>
+<p><code>stats</code> の <code>maximum</code>（能力値の上限）は、<code>KNOW_STAT</code> を得ているか既に上限に達している場合のみ数値を出し、それ以外は <code>null</code> になる。ここも画面表示（<code>?</code> 表示になる）と同じ扱い。期待ダメージは画面と同じラウンド平均ダメージの整数値で、<code>nil!</code> 表示なら <code>expected_damage_per_round</code> は <code>null</code>、<code>damage_nil</code> は真になる。射撃性能も表示用の計算結果を使う。</p>
 <hr>
 <h2>9. <code>knowledge</code> ブロック（<code>~</code> の知識メニュー）</h2>
 <p>知識メニューでカテゴリを選ぶと、その内容がJSONでも出る。<code>category</code>（スラッグ）と <code>menu_key</code>（選択に使ったキー）が必ず付く。</p>
@@ -777,7 +841,17 @@
 <tr>
 <td><code>5</code></td>
 <td><code>uniques_dead</code></td>
-<td><code>uniques</code>（撃破済みユニーク）</td>
+<td><code>uniques</code>（撃破済みユニーク。撃破時レベル・実時間を含む）</td>
+</tr>
+<tr>
+<td><code>6</code></td>
+<td><code>monsters</code></td>
+<td><code>monsters</code>（目撃済み種族の名前と撃破数。ユニークは生死）</td>
+</tr>
+<tr>
+<td><code>7</code></td>
+<td><code>kill_count</code></td>
+<td><code>total</code> と <code>kills</code>（種族別撃破数。ユニークは撃破時レベル・実時間を含む）</td>
 </tr>
 <tr>
 <td><code>8</code></td>
@@ -812,22 +886,22 @@
 <tr>
 <td><code>d</code></td>
 <td><code>weapon_exp</code></td>
-<td><code>weapons</code>（武器種ごとの <code>exp</code> / <code>max</code> / <code>rank</code>）</td>
+<td><code>weapons</code>（武器種ごとの <code>rank</code> / <code>at_max</code>。数値表示時のみ <code>exp</code> / <code>max</code>）</td>
 </tr>
 <tr>
 <td><code>e</code></td>
 <td><code>spell_exp</code></td>
-<td><code>spells</code>（領域・呪文ごとの <code>exp</code> / <code>rank</code>）</td>
+<td><code>spells</code>（領域・呪文ごとの <code>rank</code> / <code>at_max</code>。数値表示時のみ <code>exp</code> / <code>max</code>）</td>
 </tr>
 <tr>
 <td><code>f</code></td>
 <td><code>skill_exp</code></td>
-<td><code>skills</code></td>
+<td><code>skills</code>（二刀流・盾等の <code>rank</code> / <code>max</code> / <code>at_max</code>。数値表示時のみ <code>exp</code>）</td>
 </tr>
 <tr>
 <td><code>g</code></td>
 <td><code>virtues</code></td>
-<td><code>virtues</code>（徳の種類と値）</td>
+<td><code>virtues</code>（徳の画面表示文。数値は数値表示時のみ）と <code>alignment_label</code> / <code>alignment_value</code></td>
 </tr>
 <tr>
 <td><code>h</code></td>
@@ -851,7 +925,7 @@
 </tr>
 </tbody>
 </table></div>
-<p><code>6</code>（モンスターの思い出）と <code>7</code>（撃破数）はJSON出力の対象外。<code>spell_exp</code> では<strong>剣術（<code>HISSATSU</code>）だけ <code>exp</code> と <code>rank</code> が <code>null</code> になり <code>masked: true</code> が付く</strong>。剣術は熟練度の概念が画面上も表示されないためで、これも画面と出力を一致させる措置である。</p>
+<p>v3では <code>6</code>（モンスターの思い出）と <code>7</code>（撃破数）もJSON出力の対象になった。熟練度の生の数値は <code>show_actual_value</code> が有効な場合だけ出し、一覧末尾にデバッグ値が表示される <code>cheat_xtra</code> 有効時は別の <code>debug_exp</code> に格納する。<code>spell_exp</code> では<strong>第1領域が剣術（<code>HISSATSU</code>）の場合だけ、画面と同じく熟練度を伏せて <code>masked: true</code> を付ける</strong>。</p>
 <hr>
 <h2>10. <code>look</code> ブロック（<code>l</code> / <code>x</code> の周辺確認）</h2>
 <p>look コマンドの巡回対象（<code>target_set_prepare(TARGET_LOOK)</code>）を<strong>そのままの順序</strong>で配列にしたもの。</p>
@@ -932,8 +1006,8 @@
 <h2>まとめ</h2>
 <ul>
 <li><code>--bot-json-output[=パス]</code> を付けたときだけ有効な、読み取り専用のJSONL出力モード。無効時のコストは分岐1つ。</li>
-<li>出力タイミングは<strong>入力待ちの直前</strong>の5か所（通常ターン・店・キャラクター情報・知識メニュー・look）。共通スナップショットに種別ごとのブロックが加わる。</li>
-<li>最新developのプロトコルは<strong>v2</strong>。<code>nearby_grids</code> を廃止し、パレット＋ランレングス方式の <code>grid_map</code> に置き換えた。</li>
+<li>通常状態の5種類（通常ターン・店・キャラクター情報・知識メニュー・look）に、呪文一覧・特殊能力一覧・モンスターの思い出を加えた8種類を出力する。</li>
+<li>最新developのプロトコルは<strong>v3</strong>。画面に出ない生の内部値を削除し、画面表示と同じ値・条件・文字列を返すキーへ置き換えた。</li>
 <li>共通スナップショットには、供給源別の能力・免疫・弱点、フロア、進行状況、圧縮地図、可視/感知モンスター、メッセージ、持ち物、装備が入る。</li>
 <li>同じスキーマは制御サーバの <code>state</code> でも取得でき、地図を省略可能。JSONLの増分メッセージ状態とは分離されている。</li>
 <li>すべての開示範囲は「画面で見える情報」に揃えられており、未知・幻覚・未鑑定・未取得の知識は明示的に伏せられる。</li>
@@ -941,7 +1015,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは最新developの実装を元に更新されています（出典: <code>src/bot/bot-json-output.cpp</code>, <code>src/bot/bot-json-output.h</code>, <code>src/bot/bot-control-server.cpp</code>, <code>src/game-option/runtime-arguments.cpp</code>, <code>src/view/display-map.cpp</code>, <code>tools/bot/README.md</code>）。
-更新 / Updated: 2026-09-17 JST · hengband <code>2836018585</code> · Bot JSON protocol <code>2</code></p>
+更新 / Updated: 2026-10-06 JST · hengband <code>f2f496d5f9</code> · Bot JSON protocol <code>3</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

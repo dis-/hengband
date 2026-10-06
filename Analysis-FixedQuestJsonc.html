@@ -176,7 +176,7 @@
 </tr>
 </tbody>
 </table></div>
-<p>旧 <code>lib/edit/quests/*.txt</code> と <code>QuestDefinitionList.txt</code> は削除。町・荒野の固定マップテキスト（<code>TownDefinitionList.txt</code> など）は今回の対象外として据え置いています。</p>
+<p>旧 <code>lib/edit/quests/*.txt</code> と <code>QuestDefinitionList.txt</code> は削除済み。その後、町マップ側も <code>TownDefinitionList.jsonc</code>、<code>TownPreferences.jsonc</code>、<code>towns/*.jsonc</code> へ移行され、<code>TownDefinitionListReader</code> / <code>TownPreferencesReader</code> / <code>TownMapReader</code> で読み込む構成になりました。荒野定義は別系統です。</p>
 <h3>JSONC の構造</h3>
 <pre><code class="language-jsonc">{
   &quot;version&quot;: 1,
@@ -258,6 +258,8 @@
 <li><strong>重複 ID の拒否</strong>: JSON Schema は「ファイル横断の一意性」を表現できないため、<code>load_json_quests</code> が重複 <code>id</code> を検出して起動時にエラー（見逃すと2ファイルが同一エントリへ追記され、偽のマップバリアント化等の破損を起こす）。</li>
 <li><strong>データ欠落の fail-fast</strong>: <code>lib/edit/quests</code> ディレクトリや <code>.jsonc</code> が無い場合、後続の <code>get_quest()</code> クラッシュではなく起動時に明確なエラーで停止。</li>
 <li><strong>マップ寸法の上限</strong>: スキーマの <code>mapRows</code> に <code>maxItems: 66</code>（＝MAX_HGT）／行 <code>maxLength: 198</code>（＝MAX_WID）を設定。過大なマップがフロア生成で領域外書き込みを起こす経路を検証層で遮断（本リポジトリは <strong>JSON Schema をデータ検証層</strong> として運用）。</li>
+<li><strong>全件成功後に公開</strong>: 最新実装ではクエスト定義と固定マップを一時コンテナへ読み込み、全ファイルの検証が完了してから <code>QuestList</code> / <code>QuestFixedMapList</code> を差し替える。途中の1件が失敗しても、既存の公開済みレコードを半端な状態にしない。</li>
+<li><strong>整数の狭幅変換前検証</strong>: モンスター・地形・報酬などのIDや凡例の数値は、保持先の範囲を検証してから変換する。巨大なJSON整数が折り返して別IDになる経路を遮断する。</li>
 </ul>
 <h2>レビュー対応の要点 / Review outcomes</h2>
 <p>自動レビュー（codex / CodeRabbit）と多角セルフレビューを反復し、以下を修正しました。</p>
@@ -281,14 +283,16 @@
 <li><strong><code>populate_quest_text_lines</code> の <code>void</code> 化</strong>（旧経路フォールバック用の bool 戻り値が死んだ契約）。</li>
 <li><strong>開始位置の直接設定</strong>（現状 <code>&quot;P:y:x&quot;</code> 文字列を組み立てて <code>parse_qtw_P</code> で再パースする int→string→int の往復）。</li>
 </ul>
-<h3>将来の移行</h3>
+<h3>その後の移行状況</h3>
 <ul>
-<li>町・荒野の固定マップ定義（<code>TownDefinitionList.txt</code> / <code>towns/*.txt</code> / <code>WildernessDefinition.txt</code>）の JSONC 化。今回はクエストの <code>Q:</code>/<code>F:</code>/<code>D:</code>/<code>P:</code> 経路のみを撤去し、<code>?:[EQU $QUESTnn …]</code> を評価する町連鎖の仕組み自体は据え置いています。</li>
+<li>町の定義・設定・マップはJSONC化済み。町マップは行を旧テキストへ戻さず、<code>apply_fixed_map_row()</code> / <code>apply_fixed_map_start()</code> で直接適用する。</li>
+<li>設定ファイルの条件式は入力を書き換えない共通の <code>evaluate_condition_expression()</code> へ統合され、町マップの条件にも同じ評価器を使う。</li>
+<li>クエスト側は挙動互換のため、現在も <code>generate_quest_floor_from_json()</code> 内で <code>parse_qtw_D</code> / <code>parse_qtw_P</code> を再利用している。</li>
 </ul>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/quests/*.jsonc</code>, <code>src/info-reader/quest-reader.cpp</code>, <code>src/system/dungeon/quest-fixed-map.cpp</code>, <code>src/floor/fixed-map-generator.cpp</code>, <code>schema/Quest.schema.json</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-07-08 10:57 UTC · hengband <code>6f8eeac1e4</code> · <code>tools/generate-wiki.mjs</code></p>
+更新 / Updated: 2026-10-06 JST · hengband <code>f2f496d5f9</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

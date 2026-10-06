@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ja"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>変愚蛮怒 データ仕様 Wiki / Hengband Data Reference · 変愚蛮怒 データ仕様</title>
+<title>★火消しライター / Deluminator · 変愚蛮怒 データ仕様</title>
 <link rel="stylesheet" href="style.css"></head>
 <body>
 <header class="site-header">
@@ -132,51 +132,62 @@
 </ul>
 </li>
 </ul>
-</aside><main class="content"><h1>変愚蛮怒 データ仕様 Wiki / Hengband Data Reference</h1>
-<p>変愚蛮怒 (Hengband) のゲームデータ (<code>lib/edit/*.jsonc</code>) から自動生成した、日英併記のリファレンスです。</p>
-<p>Bilingual (Japanese / English) reference tables auto-generated from Hengband's game data (<code>lib/edit/*.jsonc</code>).</p>
-<h2>データ仕様 / Data Reference</h2>
-<ul>
-<li>🧬 <strong><a href="Races.html">種族 / Races</a></strong> — 38 種族 / races</li>
-<li>🧑‍🚀 <strong><a href="Classes.html">職業 / Classes</a></strong> — 能力値・技能・魔法適性の職業補正
-<ul>
-<li>🎓 <strong><a href="Class-Magic.html">クラス別魔法 / Class Magic</a></strong> — 29 職業 / classes</li>
-</ul>
-</li>
-<li>🙂 <strong><a href="Personalities.html">性格 / Personalities</a></strong> — 能力値・技能・内部フラグの性格補正</li>
-<li>👹 <strong><a href="Monsters.html">モンスター / Monsters</a></strong> — 1416 種 / entries
-<ul>
-<li>🔤 <a href="Monsters-by-Symbol.html">記号から / By symbol</a> ・ 🔎 <a href="Monsters-by-Name.html">名前で検索 / By name</a> ・ 🛡️ <a href="Monster-Resistance.html">耐性表 / Resistance table</a></li>
-</ul>
-</li>
-<li>🗡️ <strong><a href="Items.html">アイテム / Items</a></strong> — 643</li>
-<li>💎 <strong><a href="Artifacts.html">アーティファクト / Artifacts</a></strong> — 271</li>
-<li>🏰 <strong><a href="Dungeons.html">ダンジョン / Dungeons</a></strong> — 21</li>
-<li>📜 <strong><a href="Quests.html">クエスト / Quests</a></strong> — 固定＋ランダム</li>
-<li>🌲 <strong><a href="Terrain.html">地形 / Terrain</a></strong> — 190</li>
-<li>✨ <strong><a href="Spells.html">呪文 / Spells</a></strong> — 13 領域 / realms</li>
-<li>🏟️ <strong><a href="Arena.html">アリーナ（テルモラ闘技場） / Telmora Arena</a></strong> — 対戦相手と報酬の一覧</li>
-<li>🎮 <strong><a href="GameModes.html">ゲームモード / Game Modes</a></strong> — 出生オプションと高難度モード</li>
-<li>⚙️ <strong><a href="GameOptions.html">ゲームオプション / Game Options</a></strong> — 入力・表示・ゲーム進行・記録設定</li>
-<li>🛡️ <strong><a href="Ironman.html">鉄人オプション / Ironman Options</a></strong> — 高難度オプション各種
-<ul>
-<li><a href="Ironman-Shops.html">店を使用しない</a> ・ <a href="Ironman-SmallestFloor.html">最小フロア</a> ・ <a href="Ironman-ForceArenaFloor.html">アリーナフロア強制</a> ・ <a href="Ironman-Rooms.html">常に特殊な部屋</a> ・ <a href="Nightmare.html">悪夢モード</a> ・ <a href="Ironman-Downward.html">帰還・上り階段なし</a></li>
-</ul>
-</li>
-</ul>
-<h2>解析 / Analysis</h2>
-<ul>
-<li>🔬 <strong><a href="Analysis.html">解析 / Analysis</a></strong> — ソースコードから再導出したゲーム内部仕様の解説（戦闘・モンスター・キャラクター・システム）</li>
-</ul>
-<h2>開発 / Development</h2>
-<ul>
-<li>🧪 <strong><a href="Development-Tests.html">テスト対象一覧 / Test targets</a></strong> — 最新 <code>develop</code> の doctest 対象 60ファイル・575ケース</li>
-</ul>
+</aside><main class="content"><h1>★火消しライター / Deluminator</h1>
+<p><a href="Artifacts-39-lite.html">← 光源のアーティファクト / Lite Artifacts</a> ・ <a href="Artifacts.html">アーティファクト種別一覧 / All types</a> ・ <a href="index.html">🏠 ホーム / Home</a></p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>項目 / Field</th>
+<th>値 / Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>271</td>
+</tr>
+<tr>
+<td>種別 / Type</td>
+<td><a href="Artifacts-39-lite.html">光源 / Lite</a></td>
+</tr>
+<tr>
+<td>ベースアイテム / Base item</td>
+<td>ライター / Lighter</td>
+</tr>
+<tr>
+<td>階層 / Depth</td>
+<td>30</td>
+</tr>
+<tr>
+<td>希少度 / Rarity</td>
+<td>30</td>
+</tr>
+<tr>
+<td>重量 / Weight</td>
+<td>10</td>
+</tr>
+<tr>
+<td>売値 / Cost</td>
+<td>50000</td>
+</tr>
+<tr>
+<td>発動 / Activation</td>
+<td>DARKNESS</td>
+</tr>
+<tr>
+<td>能力フラグ / Flags</td>
+<td>隠密, LITE_M1, DARK_SOURCE, 瞬間生成, FULL_NAME</td>
+</tr>
+</tbody>
+</table></div>
+<h2>解説 / Flavor</h2>
+<p>一番近くの街灯が、ポッと小さな音を立てて消えました。ダンブルドアがもう一度カチッと鳴らすと、次の街灯が揺らめいて闇の中に消えて行きました。（ハリー・ポッターと賢者の石　第1章）</p>
+<p>The nearest street lamp went out with a little pop. He clicked it again -- the next lamp flickered into darkness. (Harry Potter and the Philosopher's Stone, Chapter 1)</p>
 <hr>
 <blockquote>
-<p>🤖 全ページ自動生成。手動編集しないでください（<code>tools/generate-wiki.mjs</code> で再生成）。
-All pages auto-generated — do not edit by hand (regenerate via <code>tools/generate-wiki.mjs</code>).
-生成 / Generated: 2026-07-14 04:02 UTC · hengband <code>559732b34f</code></p>
+<p>🤖 このページは <code>lib/edit/ArtifactDefinitions.jsonc</code> から自動生成されています。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。
+This page is auto-generated from <code>lib/edit/ArtifactDefinitions.jsonc</code>. <strong>Do not edit by hand</strong> — changes are overwritten on regeneration.
+更新 / Updated: 2026-10-06 JST · hengband <code>f2f496d5f9</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
