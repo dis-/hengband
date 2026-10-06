@@ -137,13 +137,13 @@
 <h2>概要</h2>
 <p>変愚蛮怒の<strong>起動オプション</strong>（コマンドライン引数）は、ビルドするプラットフォームによって扱いが大きく異なる。</p>
 <ul>
-<li><strong>Windows版</strong>（<code>src/main-win.cpp</code> ＋ <code>src/main-win/commandline-win.cpp</code>）：コマンドライン引数はほぼ<strong>セーブファイルの指定</strong>と一部のデバッグ用途に限られる。グラフィック・音楽・効果音・キー配置などは、コマンドラインではなく <strong>INIファイル</strong>から読み込まれ、ゲーム内の<strong>オプションメニュー</strong>で変更・永続化される。</li>
-<li><strong>POSIX/Unix版</strong>（<code>src/main.cpp</code>、<code>#ifndef WINDOWS</code> の共通 <code>main()</code>）：伝統的な1文字オプション（<code>-n</code>, <code>-b</code>, <code>-u&lt;who&gt;</code> など）と、<code>--</code> 以降に表示モジュールへ渡すサブオプションを持つ。</li>
+<li><strong>Windows版</strong>（<code>src/main-win.cpp</code> ＋ <code>src/main-win/commandline-win.cpp</code>）：セーブファイル指定とデバッグ用途に加え、制御サーバ・固定シード・ヘッドレス実行などの共通長オプションを受け付ける。グラフィック・音楽・効果音・キー配置などは、コマンドラインではなく <strong>INIファイル</strong>から読み込まれ、ゲーム内の<strong>オプションメニュー</strong>で変更・永続化される。</li>
+<li><strong>POSIX/Unix版</strong>（<code>src/main.cpp</code> の <code>main()</code>）：伝統的な1文字オプション（<code>-n</code>, <code>-b</code>, <code>-u&lt;who&gt;</code> など）と、<code>--</code> 以降に表示モジュールへ渡すサブオプションを持つ。</li>
 </ul>
-<p>このページでは両プラットフォームの起動オプションを網羅する。オプション名はソースの <code>switch</code> 文（<code>src/main.cpp</code> の <code>main()</code>／<code>src/main-win/commandline-win.cpp</code> の <code>CommandLine::handle()</code>）から導出している。</p>
+<p>このページでは両プラットフォームの起動オプションを網羅する。短いオプションとプラットフォーム固有処理は <code>src/main.cpp</code> の <code>main()</code>／<code>src/main-win/commandline-win.cpp</code> の <code>CommandLine::handle()</code>、両版共通の長いオプションは <code>src/game-option/runtime-arguments.cpp</code> の <code>parse_runtime_argument()</code> から導出している。</p>
 <hr>
 <h2>1. Windows版のコマンドライン</h2>
-<p>Windows版は <code>CommandLineToArgvW()</code> で取得した引数を <code>CommandLine::handle()</code> が走査する。認識するのは次の6つだけで、これ以外の引数は<strong>無視される</strong>。</p>
+<p>Windows版は <code>CommandLineToArgvW()</code> で取得した引数を <code>CommandLine::handle()</code> が走査する。次の固有オプションと共通長オプションを認識する。未知の <code>-</code> 始まりの引数は<strong>無視される</strong>が、既知の数値オプションへ不正な値を渡した場合はエラーを表示して終了する。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -154,7 +154,7 @@
 <tbody>
 <tr>
 <td><code>--debug-console</code></td>
-<td>デバッグ用コンソール（標準出力）を <code>AllocConsole()</code> で開く</td>
+<td>親プロセスのコンソールへ接続するか、新しいデバッグ用コンソールを割り当てて標準出力・標準エラーを接続する</td>
 </tr>
 <tr>
 <td><code>--output-spoilers</code></td>
@@ -163,6 +163,26 @@
 <tr>
 <td><code>--bot-json-output[=path]</code></td>
 <td><a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a>を有効化（<code>arg_bot_json_output</code>）。<code>=path</code> で出力先を指定、<code>=-</code> で標準出力</td>
+</tr>
+<tr>
+<td><code>--bot-json-timing</code></td>
+<td>JSONL出力の生成・変換・書込時間を、JSONLパスに <code>.timing.log</code> を付けた計測ログへ記録する。単独ではJSONL出力を有効にせず、標準出力指定は計測対象外</td>
+</tr>
+<tr>
+<td><code>--control-port=&lt;port&gt;</code></td>
+<td>ループバックアドレス <code>127.0.0.1</code> の指定ポートでゲーム制御サーバを起動。範囲は1～65535</td>
+</tr>
+<tr>
+<td><code>--fixed-seed=&lt;seed&gt;</code></td>
+<td>新規ゲーム開始時の乱数初期シードを符号なし32bit値（0～4294967295）で固定する。既存ゲームの再開には適用しない</td>
+</tr>
+<tr>
+<td><code>--headless</code></td>
+<td>実画面・実入力デバイスのない端末で起動する。<code>--control-port</code> が必須で、Windows版ではファイルメニューを経由せず直ちにゲームを開始</td>
+</tr>
+<tr>
+<td><code>--headless-term-count=&lt;num&gt;</code></td>
+<td>ヘッドレス端末の生成数。1～8、既定値1。<code>--headless</code> 指定時だけ使用する</td>
 </tr>
 <tr>
 <td><code>-o</code> / <code>-r</code></td>
@@ -176,6 +196,7 @@
 </table></div>
 <p>なお、起動時の引数ダンプ（<code>argv[n] : …</code>）は<strong>標準エラー</strong>へ出力される。<code>--bot-json-output=-</code> を指定したときに標準出力をJSONL専用の出力先として使えるようにするためである。</p>
 <p>セーブファイル引数は、実質的に<strong>セーブファイルをアイコンにドラッグ&amp;ドロップ／ダブルクリックで起動</strong>したときに Windows が渡すファイル名を受け取るための仕組みである（<code>check_for_save_file</code> がそのファイルで <code>game_in_progress = true</code> にしてゲームを再開する）。</p>
+<p><code>--headless</code> の場合は通常のウィンドウとファイルメニューを作らない。非オプション引数があればそのセーブファイルをロードし、無ければ新規キャラクター作成から始める。Windows版では <code>-n</code>、<code>-u</code>、<code>-d</code> は実装されていないため、ヘッドレスでもこれらは無視される。また多重起動チェックは引き続き有効で、2プロセス目は標準エラーへ理由を出して終了する。</p>
 <h3>Windowsの設定はINIファイル＋メニュー経由</h3>
 <p>Windows版の描画・音まわりは起動時に <strong>INIファイル</strong>（<code>GetPrivateProfileIntA(&quot;Angband&quot;, …)</code>）から読まれる。対応する <code>arg_*</code> 変数と既定値は次の通り。</p>
 <div class="tablewrap"><table class="sortable">
@@ -290,7 +311,27 @@
 </tr>
 <tr>
 <td><code>--bot-json-output[=path]</code></td>
-<td><a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a>を有効化（<code>parse_long_opt</code>）。<code>=path</code> で出力先を指定、<code>=-</code> で標準出力</td>
+<td><a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a>を有効化（<code>parse_runtime_argument</code>）。<code>=path</code> で出力先を指定、<code>=-</code> で標準出力</td>
+</tr>
+<tr>
+<td><code>--bot-json-timing</code></td>
+<td>JSONL出力の計測ログを有効化。単独ではJSONL出力を有効にせず、<code>--bot-json-output=-</code> は計測対象外</td>
+</tr>
+<tr>
+<td><code>--control-port=&lt;port&gt;</code></td>
+<td><code>127.0.0.1</code> の指定ポートでゲーム制御サーバを起動。範囲は1～65535</td>
+</tr>
+<tr>
+<td><code>--fixed-seed=&lt;seed&gt;</code></td>
+<td>新規ゲーム開始時の乱数初期シードを符号なし32bit値（0～4294967295）で固定</td>
+</tr>
+<tr>
+<td><code>--headless</code></td>
+<td>実画面・実入力デバイスのない端末を使用。<code>--control-port</code> が必須で、<code>-m</code>・<code>-s</code> とは併用不可</td>
+</tr>
+<tr>
+<td><code>--headless-term-count=&lt;num&gt;</code></td>
+<td>ヘッドレス端末の生成数。1～8、既定値1。<code>--headless</code> 指定時だけ使用する</td>
 </tr>
 <tr>
 <td><code>--</code></td>
@@ -298,6 +339,9 @@
 </tr>
 </tbody>
 </table></div>
+<p>共通の数値オプションは、値の欠落、数値以外、負数、範囲外を不正として扱う。Unix版ではusageを表示し、Windows版では <code>Invalid value in '…'</code> を標準エラーへ出して終了する。<code>--fixed-seed</code> は制御サーバ専用ではなく、通常の画面フロントエンドでも利用できる。</p>
+<p><code>--headless</code> は制御サーバからキー入力を注入する前提のため <code>--control-port</code> が必須である。接続を待ってから起動するのではなく、ゲームが入力待ちになった時点で制御要求を処理する。端末固有のprefを読まない <code>headless</code> フロントエンドを使うため、OSや通常の表示モジュールに依存しない同じキー列で自動操作できる。</p>
+<p><code>--output-spoilers</code> は全引数を解析した後で実行されるため、前後どちらに置いた <code>-d</code> のディレクトリ再定義もスポイラー出力へ反映される。</p>
 <h3>usage に載るが未実装のオプション</h3>
 <p><code>display_usage()</code> のヘルプ文には次の2つが記載されているが、<strong>実際の <code>main()</code> の <code>switch</code> には対応する <code>case</code> が無い</strong>。指定すると <code>default</code>（usage表示）に落ちる。</p>
 <ul>
@@ -445,15 +489,16 @@
 <hr>
 <h2>まとめ</h2>
 <ul>
-<li><strong>Windows版</strong>の実効的なコマンドライン起動オプションは <code>--debug-console</code>・<code>--output-spoilers</code>・<code>--bot-json-output</code>・<code>-o</code>/<code>-r</code>・セーブファイル名のみ。描画や音などのゲーム設定はINI＋オプションメニューで行う。</li>
-<li><strong>POSIX/Unix版</strong>は <code>-n</code>/<code>-b</code>/<code>-v</code>/<code>-g</code>/<code>-r</code>/<code>-o</code>/<code>-s</code>/<code>-u</code>/<code>-m</code>/<code>-M</code>/<code>-d</code>/<code>-x</code>・<code>--output-spoilers</code>・<code>--bot-json-output</code>・<code>--</code> を持つ。<code>-u&lt;who&gt;</code> はプレイヤー名（セーブファイル）指定、<code>-m&lt;sys&gt;</code> は表示モジュール強制、<code>-d&lt;what&gt;=&lt;path&gt;</code> は lib ディレクトリ再定義に使う。</li>
-<li>両版共通で <code>--output-spoilers</code> はスポイラーファイルを生成して終了し、<code>--bot-json-output[=path]</code> は<a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a>を有効化する。</li>
+<li><strong>Windows版</strong>は <code>--debug-console</code>・<code>--output-spoilers</code>・<code>-o</code>/<code>-r</code>・セーブファイル名に加え、両版共通の長い実行時オプションを受け付ける。描画や音などの通常設定はINI＋オプションメニューで行う。</li>
+<li><strong>POSIX/Unix版</strong>は <code>-n</code>/<code>-b</code>/<code>-v</code>/<code>-g</code>/<code>-r</code>/<code>-o</code>/<code>-s</code>/<code>-u</code>/<code>-m</code>/<code>-M</code>/<code>-d</code>/<code>-x</code>・<code>--output-spoilers</code>・共通長オプション・<code>--</code> を持つ。<code>-u&lt;who&gt;</code> はプレイヤー名（セーブファイル）指定、<code>-m&lt;sys&gt;</code> は表示モジュール強制、<code>-d&lt;what&gt;=&lt;path&gt;</code> は lib ディレクトリ再定義に使う。</li>
+<li>両版共通の長い実行時オプションは <code>--bot-json-output</code>・<code>--bot-json-timing</code>・<code>--control-port</code>・<code>--fixed-seed</code>・<code>--headless</code>・<code>--headless-term-count</code>。自動操作、再現可能な新規ゲーム、画面なし実行に利用する。</li>
+<li><code>--headless</code> は <code>--control-port</code> 必須。Unix版ではさらに <code>-m</code>・<code>-s</code> と併用できない。</li>
 <li>usage に載る <code>-f</code>（fiddle）・<code>-w</code>（wizard）はソース上未実装で、指定するとusageが表示される。</li>
 </ul>
 <hr>
 <blockquote>
-<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/main.cpp</code>, <code>src/main-win.cpp</code>, <code>src/main-win/commandline-win.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-08-02 09:58 UTC · hengband <code>d489d37bb8</code> · <code>tools/generate-wiki.mjs</code></p>
+<p>🤖 この解説ページは最新developの実装を元に更新されています（出典: <code>src/main.cpp</code>, <code>src/main-win.cpp</code>, <code>src/main-win/commandline-win.cpp</code>, <code>src/game-option/runtime-arguments.cpp</code>, <code>src/headless-term/headless-term.cpp</code>, <code>src/bot/bot-control-server.cpp</code>, <code>tools/bot/README.md</code>）。
+更新 / Updated: 2026-10-06 JST · hengband <code>f2f496d5f9</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
