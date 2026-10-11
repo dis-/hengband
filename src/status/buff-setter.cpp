@@ -8,14 +8,18 @@
 #include "game-option/disturbance-options.h"
 #include "main/sound-definitions-table.h"
 #include "main/sound-of-music.h"
+#include "mind/mind-sniper.h"
 #include "monster/monster-status-setter.h"
+#include "mspell/mspell-dispel.h"
 #include "player-base/player-class.h"
 #include "player-info/class-info.h"
 #include "player-info/race-info.h"
 #include "player/attack-defense-types.h"
 #include "player/player-status.h"
 #include "realm/realm-song-numbers.h"
+#include "spell-realm/spells-hex.h"
 #include "spell-realm/spells-song.h"
+#include "status/action-setter.h"
 #include "status/base-status.h"
 #include "status/buff-setter.h"
 #include "status/element-resistance.h"
@@ -110,6 +114,23 @@ void reset_tim_flags(PlayerType *player_ptr)
         set_singing_song_effect(player_ptr, MUSIC_NONE);
         set_singing_song_id(player_ptr, 0);
     }
+}
+
+/*!
+ * @brief アリーナ入場時に持ち込めない状態を解除する。
+ * @details つぶれるは意図的に残す。歌と呪術を先に完全終了し、魔力消去による再開待ちを作らない。
+ */
+void reset_arena_buffs(PlayerType *player_ptr)
+{
+    set_action(player_ptr, ACTION_NONE);
+    stop_singing(player_ptr);
+    SpellHex(player_ptr).stop_all_spells();
+    reset_concentration(player_ptr, true);
+    // 無敵解除に伴う行動待ち時間はアリーナ入場時には加えない。
+    const auto energy_need = player_ptr->energy_need;
+    dispel_player(player_ptr);
+    player_ptr->energy_need = energy_need;
+    reset_tim_flags(player_ptr);
 }
 
 /*!

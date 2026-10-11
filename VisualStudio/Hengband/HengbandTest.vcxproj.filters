@@ -43,6 +43,9 @@
     <Filter Include="player">
       <UniqueIdentifier>{9d3e0b2a-7c41-4f58-b6ad-2e1c5f80a4d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="status">
+      <UniqueIdentifier>{5a8c8152-822f-43e5-a2d4-205a4887d1b4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="store">
       <UniqueIdentifier>{2f858fe4-6c1a-425e-8310-085e4dcf1f4c}</UniqueIdentifier>
     </Filter>
@@ -184,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\test\player\test-process-name.cpp">
       <Filter>player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\test\status\test-arena-status.cpp">
+      <Filter>status</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\test\store\test-pricing.cpp">
       <Filter>store</Filter>

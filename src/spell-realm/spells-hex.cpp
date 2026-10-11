@@ -47,15 +47,20 @@ SpellHex::SpellHex(PlayerType *player_ptr)
 }
 
 /*!
- * @brief プレイヤーが詠唱中の全呪術を停止する
+ * @brief プレイヤーが詠唱中の呪術と中断後の再開待ちを全て停止する
  */
 void SpellHex::stop_all_spells()
 {
+    if (!this->spell_hex_data) {
+        return;
+    }
+
     for (auto spell : this->casting_spells) {
         exe_spell(this->player_ptr, RealmType::HEX, spell, SpellProcessType::STOP);
     }
 
     this->spell_hex_data->casting_spells.clear();
+    this->spell_hex_data->interrupting_spells.clear();
     if (this->player_ptr->action == ACTION_SPELL) {
         set_action(this->player_ptr, ACTION_NONE);
     }

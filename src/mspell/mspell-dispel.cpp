@@ -10,6 +10,8 @@
 #include "monster/monster-status.h"
 #include "mspell/mspell-result.h"
 #include "mspell/mspell-util.h"
+#include "player-base/player-class.h"
+#include "player-info/ninja-data-type.h"
 #include "player-info/race-info.h"
 #include "player/attack-defense-types.h"
 #include "player/player-status.h"
@@ -35,8 +37,21 @@
 /*!
  * @brief プレイヤーに魔力消去効果を与える。
  */
-static void dispel_player(PlayerType *player_ptr)
+void dispel_player(PlayerType *player_ptr)
 {
+    if (get_current_ki(player_ptr) > 0) {
+        set_current_ki(player_ptr, true, 0);
+        RedrawingFlagsUpdater::get_instance().set_flag(StatusRecalculatingFlag::BONUS);
+        msg_print(_("練気が消えた。", "Your stored Force dissipates."));
+    }
+
+    auto ninja_data = PlayerClass(player_ptr).get_specific_data<ninja_data_type>();
+    if (ninja_data && ninja_data->kawarimi) {
+        ninja_data->kawarimi = false;
+        RedrawingFlagsUpdater::get_instance().set_flag(MainWindowRedrawingFlag::TIMED_EFFECT);
+        msg_print(_("変わり身の備えが消えた。", "You are no longer prepared to evade attacks."));
+    }
+
     (void)set_acceleration(player_ptr, 0, true);
     set_lightspeed(player_ptr, 0, true);
     (void)BadStatusSetter(player_ptr).set_deceleration(0, true);

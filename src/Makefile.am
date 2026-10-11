@@ -1548,6 +1548,7 @@ hengband_test_SOURCES = \
 	test/mutation/test-mutation-roll-table.cpp \
 	test/object/test-object-info.cpp \
 	test/player/test-process-name.cpp \
+	test/status/test-arena-status.cpp \
 	test/store/test-pricing.cpp \
 	test/store/test-store-screen.cpp \
 	test/store/test-store-util.cpp \
