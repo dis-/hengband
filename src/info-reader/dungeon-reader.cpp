@@ -105,10 +105,12 @@ int DungeonReader::validate_wilderness_positions(int height, int width)
         if (id == DungeonId::WILDERNESS) {
             continue;
         }
+        // ダンジョンを出ると荒野の現在地が入口になり、地上の生成では現在地の周囲8マスを生成するため、
+        // 入口は荒野の端を除いた内側に限る。
         const auto &pos = dungeon->get_position();
-        if (pos.y < 0 || pos.y >= height || pos.x < 0 || pos.x >= width) {
-            msg_print(_("DungeonDefinitions.jsonc: ダンジョンID '{}' の入口 ({}, {}) は荒野サイズ ({}, {}) の範囲外です。",
-                          "DungeonDefinitions.jsonc: dungeon ID '{}' entrance ({}, {}) is outside wilderness size ({}, {})."),
+        if (pos.y < 1 || pos.y > height - 2 || pos.x < 1 || pos.x > width - 2) {
+            msg_print(_("DungeonDefinitions.jsonc: ダンジョンID '{}' の入口 ({}, {}) は荒野サイズ ({}, {}) の端を除いた内側にありません。",
+                          "DungeonDefinitions.jsonc: dungeon ID '{}' entrance ({}, {}) must be inside wilderness size ({}, {}) excluding the edges."),
                 enum2i(id), pos.y, pos.x, height, width);
             return PARSE_ERROR_OUT_OF_BOUNDS;
         }
