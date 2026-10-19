@@ -121,6 +121,7 @@
 <li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
 <li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
 <li><a href="Analysis-LaunchOptions.html">起動オプション</a></li>
+<li><a href="Analysis-LaunchOptions.html">起動オプション</a></li>
 <li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
 </ul>
 </li>
@@ -128,6 +129,7 @@
 <ul>
 <li><a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a></li>
 <li><a href="Analysis-FixedQuestJsonc.html">固定クエストのJSONC移行</a></li>
+<li><a href="Analysis-ClassMagicAptitude.html">職業魔法の得意さの段階（仮仕様）</a></li>
 <li><a href="Development-Tests.html">テスト対象一覧 / Test targets</a></li>
 </ul>
 </li>
@@ -275,7 +277,7 @@
 </tbody>
 </table></div>
 <h2>習熟度の上限</h2>
-<p>各技能で到達できる熟練度の最高ランク（<code>lib/edit/ClassSkillDefinitions.txt</code>）。武器種ごとの内訳は次節「武器熟練度」を参照。</p>
+<p>各技能で到達できる熟練度の最高ランク（<code>lib/edit/ClassSkillDefinitions.jsonc</code>）。武器種ごとの内訳は次節「武器熟練度」を参照。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -303,7 +305,7 @@
 </tbody>
 </table></div>
 <h2>武器熟練度</h2>
-<p>武器種ごとの初期ランクと到達できる上限ランク（<code>lib/edit/ClassSkillDefinitions.txt</code> の <code>W:</code> 定義）。ランクは [初心者] &lt; [入門者] &lt; [熟練者] &lt; [エキスパート] &lt; [達人]。</p>
+<p>武器種ごとの初期ランクと到達できる上限ランク（<code>lib/edit/ClassSkillDefinitions.jsonc</code> の <code>weapons</code> 定義）。ランクは [初心者] &lt; [入門者] &lt; [熟練者] &lt; [エキスパート] &lt; [達人]。</p>
 <details>
 <summary>全 93 種の武器熟練度を表示</summary>
 <div class="tablewrap"><table class="sortable">
@@ -950,8 +952,8 @@
 </ul>
 <hr>
 <blockquote>
-<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.txt</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-09-06 07:33 UTC · hengband <code>899fbee927</code> · <code>tools/generate-wiki.mjs</code></p>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>src/player-info/class-info.cpp</code>, <code>lib/edit/ClassSkillDefinitions.jsonc</code>, <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>src/birth/birth-explanations-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-10-19 12:55 UTC · hengband <code>c125b7fbc1</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

@@ -1,0 +1,1694 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>職業魔法の得意さの段階（仮仕様） · 変愚蛮怒 データ仕様</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+<div class="search-wrap"><input id="search" type="search" placeholder="ページ・モンスター名で検索 / search pages…" autocomplete="off" spellcheck="false"><div id="results" class="results"></div></div>
+</header>
+<div class="layout"><aside class="sidebar"><ul>
+<li><a href="index.html">🏠 ホーム / Home</a></li>
+</ul>
+<h3>📖 データ仕様 / Data Reference</h3>
+<ul>
+<li><a href="Races.html">🧬 種族 / Races</a></li>
+<li><a href="Classes.html">🧑‍🚀 職業 / Classes</a>
+<ul>
+<li><a href="Class-Magic.html">🎓 クラス別魔法 / Class Magic</a></li>
+</ul>
+</li>
+<li><a href="Personalities.html">🙂 性格 / Personalities</a></li>
+<li><a href="Monsters.html">👹 モンスター / Monsters</a>
+<ul>
+<li><a href="Monsters-by-Symbol.html">🔤 記号から / By symbol</a></li>
+<li><a href="Monsters-by-Name.html">🔎 名前で検索 / By name</a></li>
+<li><a href="Monster-Resistance.html">🛡️ 耐性表 / Resistance table</a></li>
+</ul>
+</li>
+<li><a href="Items.html">🗡️ アイテム / Items</a></li>
+<li><a href="Artifacts.html">💎 アーティファクト / Artifacts</a></li>
+<li><a href="Dungeons.html">🏰 ダンジョン / Dungeons</a></li>
+<li><a href="Quests.html">📜 クエスト / Quests</a></li>
+<li><a href="Terrain.html">🌲 地形 / Terrain</a></li>
+<li><a href="Spells.html">✨ 呪文 / Spells</a></li>
+<li><a href="Arena.html">🏟️ アリーナ（テルモラ闘技場） / Telmora Arena</a></li>
+<li><a href="GameModes.html">🎮 ゲームモード / Game Modes</a></li>
+<li><a href="GameOptions.html">⚙️ ゲームオプション / Game Options</a></li>
+<li><a href="Ironman.html">🛡️ 鉄人オプション / Ironman</a>
+<ul>
+<li><a href="Ironman-Shops.html">店を使用しない / Shops</a></li>
+<li><a href="Ironman-SmallestFloor.html">最小フロア / Smallest floor</a></li>
+<li><a href="Ironman-ForceArenaFloor.html">アリーナフロア強制 / Arena floor</a></li>
+<li><a href="Ironman-Rooms.html">常に特殊な部屋 / Unusual rooms</a></li>
+<li><a href="Nightmare.html">悪夢モード / Nightmare</a></li>
+<li><a href="Ironman-Downward.html">帰還・上り階段なし / Downward</a></li>
+</ul>
+</li>
+</ul>
+<h3><a href="Analysis.html">🔬 解析 / Analysis</a></h3>
+<ul>
+<li>⚔️ 戦闘 / Combat
+<ul>
+<li><a href="Analysis-MeleeWeapon.html">近接武器攻撃</a></li>
+<li><a href="Analysis-MartialArts.html">近接素手攻撃</a></li>
+<li><a href="Analysis-Shooting.html">射撃攻撃</a></li>
+<li><a href="Analysis-Critical.html">会心の一撃</a></li>
+<li><a href="Analysis-Blows.html">攻撃回数</a></li>
+<li><a href="Analysis-HitChance.html">命中率計算</a></li>
+<li><a href="Analysis-MagicAttribute.html">魔術属性攻撃</a></li>
+<li><a href="Analysis-ChaosEffect.html">カオス的効果</a></li>
+</ul>
+</li>
+<li>👹 モンスター / Monsters
+<ul>
+<li><a href="Analysis-MonsterGen.html">モンスター生成</a></li>
+<li><a href="Analysis-SpecialRooms.html">特殊部屋生成</a></li>
+<li><a href="Analysis-MonsterMelee.html">モンスターの近接攻撃</a></li>
+<li><a href="Analysis-MonsterSpells.html">モンスターの攻撃魔法</a></li>
+<li><a href="Analysis-MonsterFlags.html">モンスターフラグ</a></li>
+<li><a href="Analysis-MonsterAI.html">モンスターの行動決定</a></li>
+<li><a href="Analysis-MonsterDeath.html">モンスター死亡処理</a></li>
+<li><a href="Analysis-DrainCharge.html">敵打撃の充填魔力吸収処理</a></li>
+</ul>
+</li>
+<li>🧙 キャラクター / Character
+<ul>
+<li><a href="Analysis-Experience.html">経験値</a></li>
+<li><a href="Analysis-HitPoints.html">最大HP（ヒットポイント）</a></li>
+<li><a href="Analysis-StatMax.html">能力の最大値</a></li>
+<li><a href="Analysis-StatGain.html">能力が上昇時にどれだけ増えるか</a></li>
+<li><a href="Analysis-Skills.html">技能・熟練度</a></li>
+<li><a href="Analysis-Regen.html">自然回復</a></li>
+<li><a href="Analysis-Speed.html">加速内部値</a></li>
+<li><a href="Analysis-TimedEffects.html">一時的効果</a></li>
+<li><a href="Analysis-Stun.html">朦朧処理</a></li>
+<li><a href="Analysis-SavingThrow.html">魔法防御</a></li>
+<li><a href="Analysis-Mutation.html">突然変異</a></li>
+<li><a href="Analysis-Curse.html">呪い</a></li>
+<li><a href="Analysis-Android.html">アンドロイドのレベル</a></li>
+<li><a href="Analysis-Autoroller.html">オートローラー</a></li>
+<li><a href="Analysis-ChaosPatron.html">カオスパトロンからの報酬</a></li>
+<li><a href="Analysis-DarkRealmPenalty.html">暗黒領域の失敗ペナルティ</a></li>
+<li><a href="Analysis-ArmorManaPenalty.html">最大MPへの装備重量ペナルティ</a></li>
+<li><a href="Analysis-Riding.html">騎乗時処理</a></li>
+<li>🛡️ <a href="Resistances.html">プレイヤー耐性一覧 / Resistances</a></li>
+<li>🧬 <a href="Mutations.html">突然変異一覧 / Mutations</a>
+<ul>
+<li><a href="Mutations-Activatable.html">発動型</a> ・ <a href="Mutations-Random.html">ランダム発動型</a> ・ <a href="Mutations-Constant.html">常時型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>🎒 アイテム / Items
+<ul>
+<li><a href="Analysis-ItemGeneration.html">アイテム生成（良品・優品・エゴ・アーティファクト）</a></li>
+<li><a href="Analysis-ItemLevel.html">アイテムレベルが決まるルール</a></li>
+<li><a href="Analysis-DeviceUse.html">魔法道具使用成功率</a></li>
+<li><a href="Analysis-EatMagic.html">魔力喰い</a></li>
+<li><a href="Analysis-WeaponRepair.html">折れた武器修復</a></li>
+<li><a href="Analysis-Recharge.html">魔力充填</a></li>
+</ul>
+</li>
+<li>⚙️ システム・その他 / System
+<ul>
+<li><a href="Score.html">スコアの算出方法 / Scoring</a></li>
+<li><a href="Analysis-FloorGeneration.html">フロア生成</a></li>
+<li><a href="Analysis-Store.html">店舗</a></li>
+<li><a href="Analysis-Rumor.html">噂</a></li>
+<li><a href="Analysis-Autopick.html">自動拾い</a></li>
+<li><a href="Analysis-Glass.html">ガラス地形</a></li>
+<li><a href="Analysis-AncientGrudge.html">太古の怨念</a></li>
+<li><a href="Analysis-WizardCommand.html">ウィザードコマンド</a></li>
+<li><a href="Analysis-LaunchOptions.html">起動オプション</a></li>
+<li><a href="Analysis-LaunchOptions.html">起動オプション</a></li>
+<li><a href="Analysis-AttributeTypes.html">AttributeType 一覧</a></li>
+</ul>
+</li>
+<li>🛠️ 開発 / Development
+<ul>
+<li><a href="Analysis-BotJsonOutput.html">Bot向けJSON出力モード</a></li>
+<li><a href="Analysis-FixedQuestJsonc.html">固定クエストのJSONC移行</a></li>
+<li><a href="Analysis-ClassMagicAptitude.html">職業魔法の得意さの段階（仮仕様）</a></li>
+<li><a href="Development-Tests.html">テスト対象一覧 / Test targets</a></li>
+</ul>
+</li>
+</ul>
+</aside><main class="content"><h1>職業魔法の得意さの段階（仮仕様）</h1>
+<p><a href="Analysis.html">← 解析 / Analysis</a></p>
+<blockquote>
+<p>⚠️ <strong>仮仕様（検討中）</strong>。本家への提案前の設計案で、数値も含めて変わる可能性があります。</p>
+</blockquote>
+<h2>目的</h2>
+<p>現行の <code>lib/edit/ClassMagicDefinitions.jsonc</code> は、職業×領域×魔法ごとに習得レベル・消費MP・難易度・初回経験値倍率の 4 値を
+手で書いています（14 職業 × 最大 10 領域 × 32 魔法 = 2,784 行、約 11,000 個の数値）。魔法を 1 つ追加・調整するたびに
+全職業分を直す必要があります。</p>
+<p>これを次の 2 段に分け、職業別の値はゲームの読み込み時に計算します。</p>
+<ul>
+<li><strong>魔法の基準表</strong>: <code>SpellDefinitions.jsonc</code> の各魔法に基準値 4 つ（習得レベル・消費MP・難易度・初回経験値倍率）を持たせる。
+歌・武芸・呪術（現在はソースに固定の <code>technic_info</code>）も同じ形で基準表に移す。</li>
+<li><strong>得意さの段階</strong>: 職業×領域に「得意さの段階」（−2 専門 〜 4 非常に苦手、0 が魔術師相当）を 1 つ書き、段階ごとの補正（段階表）で
+基準値から職業別の値を導く。意図のある例外は、習得不可の一覧と個別の上書きで書く。</li>
+</ul>
+<h2>データ形式</h2>
+<p><code>ClassMagicDefinitions.jsonc</code> は、先頭の段階表（<code>aptitude_table</code>）と、職業ごとの領域の要素（段階と例外）になります。
+職業単位の項目（<code>spell_type</code>、<code>magic_status</code>、<code>first_spell_level</code> など）は変わりません。</p>
+<pre><code class="language-jsonc">{
+  &quot;version&quot;: 2.0,
+  &quot;aptitude_table&quot;: [
+    { &quot;aptitude&quot;: -2, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [60, 60, 80, 80] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 70 }, &quot;difficulty&quot;: { &quot;offset&quot;: -10 } },
+    { &quot;aptitude&quot;: -1, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [80, 80, 90, 90] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 85 }, &quot;difficulty&quot;: { &quot;offset&quot;: -5 } },
+    { &quot;aptitude&quot;: 0 },
+    { &quot;aptitude&quot;: 1, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [115, 115, 105, 105], &quot;offsets_by_book&quot;: [1, 1, 1, 1] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 115 } },
+    { &quot;aptitude&quot;: 2, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [130, 130, 110, 110], &quot;offsets_by_book&quot;: [2, 2, 2, 2] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 130 }, &quot;difficulty&quot;: { &quot;offset&quot;: 5 } },
+    { &quot;aptitude&quot;: 3, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [145, 145, 115, 115], &quot;offsets_by_book&quot;: [3, 3, 3, 3] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 145 }, &quot;difficulty&quot;: { &quot;offset&quot;: 10 } },
+    { &quot;aptitude&quot;: 4, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [160, 160, 120, 120], &quot;offsets_by_book&quot;: [4, 4, 4, 4] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 160 }, &quot;difficulty&quot;: { &quot;offset&quot;: 15 } },
+  ],
+  &quot;classes&quot;: [
+    {
+      &quot;name&quot;: &quot;BEASTMASTER&quot;,
+      &quot;spell_type&quot;: &quot;SORCERY&quot;,
+      // ... 職業単位の項目は今のまま ...
+      &quot;realms&quot;: [
+        {
+          &quot;name&quot;: &quot;TRUMP&quot;,
+          &quot;aptitude&quot;: 2,                                               // 得意さの段階（省略時 0）
+          &quot;unlearnable&quot;: [&quot;Phantasmal_Servant&quot;, &quot;Trump_Undead&quot;],       // 習得不可の魔法
+          &quot;overrides&quot;: [
+            { &quot;spell_tag&quot;: &quot;Trump_Spiders&quot;, &quot;aptitude&quot;: -1 },          // この魔法だけ別の段階
+            { &quot;spell_tag&quot;: &quot;Haste_Monster&quot;, &quot;aptitude&quot;: -1 },
+          ],
+        },
+      ],
+    },
+    {
+      &quot;name&quot;: &quot;TOURIST&quot;,
+      // ...
+      &quot;realms&quot;: [
+        {
+          &quot;name&quot;: &quot;ARCANE&quot;,
+          &quot;aptitude&quot;: 1,
+          &quot;overrides&quot;: [
+            { &quot;spell_tag&quot;: &quot;Identify&quot;, &quot;learn_level&quot;: 5, &quot;mana_cost&quot;: 3, &quot;difficulty&quot;: 30, &quot;first_cast_exp_rate&quot;: 8 }, // 明示の値
+          ],
+        },
+      ],
+    },
+  ],
+}
+</code></pre>
+<ul>
+<li>段階表の要素は <code>aptitude</code>（整数、一意）と補正の係数を持ちます。係数は
+<code>learn_level.percent_by_book</code> / <code>offsets_by_book</code>（巻 1〜4 ごと）、<code>learn_level.delay_by_difficulty</code>（高難度の魔法の遅れ）、
+<code>mana_cost.percent</code> / <code>offset</code>、<code>difficulty.percent</code> / <code>offset</code>、<code>first_cast_exp_rate.percent</code>。省略は既定値（倍率 100%・差 0）。</li>
+<li>領域の要素は <code>aptitude</code> のほか、<code>max_book</code>（習得できる巻数）、<code>unlearnable</code>（習得不可の魔法）、<code>overrides</code>（個別上書き）を持ちます。
+係数を直接書いて段階表の値を項目ごとに上書きすることもできます。</li>
+<li>上書きの要素は <code>spell_tag</code> と、<code>aptitude</code>（その魔法だけ別の段階）か明示の値（<code>learn_level</code> など）を書きます。</li>
+</ul>
+<h2>導出の式</h2>
+<p>整数演算で、四捨五入は <code>(x × percent + 50) / 100</code> の形で行います。<code>book</code> は <code>spell_id / 8 + 1</code>（1〜4）です。</p>
+<pre><code>(0) 係数の解決: 既定値 ← 段階表[領域の aptitude] ← 領域に直接書いた項目
+    （魔法の上書きに aptitude があれば、既定値 ← 段階表[その aptitude] だけ）
+(1) 基準の learn_level が 99                  → 習得不可
+(2) book &gt; max_book または unlearnable にある → 習得不可
+(3) それ以外:
+      遅れ        = round(max(0, 基準難易度 − threshold) × percent / 100)
+      learn_level = clamp(round(基準 × percent_by_book[book]) + offsets_by_book[book] + 遅れ, 1, 50)
+      mana_cost   = max(1, round(基準 × percent) + offset)
+      difficulty  = clamp(round(基準 × percent) + offset, 0, 100)
+      first_cast_exp_rate = round(基準 × percent)
+(4) 上書きの明示の値で置き換える
+(5) 最終的に learn_level が 99 なら他の 3 値は 0
+(6) 範囲検査（習得レベル 1〜50 か 99、消費MP 0〜2047、難易度 0〜100、初回経験値倍率 0〜2047）
+</code></pre>
+<h2>段階表（初期値）</h2>
+<p>段階 t の設計値は、習得レベルが巻 1〜2 で ×(100＋15t)%、巻 3〜4 で ×(100＋5t)%（t が負なら 100＋20t / 100＋10t）に差 max(0, t)、
+消費MP が ×(100＋15t)%、難易度が ＋5(t−1)（t ≥ 1）または ＋5t（t &lt; 0）、初回経験値倍率は 100% です。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>段階</th>
+<th>魔法の数</th>
+<th>Lv 巻1</th>
+<th>Lv 巻2</th>
+<th>Lv 巻3</th>
+<th>Lv 巻4</th>
+<th>MP</th>
+<th>難易度</th>
+<th>経験</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-2 専門</td>
+<td>32</td>
+<td>×60% +0</td>
+<td>×60% +0</td>
+<td>×80% +0</td>
+<td>×80% +0</td>
+<td>×70% +0</td>
+<td>-10</td>
+<td>×100%</td>
+</tr>
+<tr>
+<td>-1 得意</td>
+<td>320</td>
+<td>×80% +0</td>
+<td>×80% +0</td>
+<td>×90% +0</td>
+<td>×90% +0</td>
+<td>×85% +0</td>
+<td>-5</td>
+<td>×100%</td>
+</tr>
+<tr>
+<td>0 魔術師相当</td>
+<td>256</td>
+<td>×100% +0</td>
+<td>×100% +0</td>
+<td>×100% +0</td>
+<td>×100% +0</td>
+<td>×100% +0</td>
+<td>+0</td>
+<td>×100%</td>
+</tr>
+<tr>
+<td>1 やや苦手</td>
+<td>792</td>
+<td>×115% +1</td>
+<td>×115% +1</td>
+<td>×105% +1</td>
+<td>×105% +1</td>
+<td>×115% +0</td>
+<td>+0</td>
+<td>×100%</td>
+</tr>
+<tr>
+<td>2 苦手</td>
+<td>241</td>
+<td>×130% +2</td>
+<td>×130% +2</td>
+<td>×110% +2</td>
+<td>×110% +2</td>
+<td>×130% +0</td>
+<td>+5</td>
+<td>×100%</td>
+</tr>
+<tr>
+<td>3 かなり苦手</td>
+<td>282</td>
+<td>×145% +3</td>
+<td>×145% +3</td>
+<td>×115% +3</td>
+<td>×115% +3</td>
+<td>×145% +0</td>
+<td>+10</td>
+<td>×100%</td>
+</tr>
+<tr>
+<td>4 非常に苦手</td>
+<td>26</td>
+<td>×160% +4</td>
+<td>×160% +4</td>
+<td>×120% +4</td>
+<td>×120% +4</td>
+<td>×160% +0</td>
+<td>+15</td>
+<td>×100%</td>
+</tr>
+</tbody>
+</table></div>
+<h3>習得レベルの早見表（基準レベルごと）</h3>
+<h4>巻 1〜2（基準 Lv 1〜25 あたり）</h4>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>基準 Lv</th>
+<th>段階 -2</th>
+<th>段階 -1</th>
+<th>段階 0</th>
+<th>段階 1</th>
+<th>段階 2</th>
+<th>段階 3</th>
+<th>段階 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>6</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>6</td>
+<td>7</td>
+<td>9</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>7</td>
+<td>9</td>
+<td>10</td>
+<td>12</td>
+</tr>
+<tr>
+<td>7</td>
+<td>4</td>
+<td>6</td>
+<td>7</td>
+<td>9</td>
+<td>11</td>
+<td>13</td>
+<td>15</td>
+</tr>
+<tr>
+<td>10</td>
+<td>6</td>
+<td>8</td>
+<td>10</td>
+<td>13</td>
+<td>15</td>
+<td>18</td>
+<td>20</td>
+</tr>
+<tr>
+<td>12</td>
+<td>7</td>
+<td>10</td>
+<td>12</td>
+<td>15</td>
+<td>18</td>
+<td>20</td>
+<td>23</td>
+</tr>
+<tr>
+<td>15</td>
+<td>9</td>
+<td>12</td>
+<td>15</td>
+<td>18</td>
+<td>22</td>
+<td>25</td>
+<td>28</td>
+</tr>
+<tr>
+<td>18</td>
+<td>11</td>
+<td>14</td>
+<td>18</td>
+<td>22</td>
+<td>25</td>
+<td>29</td>
+<td>33</td>
+</tr>
+<tr>
+<td>20</td>
+<td>12</td>
+<td>16</td>
+<td>20</td>
+<td>24</td>
+<td>28</td>
+<td>32</td>
+<td>36</td>
+</tr>
+<tr>
+<td>25</td>
+<td>15</td>
+<td>20</td>
+<td>25</td>
+<td>30</td>
+<td>35</td>
+<td>39</td>
+<td>44</td>
+</tr>
+<tr>
+<td>30</td>
+<td>18</td>
+<td>24</td>
+<td>30</td>
+<td>36</td>
+<td>41</td>
+<td>47</td>
+<td>50</td>
+</tr>
+</tbody>
+</table></div>
+<h4>巻 3〜4（基準 Lv 20〜50 あたり）</h4>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>基準 Lv</th>
+<th>段階 -2</th>
+<th>段階 -1</th>
+<th>段階 0</th>
+<th>段階 1</th>
+<th>段階 2</th>
+<th>段階 3</th>
+<th>段階 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>18</td>
+<td>20</td>
+<td>22</td>
+<td>24</td>
+<td>26</td>
+<td>28</td>
+</tr>
+<tr>
+<td>25</td>
+<td>20</td>
+<td>23</td>
+<td>25</td>
+<td>27</td>
+<td>30</td>
+<td>32</td>
+<td>34</td>
+</tr>
+<tr>
+<td>28</td>
+<td>22</td>
+<td>25</td>
+<td>28</td>
+<td>30</td>
+<td>33</td>
+<td>35</td>
+<td>38</td>
+</tr>
+<tr>
+<td>30</td>
+<td>24</td>
+<td>27</td>
+<td>30</td>
+<td>33</td>
+<td>35</td>
+<td>38</td>
+<td>40</td>
+</tr>
+<tr>
+<td>33</td>
+<td>26</td>
+<td>30</td>
+<td>33</td>
+<td>36</td>
+<td>38</td>
+<td>41</td>
+<td>44</td>
+</tr>
+<tr>
+<td>35</td>
+<td>28</td>
+<td>32</td>
+<td>35</td>
+<td>38</td>
+<td>41</td>
+<td>43</td>
+<td>46</td>
+</tr>
+<tr>
+<td>38</td>
+<td>30</td>
+<td>34</td>
+<td>38</td>
+<td>41</td>
+<td>44</td>
+<td>47</td>
+<td>50</td>
+</tr>
+<tr>
+<td>40</td>
+<td>32</td>
+<td>36</td>
+<td>40</td>
+<td>43</td>
+<td>46</td>
+<td>49</td>
+<td>50</td>
+</tr>
+<tr>
+<td>42</td>
+<td>34</td>
+<td>38</td>
+<td>42</td>
+<td>45</td>
+<td>48</td>
+<td>50</td>
+<td>50</td>
+</tr>
+<tr>
+<td>45</td>
+<td>36</td>
+<td>41</td>
+<td>45</td>
+<td>48</td>
+<td>50</td>
+<td>50</td>
+<td>50</td>
+</tr>
+<tr>
+<td>48</td>
+<td>38</td>
+<td>43</td>
+<td>48</td>
+<td>50</td>
+<td>50</td>
+<td>50</td>
+<td>50</td>
+</tr>
+<tr>
+<td>50</td>
+<td>40</td>
+<td>45</td>
+<td>50</td>
+<td>50</td>
+<td>50</td>
+<td>50</td>
+<td>50</td>
+</tr>
+</tbody>
+</table></div>
+<h2>職業×領域の段階（初期値）</h2>
+<p>魔術師・スペルマスターは全領域 0（基準表そのまま）、ハイ=メイジは全領域 −1、僧侶の生命は −2 です。
+魔獣使いのトランプは領域が 2 で、「〇〇のカード」（感知のカードを除く）とスピード・モンスター、回復モンスターだけ −1 にしています。
+歌（吟遊詩人）・武芸（剣術家）・呪術（ハイ=メイジ）は段階 0 で、現在の <code>technic_info</code> の値がそのまま基準表になります。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>職業</th>
+<th>領域</th>
+<th>段階</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>魔術師</td>
+<td>生命</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>仙術</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>自然</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>カオス</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>暗黒</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>トランプ</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>秘術</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>匠</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>悪魔</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>破邪</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>生命</td>
+<td>-2 専門</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>仙術</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>自然</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>カオス</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>暗黒</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>トランプ</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>秘術</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>匠</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>悪魔</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>破邪</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>盗賊</td>
+<td>仙術</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>盗賊</td>
+<td>暗黒</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>盗賊</td>
+<td>トランプ</td>
+<td>2 苦手</td>
+</tr>
+<tr>
+<td>盗賊</td>
+<td>秘術</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>盗賊</td>
+<td>匠</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>仙術</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>自然</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>カオス</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>暗黒</td>
+<td>4 非常に苦手</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>トランプ</td>
+<td>2 苦手</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>秘術</td>
+<td>2 苦手</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>悪魔</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>パラディン</td>
+<td>暗黒</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>パラディン</td>
+<td>破邪</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>生命</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>仙術</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>自然</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>カオス</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>暗黒</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>トランプ</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>秘術</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>匠</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>悪魔</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>破邪</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>混沌の戦士</td>
+<td>カオス</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>混沌の戦士</td>
+<td>悪魔</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>修行僧</td>
+<td>生命</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>修行僧</td>
+<td>自然</td>
+<td>2 苦手</td>
+</tr>
+<tr>
+<td>修行僧</td>
+<td>暗黒</td>
+<td>2 苦手</td>
+</tr>
+<tr>
+<td>修行僧</td>
+<td>匠</td>
+<td>2 苦手</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>生命</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>仙術</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>自然</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>カオス</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>暗黒</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>トランプ</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>秘術</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>匠</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>悪魔</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>破邪</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>観光客</td>
+<td>秘術</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ</td>
+<td>2 苦手</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Trump_Spiders）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Trump_Animals）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Trump_Reach）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Trump_Kamikaze）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Haste_Monster）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Swap_Position）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Trump_Reptile）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Trump_Monsters）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Trump_Hounds）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Trump_Divination）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Trump_Lore）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Heal_Monster）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Trump_Dragon）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ（Trump_Ancient_Dragon）</td>
+<td>-1 得意</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>生命</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>仙術</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>自然</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>カオス</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>暗黒</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>トランプ</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>秘術</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>匠</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>悪魔</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>破邪</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>生命</td>
+<td>2 苦手</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>仙術</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>自然</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>カオス</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>暗黒</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>トランプ</td>
+<td>2 苦手</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>秘術</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>匠</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>悪魔</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>破邪</td>
+<td>3 かなり苦手</td>
+</tr>
+<tr>
+<td>練気術師</td>
+<td>生命</td>
+<td>0 魔術師相当</td>
+</tr>
+<tr>
+<td>練気術師</td>
+<td>自然</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>練気術師</td>
+<td>暗黒</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>練気術師</td>
+<td>匠</td>
+<td>1 やや苦手</td>
+</tr>
+<tr>
+<td>練気術師</td>
+<td>破邪</td>
+<td>1 やや苦手</td>
+</tr>
+</tbody>
+</table></div>
+<h2>現行値との違い</h2>
+<p>職業別の差分（魔法ごとの旧→新と差分）は次のページにあります。</p>
+<p><a href="Analysis-ClassMagicAptitude-Mage.html">魔術師</a> ・ <a href="Analysis-ClassMagicAptitude-Priest.html">僧侶</a> ・ <a href="Analysis-ClassMagicAptitude-Rogue.html">盗賊</a> ・ <a href="Analysis-ClassMagicAptitude-Ranger.html">レンジャー</a> ・ <a href="Analysis-ClassMagicAptitude-Paladin.html">パラディン</a> ・ <a href="Analysis-ClassMagicAptitude-WarriorMage.html">魔法戦士</a> ・ <a href="Analysis-ClassMagicAptitude-ChaosWarrior.html">混沌の戦士</a> ・ <a href="Analysis-ClassMagicAptitude-Monk.html">修行僧</a> ・ <a href="Analysis-ClassMagicAptitude-HighMage.html">ハイ=メイジ</a> ・ <a href="Analysis-ClassMagicAptitude-Tourist.html">観光客</a> ・ <a href="Analysis-ClassMagicAptitude-Beastmaster.html">魔獣使い</a> ・ <a href="Analysis-ClassMagicAptitude-Sorcerer.html">スペルマスター</a> ・ <a href="Analysis-ClassMagicAptitude-Bard.html">吟遊詩人</a> ・ <a href="Analysis-ClassMagicAptitude-RedMage.html">赤魔道士</a> ・ <a href="Analysis-ClassMagicAptitude-Samurai.html">剣術家</a> ・ <a href="Analysis-ClassMagicAptitude-ForceTrainer.html">練気術師</a></p>
+<p>職業×領域ごとの「変わる行数」は次のとおりです（2880 行中 1873 行が変わる）。</p>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>職業</th>
+<th>領域</th>
+<th>魔法数</th>
+<th>変わる行</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>魔術師</td>
+<td>生命</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>仙術</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>自然</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>カオス</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>暗黒</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>トランプ</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>秘術</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>匠</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>悪魔</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>魔術師</td>
+<td>破邪</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>生命</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>仙術</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>自然</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>カオス</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>暗黒</td>
+<td>32</td>
+<td>30</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>トランプ</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>秘術</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>匠</td>
+<td>32</td>
+<td>30</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>悪魔</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>僧侶</td>
+<td>破邪</td>
+<td>32</td>
+<td>26</td>
+</tr>
+<tr>
+<td>盗賊</td>
+<td>仙術</td>
+<td>32</td>
+<td>31</td>
+</tr>
+<tr>
+<td>盗賊</td>
+<td>暗黒</td>
+<td>32</td>
+<td>26</td>
+</tr>
+<tr>
+<td>盗賊</td>
+<td>トランプ</td>
+<td>32</td>
+<td>29</td>
+</tr>
+<tr>
+<td>盗賊</td>
+<td>秘術</td>
+<td>32</td>
+<td>16</td>
+</tr>
+<tr>
+<td>盗賊</td>
+<td>匠</td>
+<td>32</td>
+<td>29</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>仙術</td>
+<td>32</td>
+<td>30</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>自然</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>カオス</td>
+<td>32</td>
+<td>28</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>暗黒</td>
+<td>32</td>
+<td>26</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>トランプ</td>
+<td>32</td>
+<td>27</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>秘術</td>
+<td>32</td>
+<td>31</td>
+</tr>
+<tr>
+<td>レンジャー</td>
+<td>悪魔</td>
+<td>32</td>
+<td>26</td>
+</tr>
+<tr>
+<td>パラディン</td>
+<td>暗黒</td>
+<td>32</td>
+<td>31</td>
+</tr>
+<tr>
+<td>パラディン</td>
+<td>破邪</td>
+<td>32</td>
+<td>31</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>生命</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>仙術</td>
+<td>32</td>
+<td>30</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>自然</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>カオス</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>暗黒</td>
+<td>32</td>
+<td>31</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>トランプ</td>
+<td>32</td>
+<td>30</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>秘術</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>匠</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>悪魔</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>魔法戦士</td>
+<td>破邪</td>
+<td>32</td>
+<td>31</td>
+</tr>
+<tr>
+<td>混沌の戦士</td>
+<td>カオス</td>
+<td>32</td>
+<td>27</td>
+</tr>
+<tr>
+<td>混沌の戦士</td>
+<td>悪魔</td>
+<td>32</td>
+<td>31</td>
+</tr>
+<tr>
+<td>修行僧</td>
+<td>生命</td>
+<td>32</td>
+<td>28</td>
+</tr>
+<tr>
+<td>修行僧</td>
+<td>自然</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>修行僧</td>
+<td>暗黒</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>修行僧</td>
+<td>匠</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>生命</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>仙術</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>自然</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>カオス</td>
+<td>32</td>
+<td>31</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>暗黒</td>
+<td>32</td>
+<td>31</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>トランプ</td>
+<td>32</td>
+<td>28</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>秘術</td>
+<td>32</td>
+<td>31</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>匠</td>
+<td>32</td>
+<td>24</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>悪魔</td>
+<td>32</td>
+<td>31</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>破邪</td>
+<td>32</td>
+<td>31</td>
+</tr>
+<tr>
+<td>ハイ=メイジ</td>
+<td>呪術</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>観光客</td>
+<td>秘術</td>
+<td>32</td>
+<td>20</td>
+</tr>
+<tr>
+<td>魔獣使い</td>
+<td>トランプ</td>
+<td>32</td>
+<td>26</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>生命</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>仙術</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>自然</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>カオス</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>暗黒</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>トランプ</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>秘術</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>匠</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>悪魔</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>スペルマスター</td>
+<td>破邪</td>
+<td>32</td>
+<td>2</td>
+</tr>
+<tr>
+<td>吟遊詩人</td>
+<td>歌</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>生命</td>
+<td>32</td>
+<td>16</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>仙術</td>
+<td>32</td>
+<td>16</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>自然</td>
+<td>32</td>
+<td>16</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>カオス</td>
+<td>32</td>
+<td>16</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>暗黒</td>
+<td>32</td>
+<td>16</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>トランプ</td>
+<td>32</td>
+<td>16</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>秘術</td>
+<td>32</td>
+<td>29</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>匠</td>
+<td>32</td>
+<td>16</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>悪魔</td>
+<td>32</td>
+<td>16</td>
+</tr>
+<tr>
+<td>赤魔道士</td>
+<td>破邪</td>
+<td>32</td>
+<td>16</td>
+</tr>
+<tr>
+<td>剣術家</td>
+<td>武芸</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>練気術師</td>
+<td>生命</td>
+<td>32</td>
+<td>22</td>
+</tr>
+<tr>
+<td>練気術師</td>
+<td>自然</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>練気術師</td>
+<td>暗黒</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>練気術師</td>
+<td>匠</td>
+<td>32</td>
+<td>32</td>
+</tr>
+<tr>
+<td>練気術師</td>
+<td>破邪</td>
+<td>32</td>
+<td>32</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>旧 = 現行の <code>ClassMagicDefinitions.jsonc</code>（歌・武芸・呪術は <code>technic_info</code>）、新 = 仮仕様の段階表から導いた値。</li>
+<li>基準表は魔術師の現行値（歌・武芸・呪術は <code>technic_info</code>）なので、魔術師の値は変わりません。</li>
+<li>現行の職業別の値は手調整で、どの式でも完全には再現できません。段階の構造では現行の値との一致より、
+説明しやすさと調整のしやすさを優先しています（習得レベルが現行と一致する行は 10 以下で約 56%、全体で約 42%）。</li>
+</ul>
+<h2>移行と互換性</h2>
+<ul>
+<li>基準表は魔術師の現行値と <code>technic_info</code> から機械的に作ります。段階表と段階は上の初期値で、意図のある例外
+（観光客の鑑定、パラディンの啓明、魔獣使いのカード類、習得不可の一覧）だけ上書きで残します。</li>
+<li>セーブデータの形式は変わりません（魔法は番号で保存）。ただし習得レベルが変わる魔法では、既存のキャラクターで
+「忘れた／思い出した」の表示が出ることがあります。</li>
+<li>歌・武芸・呪術の <code>technic_info</code> は削除し、読み込み経路を魔法領域と同じにします。</li>
+<li>CI の JSON 検査（スキーマと意味検査）、読み込みのテスト、スポイラー出力による新旧の突き合わせを合わせて更新します。</li>
+</ul>
+<hr>
+<blockquote>
+<p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>lib/edit/SpellDefinitions.jsonc</code>, <code>src/info-reader/magic-reader.cpp</code>, <code>src/spell/technic-info-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
+生成 / Generated: 2026-10-19 12:41 UTC · hengband <code>c125b7fbc1</code> · <code>tools/generate-wiki.mjs</code></p>
+</blockquote>
+</main></div>
+<script src="app.js"></script>
+</body></html>
