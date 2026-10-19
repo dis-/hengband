@@ -160,9 +160,9 @@
     { &quot;aptitude&quot;: -1, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [80, 80, 90, 90] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 85 }, &quot;difficulty&quot;: { &quot;offset&quot;: -5 } },
     { &quot;aptitude&quot;: 0 },
     { &quot;aptitude&quot;: 1, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [115, 115, 105, 105], &quot;offsets_by_book&quot;: [1, 1, 1, 1] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 115 } },
-    { &quot;aptitude&quot;: 2, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [130, 130, 110, 110], &quot;offsets_by_book&quot;: [2, 2, 2, 2] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 130 }, &quot;difficulty&quot;: { &quot;offset&quot;: 5 } },
-    { &quot;aptitude&quot;: 3, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [145, 145, 115, 115], &quot;offsets_by_book&quot;: [3, 3, 3, 3] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 145 }, &quot;difficulty&quot;: { &quot;offset&quot;: 10 } },
-    { &quot;aptitude&quot;: 4, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [160, 160, 120, 120], &quot;offsets_by_book&quot;: [4, 4, 4, 4] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 160 }, &quot;difficulty&quot;: { &quot;offset&quot;: 15 } },
+    { &quot;aptitude&quot;: 2, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [130, 120, 110, 110], &quot;offsets_by_book&quot;: [2, 2, 2, 2] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 130 }, &quot;difficulty&quot;: { &quot;offset&quot;: 5 } },
+    { &quot;aptitude&quot;: 3, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [145, 130, 115, 115], &quot;offsets_by_book&quot;: [3, 3, 3, 3] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 145 }, &quot;difficulty&quot;: { &quot;offset&quot;: 10 } },
+    { &quot;aptitude&quot;: 4, &quot;learn_level&quot;: { &quot;percent_by_book&quot;: [160, 140, 120, 120], &quot;offsets_by_book&quot;: [4, 4, 4, 4] }, &quot;mana_cost&quot;: { &quot;percent&quot;: 160 }, &quot;difficulty&quot;: { &quot;offset&quot;: 15 } },
   ],
   &quot;classes&quot;: [
     {
@@ -222,7 +222,7 @@
 (6) 範囲検査（習得レベル 1〜50 か 99、消費MP 0〜2047、難易度 0〜100、初回経験値倍率 0〜2047）
 </code></pre>
 <h2>段階表（初期値）</h2>
-<p>段階 t の設計値は、習得レベルが巻 1〜2 で ×(100＋15t)%、巻 3〜4 で ×(100＋5t)%（t が負なら 100＋20t / 100＋10t）に差 max(0, t)、
+<p>段階 t の設計値は、習得レベルが巻 1 で ×(100＋15t)%、巻 2 で ×(100＋10t)%（段階 1 以下は巻 1 と同じ）、巻 3〜4 で ×(100＋5t)%（t が負なら 100＋20t / 100＋10t）に差 max(0, t)、
 消費MP が ×(100＋15t)%、難易度が ＋5(t−1)（t ≥ 1）または ＋5t（t &lt; 0）、初回経験値倍率は 100% です。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
@@ -287,7 +287,7 @@
 <td>2 苦手</td>
 <td>241</td>
 <td>×130% +2</td>
-<td>×130% +2</td>
+<td>×120% +2</td>
 <td>×110% +2</td>
 <td>×110% +2</td>
 <td>×130% +0</td>
@@ -298,7 +298,7 @@
 <td>3 かなり苦手</td>
 <td>282</td>
 <td>×145% +3</td>
-<td>×145% +3</td>
+<td>×130% +3</td>
 <td>×115% +3</td>
 <td>×115% +3</td>
 <td>×145% +0</td>
@@ -309,7 +309,7 @@
 <td>4 非常に苦手</td>
 <td>26</td>
 <td>×160% +4</td>
-<td>×160% +4</td>
+<td>×140% +4</td>
 <td>×120% +4</td>
 <td>×120% +4</td>
 <td>×160% +0</td>
@@ -319,7 +319,7 @@
 </tbody>
 </table></div>
 <h3>習得レベルの早見表（基準レベルごと）</h3>
-<h4>巻 1〜2（基準 Lv 1〜25 あたり）</h4>
+<h4>巻 1（基準 Lv 1〜25 あたり）</h4>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -452,6 +452,183 @@
 <td>36</td>
 <td>41</td>
 <td>47</td>
+<td>50</td>
+</tr>
+</tbody>
+</table></div>
+<h4>巻 2（基準 Lv 5〜42 あたり）</h4>
+<div class="tablewrap"><table class="sortable">
+<thead>
+<tr>
+<th>基準 Lv</th>
+<th>段階 -2</th>
+<th>段階 -1</th>
+<th>段階 0</th>
+<th>段階 1</th>
+<th>段階 2</th>
+<th>段階 3</th>
+<th>段階 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>7</td>
+<td>8</td>
+<td>10</td>
+<td>11</td>
+</tr>
+<tr>
+<td>7</td>
+<td>4</td>
+<td>6</td>
+<td>7</td>
+<td>9</td>
+<td>10</td>
+<td>12</td>
+<td>14</td>
+</tr>
+<tr>
+<td>10</td>
+<td>6</td>
+<td>8</td>
+<td>10</td>
+<td>13</td>
+<td>14</td>
+<td>16</td>
+<td>18</td>
+</tr>
+<tr>
+<td>12</td>
+<td>7</td>
+<td>10</td>
+<td>12</td>
+<td>15</td>
+<td>16</td>
+<td>19</td>
+<td>21</td>
+</tr>
+<tr>
+<td>15</td>
+<td>9</td>
+<td>12</td>
+<td>15</td>
+<td>18</td>
+<td>20</td>
+<td>23</td>
+<td>25</td>
+</tr>
+<tr>
+<td>18</td>
+<td>11</td>
+<td>14</td>
+<td>18</td>
+<td>22</td>
+<td>24</td>
+<td>26</td>
+<td>29</td>
+</tr>
+<tr>
+<td>20</td>
+<td>12</td>
+<td>16</td>
+<td>20</td>
+<td>24</td>
+<td>26</td>
+<td>29</td>
+<td>32</td>
+</tr>
+<tr>
+<td>23</td>
+<td>14</td>
+<td>18</td>
+<td>23</td>
+<td>27</td>
+<td>30</td>
+<td>33</td>
+<td>36</td>
+</tr>
+<tr>
+<td>25</td>
+<td>15</td>
+<td>20</td>
+<td>25</td>
+<td>30</td>
+<td>32</td>
+<td>36</td>
+<td>39</td>
+</tr>
+<tr>
+<td>28</td>
+<td>17</td>
+<td>22</td>
+<td>28</td>
+<td>33</td>
+<td>36</td>
+<td>39</td>
+<td>43</td>
+</tr>
+<tr>
+<td>30</td>
+<td>18</td>
+<td>24</td>
+<td>30</td>
+<td>36</td>
+<td>38</td>
+<td>42</td>
+<td>46</td>
+</tr>
+<tr>
+<td>33</td>
+<td>20</td>
+<td>26</td>
+<td>33</td>
+<td>39</td>
+<td>42</td>
+<td>46</td>
+<td>50</td>
+</tr>
+<tr>
+<td>35</td>
+<td>21</td>
+<td>28</td>
+<td>35</td>
+<td>41</td>
+<td>44</td>
+<td>49</td>
+<td>50</td>
+</tr>
+<tr>
+<td>38</td>
+<td>23</td>
+<td>30</td>
+<td>38</td>
+<td>45</td>
+<td>48</td>
+<td>50</td>
+<td>50</td>
+</tr>
+<tr>
+<td>40</td>
+<td>24</td>
+<td>32</td>
+<td>40</td>
+<td>47</td>
+<td>50</td>
+<td>50</td>
+<td>50</td>
+</tr>
+<tr>
+<td>42</td>
+<td>25</td>
+<td>34</td>
+<td>42</td>
+<td>49</td>
+<td>50</td>
+<td>50</td>
 <td>50</td>
 </tr>
 </tbody>
@@ -1673,7 +1850,7 @@
 <li>旧 = 現行の <code>ClassMagicDefinitions.jsonc</code>（歌・武芸・呪術は <code>technic_info</code>）、新 = 仮仕様の段階表から導いた値。</li>
 <li>基準表はメイジの現行値（歌・武芸・呪術は <code>technic_info</code>）なので、メイジの値は変わりません。</li>
 <li>現行の職業別の値は手調整で、どの式でも完全には再現できません。段階の構造では現行の値との一致より、
-説明しやすさと調整のしやすさを優先しています（習得レベルが現行と一致する行は 10 以下で約 56%、全体で約 42%）。</li>
+説明しやすさと調整のしやすさを優先しています（習得レベルが現行と一致する行は 10 以下で約 56%、全体で約 43%）。</li>
 </ul>
 <h2>移行と互換性</h2>
 <ul>
@@ -1687,7 +1864,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>lib/edit/SpellDefinitions.jsonc</code>, <code>src/info-reader/magic-reader.cpp</code>, <code>src/spell/technic-info-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-10-19 13:08 UTC · hengband <code>c125b7fbc1</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-10-19 22:42 UTC · hengband <code>c125b7fbc1</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
