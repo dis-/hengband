@@ -147,7 +147,7 @@
 <ul>
 <li><strong>魔法の基準表</strong>: <code>SpellDefinitions.jsonc</code> の各魔法に基準値 4 つ（習得レベル・消費MP・難易度・初回経験値倍率）を持たせる。
 歌・武芸・呪術（現在はソースに固定の <code>technic_info</code>）も同じ形で基準表に移す。</li>
-<li><strong>得意さの段階</strong>: 職業×領域に「得意さの段階」（−2 専門 〜 4 非常に苦手、0 が魔術師相当）を 1 つ書き、段階ごとの補正（段階表）で
+<li><strong>得意さの段階</strong>: 職業×領域に「得意さの段階」（−2 専門 〜 4 非常に苦手、0 がメイジ相当）を 1 つ書き、段階ごとの補正（段階表）で
 基準値から職業別の値を導く。意図のある例外は、習得不可の一覧と個別の上書きで書く。</li>
 </ul>
 <h2>データ形式</h2>
@@ -262,7 +262,7 @@
 <td>×100%</td>
 </tr>
 <tr>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 <td>256</td>
 <td>×100% +0</td>
 <td>×100% +0</td>
@@ -594,7 +594,7 @@
 </tbody>
 </table></div>
 <h2>職業×領域の段階（初期値）</h2>
-<p>魔術師・スペルマスターは全領域 0（基準表そのまま）、ハイ=メイジは全領域 −1、僧侶の生命は −2 です。
+<p>メイジ・スペルマスターは全領域 0（基準表そのまま）、ハイ=メイジは全領域 −1、プリーストの生命は −2 です。
 魔獣使いのトランプは領域が 2 で、「〇〇のカード」（感知のカードを除く）とスピード・モンスター、回復モンスターだけ −1 にしています。
 歌（吟遊詩人）・武芸（剣術家）・呪術（ハイ=メイジ）は段階 0 で、現在の <code>technic_info</code> の値がそのまま基準表になります。</p>
 <div class="tablewrap"><table class="sortable">
@@ -607,104 +607,104 @@
 </thead>
 <tbody>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>生命</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>仙術</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>自然</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>カオス</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>暗黒</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>トランプ</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>秘術</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>匠</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>悪魔</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>破邪</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>生命</td>
 <td>-2 専門</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>仙術</td>
 <td>1 やや苦手</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>自然</td>
 <td>1 やや苦手</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>カオス</td>
 <td>1 やや苦手</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>暗黒</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>トランプ</td>
 <td>1 やや苦手</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>秘術</td>
 <td>1 やや苦手</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>匠</td>
 <td>1 やや苦手</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>悪魔</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>破邪</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>盗賊</td>
@@ -724,7 +724,7 @@
 <tr>
 <td>盗賊</td>
 <td>秘術</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>盗賊</td>
@@ -829,17 +829,17 @@
 <tr>
 <td>混沌の戦士</td>
 <td>カオス</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>混沌の戦士</td>
 <td>悪魔</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>修行僧</td>
 <td>生命</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>修行僧</td>
@@ -989,107 +989,107 @@
 <tr>
 <td>スペルマスター</td>
 <td>生命</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>スペルマスター</td>
 <td>仙術</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>スペルマスター</td>
 <td>自然</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>スペルマスター</td>
 <td>カオス</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>スペルマスター</td>
 <td>暗黒</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>スペルマスター</td>
 <td>トランプ</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>スペルマスター</td>
 <td>秘術</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>スペルマスター</td>
 <td>匠</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>スペルマスター</td>
 <td>悪魔</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>スペルマスター</td>
 <td>破邪</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>生命</td>
 <td>2 苦手</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>仙術</td>
 <td>3 かなり苦手</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>自然</td>
 <td>3 かなり苦手</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>カオス</td>
 <td>3 かなり苦手</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>暗黒</td>
 <td>3 かなり苦手</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>トランプ</td>
 <td>2 苦手</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>秘術</td>
 <td>1 やや苦手</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>匠</td>
 <td>3 かなり苦手</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>悪魔</td>
 <td>3 かなり苦手</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>破邪</td>
 <td>3 かなり苦手</td>
 </tr>
 <tr>
 <td>練気術師</td>
 <td>生命</td>
-<td>0 魔術師相当</td>
+<td>0 メイジ相当</td>
 </tr>
 <tr>
 <td>練気術師</td>
@@ -1115,7 +1115,7 @@
 </table></div>
 <h2>現行値との違い</h2>
 <p>職業別の差分（魔法ごとの旧→新と差分）は次のページにあります。</p>
-<p><a href="Analysis-ClassMagicAptitude-Mage.html">魔術師</a> ・ <a href="Analysis-ClassMagicAptitude-Priest.html">僧侶</a> ・ <a href="Analysis-ClassMagicAptitude-Rogue.html">盗賊</a> ・ <a href="Analysis-ClassMagicAptitude-Ranger.html">レンジャー</a> ・ <a href="Analysis-ClassMagicAptitude-Paladin.html">パラディン</a> ・ <a href="Analysis-ClassMagicAptitude-WarriorMage.html">魔法戦士</a> ・ <a href="Analysis-ClassMagicAptitude-ChaosWarrior.html">混沌の戦士</a> ・ <a href="Analysis-ClassMagicAptitude-Monk.html">修行僧</a> ・ <a href="Analysis-ClassMagicAptitude-HighMage.html">ハイ=メイジ</a> ・ <a href="Analysis-ClassMagicAptitude-Tourist.html">観光客</a> ・ <a href="Analysis-ClassMagicAptitude-Beastmaster.html">魔獣使い</a> ・ <a href="Analysis-ClassMagicAptitude-Sorcerer.html">スペルマスター</a> ・ <a href="Analysis-ClassMagicAptitude-Bard.html">吟遊詩人</a> ・ <a href="Analysis-ClassMagicAptitude-RedMage.html">赤魔道士</a> ・ <a href="Analysis-ClassMagicAptitude-Samurai.html">剣術家</a> ・ <a href="Analysis-ClassMagicAptitude-ForceTrainer.html">練気術師</a></p>
+<p><a href="Analysis-ClassMagicAptitude-Mage.html">メイジ</a> ・ <a href="Analysis-ClassMagicAptitude-Priest.html">プリースト</a> ・ <a href="Analysis-ClassMagicAptitude-Rogue.html">盗賊</a> ・ <a href="Analysis-ClassMagicAptitude-Ranger.html">レンジャー</a> ・ <a href="Analysis-ClassMagicAptitude-Paladin.html">パラディン</a> ・ <a href="Analysis-ClassMagicAptitude-WarriorMage.html">魔法戦士</a> ・ <a href="Analysis-ClassMagicAptitude-ChaosWarrior.html">混沌の戦士</a> ・ <a href="Analysis-ClassMagicAptitude-Monk.html">修行僧</a> ・ <a href="Analysis-ClassMagicAptitude-HighMage.html">ハイ=メイジ</a> ・ <a href="Analysis-ClassMagicAptitude-Tourist.html">観光客</a> ・ <a href="Analysis-ClassMagicAptitude-Beastmaster.html">魔獣使い</a> ・ <a href="Analysis-ClassMagicAptitude-Sorcerer.html">スペルマスター</a> ・ <a href="Analysis-ClassMagicAptitude-Bard.html">吟遊詩人</a> ・ <a href="Analysis-ClassMagicAptitude-RedMage.html">赤魔道師</a> ・ <a href="Analysis-ClassMagicAptitude-Samurai.html">剣術家</a> ・ <a href="Analysis-ClassMagicAptitude-ForceTrainer.html">練気術師</a></p>
 <p>職業×領域ごとの「変わる行数」は次のとおりです（2880 行中 1873 行が変わる）。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
@@ -1128,121 +1128,121 @@
 </thead>
 <tbody>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>生命</td>
 <td>32</td>
 <td>0</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>仙術</td>
 <td>32</td>
 <td>0</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>自然</td>
 <td>32</td>
 <td>0</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>カオス</td>
 <td>32</td>
 <td>0</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>暗黒</td>
 <td>32</td>
 <td>0</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>トランプ</td>
 <td>32</td>
 <td>0</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>秘術</td>
 <td>32</td>
 <td>0</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>匠</td>
 <td>32</td>
 <td>0</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>悪魔</td>
 <td>32</td>
 <td>0</td>
 </tr>
 <tr>
-<td>魔術師</td>
+<td>メイジ</td>
 <td>破邪</td>
 <td>32</td>
 <td>0</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>生命</td>
 <td>32</td>
 <td>32</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>仙術</td>
 <td>32</td>
 <td>32</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>自然</td>
 <td>32</td>
 <td>32</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>カオス</td>
 <td>32</td>
 <td>32</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>暗黒</td>
 <td>32</td>
 <td>30</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>トランプ</td>
 <td>32</td>
 <td>32</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>秘術</td>
 <td>32</td>
 <td>32</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>匠</td>
 <td>32</td>
 <td>30</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>悪魔</td>
 <td>32</td>
 <td>32</td>
 </tr>
 <tr>
-<td>僧侶</td>
+<td>プリースト</td>
 <td>破邪</td>
 <td>32</td>
 <td>26</td>
@@ -1572,61 +1572,61 @@
 <td>0</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>生命</td>
 <td>32</td>
 <td>16</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>仙術</td>
 <td>32</td>
 <td>16</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>自然</td>
 <td>32</td>
 <td>16</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>カオス</td>
 <td>32</td>
 <td>16</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>暗黒</td>
 <td>32</td>
 <td>16</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>トランプ</td>
 <td>32</td>
 <td>16</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>秘術</td>
 <td>32</td>
 <td>29</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>匠</td>
 <td>32</td>
 <td>16</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>悪魔</td>
 <td>32</td>
 <td>16</td>
 </tr>
 <tr>
-<td>赤魔道士</td>
+<td>赤魔道師</td>
 <td>破邪</td>
 <td>32</td>
 <td>16</td>
@@ -1671,13 +1671,13 @@
 </table></div>
 <ul>
 <li>旧 = 現行の <code>ClassMagicDefinitions.jsonc</code>（歌・武芸・呪術は <code>technic_info</code>）、新 = 仮仕様の段階表から導いた値。</li>
-<li>基準表は魔術師の現行値（歌・武芸・呪術は <code>technic_info</code>）なので、魔術師の値は変わりません。</li>
+<li>基準表はメイジの現行値（歌・武芸・呪術は <code>technic_info</code>）なので、メイジの値は変わりません。</li>
 <li>現行の職業別の値は手調整で、どの式でも完全には再現できません。段階の構造では現行の値との一致より、
 説明しやすさと調整のしやすさを優先しています（習得レベルが現行と一致する行は 10 以下で約 56%、全体で約 42%）。</li>
 </ul>
 <h2>移行と互換性</h2>
 <ul>
-<li>基準表は魔術師の現行値と <code>technic_info</code> から機械的に作ります。段階表と段階は上の初期値で、意図のある例外
+<li>基準表はメイジの現行値と <code>technic_info</code> から機械的に作ります。段階表と段階は上の初期値で、意図のある例外
 （観光客の鑑定、パラディンの啓明、魔獣使いのカード類、習得不可の一覧）だけ上書きで残します。</li>
 <li>セーブデータの形式は変わりません（魔法は番号で保存）。ただし習得レベルが変わる魔法では、既存のキャラクターで
 「忘れた／思い出した」の表示が出ることがあります。</li>
@@ -1687,7 +1687,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/ClassMagicDefinitions.jsonc</code>, <code>lib/edit/SpellDefinitions.jsonc</code>, <code>src/info-reader/magic-reader.cpp</code>, <code>src/spell/technic-info-table.cpp</code>）。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-10-19 12:41 UTC · hengband <code>c125b7fbc1</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-10-19 13:08 UTC · hengband <code>c125b7fbc1</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
