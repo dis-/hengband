@@ -136,26 +136,30 @@
 </ul>
 </aside><main class="content"><h1>吟遊詩人: 魔法の得意さの段階（仮仕様）: 現行値との差分</h1>
 <p><a href="Analysis-ClassMagicAptitude.html">← 職業魔法の得意さの段階（仮仕様）</a></p>
-<p>旧 = 現行の <code>ClassMagicDefinitions.jsonc</code>（歌・武芸・呪術は <code>technic_info</code>）の値。新 = 仮仕様の段階表から導いた値。値は 習得レベル/消費MP/難易度/初回経験値倍率。差分は 新 − 旧（4 値とも同じなら空欄）。段階と式は <a href="Analysis-ClassMagicAptitude.html">職業魔法の得意さの段階（仮仕様）</a> を参照。</p>
+<p>旧 = 現行の <code>ClassMagicDefinitions.jsonc</code>（歌・武芸・呪術は <code>technic_info</code>）の値。新 = 仮仕様の式で導いた値。値は 習得レベル/消費MP/難易度/初回経験値倍率。差分は 新 − 旧（4 値とも同じなら空欄）。「大」は大きな変化（習得レベル ±3 以上、消費MP 25% 以上かつ差 3 以上、難易度 ±10 以上のどれか）。段階は正が得意、負が不得意、0 がメイジ相当。式は <a href="Analysis-ClassMagicAptitude.html">職業魔法の得意さの段階（仮仕様）</a> を参照。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
 <th>領域</th>
 <th>段階</th>
+<th>魔法ごとの段階</th>
 <th>魔法数</th>
 <th>変わる行</th>
+<th>大きな変化</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>歌</td>
+<td>0</td>
 <td>—</td>
 <td>32</td>
+<td>0</td>
 <td>0</td>
 </tr>
 </tbody>
 </table></div>
-<h2>吟遊詩人・歌（段階 —）</h2>
+<h2>吟遊詩人・歌（段階 0）</h2>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -165,6 +169,7 @@
 <th>旧 Lv/MP/難/経</th>
 <th>新 Lv/MP/難/経</th>
 <th>差分</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
@@ -175,6 +180,7 @@
 <td>1/1/10/2</td>
 <td>1/1/10/2</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>1</td>
@@ -182,6 +188,7 @@
 <td>祝福の歌</td>
 <td>2/1/10/2</td>
 <td>2/1/10/2</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -191,6 +198,7 @@
 <td>3/2/20/3</td>
 <td>3/2/20/3</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>1</td>
@@ -198,6 +206,7 @@
 <td>朦朧の旋律</td>
 <td>4/2/20/4</td>
 <td>4/2/20/4</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -207,6 +216,7 @@
 <td>5/2/20/6</td>
 <td>5/2/20/6</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>1</td>
@@ -214,6 +224,7 @@
 <td>太陽の歌</td>
 <td>7/4/30/8</td>
 <td>7/4/30/8</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -223,6 +234,7 @@
 <td>9/3/30/10</td>
 <td>9/3/30/10</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>1</td>
@@ -230,6 +242,7 @@
 <td>戦いの歌</td>
 <td>10/2/30/12</td>
 <td>10/2/30/12</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -239,6 +252,7 @@
 <td>12/3/40/20</td>
 <td>12/3/40/20</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>2</td>
@@ -246,6 +260,7 @@
 <td>魂の歌</td>
 <td>15/16/42/35</td>
 <td>15/16/42/35</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -255,6 +270,7 @@
 <td>17/18/40/25</td>
 <td>17/18/40/25</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>2</td>
@@ -262,6 +278,7 @@
 <td>隠遁の歌</td>
 <td>18/2/45/30</td>
 <td>18/2/45/30</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -271,6 +288,7 @@
 <td>23/8/50/38</td>
 <td>23/8/50/38</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>2</td>
@@ -278,6 +296,7 @@
 <td>破滅の叫び</td>
 <td>28/30/50/41</td>
 <td>28/30/50/41</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -287,6 +306,7 @@
 <td>33/35/60/42</td>
 <td>33/35/60/42</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>2</td>
@@ -294,6 +314,7 @@
 <td>旅の仲間</td>
 <td>38/35/70/46</td>
 <td>38/35/70/46</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -303,6 +324,7 @@
 <td>10/4/20/13</td>
 <td>10/4/20/13</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>3</td>
@@ -310,6 +332,7 @@
 <td>フィンロドの護り</td>
 <td>22/5/30/26</td>
 <td>22/5/30/26</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -319,6 +342,7 @@
 <td>23/3/35/27</td>
 <td>23/3/35/27</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>3</td>
@@ -326,6 +350,7 @@
 <td>歪んだ世界</td>
 <td>26/28/37/29</td>
 <td>26/28/37/29</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -335,6 +360,7 @@
 <td>32/37/41/36</td>
 <td>32/37/41/36</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>3</td>
@@ -342,6 +368,7 @@
 <td>サルマンの甘言</td>
 <td>33/22/43/40</td>
 <td>33/22/43/40</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -351,6 +378,7 @@
 <td>37/35/46/42</td>
 <td>37/35/46/42</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>3</td>
@@ -358,6 +386,7 @@
 <td>もう一つの世界</td>
 <td>45/60/50/56</td>
 <td>45/60/50/56</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -367,6 +396,7 @@
 <td>23/18/20/23</td>
 <td>23/18/20/23</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>4</td>
@@ -374,6 +404,7 @@
 <td>停滞の歌</td>
 <td>30/30/30/26</td>
 <td>30/30/30/26</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -383,6 +414,7 @@
 <td>33/65/41/30</td>
 <td>33/65/41/30</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>4</td>
@@ -390,6 +422,7 @@
 <td>英雄の詩</td>
 <td>37/35/43/35</td>
 <td>37/35/43/35</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -399,6 +432,7 @@
 <td>40/30/46/50</td>
 <td>40/30/46/50</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>4</td>
@@ -406,6 +440,7 @@
 <td>再生の歌</td>
 <td>42/75/50/68</td>
 <td>42/75/50/68</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -415,6 +450,7 @@
 <td>45/58/62/73</td>
 <td>45/58/62/73</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>4</td>
@@ -423,13 +459,14 @@
 <td>49/48/70/200</td>
 <td>49/48/70/200</td>
 <td></td>
+<td></td>
 </tr>
 </tbody>
 </table></div>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/ClassMagicDefinitions.jsonc</code> の現行値と仮仕様の導出値の比較（仮仕様の試案から生成））。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-10-19 12:41 UTC · hengband <code>c125b7fbc1</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-11-10 16:54 UTC · hengband <code>925e893e28</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>

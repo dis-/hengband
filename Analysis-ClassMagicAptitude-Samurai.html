@@ -136,26 +136,30 @@
 </ul>
 </aside><main class="content"><h1>剣術家: 魔法の得意さの段階（仮仕様）: 現行値との差分</h1>
 <p><a href="Analysis-ClassMagicAptitude.html">← 職業魔法の得意さの段階（仮仕様）</a></p>
-<p>旧 = 現行の <code>ClassMagicDefinitions.jsonc</code>（歌・武芸・呪術は <code>technic_info</code>）の値。新 = 仮仕様の段階表から導いた値。値は 習得レベル/消費MP/難易度/初回経験値倍率。差分は 新 − 旧（4 値とも同じなら空欄）。段階と式は <a href="Analysis-ClassMagicAptitude.html">職業魔法の得意さの段階（仮仕様）</a> を参照。</p>
+<p>旧 = 現行の <code>ClassMagicDefinitions.jsonc</code>（歌・武芸・呪術は <code>technic_info</code>）の値。新 = 仮仕様の式で導いた値。値は 習得レベル/消費MP/難易度/初回経験値倍率。差分は 新 − 旧（4 値とも同じなら空欄）。「大」は大きな変化（習得レベル ±3 以上、消費MP 25% 以上かつ差 3 以上、難易度 ±10 以上のどれか）。段階は正が得意、負が不得意、0 がメイジ相当。式は <a href="Analysis-ClassMagicAptitude.html">職業魔法の得意さの段階（仮仕様）</a> を参照。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
 <th>領域</th>
 <th>段階</th>
+<th>魔法ごとの段階</th>
 <th>魔法数</th>
 <th>変わる行</th>
+<th>大きな変化</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>武芸</td>
+<td>0</td>
 <td>—</td>
 <td>32</td>
+<td>0</td>
 <td>0</td>
 </tr>
 </tbody>
 </table></div>
-<h2>剣術家・武芸（段階 —）</h2>
+<h2>剣術家・武芸（段階 0）</h2>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -165,6 +169,7 @@
 <th>旧 Lv/MP/難/経</th>
 <th>新 Lv/MP/難/経</th>
 <th>差分</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
@@ -175,6 +180,7 @@
 <td>1/15/0/0</td>
 <td>1/15/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>1</td>
@@ -182,6 +188,7 @@
 <td>五月雨斬り</td>
 <td>3/10/0/0</td>
 <td>3/10/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -191,6 +198,7 @@
 <td>6/15/0/0</td>
 <td>6/15/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>1</td>
@@ -198,6 +206,7 @@
 <td>焔霊</td>
 <td>9/8/0/0</td>
 <td>9/8/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -207,6 +216,7 @@
 <td>10/12/0/0</td>
 <td>10/12/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>1</td>
@@ -214,6 +224,7 @@
 <td>みね打ち</td>
 <td>12/25/0/0</td>
 <td>12/25/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -223,6 +234,7 @@
 <td>14/7/0/0</td>
 <td>14/7/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>1</td>
@@ -230,6 +242,7 @@
 <td>払い抜け</td>
 <td>17/20/0/0</td>
 <td>17/20/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -239,6 +252,7 @@
 <td>19/10/0/0</td>
 <td>19/10/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>2</td>
@@ -246,6 +260,7 @@
 <td>斬魔剣弐の太刀</td>
 <td>22/20/0/0</td>
 <td>22/20/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -255,6 +270,7 @@
 <td>24/30/0/0</td>
 <td>24/30/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>2</td>
@@ -262,6 +278,7 @@
 <td>刀匠の目利き</td>
 <td>25/10/0/0</td>
 <td>25/10/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -271,6 +288,7 @@
 <td>27/15/0/0</td>
 <td>27/15/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>2</td>
@@ -278,6 +296,7 @@
 <td>乱れ雪月花</td>
 <td>29/45/0/0</td>
 <td>29/45/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -287,6 +306,7 @@
 <td>32/70/0/0</td>
 <td>32/70/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>2</td>
@@ -294,6 +314,7 @@
 <td>魔神斬り</td>
 <td>35/50/0/0</td>
 <td>35/50/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -303,6 +324,7 @@
 <td>18/40/0/0</td>
 <td>18/40/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>3</td>
@@ -310,6 +332,7 @@
 <td>雷撃鷲爪斬</td>
 <td>22/22/0/0</td>
 <td>22/22/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -319,6 +342,7 @@
 <td>24/30/0/0</td>
 <td>24/30/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>3</td>
@@ -326,6 +350,7 @@
 <td>赤流渦</td>
 <td>26/35/0/0</td>
 <td>26/35/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -335,6 +360,7 @@
 <td>30/30/0/0</td>
 <td>30/30/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>3</td>
@@ -342,6 +368,7 @@
 <td>地走り</td>
 <td>32/60/0/0</td>
 <td>32/60/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -351,6 +378,7 @@
 <td>36/40/0/0</td>
 <td>36/40/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>3</td>
@@ -358,6 +386,7 @@
 <td>無双三段</td>
 <td>39/80/0/0</td>
 <td>39/80/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -367,6 +396,7 @@
 <td>26/20/0/0</td>
 <td>26/20/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>4</td>
@@ -374,6 +404,7 @@
 <td>幻惑</td>
 <td>29/40/0/0</td>
 <td>29/40/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -383,6 +414,7 @@
 <td>31/35/0/0</td>
 <td>31/35/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>4</td>
@@ -390,6 +422,7 @@
 <td>天翔龍閃</td>
 <td>36/80/0/0</td>
 <td>36/80/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -399,6 +432,7 @@
 <td>39/100/0/0</td>
 <td>39/100/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>4</td>
@@ -406,6 +440,7 @@
 <td>虎伏絶刀勢</td>
 <td>42/110/0/0</td>
 <td>42/110/0/0</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -415,6 +450,7 @@
 <td>45/130/0/0</td>
 <td>45/130/0/0</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>4</td>
@@ -423,13 +459,14 @@
 <td>50/255/0/0</td>
 <td>50/255/0/0</td>
 <td></td>
+<td></td>
 </tr>
 </tbody>
 </table></div>
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/ClassMagicDefinitions.jsonc</code> の現行値と仮仕様の導出値の比較（仮仕様の試案から生成））。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-10-19 12:41 UTC · hengband <code>c125b7fbc1</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-11-10 16:54 UTC · hengband <code>925e893e28</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
