@@ -137,6 +137,7 @@
 </aside><main class="content"><h1>修行僧: 魔法の得意さの段階（仮仕様）: 現行値との差分</h1>
 <p><a href="Analysis-ClassMagicAptitude.html">← 職業魔法の得意さの段階（仮仕様）</a></p>
 <p>旧 = 現行の <code>ClassMagicDefinitions.jsonc</code>（歌・武芸・呪術は <code>technic_info</code>）の値。新 = 仮仕様の式で導いた値。値は 習得レベル/消費MP/難易度/初回経験値倍率。差分は 新 − 旧（4 値とも同じなら空欄）。「大」は大きな変化（習得レベル ±3 以上、消費MP 25% 以上かつ差 3 以上、難易度 ±10 以上のどれか）。段階は正が得意、負が不得意、0 がメイジ相当。式は <a href="Analysis-ClassMagicAptitude.html">職業魔法の得意さの段階（仮仕様）</a> を参照。</p>
+<p>色: 差分のうち基準を超えた値を、強くなる側（値が下がる）は<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">緑</b>、弱くなる側（値が上がる）は<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">赤</b>で示す。大きな変化の件数は、32 魔法の半分以上を<b style="background:rgba(210,153,34,.45);padding:0 .3em;border-radius:3px">濃い黄</b>、4 分の 1 以上を<b style="background:rgba(210,153,34,.20);padding:0 .3em;border-radius:3px">薄い黄</b>で示す。</p>
 <div class="tablewrap"><table class="sortable">
 <thead>
 <tr>
@@ -155,7 +156,7 @@
 <td>—</td>
 <td>32</td>
 <td>28</td>
-<td>10</td>
+<td><b style="background:rgba(210,153,34,.20);padding:0 .3em;border-radius:3px">10</b></td>
 </tr>
 <tr>
 <td>自然</td>
@@ -163,7 +164,7 @@
 <td>—</td>
 <td>32</td>
 <td>32</td>
-<td>19</td>
+<td><b style="background:rgba(210,153,34,.45);padding:0 .3em;border-radius:3px">19</b></td>
 </tr>
 <tr>
 <td>暗黒</td>
@@ -171,7 +172,7 @@
 <td>—</td>
 <td>32</td>
 <td>32</td>
-<td>10</td>
+<td><b style="background:rgba(210,153,34,.20);padding:0 .3em;border-radius:3px">10</b></td>
 </tr>
 <tr>
 <td>匠</td>
@@ -179,7 +180,7 @@
 <td>—</td>
 <td>32</td>
 <td>32</td>
-<td>15</td>
+<td><b style="background:rgba(210,153,34,.20);padding:0 .3em;border-radius:3px">15</b></td>
 </tr>
 </tbody>
 </table></div>
@@ -275,7 +276,7 @@
 <td>解呪</td>
 <td>15/12/45/4</td>
 <td>16/16/45/4</td>
-<td>+1/+4/0/0</td>
+<td>+1/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+4</b>/0/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -311,7 +312,7 @@
 <td>周辺感知</td>
 <td>19/16/50/4</td>
 <td>20/20/50/4</td>
-<td>+1/+4/0/0</td>
+<td>+1/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+4</b>/0/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -320,7 +321,7 @@
 <td>パニック・アンデッド</td>
 <td>20/18/50/4</td>
 <td>23/23/50/4</td>
-<td>+3/+5/0/0</td>
+<td><b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+3</b>/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+5</b>/0/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -383,7 +384,7 @@
 <td>致命傷</td>
 <td>38/35/70/75</td>
 <td>35/35/70/75</td>
-<td>-3/0/0/0</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/0/0/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -392,7 +393,7 @@
 <td>帰還の詔</td>
 <td>40/60/80/115</td>
 <td>35/55/80/115</td>
-<td>-5/-5/0/0</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-5</b>/-5/0/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -401,7 +402,7 @@
 <td>真実の祭壇</td>
 <td>45/45/80/125</td>
 <td>39/40/80/125</td>
-<td>-6/-5/0/0</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-6</b>/-5/0/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -437,7 +438,7 @@
 <td>アンデッド消滅</td>
 <td>40/45/80/115</td>
 <td>35/55/80/115</td>
-<td>-5/+10/0/0</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-5</b>/+10/0/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -455,7 +456,7 @@
 <td>全復活</td>
 <td>46/64/80/115</td>
 <td>45/90/80/115</td>
-<td>-1/+26/0/0</td>
+<td>-1/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+26</b>/0/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -464,7 +465,7 @@
 <td><em>体力回復</em></td>
 <td>48/40/80/100</td>
 <td>48/50/80/100</td>
-<td>0/+10/0/0</td>
+<td>0/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+10</b>/0/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -473,7 +474,7 @@
 <td>聖なるビジョン</td>
 <td>49/100/90/200</td>
 <td>49/100/80/250</td>
-<td>0/0/-10/+50</td>
+<td>0/0/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-10</b>/+50</td>
 <td>大</td>
 </tr>
 <tr>
@@ -534,7 +535,7 @@
 <td>食糧生成</td>
 <td>7/7/55/2</td>
 <td>6/5/41/4</td>
-<td>-1/-2/-14/+2</td>
+<td>-1/-2/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-14</b>/+2</td>
 <td>大</td>
 </tr>
 <tr>
@@ -579,7 +580,7 @@
 <td>岩石溶解</td>
 <td>10/8/80/4</td>
 <td>8/7/46/6</td>
-<td>-2/-1/-34/+2</td>
+<td>-2/-1/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-34</b>/+2</td>
 <td>大</td>
 </tr>
 <tr>
@@ -588,7 +589,7 @@
 <td>アイス・ボルト</td>
 <td>11/9/40/3</td>
 <td>8/7/36/6</td>
-<td>-3/-2/-4/+3</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/-2/-4/+3</td>
 <td>大</td>
 </tr>
 <tr>
@@ -597,7 +598,7 @@
 <td>自然の覚醒</td>
 <td>12/10/40/4</td>
 <td>11/8/51/6</td>
-<td>-1/-2/+11/+2</td>
+<td>-1/-2/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+11</b>/+2</td>
 <td>大</td>
 </tr>
 <tr>
@@ -606,7 +607,7 @@
 <td>ファイア・ボルト</td>
 <td>14/12/55/4</td>
 <td>11/8/46/6</td>
-<td>-3/-4/-9/+2</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-4</b>/-9/+2</td>
 <td>大</td>
 </tr>
 <tr>
@@ -615,7 +616,7 @@
 <td>太陽光線</td>
 <td>16/12/55/4</td>
 <td>13/8/36/5</td>
-<td>-3/-4/-19/+1</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-4</b>/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-19</b>/+1</td>
 <td>大</td>
 </tr>
 <tr>
@@ -624,7 +625,7 @@
 <td>足かせ</td>
 <td>18/22/65/8</td>
 <td>26/16/61/8</td>
-<td>+8/-6/-4/0</td>
+<td><b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+8</b>/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-6</b>/-4/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -633,7 +634,7 @@
 <td>動物召喚</td>
 <td>31/31/75/10</td>
 <td>33/33/96/50</td>
-<td>+2/+2/+21/+40</td>
+<td>+2/+2/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+21</b>/+40</td>
 <td>大</td>
 </tr>
 <tr>
@@ -642,7 +643,7 @@
 <td>薬草治療</td>
 <td>40/60/90/50</td>
 <td>45/78/96/50</td>
-<td>+5/+18/+6/0</td>
+<td><b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+5</b>/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+18</b>/+6/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -660,7 +661,7 @@
 <td>肌石化</td>
 <td>16/16/70/60</td>
 <td>15/16/81/120</td>
-<td>-1/0/+11/+60</td>
+<td>-1/0/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+11</b>/+60</td>
 <td>大</td>
 </tr>
 <tr>
@@ -687,7 +688,7 @@
 <td>動物友和</td>
 <td>35/35/80/80</td>
 <td>37/39/96/100</td>
-<td>+2/+4/+16/+20</td>
+<td>+2/+4/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+16</b>/+20</td>
 <td>大</td>
 </tr>
 <tr>
@@ -696,7 +697,7 @@
 <td>試金石</td>
 <td>40/40/90/200</td>
 <td>43/52/96/200</td>
-<td>+3/+12/+6/0</td>
+<td><b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+3</b>/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+12</b>/+6/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -714,7 +715,7 @@
 <td>腐食防止</td>
 <td>50/80/90/250</td>
 <td>45/117/96/250</td>
-<td>-5/+37/+6/0</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-5</b>/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+37</b>/+6/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -732,7 +733,7 @@
 <td>カマイタチ</td>
 <td>30/30/60/160</td>
 <td>30/30/86/50</td>
-<td>0/0/+26/-110</td>
+<td>0/0/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+26</b>/-110</td>
 <td>大</td>
 </tr>
 <tr>
@@ -750,7 +751,7 @@
 <td>稲妻嵐</td>
 <td>33/33/75/35</td>
 <td>37/35/81/35</td>
-<td>+4/+2/+6/0</td>
+<td><b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+4</b>/+2/+6/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -759,7 +760,7 @@
 <td>渦潮</td>
 <td>38/38/75/45</td>
 <td>41/39/91/65</td>
-<td>+3/+1/+16/+20</td>
+<td><b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+3</b>/+1/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+16</b>/+20</td>
 <td>大</td>
 </tr>
 <tr>
@@ -768,7 +769,7 @@
 <td>陽光召喚</td>
 <td>42/40/75/100</td>
 <td>43/46/96/100</td>
-<td>+1/+6/+21/0</td>
+<td>+1/+6/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+21</b>/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -777,7 +778,7 @@
 <td>精霊の刃</td>
 <td>45/85/95/250</td>
 <td>45/117/100/250</td>
-<td>0/+32/+5/0</td>
+<td>0/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+32</b>/+5/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -786,7 +787,7 @@
 <td>自然の脅威</td>
 <td>48/85/75/150</td>
 <td>45/98/71/150</td>
-<td>-3/+13/-4/0</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/+13/-4/0</td>
 <td>大</td>
 </tr>
 </tbody>
@@ -901,7 +902,7 @@
 <td>殺戮雲</td>
 <td>22/22/50/10</td>
 <td>25/20/56/10</td>
-<td>+3/-2/+6/0</td>
+<td><b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+3</b>/-2/+6/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -910,7 +911,7 @@
 <td>モンスター消滅</td>
 <td>28/30/85/30</td>
 <td>31/27/66/30</td>
-<td>+3/-3/-19/0</td>
+<td><b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+3</b>/-3/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-19</b>/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -919,7 +920,7 @@
 <td>毒の刃</td>
 <td>33/80/90/30</td>
 <td>37/98/86/30</td>
-<td>+4/+18/-4/0</td>
+<td><b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+4</b>/+18/-4/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -937,7 +938,7 @@
 <td>反魂の術</td>
 <td>45/50/80/70</td>
 <td>42/46/86/70</td>
-<td>-3/-4/+6/0</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/-4/+6/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -946,7 +947,7 @@
 <td>抹殺</td>
 <td>47/45/95/100</td>
 <td>44/39/100/25</td>
-<td>-3/-6/+5/-75</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/-6/+5/-75</td>
 <td>大</td>
 </tr>
 <tr>
@@ -955,7 +956,7 @@
 <td>狂戦士化</td>
 <td>15/20/80/180</td>
 <td>15/26/86/180</td>
-<td>0/+6/+6/0</td>
+<td>0/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+6</b>/+6/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -964,7 +965,7 @@
 <td>悪霊召喚</td>
 <td>16/16/80/30</td>
 <td>15/20/86/30</td>
-<td>-1/+4/+6/0</td>
+<td>-1/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+4</b>/+6/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1018,7 +1019,7 @@
 <td>暗黒の嵐</td>
 <td>48/50/80/200</td>
 <td>45/52/76/200</td>
-<td>-3/+2/-4/0</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/+2/-4/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1027,7 +1028,7 @@
 <td>死の光線</td>
 <td>30/30/75/50</td>
 <td>27/26/81/50</td>
-<td>-3/-4/+6/0</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/-4/+6/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1036,7 +1037,7 @@
 <td>死者召喚</td>
 <td>37/85/85/220</td>
 <td>33/86/100/250</td>
-<td>-4/+1/+15/+30</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-4</b>/+1/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+15</b>/+30</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1142,7 +1143,7 @@
 <td>耐冷気</td>
 <td>7/10/45/5</td>
 <td>8/7/41/5</td>
-<td>+1/-3/-4/0</td>
+<td>+1/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/-4/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1151,7 +1152,7 @@
 <td>耐火炎</td>
 <td>9/10/45/5</td>
 <td>9/7/41/5</td>
-<td>0/-3/-4/0</td>
+<td>0/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/-4/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1160,7 +1161,7 @@
 <td>士気高揚</td>
 <td>11/12/50/6</td>
 <td>12/8/51/6</td>
-<td>+1/-4/+1/0</td>
+<td>+1/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-4</b>/+1/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1169,7 +1170,7 @@
 <td>耐電撃</td>
 <td>13/10/45/5</td>
 <td>13/7/41/5</td>
-<td>0/-3/-4/0</td>
+<td>0/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/-4/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1178,7 +1179,7 @@
 <td>耐酸</td>
 <td>14/10/45/5</td>
 <td>15/7/41/5</td>
-<td>+1/-3/-4/0</td>
+<td>+1/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/-4/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1196,7 +1197,7 @@
 <td>解呪</td>
 <td>21/21/60/4</td>
 <td>21/18/46/4</td>
-<td>0/-3/-14/0</td>
+<td>0/-3/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-14</b>/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1241,7 +1242,7 @@
 <td>癒し</td>
 <td>37/28/55/5</td>
 <td>36/39/66/5</td>
-<td>-1/+11/+11/0</td>
+<td>-1/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+11</b>/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+11</b>/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1250,7 +1251,7 @@
 <td>魔法剣</td>
 <td>45/90/80/50</td>
 <td>43/85/100/50</td>
-<td>-2/-5/+20/0</td>
+<td>-2/-5/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+20</b>/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1268,7 +1269,7 @@
 <td>肌石化</td>
 <td>20/17/70/120</td>
 <td>20/13/81/120</td>
-<td>0/-4/+11/0</td>
+<td>0/-4/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+11</b>/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1286,7 +1287,7 @@
 <td>スピード</td>
 <td>30/23/70/10</td>
 <td>31/16/66/10</td>
-<td>+1/-7/-4/0</td>
+<td>+1/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-7</b>/-4/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1340,7 +1341,7 @@
 <td>呪い粉砕</td>
 <td>36/34/70/150</td>
 <td>37/42/81/150</td>
-<td>+1/+8/+11/0</td>
+<td>+1/+8/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+11</b>/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1358,7 +1359,7 @@
 <td>武器強化</td>
 <td>45/80/95/200</td>
 <td>43/104/100/200</td>
-<td>-2/+24/+5/0</td>
+<td>-2/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+24</b>/+5/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1367,7 +1368,7 @@
 <td>防具強化</td>
 <td>46/100/95/200</td>
 <td>43/130/100/200</td>
-<td>-3/+30/+5/0</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+30</b>/+5/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1376,7 +1377,7 @@
 <td>武器属性付与</td>
 <td>48/120/80/250</td>
 <td>45/130/96/250</td>
-<td>-3/+10/+16/0</td>
+<td><b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-3</b>/+10/<b style="background:rgba(248,81,73,.30);padding:0 .3em;border-radius:3px">+16</b>/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1385,7 +1386,7 @@
 <td>人間トランプ</td>
 <td>47/120/90/250</td>
 <td>47/130/76/250</td>
-<td>0/+10/-14/0</td>
+<td>0/+10/<b style="background:rgba(46,160,67,.30);padding:0 .3em;border-radius:3px">-14</b>/0</td>
 <td>大</td>
 </tr>
 <tr>
@@ -1402,7 +1403,7 @@
 <hr>
 <blockquote>
 <p>🤖 この解説ページは <code>tools/generate-wiki.mjs</code> により生成されています（出典: <code>lib/edit/ClassMagicDefinitions.jsonc</code> の現行値と仮仕様の導出値の比較（仮仕様の試案から生成））。<strong>手動で編集しないでください</strong> — 変更は次回の再生成で上書きされます。内容の修正は生成スクリプトを編集してください。
-生成 / Generated: 2026-11-10 16:54 UTC · hengband <code>925e893e28</code> · <code>tools/generate-wiki.mjs</code></p>
+生成 / Generated: 2026-11-10 21:38 UTC · hengband <code>925e893e28</code> · <code>tools/generate-wiki.mjs</code></p>
 </blockquote>
 </main></div>
 <script src="app.js"></script>
