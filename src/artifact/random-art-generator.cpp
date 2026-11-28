@@ -20,6 +20,7 @@
 #include "core/window-redrawer.h"
 #include "flavor/object-flavor.h"
 #include "game-option/cheat-types.h"
+#include "mind/mind-priest.h"
 #include "object-enchant/tr-types.h"
 #include "object-hook/hook-armor.h"
 #include "object-hook/hook-weapon.h"
@@ -447,6 +448,12 @@ bool become_random_artifact(PlayerType *player_ptr, ItemEntity *o_ptr, bool a_sc
     }
 
     invest_positive_modified_value(o_ptr);
+    tl::optional<tr_type> creator_blessing;
+    if (a_scroll && (player_ptr->pclass == PlayerClassType::PRIEST)) {
+        creator_blessing = get_priest_blessing(player_ptr);
+    }
+
+    decide_random_artifact_blessing(*o_ptr, creator_blessing);
     o_ptr->art_flags.set(TR_IGNORE_ACID);
     o_ptr->art_flags.set(TR_IGNORE_ELEC);
     o_ptr->art_flags.set(TR_IGNORE_FIRE);

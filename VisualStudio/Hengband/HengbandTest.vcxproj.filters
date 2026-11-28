@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="artifact">
+      <UniqueIdentifier>{36af590f-170a-5fc5-ac2b-ca29cab30d03}</UniqueIdentifier>
+    </Filter>
     <Filter Include="autopick">
       <UniqueIdentifier>{6fc1c33a-bcb9-4de8-ac91-81321f97c33c}</UniqueIdentifier>
     </Filter>
@@ -154,6 +157,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\stdafx.cpp" />
+    <ClCompile Include="..\..\src\test\artifact\test-random-art-characteristics.cpp">
+      <Filter>artifact</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\test\autopick\test-autopick-editor-util.cpp">
       <Filter>autopick</Filter>
     </ClCompile>

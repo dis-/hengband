@@ -1225,6 +1225,7 @@ hengband_test_SOURCES = \
 	test/system/quest-list-test-access.h \
 	test/system/spell-info-list-test-access.h \
 	\
+	test/artifact/test-random-art-characteristics.cpp \
 	test/autopick/test-autopick-editor-util.cpp \
 	test/autopick/test-autopick-finder.cpp \
 	test/autopick/test-autopick-reader-writer.cpp \

@@ -4,6 +4,7 @@
  */
 
 #include "artifact/random-art-characteristics.h"
+#include "artifact/random-art-bias-types.h"
 #include "flavor/object-flavor.h"
 #include "game-option/cheat-types.h"
 #include "io/files-util.h"
@@ -78,6 +79,34 @@ static void add_negative_flags(ItemEntity *o_ptr)
 }
 
 /*!
+ * @brief ランダムアーティファクトの生成中に付いた祝福を、どちらの神の祝福にするか決め直す
+ * @param item 生成中のランダムアーティファクト
+ * @param creator_blessing 作り手がプリーストのとき、その神の祝福 (TR_BLESSED か TR_BLESSED_EVIL)。それ以外は tl::nullopt
+ * @details 生成の途中で付く祝福は、善の神の祝福 (TR_BLESSED) である。祝福が付いていなければ何もしない。
+ * - 作り手がプリーストなら、作り手の神の祝福にする (作った武器を自分で使えるようにする)。
+ * - そうでなく、スレイ善か *善* を持つか、偏りが「死霊」なら、邪の神の祝福にする。
+ * - それ以外は、善の神の祝福のままにする。
+ * 両方の神の祝福を持つ武器は作らない。乱数は引かない。
+ */
+void decide_random_artifact_blessing(ItemEntity &item, const tl::optional<tr_type> &creator_blessing)
+{
+    if (item.art_flags.has_not(TR_BLESSED) && item.art_flags.has_not(TR_BLESSED_EVIL)) {
+        return;
+    }
+
+    auto blessing = TR_BLESSED;
+    if (creator_blessing) {
+        blessing = *creator_blessing;
+    } else if (item.art_flags.has(TR_SLAY_GOOD) || item.art_flags.has(TR_KILL_GOOD) || (item.artifact_bias == RandomArtifactBias::NECROMANTIC)) {
+        blessing = TR_BLESSED_EVIL;
+    }
+
+    item.art_flags.reset(TR_BLESSED);
+    item.art_flags.reset(TR_BLESSED_EVIL);
+    item.art_flags.set(blessing);
+}
+
+/*!
  * @brief ランダムアーティファクト生成中、対象のオブジェクトを呪いのアーティファクトにする経過処理。/ generation process of cursed artifact.
  * @details pval、AC、命中、ダメージが正の場合、符号反転の上1d4だけ悪化させ、重い呪い、呪いフラグを必ず付加。
  * 祝福を無効。確率に応じて、永遠の呪い、太古の怨念、経験値吸収、弱い呪いの継続的付加、強い呪いの継続的付加、HP吸収の呪い、
@@ -91,6 +120,7 @@ void curse_artifact(PlayerType *player_ptr, ItemEntity *o_ptr)
     pval_subtraction(o_ptr);
     o_ptr->curse_flags.set({ CurseTraitType::HEAVY_CURSE, CurseTraitType::CURSED });
     o_ptr->art_flags.reset(TR_BLESSED);
+    o_ptr->art_flags.reset(TR_BLESSED_EVIL);
     add_negative_flags(o_ptr);
     if (!PlayerClass(player_ptr).is_soldier() && one_in_(3)) {
         o_ptr->art_flags.set(TR_NO_MAGIC);
