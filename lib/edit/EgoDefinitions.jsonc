@@ -1923,6 +1923,7 @@
         "CURSED",
         "IGNORE_ACID",
         "IGNORE_FIRE",
+        "BLESSED_EVIL",
       ],
       "extra_flags": [
         {
@@ -2023,6 +2024,7 @@
         "CURSED",
         "XTRA_DICE",
         "RANDOM_CURSE2",
+        "BLESSED_EVIL",
       ],
       "extra_flags": [
         {
@@ -2109,6 +2111,7 @@
         "XTRA_DICE",
         "ACTIVATE",
         "RANDOM_CURSE2",
+        "BLESSED_EVIL",
       ],
       "activation": "BERSERK",
       "extra_flags": [
@@ -2159,7 +2162,7 @@
         "to_ac": 0,
         "pval": 3,
       },
-      "flags": ["STR", "SLAY_GOOD", "SEE_INVIS", "RES_BLIND", "ESP_GOOD"],
+      "flags": ["STR", "SLAY_GOOD", "SEE_INVIS", "RES_BLIND", "ESP_GOOD", "BLESSED_EVIL"],
     },
     {
       "id": 87,
@@ -2197,6 +2200,7 @@
         "HEAVY_CURSE",
         "CURSED",
         "XTRA_DICE",
+        "BLESSED_EVIL",
       ],
       "extra_flags": [
         {
@@ -2555,6 +2559,7 @@
         "SEE_INVIS",
         "ESP_DEMON",
         "XTRA_DICE",
+        "BLESSED_EVIL",
       ],
       "extra_flags": [
         {
@@ -2616,6 +2621,7 @@
         "RANDOM_CURSE2",
         "XTRA_DICE",
         "XTRA_POWER",
+        "BLESSED_EVIL",
       ],
       "extra_flags": [
         {
