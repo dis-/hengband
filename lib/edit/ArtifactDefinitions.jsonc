@@ -2583,6 +2583,7 @@
         "CURSED",
         "HEAVY_CURSE",
         "SHOW_MODS",
+        "BLESSED_EVIL",
       ],
       "flavor": {
         "ja": "装飾された柄に力のルーン文字が刻まれ、刀身の血通しは冷たい青色に輝いている。白炎のバルログ『ルンゴルシン』の剣であり、ドラゴンを容易く葬るほどの剣だ。",
@@ -2900,6 +2901,7 @@
         "SEE_INVIS",
         "AGGRAVATE",
         "SHOW_MODS",
+        "BLESSED_EVIL",
       ],
       "flavor": {
         "ja": "恐怖の黒いルーン文字が鋼の刃身にくっきりと浮かび上がっている恐るべき剣。敵に近付くにつれ激しい殺戮のエネルギーを発する。",
@@ -2941,6 +2943,7 @@
         "TY_CURSE",
         "LITE",
         "RANDOM_CURSE2",
+        "BLESSED_EVIL",
       ],
       "flavor": {
         "ja": "北欧神話において炎の巨人スルトが世界に火を放った燃える剣だ。",
@@ -3228,6 +3231,7 @@
         "ESP_ORC",
         "ESP_TROLL",
         "ESP_HUMAN",
+        "BLESSED_EVIL",
       ],
       "flavor": {
         "ja": "持った者を殺戮マシーンに変える呪われた剣だ。あなたにはこの剣の血に飢えた叫びが聞こえるだろう。",
@@ -3470,6 +3474,7 @@
         "BRAND_FIRE",
         "BRAND_POIS",
         "LITE",
+        "BLESSED_EVIL",
       ],
       "flavor": {
         "ja": "血に飢えた戦闘狂により鍛えられたこの怒りの剣は敵の肉体に貪欲に食い込む。",
@@ -4331,6 +4336,7 @@
         "SLAY_HUMAN",
         "RIDING",
         "QUESTITEM",
+        "BLESSED_EVIL",
       ],
       "flavor": {
         "ja": "あらゆる物を粉砕する暗黒魔法により黒く輝く冥界の大鉄杖で、これを手にする者はモルゴスの全ての手下の命もまた手中に収める。",
@@ -4730,6 +4736,7 @@
         "BRAND_POIS",
         "VAMPIRIC",
         "RIDING",
+        "BLESSED_EVIL",
       ],
       "flavor": {
         "ja": "定命の者の力を遥かに越えた重さを持つ武器だが、手にすれば巨人の力が湧き上がってくるのが感じられる。黒檀と鉄で作られたその柄を掴む時、焔が燃え立って秘められた魔法が息を吹き返し体を包み込む。その手に握られているのは「龍どもの畏怖」であり「亡者共の絶望」なのだ！",
@@ -5508,6 +5515,7 @@
         "RES_DARK",
         "RES_NETHER",
         "TY_CURSE",
+        "BLESSED_EVIL",
       ],
       "flavor": {
         "ja": "「魔物に遭うては魔物を斬り、神に遭うては神を斬る。」伝説の刀匠村正が全身全霊を込めて鍛えたこの妖刀は数え切れない人間の血を啜ってきた。その刃は血に飢え、常に獲物を求めている。",
@@ -5839,6 +5847,7 @@
         "CURSED",
         "HEAVY_CURSE",
         "LITE",
+        "BLESSED_EVIL",
       ],
     },
     //# The Long Sword of Falis
@@ -5969,6 +5978,7 @@
         "BERS_RAGE",
         "VUL_CURSE",
         "LOW_AC",
+        "BLESSED_EVIL",
       ],
     },
     {
@@ -7052,6 +7062,7 @@
         "BRAND_ELEC",
         "BRAND_ACID",
         "BRAND_POIS",
+        "BLESSED_EVIL",
       ],
       "flavor": {
         "ja": "強力な破壊力をほこる「はかいのつるぎ」と素早く攻撃を繰りだす「はやぶさのけん」を合わせた武器だ。この剣を使えば破壊神シドーを倒すことなど赤子の手を捻るようなものだ。",
@@ -7091,6 +7102,7 @@
         "AGGRAVATE",
         "QUESTITEM",
         "SLAY_HUMAN",
+        "BLESSED_EVIL",
       ],
       "flavor": {
         "ja": "一万年の長きにわたり、栄華を誇りしメルニボネの光の帝国の末期、大いなる異変天地にありて、人と神々の運命は〈宿命〉のかなてこの上に鍛へられ、恐ろしき戦さあり、もろもろの勲し行なはれたり。このときあまたの勇者輩出せり。なれど衆に優れたるはメルニボネ最後の王エルリック、ルーンの刻まれし黒き剣のになひ手なりき。",
@@ -7180,7 +7192,7 @@
       "base_dice": "4d7",
       "damage_bonus": 20,
       "ac_bonus": 10,
-      "flags": ["STR", "RES_FEAR"],
+      "flags": ["STR", "RES_FEAR", "BLESSED_EVIL"],
       "flavor": {
         "ja": "大江山の鬼の首領たる酒呑童子の重い金棒だ。",
         "en": "It is the heavy gold war club of Shuten-douji, sake lover and leader of the ogres on Mt. Oe.",
@@ -7760,6 +7772,7 @@
         "RES_DARK",
         "LITE_3",
         "SHOW_MODS",
+        "BLESSED_EVIL",
       ],
       "flavor": {
         "ja": "この正視するもかなわぬ眩い炎のムチをひとたび手に取れば、バルログの長ゴズモグは戦において負け知らずであった。",
@@ -8898,7 +8911,15 @@
       "damage_bonus": 23,
       "ac_bonus": -15,
       "activate": "ARTS_FALLING_STAR",
-      "flags": ["VORPAL", "HIDE_TYPE", "SHOW_MODS", "AGGRAVATE", "KILL_ANIMAL", "KILL_HUMAN"],
+      "flags": [
+        "VORPAL",
+        "HIDE_TYPE",
+        "SHOW_MODS",
+        "AGGRAVATE",
+        "KILL_ANIMAL",
+        "KILL_HUMAN",
+        "BLESSED_EVIL",
+      ],
       "flavor": {
         "ja": "辻斬りにあった乞食坊主が切られたことにすら気づかず、念仏を唱えながら七丁も歩いた後に絶命したという妖刀だ。持ち主に災いをもたらすと言われ、その主たる所有者であった岩本虎眼の死により「虎殺」の銘が加えられた。",
         "en": "It is the terrible katana, by which, a poor priest did not notice that he is slashed and dead after walking long way with speling Nenbustu.  After death of Kogan Iwamoto, added 'Toragoroshi' to the head of its inscription.",
